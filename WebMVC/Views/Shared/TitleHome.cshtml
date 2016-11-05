@@ -1,0 +1,29 @@
+﻿
+@{
+    Layout = null;
+}
+@{
+    var User = (WebMVC.EntityFramework.USER_INFORMATION)ViewBag.UserType;
+    
+}
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    @if (Convert.ToChar(User.UserType) == 'A')
+    {
+        <a class="navbar-brand" href="/">Xin chào @User.UserName</a>
+    }
+    else if (Convert.ToChar(User.UserType) == 'M')
+    {
+        <a class="navbar-brand" href="/">Xin chào @User.UserName</a>
+    }
+    else
+    {
+        <a class="navbar-brand" href="/">Xin chào Master</a>
+    }
+    
+</div>
