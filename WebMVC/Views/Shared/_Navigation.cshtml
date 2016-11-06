@@ -204,7 +204,9 @@
                 <!-- /.dropdown-alerts -->
             </li>*@
         <!-- /.dropdown -->
+        <a href="@Url.Action("Index", "Message")" class="btn btn-info">Message <div class="btn btn-danger"> 1</div></a>
         <li class="dropdown">
+            
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
             </a>
@@ -225,8 +227,8 @@
 
                 </li>
                 @*<li>
-                    <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                </li>*@
+                        <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    </li>*@
                 <li class="divider"></li>
                 <li>
                     <a href="@Url.Action("Logout", "Login")"><i class="fa fa-sign-out fa-fw"></i>Đăng xuất</a>
@@ -287,7 +289,11 @@
                     <a href="tables.html"><i class="fa fa-table fa-fw"></i> Report</a>
                 </li>
                 <li>
-                    <a href="@Url.Action("Statistical", "Home")"><i class="fa fa-edit fa-fw"></i> Thống kê</a>
+                    @if (Convert.ToChar(temp.UserType) == 'M')
+                    {
+                        <a href="@Url.Action("Detail", "Statistical")"><i class="fa fa-edit fa-fw"></i> Thống kê</a>
+                    }
+                    else{ <a href="@Url.Action("Index", "Statistical")"><i class="fa fa-edit fa-fw"></i> Thống kê</a>}
                 </li>
                 @if (Convert.ToChar(temp.UserType) != 'M' && Convert.ToChar(temp.UserType) != 'A')
                 {

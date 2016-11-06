@@ -1,9 +1,16 @@
 ﻿@model PagedList.IPagedList<WebMVC.EntityFramework.MERCHANT>
 @using PagedList.Mvc;
 @using System.Web.Mvc;
+@using WebMVC.EntityFramework;
 @{
     ViewBag.Title = "Merchant";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var model = Session[WebMVC.Common.CommonConstants.USER_SESSION]; //khai báo 1 session bên common giống như bên Cart
+    var temp = new USER_INFORMATION();
+    if (model != null)
+    {
+        temp = (USER_INFORMATION)model;
+    }
 }
 @section header{
     Danh sách các Merchant
@@ -22,11 +29,10 @@
 
     }
 </script>
-<div class="col-md-10"><button class="btn btn-primary">Add new</button></div>
-<div class="row">
-
-</div>
-@Html.PagedListPager(Model, Page => Url.Action("Merchant", "Management", new { Page }))
+@if (Convert.ToChar(temp.UserType) == 'T')
+{
+    <div class="col-md-10"><button class="btn btn-primary">Add new</button></div>
+}
 
 
 <div class="col-lg-12">

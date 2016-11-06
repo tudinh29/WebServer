@@ -589,6 +589,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Controllers\MerchantController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\RetrivalController.cs" />
     <Compile Include="Controllers\StatisticalController.cs" />
     <Compile Include="EntityFramework\AGENT.cs" />
@@ -948,7 +949,6 @@
     <Content Include="Views\Shared\TitleHome.cshtml" />
     <Content Include="Views\Agent\Edit.cshtml" />
     <Content Include="Views\Merchant\Edit.cshtml" />
-    <Content Include="Views\Home\Statistical.cshtml" />
     <Content Include="Views\Shared\_Layout_1.cshtml" />
     <Content Include="Views\Statistical\Index.cshtml" />
     <Content Include="Views\Home\Detail.cshtml" />
@@ -960,6 +960,7 @@
     <Content Include="Views\Management\ViewDetail.cshtml" />
     <Content Include="Views\Management\ViewDetail_Agent.cshtml" />
     <Content Include="Views\Management\ViewDetail_Merchant.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

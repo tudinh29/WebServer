@@ -1,8 +1,35 @@
-﻿
+﻿@model PagedList.IPagedList<WebMVC.EntityFramework.MERCHANT>
+@using PagedList.Mvc;
+@using System.Web.Mvc;
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout_1.cshtml";
+    ViewBag.Title = "Statistical";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+@*<button href="@Url.Action("Index","Statistical")" class= "btn btn-primary btn-lg">Thống kê</button>*@
+@section header{
+    Thống kê các Merchant
+}
+<h3> Đọc bảng MERCHANT_SUMMARY_DAILY</h3>
 
+<p> show từng dòng giống bên Quản Lý</p>
+<p> show từng dòng giống bên Quản Lý</p>
+<p> show từng dòng giống bên Quản Lý</p>
+<p> show từng dòng giống bên Quản Lý</p>
+<p> show từng dòng giống bên Quản Lý</p>
+<p> show từng dòng giống bên Quản Lý</p>
+<p> show từng dòng giống bên Quản Lý</p>
+<p> show từng dòng giống bên Quản Lý</p>
+<p> show từng dòng giống bên Quản Lý</p>
+<p> show từng dòng giống bên Quản Lý</p>
+<p> show từng dòng giống bên Quản Lý</p>
+
+
+
+
+
+<div class="col-md-10 text-right">
+    @Html.ActionLink("Chi tiết", "Detail", "Statistical", new { listMerchant = Model }, new { @class = "btn btn-primary btn-lg" })
+    <a href="@Url.Action("Detail", "Statistical")" class="btn btn-primary btn-lg">Excel</a>
+    <a href="@Url.Action("Detail", "Statistical")" class="btn btn-primary btn-lg">PDF</a>
+</div>

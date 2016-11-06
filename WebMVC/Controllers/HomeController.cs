@@ -31,10 +31,6 @@ namespace WebMVC.Controllers
             return PartialView(list);
         }
 
-        public ActionResult Statistical()
-        {
-            return View();
-        }
 
         
     }
