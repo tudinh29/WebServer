@@ -34,8 +34,12 @@ namespace WebMVC.Controllers
            
         }
 
-        public ActionResult Detail(List<MERCHANT> listMerchant)
+        public ActionResult Detail()
         {
+            // Read summaryTable
+            //Test
+            ViewBag.MerchantType = "Nhà hàng";
+            ViewBag.Count = 5;
             return View();
         }
     }

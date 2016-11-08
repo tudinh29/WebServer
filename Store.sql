@@ -53,7 +53,7 @@ begin
 end
 go
 exec 
-ALTER  proc sp_FindAllMerchant
+create  proc sp_FindAllMerchant
 as
 begin
 	select *
@@ -98,7 +98,7 @@ END
 go
 
 
-alter PROC sp_InactiveOrActive_Merchant
+create PROC sp_InactiveOrActive_Merchant
 	@MerchantCode VARCHAR(10)
 AS
 BEGIN
@@ -130,3 +130,12 @@ BEGIN
 		RETURN
 	END CATCH
 END
+
+go 
+create PROC sp_FindCity
+as
+begin
+	select *
+	from CITY c
+end
+go
