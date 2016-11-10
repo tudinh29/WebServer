@@ -47,6 +47,11 @@ namespace WebAPI.Controllers
             var res = db.Database.SqlQuery<MERCHANT>("sp_GetMerchantByAgentCode @AgentCode", paremeter).ToList();
             return res;
         }
+        [HttpGet]
+        /*public List<CITY> SelectAllCity()
+        {
+            var res = db.Database.SqlQuery<CITY>("",).ToList();
+        }*/
 
         [HttpPost]
         public bool ChangeStatus(string merchantCode)
