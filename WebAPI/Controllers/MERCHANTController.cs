@@ -48,10 +48,23 @@ namespace WebAPI.Controllers
             return res;
         }
         [HttpGet]
-        /*public List<CITY> SelectAllCity()
+        public List<CITY> SelectAllCity()
         {
-            var res = db.Database.SqlQuery<CITY>("",).ToList();
-        }*/
+            var res = db.Database.SqlQuery<CITY>("sp_SelectAllCity").ToList();
+            return res;
+        }
+        [HttpGet]
+        public List<MERCHANT_TYPE> SelectAllMerchantType()
+        {
+            var res = db.Database.SqlQuery<MERCHANT_TYPE>("sp_SelectAllMerchantType").ToList();
+            return res;
+        }
+        [HttpGet]
+        public List<PROCESSOR> SelectAllProcessor()
+        {
+            var res = db.Database.SqlQuery<PROCESSOR>("sp_SelectAllProcessor").ToList();
+            return res;
+        }
 
         [HttpPost]
         public bool ChangeStatus(string merchantCode)
