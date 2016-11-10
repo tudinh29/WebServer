@@ -131,7 +131,7 @@ BEGIN
 	END CATCH
 END
 
-CREATE PROC SelectAllCity
+CREATE PROC sp_SelectAllCity
 AS
 BEGIN
 	SELECT CityCode, CityName, RegionCode
@@ -139,7 +139,7 @@ BEGIN
 	ORDER BY CityName;
 END
 GO
-CREATE PROC SelectAllProcessor
+CREATE PROC sp_SelectAllProcessor
 AS
 BEGIN
 	SELECT [ID]
@@ -154,7 +154,7 @@ BEGIN
 	ORDER BY ProcessorName
 END
 GO
-CREATE PROC SelectAllMerchantType
+CREATE PROC sp_SelectAllMerchantType
 AS
 BEGIN
 	SELECT MerchantType, Description
