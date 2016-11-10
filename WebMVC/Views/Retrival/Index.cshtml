@@ -1,20 +1,55 @@
-﻿
+﻿@model PagedList.IPagedList<WebMVC.EntityFramework.RETRIVAL>
+@using PagedList.Mvc;
+@using System.Web.Mvc;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Retrival";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section header{
-    Danh sách truy hồi
+    Danh sách Retrival
 }
-<h3> Đọc bảng RETRIVAL</h3>
+<div class="col-md-10"><button class="btn btn-primary">Add new</button></div>
+<hr />
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Retrival Code</th>
+                            <th>Account Number</th>
+                            <th>Merchant Code</th>
+                            <th>Transaction Code</th>
+                            <th>Transaction Date</th>
+                            <th>Report Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr id="row_@item.RetrivalCode">
+                                <td>@item.RetrivalCode</td>
+                                <td>@item.AccountNumber</td>
+                                <td>@item.MerchantCode</td>
+                                <td>@item.TransactionCode</td>
+                                <td>@item.TransactionDate</td>
+                                <td>@item.ReportDate</td>
+                                <td>@item.Amout</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @Html.PagedListPager(Model, Page => Url.Action("Index", "Retrival", new { Page }))
+            </div>
+            <div class="panel-body">
+                <div class="row">
 
-<p> show từng dòng giống bên Quản Lý</p>
-<p> show từng dòng giống bên Quản Lý</p>
-<p> show từng dòng giống bên Quản Lý</p>
-<p> show từng dòng giống bên Quản Lý</p>
-<p> show từng dòng giống bên Quản Lý</p>
-<p> show từng dòng giống bên Quản Lý</p>
-
-<p>Có action khi nhấn vào RetrivalCode giống bên Quản Lý</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 

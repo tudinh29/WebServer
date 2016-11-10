@@ -130,3 +130,14 @@ BEGIN
 		RETURN
 	END CATCH
 END
+go 
+
+CREATE  proc sp_FindAllRetrival
+as
+begin
+	select *
+	from Retrival a
+	order by a.RetrivalCode
+	
+end
+go

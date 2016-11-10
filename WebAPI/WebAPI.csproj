@@ -84,13 +84,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AGENTController.cs" />
     <Compile Include="Controllers\MERCHANTController.cs" />
     <Compile Include="Controllers\MERCHANT_SUMMARY_DAILYController.cs" />
+    <Compile Include="Controllers\RETRIVALController.cs" />
     <Compile Include="Controllers\USER_INFORMATIONController.cs" />
     <Compile Include="DataProvider.cs" />
     <Compile Include="EntityFramework\AGENT.cs" />
