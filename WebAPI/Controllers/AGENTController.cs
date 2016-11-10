@@ -12,6 +12,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPI.EntityFramework;
 using Newtonsoft.Json;
+using PagedList;
 
 namespace WebAPI.Controllers
 {
@@ -165,6 +166,16 @@ namespace WebAPI.Controllers
         private bool AGENTExists(string id)
         {
             return db.AGENT.Count(e => e.AgentCode == id) > 0;
+        }
+
+        public IEnumerable<AGENT> ListAgents(string agentCode, string agentName, int page, int pageSize)
+        {
+            IOrderedQueryable<AGENT> model = db.AGENT;
+            if (!string.IsNullOrEmpty(agentCode))
+            {
+                model = model.Where(x => x.AgentCode.Contains(agentCode) || x.AgentName.Contains(agentName)).OrderByDescending(x => x.AgentCode);
+            }
+            return model.ToPagedList(page, pageSize);
         }
     }
 }

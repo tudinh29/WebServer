@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebMVC.Common;
 using WebMVC.EntityFramework;
+using WebAPI.Controllers;
 using PagedList;
 using System.Web.Mvc.Html;
 using Newtonsoft.Json;
@@ -23,7 +24,7 @@ namespace WebMVC.Controllers
         public ActionResult Agent(string agentCode, string agentName, int page = 1,int size = 10)
         {
             List<AGENT> list = new List<AGENT>();
-
+           
             //HttpClient client = new HttpClient();
             //client.BaseAddress = new Uri("http://localhost:21212/");
 
@@ -37,21 +38,26 @@ namespace WebMVC.Controllers
                 {
                     list = response.Content.ReadAsAsync<List<AGENT>>().Result;
                 }
+                var listAgent = list.ToPagedList(page, size);
+                return View(listAgent);
             }
             else
             {
-                HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAllAgent?agentCode={0}&agentName={1}", agentCode, agentName)).Result;
+                //HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAllAgent?agentCode={0}&agentName={1}", agentCode, agentName)).Result;
                 
-                if (response.IsSuccessStatusCode)
-                {
+                //if (response.IsSuccessStatusCode)
+                //{
                     
-                    list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                //    list = response.Content.ReadAsAsync<List<AGENT>>().Result;
                     
                     
-                }
+                //}
+                var agent = new WebAPI.Controllers.AGENTController();
+                var listAgent = agent.ListAgents(agentCode, agentName, page, size);
+                return View(listAgent);
             }
-            var listAgent = list.ToPagedList(page,size);
-            return View(listAgent);
+            
+            
         }
 
       
@@ -144,6 +150,8 @@ namespace WebMVC.Controllers
             }
             return View(merchant);
         }
+
+        
 
     }
 }

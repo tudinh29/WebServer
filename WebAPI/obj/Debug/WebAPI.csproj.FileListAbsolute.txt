@@ -70,3 +70,7 @@ C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\System.Web.Http.WebHost.xml
 C:\Users\HDIEM\Desktop\WebServer\WebAPI\obj\Debug\WebAPI.csprojResolveAssemblyReference.cache
 C:\Users\HDIEM\Desktop\WebServer\WebAPI\obj\Debug\WebAPI.dll
 C:\Users\HDIEM\Desktop\WebServer\WebAPI\obj\Debug\WebAPI.pdb
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\PagedList.dll
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\PagedList.Mvc.dll
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\PagedList.xml
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\PagedList.Mvc.xml
