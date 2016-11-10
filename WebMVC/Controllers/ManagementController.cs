@@ -8,6 +8,7 @@ using WebMVC.Common;
 using WebMVC.EntityFramework;
 using PagedList;
 using System.Web.Mvc.Html;
+using Newtonsoft.Json;
 
 namespace WebMVC.Controllers
 {
@@ -19,7 +20,7 @@ namespace WebMVC.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Agent(int page = 1,int size = 10)
+        public ActionResult Agent(string agentCode, string agentName, int page = 1,int size = 10)
         {
             List<AGENT> list = new List<AGENT>();
 
@@ -28,11 +29,26 @@ namespace WebMVC.Controllers
 
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpClient client = new AccessAPI().Access();
-            HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAllAgent")).Result;
-
-            if (response.IsSuccessStatusCode)
+            if (agentCode == null)
             {
-                list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAllAgent")).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                }
+            }
+            else
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAllAgent?agentCode={0}&agentName={1}", agentCode, agentName)).Result;
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    
+                    list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                    
+                    
+                }
             }
             var listAgent = list.ToPagedList(page,size);
             return View(listAgent);

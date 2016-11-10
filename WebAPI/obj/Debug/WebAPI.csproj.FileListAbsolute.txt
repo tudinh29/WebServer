@@ -52,3 +52,21 @@ F:\Document\Bill- Hoc tap\HK7\WebServer\WebAPI\bin\System.Web.Http.WebHost.xml
 F:\Document\Bill- Hoc tap\HK7\WebServer\WebAPI\obj\Debug\WebAPI.csprojResolveAssemblyReference.cache
 F:\Document\Bill- Hoc tap\HK7\WebServer\WebAPI\obj\Debug\WebAPI.dll
 F:\Document\Bill- Hoc tap\HK7\WebServer\WebAPI\obj\Debug\WebAPI.pdb
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\WebAPI.dll.config
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\WebAPI.dll
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\WebAPI.pdb
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\EntityFramework.dll
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\EntityFramework.SqlServer.dll
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\Newtonsoft.Json.dll
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\System.Net.Http.Formatting.dll
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\System.Web.Http.dll
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\System.Web.Http.WebHost.dll
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\EntityFramework.xml
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\EntityFramework.SqlServer.xml
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\Newtonsoft.Json.xml
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\System.Net.Http.Formatting.xml
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\System.Web.Http.xml
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\System.Web.Http.WebHost.xml
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\obj\Debug\WebAPI.csprojResolveAssemblyReference.cache
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\obj\Debug\WebAPI.dll
+C:\Users\HDIEM\Desktop\WebServer\WebAPI\obj\Debug\WebAPI.pdb

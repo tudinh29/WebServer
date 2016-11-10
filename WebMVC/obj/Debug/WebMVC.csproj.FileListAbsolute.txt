@@ -102,3 +102,39 @@ F:\Document\Bill- Hoc tap\HK7\WebServer\WebMVC\bin\System.Web.Http.WebHost.xml
 F:\Document\Bill- Hoc tap\HK7\WebServer\WebMVC\obj\Debug\WebMVC.csprojResolveAssemblyReference.cache
 F:\Document\Bill- Hoc tap\HK7\WebServer\WebMVC\obj\Debug\WebMVC.dll
 F:\Document\Bill- Hoc tap\HK7\WebServer\WebMVC\obj\Debug\WebMVC.pdb
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\WebMVC.dll.config
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\WebMVC.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\WebMVC.pdb
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\EntityFramework.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\EntityFramework.SqlServer.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\Newtonsoft.Json.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\PagedList.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\PagedList.Mvc.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Net.Http.Formatting.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Helpers.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Http.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Http.WebHost.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Mvc.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Razor.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Webpages.Deployment.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Webpages.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Webpages.Razor.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\WebAPI.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\WebAPI.pdb
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\EntityFramework.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\EntityFramework.SqlServer.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\Newtonsoft.Json.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\PagedList.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\PagedList.Mvc.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Razor.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Webpages.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Webpages.Deployment.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Webpages.Razor.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Helpers.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Mvc.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Net.Http.Formatting.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Http.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Http.WebHost.xml
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\obj\Debug\WebMVC.csprojResolveAssemblyReference.cache
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\obj\Debug\WebMVC.dll
+C:\Users\HDIEM\Desktop\WebServer\WebMVC\obj\Debug\WebMVC.pdb
