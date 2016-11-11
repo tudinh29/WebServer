@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "ViewDetail_Retrival";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ViewDetail_Retrival</h2><br />
+
+@foreach (var item in Model)
+{
+    <h4>Retrival Code: @item.RetrivalCode</h4><br />
+    <h4>AccountNumber: @item.AccountNumber</h4><br />
+    <h4>MerchantCode: @item.MerchantCode</h4><br />
+    <h4>TransactionCode: @item.TransactionCode</h4><br />
+    <h4>TransactionDate: @item.TransactionDate</h4><br />
+    <h4>ReportDate: @item.ReportDate</h4><br />
+    <h4>Amout: @item.Amout</h4><br />
+}

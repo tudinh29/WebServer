@@ -25,6 +25,29 @@ namespace WebAPI.Controllers
             return res;
         }
 
+        [HttpGet]
+        public RETRIVAL FindRetrival(string retrivalCode)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@RetrivalCode", retrivalCode)
+                };
+            RETRIVAL res = db.Database.SqlQuery<RETRIVAL>("sp_GetRetrival @RetrivalCode", paremeter).FirstOrDefault();
+            return res;
+        }
+
+        [HttpGet]
+        public List<RETRIVAL> FindRetrivalElement(string searchString)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString)
+                };
+
+            var res = db.Database.SqlQuery<RETRIVAL>("exec sp_FindRetrivalElement @Element", parameter).ToList();
+            return res;
+        }
+
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutRETRIVAL(string id, RETRIVAL rETRIVAL)
         {
@@ -59,7 +82,7 @@ namespace WebAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/RETRIVAL
+        // POST: api/AGENT
         [ResponseType(typeof(RETRIVAL))]
         public async Task<IHttpActionResult> PostRETRIVAL(RETRIVAL rETRIVAL)
         {
@@ -89,7 +112,7 @@ namespace WebAPI.Controllers
             return CreatedAtRoute("DefaultApi", new { id = rETRIVAL.RetrivalCode }, rETRIVAL);
         }
 
-        // DELETE: api/RETRIVAL/5
+        // DELETE: api/AGENT/5
         [ResponseType(typeof(RETRIVAL))]
         public async Task<IHttpActionResult> DeleteRETRIVAL(string id)
         {
