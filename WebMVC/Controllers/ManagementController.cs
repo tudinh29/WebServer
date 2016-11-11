@@ -21,7 +21,7 @@ namespace WebMVC.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Agent(string agentCode, string agentName, int page = 1,int size = 10)
+        public ActionResult Agent(string agentCode, string agentName, string cityCode, string address, string owner, int page = 1,int size = 10)
         {
             IList<AGENT> list = new List<AGENT>();
            
@@ -43,21 +43,10 @@ namespace WebMVC.Controllers
             }
             else
             {
-                //HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAllAgent?agentCode={0}&agentName={1}", agentCode, agentName)).Result;
-                
-                //if (response.IsSuccessStatusCode)
-                //{
-                    
-                //    list = response.Content.ReadAsAsync<List<AGENT>>().Result;
-                    
-                    
-                //}
                 var agent = new AgentController();
-                var listAgent = agent.ListAgents(agentCode, agentName, page, size);
+                var listAgent = agent.ListAgents(agentCode, agentName, cityCode, address, owner, page, size);
                 return View(listAgent);
-            }
-            
-            
+            } 
         }
 
       
