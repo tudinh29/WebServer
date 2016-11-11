@@ -42,6 +42,7 @@ namespace WebMVC.Controllers
                 list = response.Content.ReadAsAsync<List<USER_INFORMATION>>().Result;
                 //return RedirectToAction("Index", "Home");
             }
+            //System.Console.Write(list[0].UserName);
             if(list.Count == 1)
             {
                 var userSession = new USER_INFORMATION();
