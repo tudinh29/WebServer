@@ -37,12 +37,12 @@ namespace WebMVC.Controllers
         [HttpGet]
         public ActionResult ViewDetail_Retrival()
         {
-            List<RETRIVAL> list = new List<RETRIVAL>();
+            RETRIVAL list = new RETRIVAL();
             HttpClient client = new AccessAPI().Access();
             HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL/FindRetrival?RetrivalCode={0}", Request.QueryString["Retrivalcode"])).Result;
             if (response.IsSuccessStatusCode)
             {
-                list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
+                list = response.Content.ReadAsAsync<RETRIVAL>().Result;
             }
             return View(list);
         }
