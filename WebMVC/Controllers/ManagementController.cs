@@ -131,7 +131,7 @@ namespace WebMVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult Merchant(int page = 1, int size = 10)
+        public ActionResult Merchant(string merchantCode, string merchantName, string cityCode, string agentCode, string address, string merchantType, int page = 1, int size = 10)
         {
             List<MERCHANT> list = new List<MERCHANT>();
             var model = Session[CommonConstants.USER_SESSION];
@@ -142,12 +142,49 @@ namespace WebMVC.Controllers
             }
             else return View("Index");
             HttpClient client = new AccessAPI().Access();
+
             if (temp.UserType != "A")
-            { 
-                HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
-                if (response.IsSuccessStatusCode)
+            {
+                if (merchantCode == null)
                 {
-                    list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    }
+                    var listMerchant = list.ToPagedList(page, size);
+                    return View(listMerchant);
+                }
+                else
+                {
+                    if (merchantCode == "")
+                    {
+                        merchantCode = "##";
+                    }
+                    if (merchantName == "")
+                    {
+                        merchantName = "##";
+                    }
+                    if (cityCode == "")
+                    {
+                        cityCode = "##";
+                    }
+                    if (address == "")
+                    {
+                        address = "##";
+                    }
+                    if (merchantType == "")
+                    {
+                        merchantType = "##";
+                    }
+                    if (agentCode == "")
+                    {
+                        agentCode = "##";
+
+                    }
+                    var merchant = new MerchantController();
+                    var listMerchant = merchant.ListMerchant(merchantCode, merchantName, cityCode, address, agentCode, merchantType, page, size);
+                    return View(listMerchant);
                 }
             }
             else
@@ -157,9 +194,9 @@ namespace WebMVC.Controllers
                 {
                     list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
                 }
+                var listMerchant = list.ToPagedList(page, size);
+                return View(listMerchant);
             }
-            var listMerchant = list.ToPagedList(page, size);
-            return View(listMerchant);
         }
 
         public ActionResult ReloadMerchants(int page = 1, int size = 10)

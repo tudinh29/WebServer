@@ -74,3 +74,25 @@ C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\PagedList.dll
 C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\PagedList.Mvc.dll
 C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\PagedList.xml
 C:\Users\HDIEM\Desktop\WebServer\WebAPI\bin\PagedList.Mvc.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\WebAPI.dll.config
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\WebAPI.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\WebAPI.pdb
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\EntityFramework.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\EntityFramework.SqlServer.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\Newtonsoft.Json.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\PagedList.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\PagedList.Mvc.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\System.Net.Http.Formatting.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\System.Web.Http.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\System.Web.Http.WebHost.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\EntityFramework.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\EntityFramework.SqlServer.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\Newtonsoft.Json.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\PagedList.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\PagedList.Mvc.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\System.Net.Http.Formatting.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\System.Web.Http.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\bin\System.Web.Http.WebHost.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\obj\Debug\WebAPI.csprojResolveAssemblyReference.cache
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\obj\Debug\WebAPI.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebAPI\obj\Debug\WebAPI.pdb

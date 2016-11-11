@@ -138,3 +138,39 @@ C:\Users\HDIEM\Desktop\WebServer\WebMVC\bin\System.Web.Http.WebHost.xml
 C:\Users\HDIEM\Desktop\WebServer\WebMVC\obj\Debug\WebMVC.csprojResolveAssemblyReference.cache
 C:\Users\HDIEM\Desktop\WebServer\WebMVC\obj\Debug\WebMVC.dll
 C:\Users\HDIEM\Desktop\WebServer\WebMVC\obj\Debug\WebMVC.pdb
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\WebMVC.dll.config
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\WebMVC.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\WebMVC.pdb
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\EntityFramework.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\EntityFramework.SqlServer.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\Newtonsoft.Json.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\PagedList.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\PagedList.Mvc.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Net.Http.Formatting.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Helpers.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Http.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Http.WebHost.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Mvc.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Razor.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Webpages.Deployment.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Webpages.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Webpages.Razor.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\WebAPI.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\WebAPI.pdb
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\EntityFramework.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\EntityFramework.SqlServer.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\Newtonsoft.Json.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\PagedList.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\PagedList.Mvc.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Razor.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Webpages.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Webpages.Deployment.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Webpages.Razor.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Helpers.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Mvc.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Net.Http.Formatting.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Http.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\bin\System.Web.Http.WebHost.xml
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\obj\Debug\WebMVC.csprojResolveAssemblyReference.cache
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\obj\Debug\WebMVC.dll
+F:\Mon Hoc\2016-2017\PTUD_HTTT\SERVER\WebServer\WebMVC\obj\Debug\WebMVC.pdb
