@@ -95,6 +95,21 @@ namespace WebMVC.Controllers
             
             
         }
+
+        [HttpGet]
+        public ActionResult Load(int page = 1, int size = 10)
+        {
+            IList<AGENT> list = new List<AGENT>();
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAllAgent")).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+            }
+            var listAgent = list.ToPagedList(page, size);
+            return View(listAgent);
+        }
+
         [HttpGet]
         public ActionResult Merchant(int page = 1, int size = 10)
         {

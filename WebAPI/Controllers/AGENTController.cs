@@ -27,23 +27,6 @@ namespace WebAPI.Controllers
             return res;
         }
 
-        public List<AGENT> FindAllAgent(string agentCode, string agentName)
-        {
-            string cityCode = "Austin";
-            string address = "197 Clarendon Way";
-            string owner = "S0EM6MXZ4TTGZ8QMHF7P4N2957OPPUW46SZ7CEUGUW4";
-            object[] paremeter = 
-                {
-                    new SqlParameter("@MaAgent", agentCode),
-                    new SqlParameter("@MaThanhPho", cityCode),
-                    new SqlParameter("@agentName", agentName),
-                    new SqlParameter("@owner", owner),
-                    new SqlParameter("@diaChi", address)
-                };
-            var res = db.Database.SqlQuery<AGENT>("sp_SearchEngine_Agent @MaAgent, @MaThanhPho, @agentName, @owner, @diaChi", paremeter).ToList();
-            return res;
-        }
-
         [HttpGet]
         public AGENT FindAgent(string agentCode)
         {

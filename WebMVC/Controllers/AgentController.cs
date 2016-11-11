@@ -42,16 +42,15 @@ namespace WebMVC.Controllers
         public IEnumerable<AGENT> ListAgents(string agentCode, string agentName, string cityCode, string address, string owner, int page, int pageSize)
         {
             IOrderedQueryable<AGENT> model = db.AGENT;
-            if (!string.IsNullOrEmpty(agentCode))
-            {
+           
                 model = model.Where(x => x.AgentCode.Contains(agentCode) 
                                 || x.AgentName.Contains(agentName) 
                                 || x.CityCode.Contains(cityCode) 
                                 || x.Address1.Contains(address)
                                 || x.Address2.Contains(address)
                                 || x.Address3.Contains(address)
-                                || x.Owner.Contains(owner)).OrderByDescending(x => x.AgentCode);
-            }
+                                || x.Owner.Contains(owner)).OrderBy(x => x.AgentCode);
+            
             return model.ToPagedList(page, pageSize);
         }
     }
