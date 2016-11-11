@@ -1,0 +1,67 @@
+﻿@model WebMVC.EntityFramework.MESSAGE
+
+@{
+    ViewBag.Title = "CreateMessage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section header {
+    Gửi tin nhắn
+}
+<a href="/Message/Index" class="btn btn-primary">Hộp thư đến</a>
+<a href="/Message/MessageSent" class="btn btn-primary">Tin nhắn đã gửi</a>
+<br>
+<br>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-body">
+                    <div class="row">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            @*<div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.Sender)</labe>
+                                    @Html.TextBoxFor(model => model.Sender, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Sender)
+                                </div>*@
+
+
+                            @*<div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.SenderType)</labe>
+                                    @Html.TextBoxFor(model => model.SenderType, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.SenderType)
+                                </div>*@
+
+                            <div class="form-group">
+                                <labe>@Html.LabelFor(model => model.Receiver)</labe>
+                                @Html.TextBoxFor(model => model.Receiver, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Receiver)
+                            </div>
+
+
+                            <div class="form-group">
+                                <labe>@Html.LabelFor(model => model.ReceiverType)</labe>
+                                @Html.TextBoxFor(model => model.ReceiverType, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ReceiverType)
+                            </div>
+
+                            <div class="form-group">
+                                <labe>@Html.LabelFor(model => model.Message)</labe>
+                                @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @rows = "10" })
+                                @Html.ValidationMessageFor(model => model.Message)
+                            </div>
+
+
+                            <input type="submit" value="Gửi tin nhắn" class="btn btn-primary" />
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
