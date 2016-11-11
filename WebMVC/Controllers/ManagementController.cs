@@ -43,6 +43,26 @@ namespace WebMVC.Controllers
             }
             else
             {
+                if (agentCode == "")
+                {
+                    agentCode = "######";
+                }
+                if (agentName == "")
+                {
+                    agentName = "######";
+                }
+                if (cityCode == "")
+                {
+                    cityCode = "######";
+                }
+                if (address == "")
+                {
+                    address = "######";
+                }
+                if (owner == "")
+                {
+                    owner = "######";
+                }
                 var agent = new AgentController();
                 var listAgent = agent.ListAgents(agentCode, agentName, cityCode, address, owner, page, size);
                 return View(listAgent);
