@@ -673,7 +673,7 @@ namespace WebMVC.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<MESSAGE>()
-                .Property(e => e.Message1)
+                .Property(e => e.Message)
                 .IsUnicode(false);
 
             modelBuilder.Entity<MESSAGE>()
