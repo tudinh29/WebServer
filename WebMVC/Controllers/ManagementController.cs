@@ -97,7 +97,7 @@ namespace WebMVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult Load(int page = 1, int size = 10)
+        public ActionResult ReloadAgents(int page = 1, int size = 10)
         {
             IList<AGENT> list = new List<AGENT>();
             HttpClient client = new AccessAPI().Access();
@@ -140,6 +140,37 @@ namespace WebMVC.Controllers
             }
             var listMerchant = list.ToPagedList(page, size);
             return View(listMerchant);
+        }
+
+        public ActionResult ReloadMerchants(int page = 1, int size = 10)
+        {
+            List<MERCHANT> list = new List<MERCHANT>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View("Index");
+            HttpClient client = new AccessAPI().Access();
+            if (temp.UserType != "A")
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                }
+            }
+            else
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", temp.UserName)).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                }
+            }
+            var listMerchant = list.ToPagedList(page, size);
+            return View("Merchant", listMerchant);
         }
 
         public ActionResult ViewDetail_Merchant(string merchantCode)

@@ -1,7 +1,6 @@
 ﻿@model PagedList.IPagedList<WebMVC.EntityFramework.AGENT>
 @using PagedList.Mvc;
 @using System.Web.Mvc;
-@using WebMVC.Controllers;
 @{
     ViewBag.Title = "Agent";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,7 +24,7 @@
 </script>
     <div class="row">
         <div class="col-md-1"><button class="btn btn-primary">Add new</button></div>
-        @using (Html.BeginForm("Load", "Management", FormMethod.Get))
+        @using (Html.BeginForm("ReloadAgents", "Management", FormMethod.Get))
         {
             <div class="col-md-2"><button class="btn btn-info" type="submit">All Agents</button></div>
         }
