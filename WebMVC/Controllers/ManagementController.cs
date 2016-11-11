@@ -107,7 +107,7 @@ namespace WebMVC.Controllers
                 list = response.Content.ReadAsAsync<List<AGENT>>().Result;
             }
             var listAgent = list.ToPagedList(page, size);
-            return View(listAgent);
+            return View("Agent", listAgent);
         }
 
         [HttpGet]
