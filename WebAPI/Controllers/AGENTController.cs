@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPI.EntityFramework;
+using Newtonsoft.Json;
+using PagedList;
 
 namespace WebAPI.Controllers
 {
@@ -53,8 +55,6 @@ namespace WebAPI.Controllers
                 return false;
             }
         }
-       
-       
 
         // PUT: api/AGENT/5
         [ResponseType(typeof(void))]
@@ -150,5 +150,7 @@ namespace WebAPI.Controllers
         {
             return db.AGENT.Count(e => e.AgentCode == id) > 0;
         }
+
+        
     }
 }

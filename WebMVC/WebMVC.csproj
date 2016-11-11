@@ -554,13 +554,25 @@
     <Content Include="Assets\css\bootstrap.css" />
     <Content Include="Assets\css\style.css" />
     <Content Include="Assets\css\validify.css" />
+    <Content Include="Assets\dist\css\morris.css" />
     <Content Include="Assets\dist\css\sb-admin-2.css" />
     <Content Include="Assets\dist\css\timeline.css" />
     <Content Include="Assets\dist\js\sb-admin-2.js" />
     <Content Include="Assets\images\bg.jpg" />
     <Content Include="Assets\js\flot-data.js" />
+    <Content Include="Assets\js\flot\excanvas.min.js" />
+    <Content Include="Assets\js\flot\flot-data.js" />
+    <Content Include="Assets\js\flot\jquery.flot.js" />
+    <Content Include="Assets\js\flot\jquery.flot.min.js" />
+    <Content Include="Assets\js\flot\jquery.flot.pie.js" />
+    <Content Include="Assets\js\flot\jquery.flot.resize.js" />
+    <Content Include="Assets\js\flot\jquery.flot.tooltip.min.js" />
     <Content Include="Assets\js\jquery.min.js" />
     <Content Include="Assets\js\morris-data.js" />
+    <Content Include="Assets\js\morris\morris-data.js" />
+    <Content Include="Assets\js\morris\morris.js" />
+    <Content Include="Assets\js\morris\morris.min.js" />
+    <Content Include="Assets\js\morris\raphael.min.js" />
     <Content Include="Assets\js\validify.js" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Global.asax" />
@@ -573,7 +585,9 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\_Navigation.cshtml" />
   </ItemGroup>
@@ -952,7 +966,6 @@
     <Content Include="Views\Shared\_Layout_1.cshtml" />
     <Content Include="Views\Statistical\Index.cshtml" />
     <Content Include="Views\Home\Detail.cshtml" />
-    <Content Include="Views\Statistical\Detail.cshtml" />
     <Content Include="Views\Merchant\Manager.cshtml" />
     <Content Include="Views\Retrival\Index.cshtml" />
     <Content Include="Views\Management\Agent.cshtml" />
@@ -961,6 +974,7 @@
     <Content Include="Views\Management\ViewDetail_Agent.cshtml" />
     <Content Include="Views\Management\ViewDetail_Merchant.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Statistical\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
