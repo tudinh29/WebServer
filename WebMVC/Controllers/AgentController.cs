@@ -4,13 +4,14 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
-
+using PagedList;
 using WebMVC.Common;
 using WebMVC.EntityFramework;
 namespace WebMVC.Controllers
 {
     public class AgentController : BaseController
     {
+        private MVCDbContext db = new MVCDbContext();
         // GET: Agent
         public ActionResult Index()
         {
@@ -38,6 +39,14 @@ namespace WebMVC.Controllers
             return View(agent);
         }
 
-        
+        public IEnumerable<AGENT> ListAgents(string agentCode, string agentName, int page, int pageSize)
+        {
+            IOrderedQueryable<AGENT> model = db.AGENT;
+            if (!string.IsNullOrEmpty(agentCode))
+            {
+                model = model.Where(x => x.AgentCode.Contains(agentCode) || x.AgentName.Contains(agentName)).OrderByDescending(x => x.AgentCode);
+            }
+            return model.ToPagedList(page, pageSize);
+        }
     }
 }

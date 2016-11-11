@@ -168,14 +168,6 @@ namespace WebAPI.Controllers
             return db.AGENT.Count(e => e.AgentCode == id) > 0;
         }
 
-        public IEnumerable<AGENT> ListAgents(string agentCode, string agentName, int page, int pageSize)
-        {
-            IOrderedQueryable<AGENT> model = db.AGENT;
-            if (!string.IsNullOrEmpty(agentCode))
-            {
-                model = model.Where(x => x.AgentCode.Contains(agentCode) || x.AgentName.Contains(agentName)).OrderByDescending(x => x.AgentCode);
-            }
-            return model.ToPagedList(page, pageSize);
-        }
+        
     }
 }

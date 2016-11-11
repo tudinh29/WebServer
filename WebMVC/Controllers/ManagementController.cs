@@ -23,7 +23,7 @@ namespace WebMVC.Controllers
         [HttpGet]
         public ActionResult Agent(string agentCode, string agentName, int page = 1,int size = 10)
         {
-            List<AGENT> list = new List<AGENT>();
+            IList<AGENT> list = new List<AGENT>();
            
             //HttpClient client = new HttpClient();
             //client.BaseAddress = new Uri("http://localhost:21212/");
@@ -52,7 +52,7 @@ namespace WebMVC.Controllers
                     
                     
                 //}
-                var agent = new WebAPI.Controllers.AGENTController();
+                var agent = new AgentController();
                 var listAgent = agent.ListAgents(agentCode, agentName, page, size);
                 return View(listAgent);
             }
