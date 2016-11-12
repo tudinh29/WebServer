@@ -21,7 +21,7 @@ namespace WebMVC.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Agent(string agentCode, string agentName, string cityCode, string address, string owner, int page = 1,int size = 1)
+        public ActionResult Agent(string agentCode, string agentName, string cityCode, string address, string owner, int page = 1,int size = 10)
         {
             IList<AGENT> list = new List<AGENT>();
            
@@ -143,7 +143,7 @@ namespace WebMVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult Merchant(string merchantCode, string merchantName, string cityCode, string agentCode, string address, string merchantType, int page = 1, int size = 1)
+        public ActionResult Merchant(string merchantCode, string merchantName, string cityCode, string agentCode, string address, string merchantType, int page = 1, int size = 10)
         {
             List<MERCHANT> list = new List<MERCHANT>();
             var model = Session[CommonConstants.USER_SESSION];
