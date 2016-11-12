@@ -8,18 +8,20 @@ using WebMVC.Common;
 using WebMVC.EntityFramework;
 using PagedList;
 using System.Web.Mvc.Html;
+using Newtonsoft.Json;
 
 namespace WebMVC.Controllers
 {
     public class ManagementController : BaseController
     {
+        private MVCDbContext db = new MVCDbContext();
         // GET: Management
         public ActionResult Index()
         {
             return View();
         }
         [HttpGet]
-        public ActionResult Agent(int page = 1,int size = 10)
+        public ActionResult Agent(int page = 1, int size = 10)
         {
             List<AGENT> list = new List<AGENT>();
 
@@ -34,11 +36,11 @@ namespace WebMVC.Controllers
             {
                 list = response.Content.ReadAsAsync<List<AGENT>>().Result;
             }
-            var listAgent = list.ToPagedList(page,size);
+            var listAgent = list.ToPagedList(page, size);
             return View(listAgent);
         }
 
-      
+
         public ActionResult ViewDetail_Agent(string agentCode)
         {
             AGENT agent = new AGENT();
@@ -55,10 +57,10 @@ namespace WebMVC.Controllers
         [HttpPost]
         public ActionResult ChangeStatus(string id)
         {
-            
+
             //var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
             HttpResponseMessage response = new HttpResponseMessage();
-            if (id.Substring(0,2) == "AG")
+            if (id.Substring(0, 2) == "AG")
             {
                 HttpClient client = new AccessAPI().Access();
                 StringContent content = new StringContent("");
@@ -69,7 +71,7 @@ namespace WebMVC.Controllers
                 }
                 return RedirectToAction("Agent");
             }
-            else 
+            else
             {
                 HttpClient client = new AccessAPI().Access();
                 StringContent content = new StringContent("");
@@ -80,9 +82,9 @@ namespace WebMVC.Controllers
                 }
                 return RedirectToAction("Merchant");
             }
-            
-            
-            
+
+
+
         }
         [HttpGet]
         public ActionResult Merchant(int page = 1, int size = 10)
@@ -97,7 +99,7 @@ namespace WebMVC.Controllers
             else return View("Index");
             HttpClient client = new AccessAPI().Access();
             if (temp.UserType != "A")
-            { 
+            {
                 HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -115,6 +117,60 @@ namespace WebMVC.Controllers
             var listMerchant = list.ToPagedList(page, size);
             return View(listMerchant);
         }
+        public void loadDataIntoViewAddNewMerchant()
+        {
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
+            HttpResponseMessage responseCity = client.GetAsync(string.Format("api/City/SelectAllCity")).Result;
+            HttpResponseMessage responseAgent = client.GetAsync(string.Format("api/Agent/FindAllAgent")).Result;
+            HttpResponseMessage responseProcessor = client.GetAsync(string.Format("api/Processor/SelectAllProcessor")).Result;
+
+            if (responseAgent.IsSuccessStatusCode && responseCity.IsSuccessStatusCode &&
+                responseMerchantType.IsSuccessStatusCode && responseProcessor.IsSuccessStatusCode)
+            {
+                List<MERCHANT_TYPE> listMerchantType = responseMerchantType.Content.ReadAsAsync<List<MERCHANT_TYPE>>().Result;
+                List<CITY> listCity = responseCity.Content.ReadAsAsync<List<CITY>>().Result;
+                List<AGENT> listAgent = responseAgent.Content.ReadAsAsync<List<AGENT>>().Result; ;
+                List<PROCESSOR> listProcessor = responseProcessor.Content.ReadAsAsync<List<PROCESSOR>>().Result;
+
+                
+                ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName");
+                ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName");
+                ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "MerchantType");
+                ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName");
+                
+                
+            }
+            
+        }
+        [HttpGet]
+        public ActionResult AddNewMerchant()
+        {
+            loadDataIntoViewAddNewMerchant();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddNewMerchant(MERCHANT merchant)
+        {
+            //cái macode agent may chuyen no vè ma chua hay de ten luon alo alo
+            //string jsonMerchant = JsonConvert.SerializeObject(merchant);
+            var check = new bool();
+            //debug tipe di
+            if (ModelState.IsValid)
+            {
+                HttpClient client = new AccessAPI().Access();
+                HttpResponseMessage response = client.PostAsJsonAsync("api/MERCHANT", merchant).Result;
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                    check = response.Content.ReadAsAsync<bool>().Result;
+
+                if (check == true)
+                    return RedirectToAction("Merchant");
+            }
+            loadDataIntoViewAddNewMerchant();
+            return View(merchant);
+        }
 
         public ActionResult ViewDetail_Merchant(string merchantCode)
         {
@@ -128,6 +184,7 @@ namespace WebMVC.Controllers
             }
             return View(merchant);
         }
+
 
     }
 }

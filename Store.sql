@@ -131,33 +131,3 @@ BEGIN
 	END CATCH
 END
 
-CREATE PROC sp_SelectAllCity
-AS
-BEGIN
-	SELECT CityCode, CityName, RegionCode
-	FROM CITY
-	ORDER BY CityName;
-END
-GO
-CREATE PROC sp_SelectAllProcessor
-AS
-BEGIN
-	SELECT [ID]
-      ,[ProcessorCode]
-      ,[ProcessorName]
-      ,[Status]
-      ,[ApprovalDate]
-      ,[CloseDate]
-      ,[FirstActiveDate]
-      ,[LastActiveDate]
-	FROM PROCESSOR
-	ORDER BY ProcessorName
-END
-GO
-CREATE PROC sp_SelectAllMerchantType
-AS
-BEGIN
-	SELECT MerchantType, Description
-	FROM MERCHANT_TYPE
-	ORDER BY MerchantType
-END

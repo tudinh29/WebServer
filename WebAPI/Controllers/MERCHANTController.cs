@@ -66,7 +66,49 @@ namespace WebAPI.Controllers
                 return false;
             }
         }
+        [HttpPost]
+        public bool AddNewMerchant(MERCHANT merchant)
+        {
+            //m nhap merchant name vao
+            try
+            {
+                object[] parameter = 
+                {
+                    new SqlParameter("@MerchantName",merchant.MerchantName),
+                    new SqlParameter("@BackEndProcessor",merchant.BackEndProcessor),
+                    new SqlParameter("@Status",merchant.Status??(object)DBNull.Value),
+                    new SqlParameter("@Owner",merchant.Owner??(object)DBNull.Value),
+                    new SqlParameter("@MerchantType",merchant.MerchantType??(object)DBNull.Value),
+                    new SqlParameter("@Address1",merchant.Address1??(object)DBNull.Value),
+                    new SqlParameter("@Address2",merchant.Address2??(object)DBNull.Value),
+                    new SqlParameter("@Address3",merchant.Address3??(object)DBNull.Value),
+                    new SqlParameter("@CityCode",merchant.CityCode),
+                    new SqlParameter("@Zip",merchant.Zip??System.Data.SqlTypes.SqlInt32.Null),
+                    new SqlParameter("@Phone",string.IsNullOrEmpty(merchant.Phone)?"":merchant.Phone),
+                    new SqlParameter("@Fax",string.IsNullOrEmpty(merchant.Fax)?"":merchant.Fax),
+                    new SqlParameter("@Email",string.IsNullOrEmpty(merchant.Fax)?"":merchant.Fax),
+                    new SqlParameter("@ApprovalDate",merchant.ApprovalDate??(object)DBNull.Value),
+                    new SqlParameter("@CloseDate",merchant.CloseDate??(object)DBNull.Value),
+                    new SqlParameter("@BankCardDBA",merchant.BankCardDBA??(object)DBNull.Value),
+                    new SqlParameter("@FirstActiveDate",merchant.FirstActiveDate??(object)DBNull.Value),
+                    new SqlParameter("@LastActiveDate",merchant.LastActiveDate??(object)DBNull.Value),
+                    new SqlParameter("@AgentCode",merchant.AgentCode)
 
+                };
+                string sql = "sp_AddNewMerchant @MerchantName,@BackEndProcessor ,@Status, @Owner, @MerchantType"
+                    + ",@Address1,@Address2,@Address3,@CityCode,@Zip,@Phone,@Fax,@Email, @ApprovalDate,@CloseDate,@BankCardDBA,@FirstActiveDate"
+                    + ",@LastActiveDate,@AgentCode";
+                db.Database.ExecuteSqlCommand(sql, parameter);
+                  
+               //trong sql server t de null dc debug lại đi
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Console.Write(ex.ToString());
+                return false;
+            }
+        }
         // PUT: api/MERCHANT/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutMERCHANT(string id, MERCHANT mERCHANT)
@@ -102,35 +144,7 @@ namespace WebAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/MERCHANT
-        [ResponseType(typeof(MERCHANT))]
-        public async Task<IHttpActionResult> PostMERCHANT(MERCHANT mERCHANT)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.MERCHANT.Add(mERCHANT);
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (MERCHANTExists(mERCHANT.MerchantCode))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtRoute("DefaultApi", new { id = mERCHANT.MerchantCode }, mERCHANT);
-        }
+        
 
         // DELETE: api/MERCHANT/5
         [ResponseType(typeof(MERCHANT))]

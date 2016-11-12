@@ -37,7 +37,7 @@ namespace WebMVC.Controllers
 
             return View(agent);
         }
-  
+  //may co bem mvc cho nào vạy
 
     }
 }
