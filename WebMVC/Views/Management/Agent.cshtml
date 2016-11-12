@@ -38,13 +38,13 @@
             <div class="col-md-2">
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" id="agentCode" name="agentCode" placeholder="Nhập AgentCode" />
+                <input class="form-control" type="text" value="@ViewBag.agentCode" id="agentCode" name="agentCode" placeholder="Nhập AgentCode" />
             </div>
             <div class="col-md-1">
 
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" name = "agentName" placeholder="Nhập tên agent" />
+                <input class="form-control" type="text" value="@ViewBag.agentName" name="agentName" placeholder="Nhập tên agent" />
             </div>
             <div class="col-md-2">
                 <button class="btn btn-info" type="submit" >Tìm kiếm</button>
@@ -57,13 +57,13 @@
             <div class="col-md-2">
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" name="cityCode" placeholder="Nhập thành phố" />
+                <input class="form-control" type="text" value="@ViewBag.cityCode" name="cityCode" placeholder="Nhập thành phố" />
             </div>
             <div class="col-md-1">
 
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" name="address" placeholder="Nhập địa chỉ" />
+                <input class="form-control" type="text" value="@ViewBag.address" name="address" placeholder="Nhập địa chỉ" />
             </div>
             <br /><br /><br />
         </div>
@@ -73,7 +73,7 @@
             <div class="col-md-2">
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" name="owner" placeholder="Nhập owner" />
+                <input class="form-control" type="text" value="@ViewBag.owner" name="owner" placeholder="Nhập owner" />
             </div>
             <br /><br /><br />
         </div>
@@ -140,7 +140,7 @@
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, Page => Url.Action("Agent", "Management", new { Page }))
+                @Html.PagedListPager(Model, Page => Url.Action("Agent", "Management", new { Page, @agentCode = @ViewBag.agentCode, @agentName = @ViewBag.agentName, @cityCode = @ViewBag.cityCode, @address = @ViewBag.address, @owner = @ViewBag.owner }))
             </div>
             <div class="panel-body">
                 <div class="row">
