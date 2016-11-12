@@ -100,7 +100,7 @@
     <Compile Include="Controllers\AGENTController.cs" />
     <Compile Include="Controllers\CITYController.cs" />
     <Compile Include="Controllers\MERCHANTController.cs" />
-    <Compile Include="Controllers\MERCHANT_SUMMARY_DAILYController.cs" /
+    <Compile Include="Controllers\MERCHANT_SUMMARY_DAILYController.cs" />
     <Compile Include="Controllers\RETRIVALController.cs" />
     <Compile Include="Controllers\MESSAGEController.cs" />
     <Compile Include="Controllers\MESSAGETYPEController.cs" />
