@@ -60,17 +60,6 @@ namespace WebMVC.Controllers
 
             return model.ToPagedList(page, pageSize);
         }
-        public ActionResult MerchantDaily()
-        {
-            //ViewBag.listMerchants = findAll();
-            return View();
-        }
-        public ActionResult ExportPDF()
-        {
-            return new ActionAsPdf("MerchantDaily")
-            {
-                FileName = Server.MapPath("~/Content/ListMerchant.pdf")
-            };
-        }
+       
     }
 }

@@ -11,7 +11,6 @@
 @section header{
     Thống kê các Merchant
 }
-<h3> Đọc bảng MERCHANT_SUMMARY_DAILY</h3>
 
 <div class="col-lg-12">
     <div class="panel panel-default">
@@ -56,20 +55,8 @@
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="col-md-10 text-right">
     @Html.ActionLink("Chi tiết", "Detail", "Statistical", new { listMerchant = Model }, new { @class = "btn btn-primary btn-lg" })
     <a href="@Url.Action("Detail", "Statistical")" class="btn btn-primary btn-lg">Excel</a>
-    <a href="@Url.Action("ExportPDF", "Merchant")" class="btn btn-primary btn-lg">PDF</a>
+    <a href="@Url.Action("ExportPDF", "Statistical")" class="btn btn-primary btn-lg">PDF</a>
 </div>

@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using WebMVC.Common;
 using WebMVC.EntityFramework;
 using PagedList;
-
+using Rotativa;
 namespace WebMVC.Controllers
 {
     public class StatisticalController : BaseController
@@ -37,6 +37,16 @@ namespace WebMVC.Controllers
            
         }
 
+        public ActionResult ExportPDF()
+        {
+            string footer = "--footer-right \"Date: [date] [time]\" " + "--footer-center \"Page: [page] of [toPage]\" --footer-line --footer-font-size \"9\" --footer-spacing 5 --footer-font-name \"calibri light\"";
+            var list = getAllSumDaily().ToPagedList(1, 10);
+            return new ViewAsPdf("Index",list)
+            {
+                FileName = Server.MapPath("~/Content/ListMerchant.pdf"),
+                CustomSwitches = footer
+            };
+        }
         public ActionResult Detail()
         {
             getStatistic();
