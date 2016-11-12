@@ -71,5 +71,5 @@
 <div class="col-md-10 text-right">
     @Html.ActionLink("Chi tiết", "Detail", "Statistical", new { listMerchant = Model }, new { @class = "btn btn-primary btn-lg" })
     <a href="@Url.Action("Detail", "Statistical")" class="btn btn-primary btn-lg">Excel</a>
-    <a href="@Url.Action("Detail", "Statistical")" class="btn btn-primary btn-lg">PDF</a>
+    <a href="@Url.Action("ExportPDF", "Merchant")" class="btn btn-primary btn-lg">PDF</a>
 </div>
