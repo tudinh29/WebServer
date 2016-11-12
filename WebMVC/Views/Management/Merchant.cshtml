@@ -45,7 +45,7 @@
             <div class="col-md-2">
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" value="@ViewBag.merchantCode" id="merchantCode" name="merchantCode" placeholder="Nhập MerchantCode" />
+                <input class="form-control" type="text" id="merchantCode" name="merchantCode" placeholder="Nhập MerchantCode" />
             </div>
             <div class="col-md-1">
 
@@ -155,7 +155,7 @@
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, Page => Url.Action("Merchant", "Management", new { Page, @merchantCode = @ViewBag.merchantCode, @merchantName = @ViewBag.merchantName, @cityCode = @ViewBag.cityCode, @address = @ViewBag.address, @agentCode = @ViewBag.agentCode, @merchantType = @ViewBag.merchantType }))
+                @Html.PagedListPager(Model, Page => Url.Action("Merchant", "Management", new { Page }))
             </div>
             <div class="panel-body">
                 <div class="row">
