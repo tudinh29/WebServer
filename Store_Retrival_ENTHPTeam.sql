@@ -19,14 +19,6 @@ end
 go
 
 
--- PROC TÌM KIẾM TRONG RETRIVAL
-DROP PROCEDURE [dbo].[sp_FindRetrivalElement]
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE proc [dbo].[sp_FindRetrivalElement] @Element varchar(50)
 AS
 DECLARE @tmp_money MONEY

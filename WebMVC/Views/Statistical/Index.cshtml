@@ -1,4 +1,6 @@
-﻿
+﻿@model PagedList.IPagedList<WebMVC.Models.MerchantSummaryDailyTiny>
+@using PagedList.Mvc;
+@using System.Web.Mvc;
 @{
     ViewBag.Title = "Statistical";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -28,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in merchantSummary)
+                        @foreach (var item in Model)
                         {
                             <tr id="row_@item.MerchantCode">
                                 <td>@item.ReportDate</td>
@@ -43,7 +45,7 @@
                         }
                     </tbody>
                 </table>
-                @*@Html.PagedListPager(Model, Page => Url.Action("Merchant", "Management", new { Page }))*@
+                @Html.PagedListPager(Model, Page => Url.Action("Index", "Statistical", new { Page }))
             </div>
             <div class="panel-body">
                 <div class="row">

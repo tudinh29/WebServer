@@ -1,8 +1,4 @@
-﻿/*
-	Storeprocedures for Statistic Controller
-	12/11/2016
-	HuongThu
-*/
+﻿
 
 Create Procedure SP_MerchantTypeStatistic
 As
@@ -14,7 +10,7 @@ Begin
 	From MERCHANT_SUMMARY_DAILY msd
 	Group By msd.MerchantType
 End
-
+go
 
 Create Procedure SP_MerchantRegionStatistic
 As
@@ -27,7 +23,7 @@ Begin
 	From MERCHANT_SUMMARY_DAILY msd
 	Group by msd.RegionCode
 End
-
+go
 Create Procedure SP_MechantDailyRevenue
 As
 Begin
@@ -35,7 +31,7 @@ Begin
 	From MERCHANT_SUMMARY_DAILY msd
 	Group By ReportDate
 End
-
+go
 Create Procedure SP_CardTypeStatistic
 As
 Begin
@@ -46,7 +42,7 @@ Begin
   From Card c
   Group By c.CardTypeCode
 End
-
+go
 Create Procedure SP_GetAllStatistic
 As
 Begin

@@ -10,7 +10,7 @@ begin
 	where (M.ReceiverType = @UserType and (M.Receiver = @MaCode)) or (M.ReceiverType = @UserType and (M.Receiver IS NULL))
 	order by M.IsRead asc, M.DateSend desc
 end
-
+go
 
 create proc sp_UpdateIsRead
 	@ID varchar(10)
@@ -20,7 +20,7 @@ begin
 	set IsRead = 1
 	where ID = @ID
 end
-
+go
 
 CREATE PROC sp_InsertMessage
 	@sender VARCHAR(10),
@@ -40,8 +40,8 @@ BEGIN
 		RETURN
 	END CATCH
 END
+go
 
-drop proc sp_MessageSent
 create proc sp_MessageSent
 	@sender varchar(10)
 as
@@ -52,7 +52,7 @@ begin
 	order by M.DateSend desc	
 end
 
-
+go
 create proc sp_GetMessageID
 	@ID int
 as

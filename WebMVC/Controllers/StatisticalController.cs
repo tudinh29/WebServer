@@ -6,15 +6,15 @@ using System.Web;
 using System.Web.Mvc;
 using WebMVC.Common;
 using WebMVC.EntityFramework;
+using PagedList;
 
 namespace WebMVC.Controllers
 {
     public class StatisticalController : BaseController
     {
         // GET: Statistical
-        public ActionResult Index()
+        public ActionResult Index(int page = 1,int size = 10)
         {
-            List<MERCHANT> list = new List<MERCHANT>();
             var model = Session[CommonConstants.USER_SESSION];
             var temp = new USER_INFORMATION();
             if (model != null)
@@ -23,17 +23,16 @@ namespace WebMVC.Controllers
             }
             else return View();
 
-            ViewBag.marchantSummary = getAllSumDaily();
-
-            if (temp.UserType != "T")   //Master
+            if (temp.UserType == "T")   //Master
             {
-                //Code here
-                return View();
+                var list = getAllSumDaily().ToPagedList( page, size);
+                return View(list);
+                
             }
             else   //Agent
             {
                 //Code here
-                return View();
+                return Redirect("Home");
             }
            
         }
