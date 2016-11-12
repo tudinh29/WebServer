@@ -256,6 +256,61 @@ namespace WebMVC.Controllers
             return View("Merchant", listMerchant);
         }
 
+        public void loadDataIntoViewAddNewMerchant()
+        {
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
+            HttpResponseMessage responseCity = client.GetAsync(string.Format("api/City/SelectAllCity")).Result;
+            HttpResponseMessage responseAgent = client.GetAsync(string.Format("api/Agent/FindAllAgent")).Result;
+            HttpResponseMessage responseProcessor = client.GetAsync(string.Format("api/Processor/SelectAllProcessor")).Result;
+
+            if (responseAgent.IsSuccessStatusCode && responseCity.IsSuccessStatusCode &&
+                responseMerchantType.IsSuccessStatusCode && responseProcessor.IsSuccessStatusCode)
+            {
+                List<MERCHANT_TYPE> listMerchantType = responseMerchantType.Content.ReadAsAsync<List<MERCHANT_TYPE>>().Result;
+                List<CITY> listCity = responseCity.Content.ReadAsAsync<List<CITY>>().Result;
+                List<AGENT> listAgent = responseAgent.Content.ReadAsAsync<List<AGENT>>().Result; ;
+                List<PROCESSOR> listProcessor = responseProcessor.Content.ReadAsAsync<List<PROCESSOR>>().Result;
+
+
+                ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName");
+                ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName");
+                ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "MerchantType");
+                ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName");
+
+
+            }
+
+        }
+        [HttpGet]
+        public ActionResult AddNewMerchant()
+        {
+            loadDataIntoViewAddNewMerchant();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddNewMerchant(MERCHANT merchant)
+        {
+            //cái macode agent may chuyen no vè ma chua hay de ten luon alo alo
+            //string jsonMerchant = JsonConvert.SerializeObject(merchant);
+            var check = new bool();
+            //debug tipe di
+            if (ModelState.IsValid)
+            {
+                HttpClient client = new AccessAPI().Access();
+                HttpResponseMessage response = client.PostAsJsonAsync("api/MERCHANT", merchant).Result;
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                    check = response.Content.ReadAsAsync<bool>().Result;
+
+                if (check == true)
+                    return RedirectToAction("Merchant");
+            }
+            loadDataIntoViewAddNewMerchant();
+            return View(merchant);
+        }
+
         public ActionResult ViewDetail_Merchant(string merchantCode)
         {
             MERCHANT merchant = new MERCHANT();
