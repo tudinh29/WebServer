@@ -1,6 +1,12 @@
-﻿@{
+﻿@using WebMVC.Models;
+@using System.Web;
+@{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var pieStatistic = ViewBag.MerchantTypeStatistic as List<Statistic>;
+    var barStatistic = ViewBag.MerchantRegionStatistic as List<Statistic>;
+    var lineStatistic = ViewBag.MerchantDailyRevenueStatistic as List<Statistic>;
+    var cartTypeStatistic = ViewBag.CardTypeStatistic as List<Statistic>;
 }
 @section header{
 
@@ -20,7 +26,7 @@
                             <i class="fa fa-comments fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">$26</div>
+                            <div class="h4">@ViewBag.Revenue</div>
                             <div>Total Revenue</div>
                         </div>
                     </div>
@@ -36,7 +42,7 @@
                             <i class="fa fa-tasks fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">12</div>
+                            <div class="h4">@ViewBag.Sale</div>
                             <div>Total sales</div>
                         </div>
                     </div>
@@ -52,7 +58,7 @@
                             <i class="fa fa-shopping-cart fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">124</div>
+                            <div class="h4">@ViewBag.Return</div>
                             <div>Total returns</div>
                         </div>
                     </div>
@@ -68,7 +74,7 @@
                             <i class="fa fa-support fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">13</div>
+                            <div class="h4">@ViewBag.Transaction</div>
                             <div>Total transactions</div>
                         </div>
                     </div>
@@ -134,5 +140,126 @@
     <!-- /.row -->
 </div>
 
-<script src="~/Assets/js/morris/morris-data.js"></script>
-<script src="~/Assets/js/flot/flot-data.js"></script>
+<script>
+    $(function() {
+
+        @{
+            var DonutData = String.Empty;
+            var BarData = String.Empty;
+            var LineData = String.Empty;
+            var CardTypeData = String.Empty;
+
+            foreach (Statistic item in pieStatistic)
+            {
+                if (item.Name == null)
+                {
+                    item.Name = "Khác";
+                }
+                DonutData += "{label: \"{0}\", value: {1} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString());
+            }
+            if (DonutData.Length > 1)
+            {
+                DonutData = HttpUtility.HtmlDecode(DonutData.Substring(0, DonutData.Length - 1));
+            }
+
+            foreach (Statistic item in barStatistic)
+            {
+                if (item.Name == null)
+                {
+                    item.Name = "Khác";
+                }
+                BarData += "{device: \"{0}\", geekbench: {1} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString());
+            }
+            if (BarData.Length > 1)
+            {
+                BarData = BarData.Substring(0, BarData.Length - 1);
+            }
+
+            foreach (Statistic item in lineStatistic)
+            {
+                if (item.Name == null)
+                {
+                    item.Name = "Khác";
+                }
+                LineData += "{d: \"{0}\", visits: {1} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString());
+            }
+            if (LineData.Length > 1)
+            {
+                LineData = LineData.Substring(0, LineData.Length - 1);
+            }
+
+            foreach (Statistic item in cartTypeStatistic)
+            {
+                if (item.Name == null)
+                {
+                    item.Name = "Khác";
+                }
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString());
+            }
+            if (CardTypeData.Length > 1)
+            {
+                CardTypeData = CardTypeData.Substring(0, CardTypeData.Length - 1);
+            }
+        }
+
+            // Donut Chart
+        Morris.Donut({
+            element: 'morris-donut-chart',
+            data: [@Html.Raw(DonutData)],
+            resize: true
+        });
+
+        Morris.Bar({
+            element: 'morris-bar-chart',
+            data: [@Html.Raw(BarData)],
+            xkey: 'device',
+            ykeys: ['geekbench'],
+            labels: ['Số lượng'],
+            barRatio: 0.4,
+            xLabelAngle: 35,
+            hideHover: 'auto',
+            resize: true
+        });
+
+        Morris.Line({
+            // ID of the element in which to draw the chart.
+            element: 'morris-line-chart',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
+            data: [@Html.Raw(LineData)],
+            // The name of the data record attribute that contains x-visitss.
+            xkey: 'd',
+            // A list of names of data record attributes that contain y-visitss.
+            ykeys: ['visits'],
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            labels: ['Visits'],
+            // Disables line smoothing
+            smooth: false,
+            resize: true
+        });
+
+        var data = [@Html.Raw(CardTypeData)];
+
+        var plotObj = $.plot($("#flot-pie-chart"), data, {
+            series: {
+                pie: {
+                    show: true
+                }
+            },
+            grid: {
+                hoverable: true
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                shifts: {
+                    x: 20,
+                    y: 0
+                },
+                defaultTheme: false
+            }
+        });
+    });
+
+</script>

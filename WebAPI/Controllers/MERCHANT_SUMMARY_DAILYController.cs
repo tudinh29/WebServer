@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
+using System.Web.Script.Serialization;
 using WebAPI.EntityFramework;
 
 namespace WebAPI.Controllers
@@ -132,6 +136,65 @@ namespace WebAPI.Controllers
         private bool MERCHANT_SUMMARY_DAILYExists(DateTime id)
         {
             return db.MERCHANT_SUMMARY_DAILY.Count(e => e.ReportDate == id) > 0;
+        }
+
+        [HttpGet]
+        public List<Models.Statistic> GetMerchantTypeStatistic()
+        {
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_MerchantTypeStatistic").ToList();
+            return dbReturn;
+        }
+
+        [HttpGet]
+        public List<Models.Statistic> GetMerchantRegionStatistic()
+        {
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_MerchantRegionStatistic").ToList();
+            return dbReturn;
+        }
+
+        [HttpGet]
+        public List<Models.Statistic> GetCardTypeStatistic()
+        {
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_CardTypeStatistic").ToList();
+            return dbReturn;
+        }
+
+        [HttpGet]
+        public List<Models.Statistic> GetMerchantDailyRevenueStatistic()
+        {
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_MechantDailyRevenue").ToList();
+            return dbReturn;
+        }
+
+        [HttpGet]
+        public List<Models.MerchantSummaryDailyTiny> GetAllStatistic()
+        {
+            var dbReturn = db.Database.SqlQuery<Models.MerchantSummaryDailyTiny>("SP_GetAllStatistic").ToList();
+            return dbReturn;
+        }
+
+        [HttpGet]
+        public decimal GetTotalStatictisDaily(string q)
+        {
+            decimal ret = 0;
+            switch (q)
+            {
+                case "revenue":
+                    ret = db.MERCHANT_SUMMARY_DAILY.Sum(e => e.SaleAmount).Value - db.MERCHANT_SUMMARY_DAILY.Sum(e => e.ReturnAmount).Value;
+                    break;
+                case "sale":
+                    ret = db.MERCHANT_SUMMARY_DAILY.Sum(e => e.SaleAmount).Value;
+                    break;
+                case "return":
+                    ret = db.MERCHANT_SUMMARY_DAILY.Sum(e => e.ReturnAmount).Value;
+                    break;
+                case "transaction":
+                    ret = db.MERCHANT_SUMMARY_DAILY.Sum(e => e.TransactionCount).Value;
+                    break;
+                default:
+                    break;
+            }
+            return ret;
         }
     }
 }
