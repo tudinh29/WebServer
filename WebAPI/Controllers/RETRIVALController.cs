@@ -11,66 +11,57 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPI.EntityFramework;
-using Newtonsoft.Json;
-using PagedList;
 
 namespace WebAPI.Controllers
 {
-    public class AGENTController : ApiController
+    public class RETRIVALController : ApiController
     {
         private APIDbContext db = new APIDbContext();
 
         [HttpGet]
-        public List<AGENT> FindAllAgent()
+        public List<RETRIVAL> FindAllRetrival()
         {
-            var res = db.Database.SqlQuery<AGENT>("sp_FindAllAgent").ToList();
+            var res = db.Database.SqlQuery<RETRIVAL>("sp_FindAllRetrival").ToList();
             return res;
         }
 
         [HttpGet]
-        public AGENT FindAgent(string agentCode)
+        public RETRIVAL FindRetrival(string retrivalCode)
         {
             object[] paremeter = 
                 {
-                    new SqlParameter("@AgentCode", agentCode)
+                    new SqlParameter("@RetrivalCode", retrivalCode)
                 };
-            AGENT res = db.Database.SqlQuery<AGENT>("sp_GetAgent @AgentCode", paremeter).FirstOrDefault();
+            RETRIVAL res = db.Database.SqlQuery<RETRIVAL>("sp_GetRetrival @RetrivalCode", paremeter).FirstOrDefault();
             return res;
         }
 
-        [HttpPost]
-        public bool ChangeStatus(string agentCode)
+        [HttpGet]
+        public List<RETRIVAL> FindRetrivalElement(string searchString)
         {
-            try
-            {
-                object[] paremeter = 
+            object[] parameter =
                 {
-                    new SqlParameter("@AgentCode", agentCode)
+                    new SqlParameter("@Element", searchString)
                 };
-                db.Database.ExecuteSqlCommand("exec sp_InactiveOrActive_Agent @AgentCode", paremeter);
-                return true;
-            }
-            catch(Exception)
-            {
-                return false;
-            }
+
+            var res = db.Database.SqlQuery<RETRIVAL>("exec sp_FindRetrivalElement @Element", parameter).ToList();
+            return res;
         }
 
-        // PUT: api/AGENT/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutAGENT(string id, AGENT aGENT)
+        public async Task<IHttpActionResult> PutRETRIVAL(string id, RETRIVAL rETRIVAL)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != aGENT.AgentCode)
+            if (id != rETRIVAL.RetrivalCode)
             {
                 return BadRequest();
             }
 
-            db.Entry(aGENT).State = EntityState.Modified;
+            db.Entry(rETRIVAL).State = EntityState.Modified;
 
             try
             {
@@ -78,7 +69,7 @@ namespace WebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AGENTExists(id))
+                if (!RETRIVALExists(id))
                 {
                     return NotFound();
                 }
@@ -92,15 +83,15 @@ namespace WebAPI.Controllers
         }
 
         // POST: api/AGENT
-        [ResponseType(typeof(AGENT))]
-        public async Task<IHttpActionResult> PostAGENT(AGENT aGENT)
+        [ResponseType(typeof(RETRIVAL))]
+        public async Task<IHttpActionResult> PostRETRIVAL(RETRIVAL rETRIVAL)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.AGENT.Add(aGENT);
+            db.RETRIVAL.Add(rETRIVAL);
 
             try
             {
@@ -108,7 +99,7 @@ namespace WebAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (AGENTExists(aGENT.AgentCode))
+                if (RETRIVALExists(rETRIVAL.RetrivalCode))
                 {
                     return Conflict();
                 }
@@ -118,23 +109,23 @@ namespace WebAPI.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = aGENT.AgentCode }, aGENT);
+            return CreatedAtRoute("DefaultApi", new { id = rETRIVAL.RetrivalCode }, rETRIVAL);
         }
 
         // DELETE: api/AGENT/5
-        [ResponseType(typeof(AGENT))]
-        public async Task<IHttpActionResult> DeleteAGENT(string id)
+        [ResponseType(typeof(RETRIVAL))]
+        public async Task<IHttpActionResult> DeleteRETRIVAL(string id)
         {
-            AGENT aGENT = await db.AGENT.FindAsync(id);
-            if (aGENT == null)
+            RETRIVAL rETRIVAL = await db.RETRIVAL.FindAsync(id);
+            if (rETRIVAL == null)
             {
                 return NotFound();
             }
 
-            db.AGENT.Remove(aGENT);
+            db.RETRIVAL.Remove(rETRIVAL);
             await db.SaveChangesAsync();
 
-            return Ok(aGENT);
+            return Ok(rETRIVAL);
         }
 
         protected override void Dispose(bool disposing)
@@ -146,11 +137,9 @@ namespace WebAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool AGENTExists(string id)
+        private bool RETRIVALExists(string id)
         {
-            return db.AGENT.Count(e => e.AgentCode == id) > 0;
+            return db.RETRIVAL.Count(e => e.RetrivalCode == id) > 0;
         }
-
-        
     }
 }

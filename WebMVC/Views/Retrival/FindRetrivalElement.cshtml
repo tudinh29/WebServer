@@ -6,24 +6,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section header{
-    Danh sách Retrival
+    Kết quả tìm kiếm
 }
-
 <div class="col-lg-12">
-    <div class="row">
-        <div class="col-md-5"><button class="btn btn-primary">Add new</button></div>
+    <div class="row" style="margin-bottom: 2%;">
+        @using (Html.BeginForm("Index", "Retrival", FormMethod.Get))
+        {
+            <div class="col-md-5"><button class="btn btn-primary">Back to list</button></div>
+        }
+
         @using (Html.BeginForm("FindRetrivalElement", "Retrival", FormMethod.Get))
         {
-            <div class="col-sm-3">
+
+            <div class="col-md-3">
                 <input type="text" class="form-control" name="searchString" />
             </div>
-            <div class="col-sm-1">
-                <button class="btn btn-primary" type="submit" style="border:0">Find</button>
+            <div class="col-md-1">
+                <button class="btn btn-primary" type="submit">Find</button>
             </div>
+
         }
     </div>
-    <br />
 </div>
+
+
+
 
 <div class="col-lg-12">
     <div class="panel panel-default">
@@ -46,10 +53,11 @@
                         {
                             <tr id="row_@item.RetrivalCode">
                                 <td>
-                                    @Html.ActionLink(@item.RetrivalCode, "ViewDetail_Retrival", "Retrival",
-                                         new { RetrivalCode = @item.RetrivalCode, @name = "Retrivalcode" }, null)
+                                    @Html.ActionLink(@item.RetrivalCode, "ViewDetail_Agent", "Management",
+              new { agentCode = @item.RetrivalCode }, null)
                                 </td>
                                 <td>@item.AccountNumber</td>
+
                                 <td>@item.MerchantCode</td>
                                 <td>@item.TransactionCode</td>
                                 <td>@item.TransactionDate</td>

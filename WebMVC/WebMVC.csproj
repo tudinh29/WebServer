@@ -585,7 +585,9 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\_Navigation.cshtml" />
   </ItemGroup>
@@ -973,6 +975,8 @@
     <Content Include="Views\Management\ViewDetail_Merchant.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
     <Content Include="Views\Statistical\Detail.cshtml" />
+    <Content Include="Views\Retrival\ViewDetail_Retrival.cshtml" />
+    <Content Include="Views\Retrival\FindRetrivalElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
