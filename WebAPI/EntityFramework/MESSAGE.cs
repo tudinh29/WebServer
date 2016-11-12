@@ -27,7 +27,7 @@ namespace WebAPI.EntityFramework
         public string ReceiverType { get; set; }
 
         [Column("Message", TypeName = "text")]
-        public string Message1 { get; set; }
+        public string Message { get; set; }
 
         public DateTime? DateSend { get; set; }
 
