@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using WebMVC.Common;
 using WebMVC.EntityFramework;
 using PagedList;
-
+using Rotativa;
 namespace WebMVC.Controllers
 {
     public class MerchantController : BaseController
@@ -59,6 +59,18 @@ namespace WebMVC.Controllers
                             || x.MerchantType.Contains(merchantType)).OrderBy(x => x.MerchantCode);
 
             return model.ToPagedList(page, pageSize);
+        }
+        public ActionResult MerchantDaily()
+        {
+            //ViewBag.listMerchants = findAll();
+            return View();
+        }
+        public ActionResult ExportPDF()
+        {
+            return new ActionAsPdf("MerchantDaily")
+            {
+                FileName = Server.MapPath("~/Content/ListMerchant.pdf")
+            };
         }
     }
 }
