@@ -45,13 +45,13 @@
             <div class="col-md-2">
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" id="merchantCode" name="merchantCode" placeholder="Nhập MerchantCode" />
+                <input class="form-control" type="text" value="@ViewBag.merchantCode" id="merchantCode" name="merchantCode" placeholder="Nhập MerchantCode" />
             </div>
             <div class="col-md-1">
 
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" name="merchantName" placeholder="Nhập tên merchant" />
+                <input class="form-control" type="text" value="@ViewBag.merchantName" name="merchantName" placeholder="Nhập tên merchant" />
             </div>
             <div class="col-md-2">
                 <button class="btn btn-info" type="submit">Tìm kiếm</button>
@@ -64,13 +64,13 @@
             <div class="col-md-2">
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" name="cityCode" placeholder="Nhập thành phố" />
+                <input class="form-control" type="text" value="@ViewBag.cityCode" name="cityCode" placeholder="Nhập thành phố" />
             </div>
             <div class="col-md-1">
 
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" name="address" placeholder="Nhập địa chỉ" />
+                <input class="form-control" type="text" value="@ViewBag.address" name="address" placeholder="Nhập địa chỉ" />
             </div>
             <br /><br /><br />
         </div>
@@ -80,13 +80,13 @@
             <div class="col-md-2">
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" name="agent" placeholder="Nhập Agent quản lý" />
+                <input class="form-control" type="text" value="@ViewBag.agentCode" name="agentCode" placeholder="Nhập Agent quản lý" />
             </div>
             <div class="col-md-1">
 
             </div>
             <div class="col-md-3">
-                <input class="form-control" type="text" name="merchantType" placeholder="Nhập loại merchant" />
+                <input class="form-control" type="text" value="@ViewBag.merchantType" name="merchantType" placeholder="Nhập loại merchant" />
             </div>
             <br /><br /><br />
         </div>
@@ -155,7 +155,7 @@
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, Page => Url.Action("Merchant", "Management", new { Page }))
+                @Html.PagedListPager(Model, Page => Url.Action("Merchant", "Management", new { Page, @merchantCode = @ViewBag.merchantCode, @merchantName = @ViewBag.merchantName, @cityCode = @ViewBag.cityCode, @address = @ViewBag.address, @agentCode = @ViewBag.agentCode, @merchantType = @ViewBag.merchantType }))
             </div>
             <div class="panel-body">
                 <div class="row">

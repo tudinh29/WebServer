@@ -21,7 +21,7 @@ namespace WebMVC.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Agent(string agentCode, string agentName, string cityCode, string address, string owner, int page = 1,int size = 10)
+        public ActionResult Agent(string agentCode, string agentName, string cityCode, string address, string owner, int page = 1,int size = 1)
         {
             IList<AGENT> list = new List<AGENT>();
            
@@ -43,6 +43,18 @@ namespace WebMVC.Controllers
             }
             else
             {
+                string AgentCode = agentCode;
+                string AgentName = agentName;
+                string CityCode = cityCode;
+                string Address = address;
+                string Owner = owner;
+
+                ViewBag.agentCode = AgentCode;
+                ViewBag.agentName = AgentName;
+                ViewBag.cityCode = CityCode;
+                ViewBag.address = Address;
+                ViewBag.owner = Owner;
+
                 if (agentCode == "")
                 {
                     agentCode = "######";
@@ -131,7 +143,7 @@ namespace WebMVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult Merchant(string merchantCode, string merchantName, string cityCode, string agentCode, string address, string merchantType, int page = 1, int size = 10)
+        public ActionResult Merchant(string merchantCode, string merchantName, string cityCode, string agentCode, string address, string merchantType, int page = 1, int size = 1)
         {
             List<MERCHANT> list = new List<MERCHANT>();
             var model = Session[CommonConstants.USER_SESSION];
@@ -157,6 +169,20 @@ namespace WebMVC.Controllers
                 }
                 else
                 {
+                     string MerchantCode = merchantCode;
+                     string MerchantName = merchantName;
+                     string CityCode = cityCode;
+                     string AgentCode = agentCode;
+                     string Address = address;
+                     string MerchantType = merchantType;
+ 
+                     ViewBag.merchantCode = MerchantCode;
+                     ViewBag.merchantName = MerchantName;
+                     ViewBag.cityCode = CityCode;
+                     ViewBag.address = Address;
+                     ViewBag.agentCode = AgentCode;
+                     ViewBag.merchantType = MerchantType;
+
                     if (merchantCode == "")
                     {
                         merchantCode = "##";
