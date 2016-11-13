@@ -980,7 +980,6 @@
     <Content Include="Views\Management\Merchant.cshtml" />
     <Content Include="Views\Management\ViewDetail.cshtml" />
     <Content Include="Views\Management\ViewDetail_Agent.cshtml" />
-    <Content Include="Views\Management\ViewDetail_Merchant.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
     <Content Include="Views\Statistical\Detail.cshtml" />
     <Content Include="Views\Retrival\ViewDetail_Retrival.cshtml" />
@@ -989,6 +988,7 @@
     <Content Include="Views\Message\CreateMessage.cshtml" />
     <Content Include="Views\Message\MessageSent.cshtml" />
     <Content Include="Views\Management\AddNewMerchant.cshtml" />
+    <Content Include="Views\Management\ViewDetail_Merchant.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

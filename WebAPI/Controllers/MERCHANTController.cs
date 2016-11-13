@@ -109,43 +109,52 @@ namespace WebAPI.Controllers
                 return false;
             }
         }
-        // PUT: api/MERCHANT/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutMERCHANT(string id, MERCHANT mERCHANT)
+
+        [HttpPost]
+        public bool UpdateMerchant(string id, MERCHANT merchant)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != mERCHANT.MerchantCode)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(mERCHANT).State = EntityState.Modified;
-
+            //m nhap merchant name vao
             try
             {
-                await db.SaveChangesAsync();
+                object[] parameter = 
+                {
+                    new SqlParameter("@MerchantCode", merchant.MerchantCode),
+                    new SqlParameter("@MerchantName",merchant.MerchantName),
+                    new SqlParameter("@BackEndProcessor",merchant.BackEndProcessor),
+                    new SqlParameter("@Status",merchant.Status??(object)DBNull.Value),
+                    new SqlParameter("@Owner",merchant.Owner??(object)DBNull.Value),
+                    new SqlParameter("@MerchantType",merchant.MerchantType??(object)DBNull.Value),
+                    new SqlParameter("@Address1",merchant.Address1??(object)DBNull.Value),
+                    new SqlParameter("@Address2",merchant.Address2??(object)DBNull.Value),
+                    new SqlParameter("@Address3",merchant.Address3??(object)DBNull.Value),
+                    new SqlParameter("@CityCode",merchant.CityCode),
+                    new SqlParameter("@Zip",merchant.Zip??System.Data.SqlTypes.SqlInt32.Null),
+                    new SqlParameter("@Phone",string.IsNullOrEmpty(merchant.Phone)?"":merchant.Phone),
+                    new SqlParameter("@Fax",string.IsNullOrEmpty(merchant.Fax)?"":merchant.Fax),
+                    new SqlParameter("@Email",string.IsNullOrEmpty(merchant.Fax)?"":merchant.Fax),
+                    new SqlParameter("@ApprovalDate",merchant.ApprovalDate??(object)DBNull.Value),
+                    new SqlParameter("@CloseDate",merchant.CloseDate??(object)DBNull.Value),
+                    new SqlParameter("@BankCardDBA",merchant.BankCardDBA??(object)DBNull.Value),
+                    new SqlParameter("@FirstActiveDate",merchant.FirstActiveDate??(object)DBNull.Value),
+                    new SqlParameter("@LastActiveDate",merchant.LastActiveDate??(object)DBNull.Value),
+                    new SqlParameter("@AgentCode",merchant.AgentCode)
+
+                };
+                string sql = "sp_Editmerchant @MerchantCode, @MerchantName,@BackEndProcessor ,@Status, @Owner, @MerchantType"
+                    + ",@Address1,@Address2,@Address3,@CityCode,@Zip,@Phone,@Fax,@Email, @ApprovalDate,@CloseDate,@BankCardDBA,@FirstActiveDate"
+                    + ",@LastActiveDate,@AgentCode";
+                db.Database.ExecuteSqlCommand(sql, parameter);
+
+                
+                return true;
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!MERCHANTExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                System.Console.Write(ex.ToString());
+                return false;
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
         }
-
         
-
         // DELETE: api/MERCHANT/5
         [ResponseType(typeof(MERCHANT))]
         public async Task<IHttpActionResult> DeleteMERCHANT(string id)
