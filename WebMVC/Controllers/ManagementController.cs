@@ -256,7 +256,7 @@ namespace WebMVC.Controllers
             return View("Merchant", listMerchant);
         }
 
-        public void loadDataIntoViewAddNewMerchant()
+        public void loadDataIntoViewAddNewMerchant(MERCHANT merchant=null)
         {
             HttpClient client = new AccessAPI().Access();
             HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
@@ -272,11 +272,21 @@ namespace WebMVC.Controllers
                 List<AGENT> listAgent = responseAgent.Content.ReadAsAsync<List<AGENT>>().Result; ;
                 List<PROCESSOR> listProcessor = responseProcessor.Content.ReadAsAsync<List<PROCESSOR>>().Result;
 
-
-                ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName");
-                ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName");
-                ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "MerchantType");
-                ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName");
+                if (merchant != null)
+                {
+                    ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName", merchant.BackEndProcessor);
+                    ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName", merchant.CityCode);
+                    ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "MerchantType", merchant.MerchantType);
+                    ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName", merchant.AgentCode);
+                }
+                else
+                {
+                    ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName");
+                    ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName");
+                    ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "MerchantType");
+                    ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName");
+                }
+                
 
 
             }
@@ -310,7 +320,7 @@ namespace WebMVC.Controllers
             loadDataIntoViewAddNewMerchant();
             return View(merchant);
         }
-
+        [HttpGet]
         public ActionResult ViewDetail_Merchant(string merchantCode)
         {
             MERCHANT merchant = new MERCHANT();
@@ -321,10 +331,27 @@ namespace WebMVC.Controllers
             {
                 merchant = response.Content.ReadAsAsync<MERCHANT>().Result;
             }
+            loadDataIntoViewAddNewMerchant(merchant);
             return View(merchant);
         }
+        [HttpPost]
+        public ActionResult ViewDetail_Merchant(MERCHANT merchant)
+        {
+            var check = new bool();
+            string id = merchant.MerchantCode;
+            if (ModelState.IsValid)
+            {
+                HttpClient client = new AccessAPI().Access();
+                HttpResponseMessage response = client.PostAsJsonAsync(string.Format("api/MERCHANT/UpdateMerchant?id={0}", id), merchant).Result;
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                    check = response.Content.ReadAsAsync<bool>().Result;
 
-        
-
+                if (check == true)
+                    return RedirectToAction("Merchant");
+            }
+            loadDataIntoViewAddNewMerchant();
+            return View(merchant);
+        }
     }
 }
