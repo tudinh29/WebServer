@@ -199,7 +199,7 @@ BEGIN CATCH
 END CATCH
 
 --------------------------
-
+go
 CREATE PROC [dbo].[Sp_Editmerchant](
 			@MerchantCode varchar(10),
 			@MerchantName nvarchar(50)  ,

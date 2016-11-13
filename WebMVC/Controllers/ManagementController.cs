@@ -309,7 +309,7 @@ namespace WebMVC.Controllers
             if (ModelState.IsValid)
             {
                 HttpClient client = new AccessAPI().Access();
-                HttpResponseMessage response = client.PostAsJsonAsync("api/MERCHANT", merchant).Result;
+                HttpResponseMessage response = client.PostAsJsonAsync("api/MERCHANT/AddNewMerchant", merchant).Result;
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                     check = response.Content.ReadAsAsync<bool>().Result;

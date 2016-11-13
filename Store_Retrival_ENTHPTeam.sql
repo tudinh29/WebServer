@@ -19,40 +19,20 @@ end
 go
 
 
-CREATE proc [dbo].[sp_FindRetrivalElement] @Element varchar(50)
+create proc [dbo].[sp_FindRetrivalElement] @Element varchar(50)
 AS
-DECLARE @tmp_money MONEY
-
 BEGIN
-	IF (ISNUMERIC(@Element) = 1)
-	BEGIN
-		SET @tmp_money = CONVERT(MONEY, @ELEMENT)
+	
 		SELECT a.RetrivalCode, a.AccountNumber, a.MerchantCode, a.TransactionCode, a.TransactionDate, a.ReportDate, a.Amout 
 		FROM RETRIVAL a
-		WHERE a.Amout = @tmp_money OR a.AccountNumber = @Element
-		ORDER BY a.RetrivalCode
-	END
-	ELSE
-	IF (ISDATE(@Element) = 1)
-	BEGIN
-		SELECT a.RetrivalCode, a.AccountNumber, a.MerchantCode, a.TransactionCode, a.TransactionDate, a.ReportDate, a.Amout 
-		FROM RETRIVAL a
-		WHERE a.ReportDate = @Element
-		   OR a.TransactionDate = @Element
-		ORDER BY a.RetrivalCode
-	END
-	ELSE
-	BEGIN
-		SELECT a.RetrivalCode, a.AccountNumber, a.MerchantCode, a.TransactionCode, a.TransactionDate, a.ReportDate, a.Amout 
-		FROM RETRIVAL a
-		WHERE  a.RetrivalCode = @Element 
-			   OR a.AccountNumber = @Element 
-			   OR a.MerchantCode = @Element
-			   OR a.TransactionCode = @Element
-			   OR a.Amout = @tmp_money
-		ORDER BY a.RetrivalCode
-	END
-
+		WHERE  a.RetrivalCode like '%'+@Element+'%'
+			   OR a.AccountNumber like '%'+@Element+'%'
+			   OR a.MerchantCode like '%'+@Element+'%'
+			   OR a.TransactionCode like '%'+@Element+'%'
+			   OR a.Amout like '%'+@Element+'%'	   
+			   OR a.ReportDate like '%'+@Element+'%'
+				OR a.TransactionDate like '%'+@Element+'%'
+		ORDER BY a.ReportDate
 END
 GO
 

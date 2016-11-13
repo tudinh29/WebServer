@@ -50,6 +50,7 @@ namespace WebMVC.Controllers
 
         public ActionResult FindRetrivalElement(string searchString, int page = 1, int size = 10)
         {
+          
             List<RETRIVAL> list = new List<RETRIVAL>();
 
             //HttpClient client = new HttpClient();

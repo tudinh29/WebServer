@@ -78,7 +78,7 @@ namespace WebMVC.Controllers
 
             HttpClient client = new AccessAPI().Access();
             StringContent content = new StringContent("");
-            HttpResponseMessage response = client.PostAsJsonAsync("api/MESSAGE", Ms).Result;
+            HttpResponseMessage response = client.PostAsJsonAsync("api/MESSAGE/InsertMassage", Ms).Result;
             response.EnsureSuccessStatusCode();
             TempData["AlertMessage"] = "Thêm thành công";
             TempData["AlertType"] = "alert-success";

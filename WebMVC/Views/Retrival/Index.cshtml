@@ -11,7 +11,7 @@
 
 <div class="col-lg-12">
     <div class="row">
-        <div class="col-md-5"><button class="btn btn-primary">Add new</button></div>
+       
         @using (Html.BeginForm("FindRetrivalElement", "Retrival", FormMethod.Get))
         {
             <div class="col-sm-3">
@@ -52,8 +52,8 @@
                                 <td>@item.AccountNumber</td>
                                 <td>@item.MerchantCode</td>
                                 <td>@item.TransactionCode</td>
-                                <td>@item.TransactionDate</td>
-                                <td>@item.ReportDate</td>
+                                <td>@item.TransactionDate.Value.ToShortDateString()</td>
+                                <td>@item.ReportDate.Value.ToShortDateString()</td>
                                 <td>@item.Amout</td>
                             </tr>
                         }
