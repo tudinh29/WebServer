@@ -248,10 +248,10 @@ BEGIN TRY
 			WHERE MerchantCode = @MerchantCode
 END TRY
 BEGIN CATCH
-	SET @ErrorMessage  = N'ERROR: '+ ERROR_MESSAGE()
-    SET @ErrorSeverity = ERROR_SEVERITY()
-    SET @ErrorState    = ERROR_STATE()
-    RAISERROR(@ErrorMessage, @ErrorSeverity, @ErrorState)
+	
+		RAISERROR (N'Lỗi hệ thống',16,1)
+		RETURN
+	
 END CATCH
 
 
