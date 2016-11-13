@@ -198,3 +198,60 @@ BEGIN CATCH
 	RETURN
 END CATCH
 
+--------------------------
+
+CREATE PROC [dbo].[Sp_Editmerchant](
+			@MerchantCode varchar(10),
+			@MerchantName nvarchar(50)  ,
+			@BackEndProcessor int ,
+			@Status char(1) ,
+			@Owner nvarchar(50) ,
+			@MerchantType varchar(10) ,
+			@Address1 nvarchar(50) ,
+			@Address2 nvarchar(50) ,
+			@Address3 nvarchar(50) ,
+			@CityCode varchar(10) ,
+			@Zip int ,
+			@Phone varchar(20) ,
+			@Fax varchar(20) ,
+			@Email varchar(30) ,
+			@ApprovalDate date ,
+			@CloseDate date ,
+			@BankCardDBA varchar(50) ,
+			@FirstActiveDate date ,
+			@LastActiveDate date ,
+			@AgentCode varchar(10)
+)
+AS
+BEGIN TRY
+			UPDATE DBO.MERCHANT
+			SET
+				MerchantName = @MerchantName,
+				BackEndProcessor = @BackEndProcessor,
+				Status = @Status,
+				Owner = @Owner,
+				MerchantType = @MerchantType,
+				Address1 = @Address1,
+				Address2 = @Address2,
+				Address3 = @Address3,
+				CityCode = @CityCode,
+				Zip = @Zip,
+				Phone = @Phone,
+				Fax = @Fax,
+				Email = @Email,
+				ApprovalDate = @ApprovalDate,
+				CloseDate = @CloseDate,
+				BankCardDBA = @BankCardDBA,
+				FirstActiveDate = @FirstActiveDate,
+				LastActiveDate = @LastActiveDate,
+				AgentCode = @AgentCode
+			WHERE MerchantCode = @MerchantCode
+END TRY
+BEGIN CATCH
+	SET @ErrorMessage  = N'ERROR: '+ ERROR_MESSAGE()
+    SET @ErrorSeverity = ERROR_SEVERITY()
+    SET @ErrorState    = ERROR_STATE()
+    RAISERROR(@ErrorMessage, @ErrorSeverity, @ErrorState)
+END CATCH
+
+
