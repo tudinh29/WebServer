@@ -15,23 +15,37 @@ namespace WebMVC.Controllers
     {
         [HttpGet]
         // GET: Retrival
-        public ActionResult Index(int page = 1, int size = 10)
+        public ViewResult Index(string searchString, int page = 1, int size = 10)
         {
             List<RETRIVAL> list = new List<RETRIVAL>();
-
+            HttpClient client = new AccessAPI().Access();
             //HttpClient client = new HttpClient();
             //client.BaseAddress = new Uri("http://localhost:21212/");
 
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpClient client = new AccessAPI().Access();
-            HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindAllRetrival")).Result;
-
-            if (response.IsSuccessStatusCode)
+            if (String.IsNullOrEmpty(searchString))
             {
-                list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindAllRetrival")).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
+                }
+                var listRetrival = list.ToPagedList(page, size);
+                return View(listRetrival);
             }
-            var listRetrival = list.ToPagedList(page, size);
-            return View(listRetrival);
+            else
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindRetrivalElement?searchString={0}", searchString)).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
+                }
+                var listRetrival = list.ToPagedList(page, size);
+                return View(listRetrival);
+            }
+            
         }
 
         [HttpGet]
@@ -45,27 +59,6 @@ namespace WebMVC.Controllers
                 list = response.Content.ReadAsAsync<RETRIVAL>().Result;
             }
             return View(list);
-        }
-
-
-        public ActionResult FindRetrivalElement(string searchString, int page = 1, int size = 10)
-        {
-            List<RETRIVAL> list = new List<RETRIVAL>();
-
-            //HttpClient client = new HttpClient();
-            //client.BaseAddress = new Uri("http://localhost:21212/");
-
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpClient client = new AccessAPI().Access();
-            HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindRetrivalElement?searchString={0}", searchString)).Result;
-
-            if (response.IsSuccessStatusCode)
-            {
-                list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
-            }
-            var listRetrival = list.ToPagedList(page, size);
-            return View(listRetrival);
-
         }
     }
 }
