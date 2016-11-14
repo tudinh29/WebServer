@@ -27,6 +27,18 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        public List<MERCHANT> FindMerchantElement(string searchString)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString)
+                };
+
+            var res = db.Database.SqlQuery<MERCHANT>("exec sp_FindMerchantElement @Element", parameter).ToList();
+            return res;
+        }
+
+        [HttpGet]
         public MERCHANT FindMerchant(string merchantCode)
         {
             object[] paremeter = 
