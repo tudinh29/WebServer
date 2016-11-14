@@ -32,16 +32,27 @@
 @if (Convert.ToChar(temp.UserType) == 'T')
 {
     <div class="col-md-2"><a href="/Management/AddNewMerchant"> <button class="btn btn-primary"> Add new </button></a></div>
-    using (Html.BeginForm("ReloadMerchants", "Management", FormMethod.Get))
-    {
-        <div class="col-md-2"><button class="btn btn-info" type="submit">All Merchants</button><br /><br /></div>
-    }
-    
 }
 
-@using (Html.BeginForm("Merchant", "Management", FormMethod.Get))
+@using (Html.BeginForm("FindMerchantElement", "Management", FormMethod.Get))
 {
-    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-3"></div>
+            <div class="col-md-4">
+                <input type="text" id="searchString" value="@ViewBag.searchString" name="searchString" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-info">Tìm kiếm</button> 
+            </div>
+        </div>
+    </div>
+    <br /><br />
+    <script type="text/javascript">
+        window.onload = function () {
+            document.getElementById("searchString").focus();
+        };
+    </script>
 }
 <div class="col-lg-12">
     <div class="panel panel-default">
@@ -101,7 +112,7 @@
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, Page => Url.Action("Merchant", "Management", new { Page, @merchantCode = @ViewBag.merchantCode, @merchantName = @ViewBag.merchantName, @cityCode = @ViewBag.cityCode, @address = @ViewBag.address, @agentCode = @ViewBag.agentCode, @merchantType = @ViewBag.merchantType }))
+                @Html.PagedListPager(Model, Page => Url.Action("Merchant", "Management", new { Page, @searchString = @ViewBag.searchString}))
             </div>
             <div class="panel-body">
                 <div class="row">

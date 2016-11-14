@@ -28,6 +28,18 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        public List<AGENT> FindAgentElement(string searchString)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString)
+                };
+
+            var res = db.Database.SqlQuery<AGENT>("exec sp_FindAgentElement @Element", parameter).ToList();
+            return res;
+        }
+
+        [HttpGet]
         public AGENT FindAgent(string agentCode)
         {
             object[] paremeter = 

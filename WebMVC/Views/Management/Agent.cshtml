@@ -23,17 +23,26 @@
     }
 </script>
     <div class="row">
-        <div class="col-md-1"><button class="btn btn-primary">Add new</button></div>
-        @using (Html.BeginForm("ReloadAgents", "Management", FormMethod.Get))
-        {
-            <div class="col-md-2"><button class="btn btn-info" type="submit">All Agents</button></div>
-        }
-        
+        <div class="col-md-1"><button class="btn btn-primary">Add new</button></div><br /><br />
     </div>
-    <br /><br />
-@using (Html.BeginForm("Agent", "Management", FormMethod.Get))
+@using (Html.BeginForm("FindAgentElement", "Management", FormMethod.Get))
 {
-    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-3"></div>
+            <div class="col-md-4">
+                <input id="searchString" class="form-control" value ="@ViewBag.searchString" name="searchString" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-info">Tìm kiếm</button><br /><br />
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        window.onload = function () {
+            document.getElementById("searchString").focus();
+        };
+    </script>
 }
 <div class="col-lg-12">
     <div class="panel panel-default">
@@ -91,7 +100,7 @@
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, Page => Url.Action("Agent", "Management", new { Page, @agentCode = @ViewBag.agentCode, @agentName = @ViewBag.agentName, @cityCode = @ViewBag.cityCode, @address = @ViewBag.address, @owner = @ViewBag.owner }))
+                @Html.PagedListPager(Model, Page => Url.Action("Agent", "Management", new { Page, @searchString = @ViewBag.searchString }))
             </div>
             <div class="panel-body">
                 <div class="row">
