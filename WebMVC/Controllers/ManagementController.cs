@@ -157,61 +157,13 @@ namespace WebMVC.Controllers
 
             if (temp.UserType != "A")
             {
-                if (merchantCode == null)
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
+                if (response.IsSuccessStatusCode)
                 {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
-                    }
-                    var listMerchant = list.ToPagedList(page, size);
-                    return View(listMerchant);
+                    list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
                 }
-                else
-                {
-                     string MerchantCode = merchantCode;
-                     string MerchantName = merchantName;
-                     string CityCode = cityCode;
-                     string AgentCode = agentCode;
-                     string Address = address;
-                     string MerchantType = merchantType;
- 
-                     ViewBag.merchantCode = MerchantCode;
-                     ViewBag.merchantName = MerchantName;
-                     ViewBag.cityCode = CityCode;
-                     ViewBag.address = Address;
-                     ViewBag.agentCode = AgentCode;
-                     ViewBag.merchantType = MerchantType;
-
-                    if (merchantCode == "")
-                    {
-                        merchantCode = "##";
-                    }
-                    if (merchantName == "")
-                    {
-                        merchantName = "##";
-                    }
-                    if (cityCode == "")
-                    {
-                        cityCode = "##";
-                    }
-                    if (address == "")
-                    {
-                        address = "##";
-                    }
-                    if (merchantType == "")
-                    {
-                        merchantType = "##";
-                    }
-                    if (agentCode == "")
-                    {
-                        agentCode = "##";
-
-                    }
-                    var merchant = new MerchantController();
-                    var listMerchant = merchant.ListMerchant(merchantCode, merchantName, cityCode, address, agentCode, merchantType, page, size);
-                    return View(listMerchant);
-                }
+                var listMerchant = list.ToPagedList(page, size);
+                return View(listMerchant);
             }
             else
             {

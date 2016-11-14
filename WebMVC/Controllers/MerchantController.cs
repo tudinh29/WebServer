@@ -44,22 +44,6 @@ namespace WebMVC.Controllers
         {
             return View();
         }
-
-        public IEnumerable<MERCHANT> ListMerchant(string merchantCode, string merchantName, string cityCode, string address, string agentCode, string merchantType, int page, int pageSize)
-        {
-            IOrderedQueryable<MERCHANT> model = db.MERCHANT;
-
-            model = model.Where(x => x.MerchantCode.Contains(merchantCode)
-                            || x.MerchantName.Contains(merchantName)
-                            || x.CityCode.Contains(cityCode)
-                            || x.Address1.Contains(address)
-                            || x.Address2.Contains(address)
-                            || x.Address3.Contains(address)
-                            || x.AgentCode.Contains(agentCode)
-                            || x.MerchantType.Contains(merchantType)).OrderBy(x => x.MerchantCode);
-
-            return model.ToPagedList(page, pageSize);
-        }
        
     }
 }

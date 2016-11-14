@@ -33,56 +33,7 @@
     <br /><br />
 @using (Html.BeginForm("Agent", "Management", FormMethod.Get))
 {
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-3">
-                <input class="form-control" type="text" value="@ViewBag.agentCode" id="agentCode" name="agentCode" placeholder="Nhập AgentCode" />
-            </div>
-            <div class="col-md-1">
-
-            </div>
-            <div class="col-md-3">
-                <input class="form-control" type="text" value="@ViewBag.agentName" name="agentName" placeholder="Nhập tên agent" />
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-info" type="submit" >Tìm kiếm</button>
-            </div>
-            <br /><br /><br />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-3">
-                <input class="form-control" type="text" value="@ViewBag.cityCode" name="cityCode" placeholder="Nhập thành phố" />
-            </div>
-            <div class="col-md-1">
-
-            </div>
-            <div class="col-md-3">
-                <input class="form-control" type="text" value="@ViewBag.address" name="address" placeholder="Nhập địa chỉ" />
-            </div>
-            <br /><br /><br />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-3">
-                <input class="form-control" type="text" value="@ViewBag.owner" name="owner" placeholder="Nhập owner" />
-            </div>
-            <br /><br /><br />
-        </div>
-    </div>
-    <script type="text/javascript">
-        window.onload = function () {
-            document.getElementById("agentCode").focus();
-        };
-    </script>
+    
 }
 <div class="col-lg-12">
     <div class="panel panel-default">
