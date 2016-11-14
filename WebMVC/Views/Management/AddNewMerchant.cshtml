@@ -129,7 +129,7 @@
                                     <div class="form-group">
                                         <label>@Html.LabelFor(model => model.ApprovalDate, "Approval Date")</label>
 
-                                        @Html.EditorFor(model => model.ApprovalDate, new { htmlAttributes = new { @class = "form-control",@Value = @DateTime.Now } })
+                                        @Html.EditorFor(model => model.ApprovalDate, new { htmlAttributes = new { @class = "form-control",@Value = @DateTime.Now.ToShortDateString() } })
                                         @Html.ValidationMessageFor(model => model.ApprovalDate, "", new { @class = "text-danger" })
 
                                     </div>
