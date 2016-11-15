@@ -19,26 +19,31 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Report Date</th>
                             <th>Merchant Code</th>
                             <th>Sale Amount</th>
+                            <th>Sale Count</th>
                             <th>Return Amount</th>
-                            <th>Region Code</th>
-                            <th>Merchant Type</th>
-                            <th>Agent Code</th>
+                            <th>Return Count</th>
+                            <th>Net Amount</th>
+                            <th>TransactionCount</th> 
+                            <th>Keyed Count</th>                                
+                            <th>Report Date</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr id="row_@item.MerchantCode">
-                                <td>@item.ReportDate</td>
                                 <td>@item.MerchantCode</td>
-                                <td>@item.SaleAmount</td>
-                                <td>@item.ReturnAmount</td>
-                                <td>@item.RegionCode</td>
-                                <td>@item.MerchantType</td>
-                                <td>@item.AgentCode</td>
+                                <td>@item.SaleAmount</td>       
+                                <td>@item.ReturnAmount</td>                         
+                                <td>@item.SaleCount</td>
+                                <td>@item.ReturnCount</td>
+                                <td>@item.NetAmount</td> 
+                                <td>@item.TransactionCount</td>    
+                                <td>@item.KeyedCount</td>                           
+                                <td>@item.ReportDate</td>
                             </tr>
                             
                         }

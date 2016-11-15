@@ -60,10 +60,7 @@ namespace WebMVC.Controllers
             HttpClient client = new AccessAPI().Access();
             HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindRetrivalElement?searchString={0}", searchString)).Result;
 
-            if (response.IsSuccessStatusCode)
-            {
-                list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
-            }
+           
             var listRetrival = list.ToPagedList(page, size);
             return View(listRetrival);
 

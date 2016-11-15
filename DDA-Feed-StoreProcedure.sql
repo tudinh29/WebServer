@@ -43,15 +43,23 @@ Begin
   Group By c.CardTypeCode
 End
 go
-Create Procedure SP_GetAllStatistic
+drop Procedure SP_GetAllStatistic
+exec SP_GetAllStatistic
+alter Procedure SP_GetAllStatistic
 As
 Begin
 SELECT [ReportDate]
       ,[MerchantCode]
       ,[SaleAmount]
+      ,[SaleCount]
       ,[ReturnAmount]
-      ,[RegionCode]
-      ,[MerchantType]
-      ,[AgentCode]
+	  ,[ReturnCount]
+      ,[NetAmount]
+	  ,[TransactionCount]
+	  ,[KeyedAmount]
   FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
 End
+
+update MERCHANT_SUMMARY_DAILY
+set TransactionCount = 0
+where TransactionCount is null
