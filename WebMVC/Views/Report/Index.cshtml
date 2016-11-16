@@ -1,19 +1,56 @@
-﻿@using WebMVC.Models;
+﻿@using WebMVC.EntityFramework;
 @using System.Web;
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var pieStatistic = ViewBag.MerchantTypeStatistic as List<Statistic>;
-    var barStatistic = ViewBag.MerchantRegionStatistic as List<Statistic>;
-    var lineStatistic = ViewBag.MerchantDailyRevenueStatistic as List<Statistic>;
-    var cartTypeStatistic = ViewBag.CardTypeStatistic as List<Statistic>;
+    var listSummary = ViewBag.listSummary as List<MERCHANT_SUMMARY_DAILY>;
+    var listRegion = ViewBag.listRegion as List<MERCHANT_SUMMARY_DAILY>;
+    var listMerchantType = ViewBag.listMerchantType as List<MERCHANT_SUMMARY_DAILY>;
 }
 @section header{
 
     <i class="fa fa-bar-chart-o"></i> Charts
 }
+<link href="~/Assets/css/myStyle.css" rel="stylesheet" />
 <script src="/Assets/js/flot/excanvas.min.js"></script>
 <script src="/Assets/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- The Modal -->
+<div id="RevenueModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">×</span>
+        <div class="row">
+            <div class="col-xs-9">
+                <p>Total revenue:</p>
+            </div>
+            <div class="col-xs-9 ">
+                <div>Total transaction:</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-9">
+                <p>Total sale: </p>
+            </div>
+            <div class="col-xs-9">
+                <p>Sale count: </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-9">
+                <p>Total return: </p>
+            </div>
+            <div class="col-xs-9 ">
+                <p>Return count: </p>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
 <div class="container-fluid">
 
     <!-- Flot Charts -->
@@ -23,7 +60,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-comments fa-5x"></i>
+                            <i class="fa fa-money fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="h4">@ViewBag.Revenue</div>
@@ -39,7 +76,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-tasks fa-5x"></i>
+                            <i class="fa fa-shopping-cart fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="h4">@ViewBag.Sale</div>
@@ -55,7 +92,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-shopping-cart fa-5x"></i>
+                            <i class="fa fa-warning fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="h4">@ViewBag.Return</div>
@@ -92,7 +129,9 @@
                 </div>
                 <div class="panel-body">
                     <div id="morris-line-chart"></div>
-
+                    <div id="detailBtn" class="text-right">
+                        <a>View Details <i class="fa fa-arrow-circle-up"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,7 +144,9 @@
                     <div class="flot-chart">
                         <div class="flot-chart-content" id="flot-pie-chart"></div>
                     </div>
-
+                    <div id="detailBtn" class="text-right">
+                        <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -119,7 +160,9 @@
                 </div>
                 <div class="panel-body">
                     <div id="morris-bar-chart"></div>
-
+                    <div id="detailBtn" class="text-right">
+                        <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,7 +173,9 @@
                 </div>
                 <div class="panel-body">
                     <div id="morris-donut-chart"></div>
-
+                    <div id="detailBtn" class="text-right">
+                        <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -141,7 +186,7 @@
 </div>
 
 <script>
-    $(function() {
+    $(function () {
 
         @{
             var DonutData = String.Empty;
@@ -149,60 +194,10 @@
             var LineData = String.Empty;
             var CardTypeData = String.Empty;
 
-            foreach (Statistic item in pieStatistic)
-            {
-                if (item.Name == null)
-                {
-                    item.Name = "Khác";
-                }
-                DonutData += "{label: \"{0}\", value: {1} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString());
-            }
-            if (DonutData.Length > 1)
-            {
-                DonutData = HttpUtility.HtmlDecode(DonutData.Substring(0, DonutData.Length - 1));
-            }
 
-            foreach (Statistic item in barStatistic)
-            {
-                if (item.Name == null)
-                {
-                    item.Name = "Khác";
-                }
-                BarData += "{device: \"{0}\", geekbench: {1} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString());
-            }
-            if (BarData.Length > 1)
-            {
-                BarData = BarData.Substring(0, BarData.Length - 1);
-            }
-
-            foreach (Statistic item in lineStatistic)
-            {
-                if (item.Name == null)
-                {
-                    item.Name = "Khác";
-                }
-                LineData += "{d: \"{0}\", visits: {1} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString());
-            }
-            if (LineData.Length > 1)
-            {
-                LineData = LineData.Substring(0, LineData.Length - 1);
-            }
-
-            foreach (Statistic item in cartTypeStatistic)
-            {
-                if (item.Name == null)
-                {
-                    item.Name = "Khác";
-                }
-                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString());
-            }
-            if (CardTypeData.Length > 1)
-            {
-                CardTypeData = CardTypeData.Substring(0, CardTypeData.Length - 1);
-            }
         }
 
-            // Donut Chart
+        // Donut Chart
         Morris.Donut({
             element: 'morris-donut-chart',
             data: [@Html.Raw(DonutData)],
@@ -262,4 +257,33 @@
         });
     });
 
+</script>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById('RevenueModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("detailBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 </script>

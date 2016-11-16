@@ -557,6 +557,7 @@
     <Content Include="Assets\bower_components\raphael\raphael-min.js" />
     <Content Include="Assets\bower_components\raphael\raphael.js" />
     <Content Include="Assets\css\bootstrap.css" />
+    <Content Include="Assets\css\myStyle.css" />
     <Content Include="Assets\css\style.css" />
     <Content Include="Assets\css\validify.css" />
     <Content Include="Assets\dist\css\morris.css" />
@@ -578,6 +579,7 @@
     <Content Include="Assets\js\morris\morris.js" />
     <Content Include="Assets\js\morris\morris.min.js" />
     <Content Include="Assets\js\morris\raphael.min.js" />
+    <Content Include="Assets\js\MyCustomJS.js" />
     <Content Include="Assets\js\validify.js" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Global.asax" />
@@ -611,6 +613,7 @@
     <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Controllers\MerchantController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RetrivalController.cs" />
     <Compile Include="Controllers\StatisticalController.cs" />
     <Compile Include="EntityFramework\AGENT.cs" />
@@ -981,7 +984,6 @@
     <Content Include="Views\Management\ViewDetail.cshtml" />
     <Content Include="Views\Management\ViewDetail_Agent.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
-    <Content Include="Views\Statistical\Detail.cshtml" />
     <Content Include="Views\Retrival\ViewDetail_Retrival.cshtml" />
     <Content Include="Views\Retrival\FindRetrivalElement.cshtml" />
     <Content Include="Views\Message\ViewMessage.cshtml" />
@@ -989,6 +991,7 @@
     <Content Include="Views\Message\MessageSent.cshtml" />
     <Content Include="Views\Management\AddNewMerchant.cshtml" />
     <Content Include="Views\Management\ViewDetail_Merchant.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
