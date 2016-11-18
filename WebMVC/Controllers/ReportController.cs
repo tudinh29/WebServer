@@ -18,7 +18,7 @@ namespace WebMVC.Controllers
         {
             List<MERCHANT_SUMMARY_DAILY> list = new List<MERCHANT_SUMMARY_DAILY>();
             HttpClient client = new AccessAPI().Access();
-            HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetAllStatistic")).Result;
+            HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetReportData")).Result;
 
             if (response.IsSuccessStatusCode)
             {

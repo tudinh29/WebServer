@@ -44,147 +44,169 @@
                 <p>Return count: </p>
             </div>
         </div>
-
-
-
-
     </div>
 
 </div>
-<div class="container-fluid">
 
-    <!-- Flot Charts -->
-    <div class="row">
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-money fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="h4">@ViewBag.Revenue</div>
-                            <div>Total Revenue</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-green">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-shopping-cart fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="h4">@ViewBag.Sale</div>
-                            <div>Total sales</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-yellow">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-warning fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="h4">@ViewBag.Return</div>
-                            <div>Total returns</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-red">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-support fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="h4">@ViewBag.Transaction</div>
-                            <div>Total transactions</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+<div id="mySidenav" class="sidenavFilter">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox">This month</input>
+        </label>
     </div>
-    <!-- /.row -->
-    <div class="row">
-        <div class="col-lg-4" style="width:60%">
-            <div class="panel panel-red">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Revenue Graph</h3>
-                </div>
-                <div class="panel-body">
-                    <div id="morris-line-chart"></div>
-                    <div id="detailBtn" class="text-right">
-                        <a>View Details <i class="fa fa-arrow-circle-up"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4" style="width:33%">
-            <div class="panel panel-green">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Card Type</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="flot-chart">
-                        <div class="flot-chart-content" id="flot-pie-chart"></div>
-                    </div>
-                    <div id="detailBtn" class="text-right">
-                        <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox">This year</input>
+        </label>
     </div>
-
-    <div class="row">
-        <div class="col-lg-4" style="width:60%;min-width:400px">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Region</h3>
-                </div>
-                <div class="panel-body">
-                    <div id="morris-bar-chart"></div>
-                    <div id="detailBtn" class="text-right">
-                        <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4" style="width:33%;min-width:400px">
-            <div class="panel panel-yellow">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Merchant Type</h3>
-                </div>
-                <div class="panel-body">
-                    <div id="morris-donut-chart"></div>
-                    <div id="detailBtn" class="text-right">
-                        <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
+    <div class="checkbox">
+        <label>
+            <input type="checkbox">....</input>
+        </label>
     </div>
-    <!-- /.row -->
+    <button style="margin-left:30%"type="submit" class="btn btn-default">Submit</button>
 </div>
+<div id="main">
+    <div class="container-fluid">
 
+        <div class="row">
+            <span style="font-size:20px;cursor:pointer;margin-left:10px" onclick="openNav()"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span>
+
+        </div>
+        <!-- Flot Charts -->
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-money fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="h4">@ViewBag.Revenue</div>
+                                <div>Total Revenue</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="h4">@ViewBag.Sale</div>
+                                <div>Total sales</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-warning fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="h4">@ViewBag.Return</div>
+                                <div>Total returns</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-support fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="h4">@ViewBag.Transaction</div>
+                                <div>Total transactions</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-4" style="width:60%">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Revenue Graph</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="morris-line-chart"></div>
+                        <div id="detailBtn" class="text-right">
+                            <a>View Details <i class="fa fa-arrow-circle-up"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" style="width:33%">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Card Type</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="flot-chart">
+                            <div class="flot-chart-content" id="flot-pie-chart"></div>
+                        </div>
+                        <div id="detailBtn" class="text-right">
+                            <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4" style="width:60%;min-width:400px">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Region</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="morris-bar-chart"></div>
+                        <div id="detailBtn" class="text-right">
+                            <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" style="width:33%;min-width:400px">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Merchant Type</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="morris-donut-chart"></div>
+                        <div id="detailBtn" class="text-right">
+                            <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- /.row -->
+    </div>
+</div>
+<script src="~/Assets/js/MyCustomJS.js"></script>
 <script>
     $(function () {
 

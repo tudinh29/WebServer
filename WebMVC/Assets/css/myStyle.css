@@ -29,9 +29,64 @@
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+
+.sidenavFilter {
+    height: 100%;
+    width: 0;
+    position: absolute;
+    z-index: 1;
+    top :16%;
+    background-color: #FAEBD7;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    border: 2px solid #a1a1a1;
+    display : none;
+}
+
+.sidenavFilter a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 15px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+        .sidenavFilter a:hover, .offcanvas a:focus {
+            color: black;
+        }
+
+    .sidenavFilter .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+#main {
+    transition: margin-left .1s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+}
+
+.checkbox {
+    margin-left: 10px
 }

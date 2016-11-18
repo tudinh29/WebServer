@@ -1,56 +1,12 @@
-﻿
-
-Create Procedure SP_MerchantTypeStatistic
+﻿create Procedure SP_GetReportData_Default
 As
 Begin
-	Select (Select Description 
-			From MERCHANT_TYPE mt 
-			Where msd.MerchantType = mt.MerchantType) Name, 
-			Cast(Count(*) as decimal) Value
-	From MERCHANT_SUMMARY_DAILY msd
-	Group By msd.MerchantType
-End
-go
-
-Create Procedure SP_MerchantRegionStatistic
-As
-Begin
-	Select (Select r.RegionName 
-			From REGION r
-			Where r.RegionCode =  msd.RegionCode) Name, 
-
-			Cast(count(RegionCode) as Decimal) Value
-	From MERCHANT_SUMMARY_DAILY msd
-	Group by msd.RegionCode
-End
-go
-Create Procedure SP_MechantDailyRevenue
-As
-Begin
-	Select (CONVERT(VARCHAR(10),ReportDate,103)) Name, SUM(SaleAmount)- SUM(ReturnAmount) Value
-	From MERCHANT_SUMMARY_DAILY msd
-	Group By ReportDate
-End
-go
-exec SP_CardTypeStatistic
-Create Procedure SP_CardTypeStatistic
-As
-Begin
-  Select (Select ct.Description 
-		From CARD_TYPE ct 
-		Where ct.CardTypeCode = c.CardTypeCode) Name, 
-		Cast(Count(c.CardTypeCode) as decimal) Value
-  From Card c
-  Group By c.CardTypeCode
-End
-go
-
-create Procedure SP_GetAllStatistic
-As
-Begin
-	declare @date date
-	set @date = getDate()
-		SELECT '' as ReportDate, 'A' as MerchantCode,
+	declare @currentDate date
+	declare @firstDate date
+	set @currentDate = getDate()
+	set @firstDate =  DATEADD(month, DATEDIFF(month, 0, @currentDate), 0)
+	
+		SELECT @currentDate as ReportDate, 'A' as MerchantCode,
 		 SUM(SaleAmount) AS SaleAmount, SUM( SaleCount) AS  SaleCount, SUM( ReturnAmount) AS  ReturnAmount, SUM( ReturnCount) AS  ReturnCount, 
 		 SUM( NetAmount) AS  NetAmount, SUM( TransactionCount) AS  TransactionCount, SUM( KeyedAmount) AS  KeyedAmount, SUM( KeyedCount) AS  KeyedCount, 
 		 SUM( KeyedReturnAmount) AS  KeyedReturnAmount, SUM( KeyedReturnCount) AS  KeyedReturnCount, SUM( KeyedNetAmount) AS  KeyedNetAmount, 
@@ -70,5 +26,6 @@ Begin
 		 SUM( OtherCardReturnAmount) AS  OtherCardReturnAmount, SUM( OtherCardReturnCount) AS  OtherCardReturnCount, SUM( OtherCardNetAmount) AS  OtherCardNetAmount,
 		 SUM( OtherCardTransactionCount) AS  OtherCardTransactionCount, RegionCode, MerchantType, 'A' as AgentCode
 		FROM MERCHANT_SUMMARY_DAILY 
+		where ReportDate < @currentDate and ReportDate >= @firstDate
 		group by RegionCode,MerchantType
 End
