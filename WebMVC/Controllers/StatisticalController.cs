@@ -13,7 +13,7 @@ namespace WebMVC.Controllers
     public class StatisticalController : BaseController
     {
         // GET: Statistical
-        public ActionResult Index(int page = 1,int size = 10)
+        public ActionResult Index()
         {
             var model = Session[CommonConstants.USER_SESSION];
             var temp = new USER_INFORMATION();
@@ -25,9 +25,9 @@ namespace WebMVC.Controllers
 
             if (temp.UserType == "T")   //Master
             {
-                var list = getAllSumDaily().ToPagedList( page, size);
-                return View(list);
-                
+                var list = getAllSumDaily();
+                ViewBag.leg = list.Count();
+                return View(list);              
             }
             else   //Agent
             {
