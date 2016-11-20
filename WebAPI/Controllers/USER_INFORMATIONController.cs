@@ -29,6 +29,17 @@ namespace WebAPI.Controllers
             var res =  db.Database.SqlQuery<USER_INFORMATION>("sp_Login @UserName, @Password", paremeter).ToList();
             return res;
         }
+        [HttpGet]
+        public bool Change(string username, string password)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@UserName", username),
+                    new SqlParameter("@NewPassword", password)
+                };
+            db.Database.ExecuteSqlCommand("exec sp_ChangePassword @UserName, @NewPassword", paremeter);
+            return true;
+        }
         //public List<USER_INFOMATION> Search(string username, string password)
         //{
         //    var result = db.USER_INFOMATION.Where(x => x.UserName == username && x.Password == password).ToList().Select(x => new USER_INFOMATION
