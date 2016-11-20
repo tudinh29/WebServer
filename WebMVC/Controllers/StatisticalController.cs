@@ -53,7 +53,7 @@ namespace WebMVC.Controllers
         {
             var marchantSummary = new List<Models.MerchantSummaryDailyTiny>();
 
-            string domain = Request.Url.ToString().Replace(Request.Url.PathAndQuery, "");
+            string domain = "";
             string url = domain + "/api/MERCHANT_SUMMARY_DAILY/GetAllStatistic";
 
             HttpClient client = new AccessAPI().Access();

@@ -992,6 +992,7 @@
     <Content Include="Views\Management\AddNewMerchant.cshtml" />
     <Content Include="Views\Management\ViewDetail_Merchant.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Login\ChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
