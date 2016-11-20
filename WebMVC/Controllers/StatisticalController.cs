@@ -102,16 +102,6 @@ namespace WebMVC.Controllers
             return View("Index");
         }
 
-        public ActionResult Detail()
-        {
-            getStatistic();
-            // Read summaryTable
-            //Test
-            ViewBag.MerchantType = "Nhà hàng";
-            ViewBag.Count = 5;
-            return View();
-        }
-
         private List<Models.MerchantSummaryDailyTiny> getAllSumDaily()
         {
             var marchantSummary = new List<Models.MerchantSummaryDailyTiny>();
