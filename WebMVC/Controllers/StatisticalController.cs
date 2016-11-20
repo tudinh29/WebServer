@@ -45,13 +45,37 @@ namespace WebMVC.Controllers
 
         public ActionResult ExportPDF()
         {
+            HttpClient client = new AccessAPI().Access();
             string footer = "--footer-right \"Date: [date] [time]\" " + "--footer-center \"Page: [page] of [toPage]\" --footer-line --footer-font-size \"9\" --footer-spacing 5 --footer-font-name \"calibri light\"";
-            var list = getAllSumDaily().ToPagedList(1, 10);
-            return new ViewAsPdf("Index",list)
+            HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
+            var list = new List<MERCHANT>();
+            if (response.IsSuccessStatusCode)
             {
-                FileName = Server.MapPath("~/Content/ListMerchant.pdf"),
+                list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+            }
+            return new Rotativa.PartialViewAsPdf("MerchantStatistical", list)
+            {   //MerchantSumaryDailyStatistical
+                FileName = "MerchantStatistical.pdf",
                 CustomSwitches = footer
             };
+        }
+
+        private List<Models.MerchantSummaryDailyTiny> getAllSumDaily()
+        {
+            var merchantSummary = new List<Models.MerchantSummaryDailyTiny>();
+
+            string domain = "";
+            string url = domain + "/api/MERCHANT_SUMMARY_DAILY/GetAllStatistic";
+
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                merchantSummary = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+            }
+
+            return merchantSummary;
         }
 
         public ActionResult ExportExcel()
