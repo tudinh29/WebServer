@@ -31,5 +31,17 @@ namespace WebAPI.Controllers
             return res;
 
         }
+
+        [HttpGet]
+        public int CountUnreadMessage(string MaCode, string UserType)
+        {
+            object[] paremeter =
+                {
+                    new SqlParameter("@MaCode", MaCode),
+                    new SqlParameter("@UserType", UserType)
+                };
+            int res = db.Database.SqlQuery<int>("sp_CountUnreadMessenge @MaCode, @UserType", paremeter).FirstOrDefault<int>();
+            return res;
+        }
     }
 }
