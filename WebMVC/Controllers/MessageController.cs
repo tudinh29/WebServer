@@ -13,15 +13,21 @@ namespace WebMVC.Controllers
 {
     public class MessageController : BaseController
     {
-        // GET: Message
-        public ActionResult Index(int page = 1, int size = 10)
+
+        private USER_INFORMATION GetUserName()
         {
-            var model = Session[CommonConstants.USER_SESSION]; 
+            var model = Session[CommonConstants.USER_SESSION];
             var user = new USER_INFORMATION();
             if (model != null)
             {
                 user = (USER_INFORMATION)model;
             }
+            return user;
+        }
+        // GET: Message
+        public ActionResult Index(int page = 1, int size = 10)
+        {
+            var user = GetUserName();
 
             List<MESSAGE> ListMs = new List<MESSAGE>();
 
@@ -37,21 +43,35 @@ namespace WebMVC.Controllers
             return View(ListMessage);
         }
 
-       
+
 
         public ActionResult ViewMessage(string id)
         {
+            var user = GetUserName();
 
             MESSAGE message = new MESSAGE();
 
             HttpClient client = new AccessAPI().Access();
             StringContent content = new StringContent("");
-            HttpResponseMessage response = client.GetAsync(string.Format("api/MESSAGE/{0}", id)).Result;
-            HttpResponseMessage response1 = client.PostAsync(string.Format("api/MESSAGE/UpdateIsRead?ID={0}", id), content).Result;
+            HttpResponseMessage response = client.GetAsync(string.Format("api/MESSAGE/GetMESSAGE/{0}", id)).Result;
+
+           
             if (response.IsSuccessStatusCode)
             {
                 message = response.Content.ReadAsAsync<MESSAGE>().Result;
-                bool check = response1.IsSuccessStatusCode;       
+                if (message.Receiver != null)
+                {
+                    HttpResponseMessage response1 = client.PostAsync(string.Format("api/MESSAGE/UpdateIsRead?ID={0}", id), content).Result;
+                    bool check = response1.IsSuccessStatusCode;
+                }
+
+            }
+
+            HttpResponseMessage response2 = client.GetAsync(string.Format("api/MESSAGETYPE/CountUnreadMessage?MaCode={0}&UserType={1}", user.UserName, user.UserType)).Result;
+            if (response2.IsSuccessStatusCode)
+            {
+                int number = response2.Content.ReadAsAsync<int>().Result;
+                Session.Add(CommonConstants.NUMBER_UNREAD_MESSAGE, number);
             }
 
             return View(message);
@@ -66,34 +86,31 @@ namespace WebMVC.Controllers
         [HttpPost]
         public ActionResult CreateMessage(MESSAGE Ms)
         {
-            var model = Session[CommonConstants.USER_SESSION];
-            var user = new USER_INFORMATION();
-            if (model != null)
+            if (Ms.Receiver != null && Ms.ReceiverType != null && Ms.Message != null)
             {
-                user = (USER_INFORMATION)model;
-            }
-            Ms.Sender = user.UserName;
-            Ms.SenderType = user.UserType;
-            Ms.DateSend = DateTime.Now;
+                var user = GetUserName();
+                Ms.Sender = user.UserName;
+                Ms.SenderType = user.UserType;
+                Ms.DateSend = DateTime.Now;
 
-            HttpClient client = new AccessAPI().Access();
-            StringContent content = new StringContent("");
-            HttpResponseMessage response = client.PostAsJsonAsync("api/MESSAGE/InsertMassage", Ms).Result;
-            response.EnsureSuccessStatusCode();
-            TempData["AlertMessage"] = "Thêm thành công";
-            TempData["AlertType"] = "alert-success";
-            return RedirectToAction("MessageSent", "Message");
+                HttpClient client = new AccessAPI().Access();
+                StringContent content = new StringContent("");
+                HttpResponseMessage response = client.PostAsJsonAsync("api/MESSAGE/InsertMassage", Ms).Result;
+                response.EnsureSuccessStatusCode();
+                TempData["AlertMessage"] = "Tin nhắn đã gửi đi thành công";
+                TempData["AlertType"] = "alert-success";
+                return RedirectToAction("MessageSent", "Message");
+            }
+            TempData["AlertMessage"] = "Tin nhắn gửi không thành công vui lòng kiểm tra lại";
+            TempData["AlertType"] = "alert-danger";
+            return View();
+
         }
 
         [HttpGet]
         public ActionResult MessageSent(int page = 1, int size = 10)
         {
-            var model = Session[CommonConstants.USER_SESSION];
-            var user = new USER_INFORMATION();
-            if (model != null)
-            {
-                user = (USER_INFORMATION)model;
-            }
+            var user = GetUserName();
 
             List<MESSAGE> ListMessageSend = new List<MESSAGE>();
 
