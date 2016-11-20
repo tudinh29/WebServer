@@ -137,9 +137,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<MERCHANT_SUMMARY_DAILY> GetAllStatistic()
+        public List<Models.MerchantSummaryDailyTiny> GetAllStatistic()
         {
-            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("SP_GetAllStatistic_Default").ToList();
+            var dbReturn = db.Database.SqlQuery<Models.MerchantSummaryDailyTiny>("SP_GetAllStatistic_Default").ToList();
             return dbReturn;
         }
 

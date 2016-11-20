@@ -29,3 +29,18 @@ Begin
 		where ReportDate < @currentDate and ReportDate >= @firstDate
 		group by RegionCode,MerchantType
 End
+go
+
+  create Procedure SP_GetAllStatistic_Default
+As
+Begin
+SELECT [ReportDate]
+      ,[MerchantCode]
+      ,[SaleAmount]
+      ,[ReturnAmount]
+      ,[RegionCode]
+      ,[MerchantType]
+      ,[AgentCode]
+  FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
+   
+end
