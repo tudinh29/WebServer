@@ -1,6 +1,18 @@
 ﻿@model PagedList.IPagedList<WebMVC.EntityFramework.AGENT>
 @using PagedList.Mvc;
 @using System.Web.Mvc;
+@using WebMVC.EntityFramework;
+@{
+    ViewBag.Title = "Agent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var model = Session[WebMVC.Common.CommonConstants.USER_SESSION]; //khai báo 1 session bên common giống như bên Cart
+    var temp = new USER_INFORMATION();
+    if (model != null)
+    {
+        temp = (USER_INFORMATION)model;
+    }
+}
+
 @{
     ViewBag.Title = "Agent";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,9 +34,10 @@
 
     }
 </script>
-    <div class="row">
-        <div class="col-md-1"><button class="btn btn-primary">Add new</button></div><br /><br />
-    </div>
+   @if (Convert.ToChar(temp.UserType) == 'T')
+   {
+    <div class="col-md-2"><a href="/Management/AddNewAgent"> <button class="btn btn-primary"> Add new </button></a></div>
+   }
 @using (Html.BeginForm("FindAgentElement", "Management", FormMethod.Get))
 {
     <div class="row">

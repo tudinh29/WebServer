@@ -316,5 +316,74 @@ namespace WebMVC.Controllers
             loadDataIntoViewAddNewMerchant();
             return View(merchant);
         }
+        [HttpPost]
+        public ActionResult ViewDetail_Agent(AGENT agent)
+        {
+            var check = new bool();
+            string id = agent.AgentCode;
+            if (ModelState.IsValid)
+            {
+                HttpClient client = new AccessAPI().Access();
+                HttpResponseMessage response = client.PostAsJsonAsync(string.Format("api/AGENT/UpdateAgent?id={0}", id), agent).Result;
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                    check = response.Content.ReadAsAsync<bool>().Result;
+
+                if (check == true)
+                    return RedirectToAction("Agent");
+            }
+            loadDataIntoViewAddNewAgent();
+            return View(agent);
+        }
+
+        [HttpGet]
+        public ActionResult AddNewAgent()
+        {
+            loadDataIntoViewAddNewAgent();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddNewAgent(AGENT agent)
+        {
+            //cái macode agent may chuyen no vè ma chua hay de ten luon alo alo
+            //string jsonMerchant = JsonConvert.SerializeObject(merchant);
+            var check = new bool();
+            //debug tipe di
+            if (ModelState.IsValid)
+            {
+                HttpClient client = new AccessAPI().Access();
+                HttpResponseMessage response = client.PostAsJsonAsync("api/AGENT/AddNewAgent", agent).Result;
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                    check = response.Content.ReadAsAsync<bool>().Result;
+
+                if (check == true)
+                    return RedirectToAction("Agent");
+            }
+            loadDataIntoViewAddNewAgent();
+            return View(agent);
+        }
+
+        public void loadDataIntoViewAddNewAgent(AGENT agent = null)
+        {
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage responseCity = client.GetAsync(string.Format("api/City/SelectAllCity")).Result;
+
+            if (responseCity.IsSuccessStatusCode)
+            {
+                List<CITY> listCity = responseCity.Content.ReadAsAsync<List<CITY>>().Result;
+                if (agent != null)
+                {
+                    ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName", agent.CityCode);
+                }
+                else
+                {
+                    ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName");
+                }                
+            }
+
+        }
     }
 }
+

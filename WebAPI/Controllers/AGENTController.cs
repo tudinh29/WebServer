@@ -133,6 +133,87 @@ namespace WebAPI.Controllers
             return CreatedAtRoute("DefaultApi", new { id = aGENT.AgentCode }, aGENT);
         }
 
+        [HttpPost]
+        public bool UpdateAgent(string id, AGENT agent)
+        {
+            //m nhap merchant name vao
+            try
+            {
+                object[] parameter =
+                {
+                    new SqlParameter("@AgentCode", agent.AgentCode),
+                    new SqlParameter("@AgentName", agent.AgentName),
+                    new SqlParameter("@Status", agent.AgentStatus??(object)DBNull.Value),
+                    new SqlParameter("@Owner", agent.Owner??(object)DBNull.Value),
+                    new SqlParameter("@Address1", agent.Address1??(object)DBNull.Value),
+                    new SqlParameter("@Address2", agent.Address2??(object)DBNull.Value),
+                    new SqlParameter("@Address3", agent.Address3??(object)DBNull.Value),
+                    new SqlParameter("@CityCode", agent.CityCode),
+                    new SqlParameter("@Zip", agent.Zip??System.Data.SqlTypes.SqlInt32.Null),
+                    new SqlParameter("@Phone",string.IsNullOrEmpty( agent.Phone) ? "" : agent.Phone),
+                    new SqlParameter("@Fax",string.IsNullOrEmpty( agent.Fax) ? "" : agent.Fax),
+                    new SqlParameter("@Email",string.IsNullOrEmpty(agent.Fax) ? "" : agent.Fax),
+                    new SqlParameter("@ApprovalDate", agent.ApprovalDate??(object)DBNull.Value),
+                    new SqlParameter("@CloseDate", agent.CloseDate??(object)DBNull.Value),
+                    new SqlParameter("@FirstActiveDate", agent.FirstActiveDate??(object)DBNull.Value),
+                    new SqlParameter("@LastActiveDate", agent.LastActiveDate??(object)DBNull.Value)
+
+                };
+                string sql = "Sp_EditAgent @AgentCode, @AgentName, @Status, @Owner"
+                    + ",@Address1,@Address2,@Address3,@CityCode,@Zip,@Phone,@Fax,@Email, @ApprovalDate,@CloseDate,@FirstActiveDate"
+                    + ",@LastActiveDate";
+
+                db.Database.ExecuteSqlCommand(sql, parameter);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Console.Write(ex.ToString());
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public bool AddNewAgent(AGENT agent)
+        {
+            //m nhap merchant name vao
+            try
+            {
+                object[] parameter =
+                {
+                    new SqlParameter("@AgentName", agent.AgentName),
+                    new SqlParameter("@Status", agent.AgentStatus??(object)DBNull.Value),
+                    new SqlParameter("@Owner", agent.Owner??(object)DBNull.Value),
+                    new SqlParameter("@Address1", agent.Address1??(object)DBNull.Value),
+                    new SqlParameter("@Address2", agent.Address2??(object)DBNull.Value),
+                    new SqlParameter("@Address3", agent.Address3??(object)DBNull.Value),
+                    new SqlParameter("@CityCode", agent.CityCode),
+                    new SqlParameter("@Zip", agent.Zip??System.Data.SqlTypes.SqlInt32.Null),
+                    new SqlParameter("@Phone",string.IsNullOrEmpty( agent.Phone) ? "" : agent.Phone),
+                    new SqlParameter("@Fax",string.IsNullOrEmpty( agent.Fax) ? "" : agent.Fax),
+                    new SqlParameter("@Email",string.IsNullOrEmpty(agent.Fax) ? "" : agent.Fax),
+                    new SqlParameter("@ApprovalDate", agent.ApprovalDate??(object)DBNull.Value),
+                    new SqlParameter("@CloseDate", agent.CloseDate??(object)DBNull.Value),
+                    new SqlParameter("@FirstActiveDate", agent.FirstActiveDate??(object)DBNull.Value),
+                    new SqlParameter("@LastActiveDate", agent.LastActiveDate??(object)DBNull.Value)
+
+                };
+                string sql = "sp_AddNewAgent @AgentName, @Status, @Owner"
+                    + ",@Address1,@Address2,@Address3,@CityCode,@Zip,@Phone,@Fax,@Email, @ApprovalDate,@CloseDate,@FirstActiveDate"
+                    + ",@LastActiveDate";
+                db.Database.ExecuteSqlCommand(sql, parameter);
+
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Console.Write(ex.ToString());
+                return false;
+            }
+        }
+
+
         // DELETE: api/AGENT/5
         [ResponseType(typeof(AGENT))]
         public async Task<IHttpActionResult> DeleteAGENT(string id)
