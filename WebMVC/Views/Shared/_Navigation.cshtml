@@ -8,6 +8,8 @@
         temp = (USER_INFORMATION)model;
     }
 
+    int NumberUnreadMessage = (int)Session[WebMVC.Common.CommonConstants.NUMBER_UNREAD_MESSAGE];
+
 }
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -204,7 +206,7 @@
                 <!-- /.dropdown-alerts -->
             </li>*@
         <!-- /.dropdown -->
-        <a href="@Url.Action("Index", "Message")" class="btn btn-info">Message <div class="btn btn-danger"> 1</div></a>
+        <a href="@Url.Action("Index", "Message")" class="btn btn-info">Message <div class="btn btn-danger">@NumberUnreadMessage</div></a>
         <li class="dropdown">
             
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">

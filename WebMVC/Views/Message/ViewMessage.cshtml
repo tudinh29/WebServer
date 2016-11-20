@@ -8,8 +8,18 @@
 
 }
 
+<style>
+    p {
+        margin: 0px 10px 0px 750px;
+    }
+</style>
 
+<a href="/Message/Index" class="btn btn-primary">Hộp thư đến</a>
+<a href="/Message/MessageSent" class="btn btn-primary">Tin nhắn đã gửi</a>
+<br>
+<br>
 <div class="form-group">
+    <p>@Model.Sender | @Model.DateSend</p>
     <label>Nội dung</label>
     <textarea class="form-control" rows="10">@Model.Message</textarea>
 </div>

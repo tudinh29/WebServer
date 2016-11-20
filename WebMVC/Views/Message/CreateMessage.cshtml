@@ -23,34 +23,23 @@
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                            @*<div class="form-group">
-                                    <labe>@Html.LabelFor(model => model.Sender)</labe>
-                                    @Html.TextBoxFor(model => model.Sender, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Sender)
-                                </div>*@
-
-
-                            @*<div class="form-group">
-                                    <labe>@Html.LabelFor(model => model.SenderType)</labe>
-                                    @Html.TextBoxFor(model => model.SenderType, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.SenderType)
-                                </div>*@
+                            
 
                             <div class="form-group">
-                                <labe>@Html.LabelFor(model => model.Receiver)</labe>
+                                <labe>Nơi nhận</labe>
                                 @Html.TextBoxFor(model => model.Receiver, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.Receiver)
                             </div>
 
 
                             <div class="form-group">
-                                <labe>@Html.LabelFor(model => model.ReceiverType)</labe>
+                                <labe>Kiểu nơi nhận</labe>
                                 @Html.TextBoxFor(model => model.ReceiverType, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.ReceiverType)
                             </div>
 
                             <div class="form-group">
-                                <labe>@Html.LabelFor(model => model.Message)</labe>
+                                <labe>Nội dung tin nhắn</labe>
                                 @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @rows = "10" })
                                 @Html.ValidationMessageFor(model => model.Message)
                             </div>
