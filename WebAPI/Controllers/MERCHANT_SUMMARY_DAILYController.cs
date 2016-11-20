@@ -20,10 +20,6 @@ namespace WebAPI.Controllers
     public class MERCHANT_SUMMARY_DAILYController : ApiController
     {
         private APIDbContext db = new APIDbContext();
-
-
-
-
         // GET: api/MERCHANT_SUMMARY_DAILY
         public IQueryable<MERCHANT_SUMMARY_DAILY> GetMERCHANT_SUMMARY_DAILY()
         {

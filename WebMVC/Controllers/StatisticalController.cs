@@ -8,6 +8,12 @@ using WebMVC.Common;
 using WebMVC.EntityFramework;
 using PagedList;
 using Rotativa;
+using ClosedXML.Excel;
+using System.IO;
+using System.Web.UI.WebControls;
+using System.Web.UI;
+using CsvHelper;
+
 namespace WebMVC.Controllers
 {
     public class StatisticalController : BaseController
@@ -47,6 +53,55 @@ namespace WebMVC.Controllers
                 CustomSwitches = footer
             };
         }
+
+        public ActionResult ExportExcel()
+        {
+            var list = getAllSumDaily().ToList();
+
+            var gv = new GridView();
+            gv.DataSource = list;
+            gv.DataBind();
+
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=MERCHANT_SUMMARY_DAILY.xls");
+            Response.ContentType = "appliation/ms-excel";
+
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter tw = new HtmlTextWriter(sw);
+
+            gv.RenderControl(tw);
+
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return View("Index");
+        }
+
+        public ActionResult ExportCSV()
+        {
+            var list = getAllSumDaily().ToList();
+           
+            StringWriter sw = new StringWriter();
+            sw.WriteLine("Report Date,Merchant Code,Sale Amount,Return Amount,Region Code,Merchant Type,Agent Code");
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=MERCHANT_SUMMARY_DAILY.csv");
+            Response.ContentType = "text/csv";
+            var csv = new CsvWriter(sw);
+            foreach (var item in list)
+            {
+                csv.WriteRecord(item);
+            }
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return View("Index");
+        }
+
         public ActionResult Detail()
         {
             getStatistic();
@@ -66,7 +121,7 @@ namespace WebMVC.Controllers
 
             HttpClient client = new AccessAPI().Access();
             HttpResponseMessage response = client.GetAsync(url).Result;
-
+            //HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetAllStatistic")).Result;
             if (response.IsSuccessStatusCode)
             {
                 marchantSummary = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;

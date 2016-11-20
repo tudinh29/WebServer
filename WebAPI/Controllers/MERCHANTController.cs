@@ -27,6 +27,18 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        public List<MERCHANT> FindMerchantByAgentCodeAndElement(string searchString, string agentCode)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@AgentCode", agentCode)
+                };
+            var res = db.Database.SqlQuery<MERCHANT>("sp_FindMerchantByAgentCodeAndElement @Element, @AgentCode", paremeter).ToList();
+            return res;
+        }
+
+        [HttpGet]
         public List<MERCHANT> FindMerchantElement(string searchString)
         {
             object[] parameter =
@@ -59,7 +71,6 @@ namespace WebAPI.Controllers
             var res = db.Database.SqlQuery<MERCHANT>("sp_GetMerchantByAgentCode @AgentCode", paremeter).ToList();
             return res;
         }
-        
 
         [HttpPost]
         public bool ChangeStatus(string merchantCode)
