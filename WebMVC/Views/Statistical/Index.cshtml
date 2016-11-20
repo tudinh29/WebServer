@@ -56,6 +56,9 @@
 </div>
 
 <div class="col-md-10 text-right">
-    <a href="@Url.Action("Detail", "Statistical")" class="btn btn-primary btn-lg">Excel</a>
+
+    @Html.ActionLink("Chi tiết", "Detail", "Statistical", new { listMerchant = Model }, new { @class = "btn btn-primary btn-lg" })
+    <a href="@Url.Action("ExportExcel", "Statistical")" class="btn btn-primary btn-lg">Excel</a>
     <a href="@Url.Action("ExportPDF", "Statistical")" class="btn btn-primary btn-lg">PDF</a>
+    <a href="@Url.Action("ExportCSV", "Statistical")" class="btn btn-primary btn-lg">CSV</a>
 </div>

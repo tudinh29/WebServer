@@ -100,7 +100,7 @@
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, Page => Url.Action("Agent", "Management", new { Page, @searchString = @ViewBag.searchString }))
+                @Html.PagedListPager(Model, Page => Url.Action(@ViewBag.action, "Management", new { Page, @searchString = @ViewBag.searchString }))
             </div>
             <div class="panel-body">
                 <div class="row">
