@@ -126,22 +126,6 @@ namespace WebMVC.Controllers
             return View("Index");
         }
 
-        private List<Models.MerchantSummaryDailyTiny> getAllSumDaily()
-        {
-            var marchantSummary = new List<Models.MerchantSummaryDailyTiny>();
-
-            string domain = "";
-            string url = domain + "/api/MERCHANT_SUMMARY_DAILY/GetAllStatistic";
-
-            HttpClient client = new AccessAPI().Access();
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            //HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetAllStatistic")).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                marchantSummary = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
-            }
-
-            return marchantSummary;
-        }
+        
     }
 }

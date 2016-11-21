@@ -6,6 +6,7 @@
     var listSummary = ViewBag.listSummary as List<MERCHANT_SUMMARY_DAILY>;
     var listRegion = ViewBag.listRegion as List<MERCHANT_SUMMARY_DAILY>;
     var listMerchantType = ViewBag.listMerchantType as List<MERCHANT_SUMMARY_DAILY>;
+    var cardTypeReport = ViewBag.cardTypeReport as List<MERCHANT_SUMMARY_DAILY>;
 }
 @section header{
 
@@ -65,7 +66,7 @@
             <input type="checkbox">....</input>
         </label>
     </div>
-    <button style="margin-left:30%"type="submit" class="btn btn-default">Submit</button>
+    <button style="margin-left:30%" type="submit" class="btn btn-default">Submit</button>
 </div>
 <div id="main">
     <div class="container-fluid">
@@ -207,6 +208,8 @@
     </div>
 </div>
 <script src="~/Assets/js/MyCustomJS.js"></script>
+
+
 <script>
     $(function () {
 
@@ -216,7 +219,45 @@
             var LineData = String.Empty;
             var CardTypeData = String.Empty;
 
+            foreach (MERCHANT_SUMMARY_DAILY item in listMerchantType)
+            {
+                if (item.MerchantType == null)
+                {
+                    item.MerchantType = "Khác";
+                }
+                DonutData += "{label: \"{0}\", value: {1} },".Replace("{0}", item.MerchantType).Replace("{1}", item.SaleAmount.ToString());
+            }
+            if (DonutData.Length > 1)
+            {
+                DonutData = HttpUtility.HtmlDecode(DonutData.Substring(0, DonutData.Length - 1));
+            }
 
+            foreach (MERCHANT_SUMMARY_DAILY item in listRegion)
+            {
+                if (item.RegionCode == null)
+                {
+                    item.RegionCode = "Khác";
+                }
+                BarData += "{device: \"{0}\", geekbench: {1} },".Replace("{0}", item.RegionCode).Replace("{1}", item.SaleAmount.ToString());
+            }
+            if (BarData.Length > 1)
+            {
+                BarData = BarData.Substring(0, BarData.Length - 1);
+            }
+
+            
+            foreach (MERCHANT_SUMMARY_DAILY item in cardTypeReport)
+            {
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Foreign Card").Replace("{1}", item.ForeignCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Debit Card").Replace("{1}", item.DebitCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Visa Card").Replace("{1}", item.VisaCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Discover Card").Replace("{1}", item.DiscoverCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Master Card").Replace("{1}", item.MasterCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "American Express Card").Replace("{1}", item.AmericanExpressAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} }".Replace("{0}", "Other Card").Replace("{1}", item.OtherCardAmount.ToString());
+            }
+
+           
         }
 
         // Donut Chart
