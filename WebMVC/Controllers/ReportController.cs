@@ -26,6 +26,14 @@ namespace WebMVC.Controllers
             }
             else return View("Index");
 
+            response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetReportDateForLineChart")).Result;
+            List<Models.Statistic> lineChartData = new List<Models.Statistic>();
+            if (response.IsSuccessStatusCode)
+            {
+                lineChartData = response.Content.ReadAsAsync<List<Models.Statistic>>().Result;
+            }
+            else return View("Index");
+
             var listMerchantType = getListMerchantType(list);
             var listRegion = getListRegion(list);
             var cardTypeReport = getCardTypeReport(list);
@@ -33,6 +41,7 @@ namespace WebMVC.Controllers
             ViewBag.listMerchantType = listMerchantType;
             ViewBag.listSummary = list;
             ViewBag.cardTypeReport = cardTypeReport;
+            ViewBag.lineChartData = lineChartData;
             return View();
         }
 

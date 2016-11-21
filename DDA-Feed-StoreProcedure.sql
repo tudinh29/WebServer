@@ -44,3 +44,20 @@ SELECT [ReportDate]
   FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
    
 end
+
+go
+
+create Procedure SP_GetReportDateForLineChart_Default
+As
+Begin
+	declare @currentDate date
+	declare @firstDate date
+	set @currentDate = getDate()
+	set @firstDate =  DATEADD(month, DATEDIFF(month, 0, @currentDate), 0)
+	
+		SELECT ReportDate as Name,
+		 SUM(SaleAmount) AS Value
+		FROM MERCHANT_SUMMARY_DAILY 
+		where ReportDate < @currentDate and ReportDate >= @firstDate
+		group by ReportDate
+End

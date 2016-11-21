@@ -150,5 +150,11 @@ namespace WebAPI.Controllers
             return dbReturn;
         }
 
+        [HttpGet]
+        public List<Models.Statistic> GetReportDateForLineChart()
+        {
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDateForLineChart_Default").ToList();
+            return dbReturn;
+        }
     }
 }

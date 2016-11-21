@@ -1,4 +1,5 @@
 ﻿@using WebMVC.EntityFramework;
+@using WebMVC.Models;
 @using System.Web;
 @{
     ViewBag.Title = "Detail";
@@ -7,6 +8,7 @@
     var listRegion = ViewBag.listRegion as List<MERCHANT_SUMMARY_DAILY>;
     var listMerchantType = ViewBag.listMerchantType as List<MERCHANT_SUMMARY_DAILY>;
     var cardTypeReport = ViewBag.cardTypeReport as List<MERCHANT_SUMMARY_DAILY>;
+    var lineChartData = ViewBag.lineChartData as List<Statistic>;
 }
 @section header{
 
@@ -232,6 +234,19 @@
                 DonutData = HttpUtility.HtmlDecode(DonutData.Substring(0, DonutData.Length - 1));
             }
 
+            foreach (Statistic item in lineChartData)
+            {
+                if (item.Name == null)
+                {
+                    item.Name = "Khác";
+                }
+                LineData += "{d: \"{0}\", visits: {1} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString());
+            }
+            if (LineData.Length > 1)
+            {
+                LineData = LineData.Substring(0, LineData.Length - 1);
+            }
+                
             foreach (MERCHANT_SUMMARY_DAILY item in listRegion)
             {
                 if (item.RegionCode == null)
