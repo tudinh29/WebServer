@@ -137,10 +137,21 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<Models.MerchantSummaryDailyTiny> GetAllStatistic()
+        public List<Models.MerchantSummaryDailyTiny> GetMerchantSummaryDefault()
         {
-            var dbReturn = db.Database.SqlQuery<Models.MerchantSummaryDailyTiny>("SP_GetAllStatistic_Default").ToList();
+            var dbReturn = db.Database.SqlQuery<Models.MerchantSummaryDailyTiny>("SP_GetMerchantSummary_Default").ToList();
             return dbReturn;
+        }
+
+        [HttpGet]
+        public List<Models.MerchantSummaryDailyTiny> GetMerchantSummaryForAgentDefault(string AgentCode)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@AgentCode", AgentCode)
+                };
+            var res = db.Database.SqlQuery<Models.MerchantSummaryDailyTiny>("SP_GetMerchantSummaryForAgent_Default @AgentCode", paremeter).ToList();
+            return res;
         }
 
         [HttpGet]
@@ -156,5 +167,7 @@ namespace WebAPI.Controllers
             var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDateForLineChart_Default").ToList();
             return dbReturn;
         }
+
+       
     }
 }

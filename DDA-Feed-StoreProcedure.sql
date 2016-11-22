@@ -31,24 +31,11 @@ Begin
 End
 go
 
-  create Procedure SP_GetAllStatistic_Default
-As
-Begin
-SELECT [ReportDate]
-      ,[MerchantCode]
-      ,[SaleAmount]
-      ,[ReturnAmount]
-      ,[RegionCode]
-      ,[MerchantType]
-      ,[AgentCode]
-  FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
-   
-end
 go
-create Procedure SP_GetAllStatistic
+create Procedure SP_GetMerchantSummary_Default
 As
 Begin
-SELECT [ReportDate]
+SELECT  [ReportDate]
       ,[MerchantCode]
       ,[SaleAmount]
       ,[SaleCount]
@@ -58,6 +45,7 @@ SELECT [ReportDate]
 	  ,[TransactionCount]
 	  ,[KeyedAmount]
   FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
+end
 go
 
 create Procedure SP_GetReportDateForLineChart_Default
@@ -76,9 +64,8 @@ Begin
 End
 
 go
-Create Procedure SP_GetMerchantStatistic
+create Procedure SP_GetMerchantSummaryForAgent_Default @AgentCode varchar(10)
 As
-	declare @idMC varchar(10)
 Begin
 SELECT [ReportDate]
       ,[MerchantCode]
@@ -90,5 +77,5 @@ SELECT [ReportDate]
 	  ,[TransactionCount]
 	  ,[KeyedAmount]
   FROM MERCHANT_SUMMARY_DAILY
-  WHERE @idMC = MerchantCode
+  WHERE  AgentCode = @AgentCode
 End

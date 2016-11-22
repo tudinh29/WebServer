@@ -25,7 +25,7 @@ namespace WebMVC.Controllers
         // GET: Statistical
         public ActionResult Index()
         {
-            List<MERCHANT> lists = new List<MERCHANT>();
+            List<Models.MerchantSummaryDailyTiny> lists = new List<Models.MerchantSummaryDailyTiny>();
             var model = Session[CommonConstants.USER_SESSION];
             var temp = new USER_INFORMATION();
             if (model != null)
@@ -34,25 +34,26 @@ namespace WebMVC.Controllers
             }
             else return View();
 
-            if (temp.UserType == "A")   //Master
+            if (temp.UserType == "T")   //Master
             {
-                var list = getAllSumDaily();
-                ViewBag.leg = list.Count();
-                return View(list);              
+                lists = getAllSumDaily();
+                ViewBag.leg = lists.Count();
+                return View(lists);              
             }
-            else   //Agent
+            else if (temp.UserType == "A")   
             {
                 //Code here
 
                 HttpClient client = new AccessAPI().Access();
-                HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/MerchantSummary?MerchantCode={0}", temp.UserName)).Result;
+                HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefault?AgentCode={0}", temp.UserName)).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    lists = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
                 }
-                var listMerchant = lists.ToPagedList(1, 10);
-                return View(listMerchant);
+                ViewBag.leg = lists.Count();
+                return View(lists);
             }
+            else return View();
            
         }
 
@@ -78,7 +79,7 @@ namespace WebMVC.Controllers
             var merchantSummary = new List<Models.MerchantSummaryDailyTiny>();
 
             string domain = "";
-            string url = domain + "/api/MERCHANT_SUMMARY_DAILY/GetAllStatistic";
+            string url = domain + "/api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryDefault";
 
             HttpClient client = new AccessAPI().Access();
             HttpResponseMessage response = client.GetAsync(url).Result;

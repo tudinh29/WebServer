@@ -59,7 +59,7 @@
                             <td>@item.ReturnCount</td>
                             <td>@item.NetAmount</td>
                             <td>@item.TransactionCount</td>
-                            <td>@item.KeyedCount</td>
+                            <td>@item.KeyedAmount</td>
                             <td>@item.ReportDate</td>
                         </tr>
                     }
@@ -81,8 +81,6 @@
 
 
 <div class="col-md-10 text-right">
-
-    @Html.ActionLink("Chi tiết", "Detail", "Statistical", new { listMerchant = Model }, new { @class = "btn btn-primary btn-lg" })
     <a href="@Url.Action("ExportExcel", "Statistical")" class="btn btn-primary btn-lg">Excel</a>
     <a href="@Url.Action("ExportPDF", "Statistical")" class="btn btn-primary btn-lg">PDF</a>
     <a href="@Url.Action("ExportCSV", "Statistical")" class="btn btn-primary btn-lg">CSV</a>

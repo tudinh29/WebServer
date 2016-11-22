@@ -27,6 +27,6 @@ namespace WebAPI.Models
         public int ReturnCount { get; set; }
         public decimal NetAmount { get; set; }
         public int TransactionCount { get; set; }
-        public int KeyedCount { get; set; }
+        public decimal KeyedAmount { get; set; }
     }
 }
