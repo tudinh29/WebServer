@@ -44,7 +44,20 @@ SELECT [ReportDate]
   FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
    
 end
-
+go
+create Procedure SP_GetAllStatistic
+As
+Begin
+SELECT [ReportDate]
+      ,[MerchantCode]
+      ,[SaleAmount]
+      ,[SaleCount]
+      ,[ReturnAmount]
+	  ,[ReturnCount]
+      ,[NetAmount]
+	  ,[TransactionCount]
+	  ,[KeyedAmount]
+  FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
 go
 
 create Procedure SP_GetReportDateForLineChart_Default
@@ -60,4 +73,22 @@ Begin
 		FROM MERCHANT_SUMMARY_DAILY 
 		where ReportDate < @currentDate and ReportDate >= @firstDate
 		group by ReportDate
+End
+
+go
+Create Procedure SP_GetMerchantStatistic
+As
+	declare @idMC varchar(10)
+Begin
+SELECT [ReportDate]
+      ,[MerchantCode]
+      ,[SaleAmount]
+      ,[SaleCount]
+      ,[ReturnAmount]
+	  ,[ReturnCount]
+      ,[NetAmount]
+	  ,[TransactionCount]
+	  ,[KeyedAmount]
+  FROM MERCHANT_SUMMARY_DAILY
+  WHERE @idMC = MerchantCode
 End

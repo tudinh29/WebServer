@@ -20,9 +20,11 @@ namespace WebMVC.Models
         public DateTime ReportDate { get; set; }
         public string MerchantCode { get; set; }
         public decimal SaleAmount { get; set; }
+        public int SaleCount { get; set; }
         public decimal ReturnAmount { get; set; }
-        public string RegionCode { get; set; }
-        public string MerchantType { get; set; }
-        public string AgentCode { get; set; }
+        public int ReturnCount { get; set; }
+        public decimal NetAmount { get; set; }
+        public int TransactionCount { get; set; }
+        public int KeyedCount { get; set; }
     }
 }

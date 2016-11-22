@@ -568,6 +568,7 @@
     <Content Include="Assets\bower_components\raphael\raphael.js" />
     <Content Include="Assets\css\bootstrap.css" />
     <Content Include="Assets\css\myStyle.css" />
+    <Content Include="Assets\css\HandleSearch.css" />
     <Content Include="Assets\css\style.css" />
     <Content Include="Assets\css\validify.css" />
     <Content Include="Assets\dist\css\morris.css" />
@@ -575,6 +576,7 @@
     <Content Include="Assets\dist\css\timeline.css" />
     <Content Include="Assets\dist\js\sb-admin-2.js" />
     <Content Include="Assets\images\bg.jpg" />
+    <Content Include="Assets\images\process.gif" />
     <Content Include="Assets\js\flot-data.js" />
     <Content Include="Assets\js\flot\excanvas.min.js" />
     <Content Include="Assets\js\flot\flot-data.js" />
@@ -583,6 +585,8 @@
     <Content Include="Assets\js\flot\jquery.flot.pie.js" />
     <Content Include="Assets\js\flot\jquery.flot.resize.js" />
     <Content Include="Assets\js\flot\jquery.flot.tooltip.min.js" />
+    <Content Include="Assets\js\jquery.bootpag.js" />
+    <Content Include="Assets\css\jquery.dataTables.min.css" />
     <Content Include="Assets\js\jquery.min.js" />
     <Content Include="Assets\js\morris-data.js" />
     <Content Include="Assets\js\morris\morris-data.js" />
@@ -590,7 +594,10 @@
     <Content Include="Assets\js\morris\morris.min.js" />
     <Content Include="Assets\js\morris\raphael.min.js" />
     <Content Include="Assets\js\MyCustomJS.js" />
+    <Content Include="Assets\js\Paging.js" />
     <Content Include="Assets\js\validify.js" />
+    <Content Include="Content\bootstrap336.min.css" />
+    <Content Include="Content\dataTables.bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Global.asax" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
@@ -600,6 +607,9 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-latest.js" />
+    <Content Include="Assets\js\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.tablesorter.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
