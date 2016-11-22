@@ -8,6 +8,11 @@ using WebMVC.Common;
 using WebMVC.EntityFramework;
 using PagedList;
 using Rotativa;
+using WebAPI.Controllers;
+using PagedList;
+using System.Web.Mvc.Html;
+using Newtonsoft.Json;
+
 namespace WebMVC.Controllers
 {
     public class StatisticalController : BaseController
@@ -15,6 +20,7 @@ namespace WebMVC.Controllers
         // GET: Statistical
         public ActionResult Index()
         {
+            List<MERCHANT> lists = new List<MERCHANT>();
             var model = Session[CommonConstants.USER_SESSION];
             var temp = new USER_INFORMATION();
             if (model != null)
@@ -23,7 +29,7 @@ namespace WebMVC.Controllers
             }
             else return View();
 
-            if (temp.UserType == "T")   //Master
+            if (temp.UserType == "A")   //Master
             {
                 var list = getAllSumDaily();
                 ViewBag.leg = list.Count();
@@ -32,7 +38,15 @@ namespace WebMVC.Controllers
             else   //Agent
             {
                 //Code here
-                return Redirect("Home");
+
+                HttpClient client = new AccessAPI().Access();
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/MerchantSummary?MerchantCode={0}", temp.UserName)).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    lists = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                }
+                var listMerchant = lists.ToPagedList(1, 10);
+                return View(listMerchant);
             }
            
         }

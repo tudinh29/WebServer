@@ -225,6 +225,8 @@ namespace WebMVC.Controllers
             }
         }
 
+
+
         public ActionResult ReloadMerchants(int page = 1, int size = 10)
         {
             List<MERCHANT> list = new List<MERCHANT>();

@@ -8,7 +8,7 @@ namespace WebAPI.EntityFramework
     public partial class APIDbContext : DbContext
     {
         public APIDbContext()
-            : base(@"Data Source=DESKTOP-1H5NO01;Initial Catalog=SERVER;Integrated Security=True")
+            : base(@"Data Source=DESKTOP-6GPGD7K;Initial Catalog=SERVER;Integrated Security=True")
         {
             //fix loi The 'ObjectContent`1' type failed to serialize the response body for content type 'application/xml; charset=utf-8'
             this.Configuration.LazyLoadingEnabled = false;
