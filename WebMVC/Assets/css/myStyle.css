@@ -1,7 +1,7 @@
 ﻿.modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 10000; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
@@ -15,10 +15,10 @@
 .modal-content {
     background-color: #fefefe;
     margin: auto;
-    
     border: 1px solid #888;
+    border-radius:10px;
     width: 50%;
-    height:50%;
+    height:85%;
     
 }
 .modal-content-heading {
@@ -26,6 +26,7 @@
     height:15%;
     padding: 5px;
     font-size:30px;
+    border-radius:10px;
     background-color: #f7f7f7;
 }
 .modal-content-body{
