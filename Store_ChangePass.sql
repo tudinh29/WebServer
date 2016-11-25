@@ -9,7 +9,7 @@ BEGIN
 		WHERE UserName = @username
 	END TRY
 	BEGIN CATCH
-		RAISERROR (N'L?I H? TH?NG',16,1)
+		RAISERROR (N'System error',16,1)
 		RETURN
 	END CATCH
 END

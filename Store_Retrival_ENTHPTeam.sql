@@ -1,14 +1,13 @@
-﻿Create proc sp_FindAllRetrival
+﻿alter proc sp_FindAllRetrival
 as
 begin
 	select * 
 	from RETRIVAL a
 	order by a.RetrivalCode
-	
 end
 go 
 
-Create proc sp_GetRetrival
+create proc sp_GetRetrival
 @RetrivalCode VARCHAR(10)
 as
 begin

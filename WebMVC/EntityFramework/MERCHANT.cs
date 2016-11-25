@@ -77,6 +77,18 @@ namespace WebMVC.EntityFramework
         [StringLength(10)]
         public string AgentCode { get; set; }
 
+        [StringLength(50)]
+        public string CityName { get; set; }
+
+        [StringLength(10)]
+        public string RegionCode { get; set; }
+
+        [StringLength(50)]
+        public string RegionName { get; set; }
+
+        [StringLength(50)]
+        public string Description { get; set; }
+
         public virtual AGENT AGENT { get; set; }
 
         public virtual CITY CITY { get; set; }

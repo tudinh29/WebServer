@@ -52,8 +52,8 @@
                                 <td>@item.AccountNumber</td>
                                 <td>@item.MerchantCode</td>
                                 <td>@item.TransactionCode</td>
-                                <td>@item.TransactionDate.Value.ToShortDateString()</td>
-                                <td>@item.ReportDate.Value.ToShortDateString()</td>
+                                <td>@item.TransactionDate.Value.ToString("yyyy-MM-dd")</td>
+                                <td>@item.ReportDate.Value.ToString("yyyy-MM-dd")</td>
                                 <td>@item.Amout</td>
                             </tr>
                         }

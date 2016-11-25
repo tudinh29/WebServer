@@ -81,7 +81,7 @@
                                          new { merchantCode = @item.MerchantCode }, null)
                                 </td>
                                 <td>@item.MerchantName</td>
-                                <td>@item.MerchantType</td>
+                                <td>@item.Description</td>
                                 <td>
 
                                     @if (Convert.ToChar(@item.Status) == 'A')
@@ -105,7 +105,7 @@
                                 </td>
                                 <td>@item.Owner</td>
                                 <td>@item.Address1</td>
-                                <td>@item.CityCode</td>
+                                <td>@item.CityName</td>
                                 <td>@item.LastActiveDate</td>
                                 <td>@item.CloseDate</td>
                             </tr>

@@ -87,7 +87,7 @@
                                 <i class="fa fa-money fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="h4">@ViewBag.Revenue</div>
+                                <div class="h4">@cardTypeReport.FirstOrDefault().NetAmount</div>
                                 <div>Total Revenue</div>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                                 <i class="fa fa-shopping-cart fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="h4">@ViewBag.Sale</div>
+                                <div class="h4">@cardTypeReport.FirstOrDefault().SaleAmount</div>
                                 <div>Total sales</div>
                             </div>
                         </div>
@@ -119,7 +119,7 @@
                                 <i class="fa fa-warning fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="h4">@ViewBag.Return</div>
+                                <div class="h4">@cardTypeReport.FirstOrDefault().ReturnAmount</div>
                                 <div>Total returns</div>
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                                 <i class="fa fa-support fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="h4">@ViewBag.Transaction</div>
+                                <div class="h4">@cardTypeReport.FirstOrDefault().TransactionCount</div>
                                 <div>Total transactions</div>
                             </div>
                         </div>

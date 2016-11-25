@@ -82,7 +82,7 @@ begin
 	from MESSAGE M
 	where M.ID = @ID
 end
-
+go
 /* 
 Version			Changer				Date			Detail
 1.0				Hà Xuân Duy		19/11/2016			Đếm số lượng tin nhăn chưa đọc													

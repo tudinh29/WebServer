@@ -64,6 +64,15 @@ namespace WebAPI.EntityFramework
         [Column(TypeName = "date")]
         public DateTime? LastActiveDate { get; set; }
 
+        [StringLength(50)]
+        public string CityName { get; set; }
+
+        [StringLength(10)]
+        public string RegionCode { get; set; }
+
+        [StringLength(50)]
+        public string RegionName { get; set; }
+
         public virtual CITY CITY { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
