@@ -74,11 +74,6 @@ namespace WebMVC.Controllers
                 var listAgent = list.ToPagedList(page, size);
                 return View("Agent", listAgent);
             }
-            else if (temp.UserType == "A")
-            {
-                /// Code phần Agent
-                return View("Index"); 
-            }
             else return View("Index");
         }
         
@@ -140,7 +135,7 @@ namespace WebMVC.Controllers
             else return View("Index");
             HttpClient client = new AccessAPI().Access();
             
-            if (temp.UserType != "A")
+            if (temp.UserType == "T")
             {
                 HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
                 if (response.IsSuccessStatusCode)
@@ -154,13 +149,17 @@ namespace WebMVC.Controllers
             }
             else
             {
-                HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", temp.UserName)).Result;
-                if (response.IsSuccessStatusCode)
+                if (temp.UserType == "A")
                 {
-                    list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", temp.UserName)).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    }
+                    var listMerchant = list.ToPagedList(page, size);
+                    return View(listMerchant);
                 }
-                var listMerchant = list.ToPagedList(page, size);
-                return View(listMerchant);
+                else return View("Index");
             }
         }
 
@@ -181,7 +180,7 @@ namespace WebMVC.Controllers
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpClient client = new AccessAPI().Access();
 
-            if (temp.UserType != "A")
+            if (temp.UserType == "T")
             {
                 if (searchString == "")
                 {
@@ -203,24 +202,28 @@ namespace WebMVC.Controllers
             }
             else
             {
-                if (searchString == "")
+                if (temp.UserType == "A")
                 {
-                    return RedirectToAction("Merchant");
-                }
-                else
-                {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCodeAndElement?searchString={0}&agentCode={1}", searchString, temp.UserName)).Result;
-
-                    if (response.IsSuccessStatusCode)
+                    if (searchString == "")
                     {
-                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                        return RedirectToAction("Merchant");
                     }
-                    @ViewBag.searchString = searchString;
-                    @ViewBag.agentCode = temp.UserName;
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCodeAndElement?searchString={0}&agentCode={1}", searchString, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                        }
+                        @ViewBag.searchString = searchString;
+                        @ViewBag.agentCode = temp.UserName;
+                    }
+
+                    var listMerchant = list.ToPagedList(page, size);
+                    return View("Merchant", listMerchant);
                 }
-               
-                var listMerchant = list.ToPagedList(page, size);
-                return View("Merchant", listMerchant);
+                else return View("Index");
             }
             
         }
