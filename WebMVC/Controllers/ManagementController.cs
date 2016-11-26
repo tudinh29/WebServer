@@ -11,6 +11,7 @@ using PagedList;
 using System.Web.Mvc.Html;
 using Newtonsoft.Json;
 
+
 namespace WebMVC.Controllers
 {
     public class ManagementController : BaseController
@@ -238,7 +239,10 @@ namespace WebMVC.Controllers
             {
                 List<MERCHANT_TYPE> listMerchantType = responseMerchantType.Content.ReadAsAsync<List<MERCHANT_TYPE>>().Result;
                 List<CITY> listCity = responseCity.Content.ReadAsAsync<List<CITY>>().Result;
-                List<AGENT> listAgent = responseAgent.Content.ReadAsAsync<List<AGENT>>().Result; ;
+                List<AGENT> listAgent = responseAgent.Content.ReadAsAsync<List<AGENT>>().Result;
+                List<STATUS> listStatus = new List<STATUS>();
+                listStatus.Add(new STATUS() { ID = "A", Description = "ACTIVE" });
+                listStatus.Add(new STATUS() { ID = "I", Description = "INACTIVE" });
                 foreach (var Agent in listAgent )
                 {
                     Agent.AgentName = Agent.AgentCode.ToString() + " - " + Agent.AgentName.ToString();
@@ -249,15 +253,22 @@ namespace WebMVC.Controllers
                 if (merchant != null)
                 {
                     ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "Description", merchant.MerchantType);
-                    
+                    ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName", merchant.BackEndProcessor);
+                    ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName", merchant.CityCode);
+                    ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName", merchant.AgentCode);
+                    ViewBag.Status = new SelectList(listStatus, "ID", "Description", merchant.Status);
                 }
                 else
                 {
                     ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "Description");
+                    ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName");
+                    ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName");
+                    ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName");
+                    ViewBag.Status = new SelectList(listStatus, "ID", "Description");
+
                 }
-                ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName", merchant.BackEndProcessor);
-                ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName", merchant.CityCode);
-                ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName", merchant.AgentCode);
+               
+                
                 
 
             }
@@ -377,17 +388,22 @@ namespace WebMVC.Controllers
         {
             HttpClient client = new AccessAPI().Access();
             HttpResponseMessage responseCity = client.GetAsync(string.Format("api/City/SelectAllCity")).Result;
-
+            List<STATUS> listStatus = new List<STATUS>();
+            listStatus.Add(new STATUS() { ID = "A", Description = "ACTIVE" });
+            listStatus.Add(new STATUS() { ID = "I", Description = "INACTIVE" });
             if (responseCity.IsSuccessStatusCode)
             {
                 List<CITY> listCity = responseCity.Content.ReadAsAsync<List<CITY>>().Result;
                 if (agent != null)
                 {
                     ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName", agent.CityCode);
+                    ViewBag.Status = new SelectList(listStatus, "ID", "Description",agent.AgentStatus);
+
                 }
                 else
                 {
                     ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName");
+                    ViewBag.Status = new SelectList(listStatus, "ID", "Description");
                 }                
             }
 
