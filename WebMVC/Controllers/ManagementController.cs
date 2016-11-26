@@ -248,20 +248,17 @@ namespace WebMVC.Controllers
 
                 if (merchant != null)
                 {
-                    ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName", merchant.BackEndProcessor);
-                    ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName", merchant.CityCode);
                     ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "Description", merchant.MerchantType);
-                    ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName", merchant.AgentCode);
+                    
                 }
                 else
                 {
-                    ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName");
-                    ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName");
                     ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "Description");
-                    ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName");
                 }
+                ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName", merchant.BackEndProcessor);
+                ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName", merchant.CityCode);
+                ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName", merchant.AgentCode);
                 
-
 
             }
 

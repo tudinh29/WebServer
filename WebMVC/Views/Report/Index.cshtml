@@ -93,26 +93,26 @@
                 <h3>American Card</h3>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total revenue: @cardTypeReport[0].AmericanExpressNetAmount</p>
+                        <p>Total revenue: @cardTypeReport.FirstOrDefault().AmericanExpressNetAmount</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Total transaction: @cardTypeReport[0].AmericanExpressTransactionCount  </p>
+                        <p>Total transaction: @cardTypeReport.FirstOrDefault().AmericanExpressTransactionCount  </p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total sale: @cardTypeReport[0].AmericanExpressAmount </p>
+                        <p>Total sale: @cardTypeReport.FirstOrDefault().AmericanExpressAmount </p>
                     </div>
                     <div class="col-xs-9">
-                        <p>Sale count: @cardTypeReport[0].AmericanExpressCount </p>
+                        <p>Sale count: @cardTypeReport.FirstOrDefault().AmericanExpressCount </p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total return: @cardTypeReport[0].AmericanExpressReturnAmount</p>
+                        <p>Total return: @cardTypeReport.FirstOrDefault().AmericanExpressReturnAmount</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Return count: @cardTypeReport[0].AmericanExpressReturnCount</p>
+                        <p>Return count: @cardTypeReport.FirstOrDefault().AmericanExpressReturnCount</p>
                     </div>
                 </div>
             </div>
@@ -655,7 +655,7 @@
                                         <i class="fa fa-money fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="h4">@ViewBag.Revenue</div>
+                                        <div class="h4">@cardTypeReport.FirstOrDefault().NetAmount</div>
                                         <div>Total Revenue</div>
                                     </div>
                                 </div>
@@ -671,7 +671,7 @@
                                         <i class="fa fa-shopping-cart fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="h4">@ViewBag.Sale</div>
+                                        <div class="h4">@cardTypeReport.FirstOrDefault().SaleAmount</div>
                                         <div>Total sales</div>
                                     </div>
                                 </div>
@@ -687,7 +687,7 @@
                                         <i class="fa fa-warning fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="h4">@ViewBag.Return</div>
+                                        <div class="h4">@cardTypeReport.FirstOrDefault().ReturnAmount</div>
                                         <div>Total returns</div>
                                     </div>
                                 </div>
@@ -703,7 +703,7 @@
                                         <i class="fa fa-support fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="h4">@ViewBag.Transaction</div>
+                                        <div class="h4">@cardTypeReport.FirstOrDefault().TransactionCount</div>
                                         <div>Total transactions</div>
                                     </div>
                                 </div>
@@ -765,7 +765,7 @@
                             </div>
                             <div class="panel-body">
                                 <div id="morris-donut-chart"></div>
-                                <div id="detailMerchantTypeBtn" class="text-right" onclick="Display('detailMerchantTypeBtn','MerchantTypeModal',0)">
+                                <div id="detailMerchantTypeBtn" class="text-right" onclick="Display('detailMerchantTypeBtn','MerchantTypeModal',3)">
                                     <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
