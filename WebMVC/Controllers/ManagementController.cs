@@ -74,10 +74,15 @@ namespace WebMVC.Controllers
                 var listAgent = list.ToPagedList(page, size);
                 return View("Agent", listAgent);
             }
+            else if (temp.UserType == "A")
+            {
+                /// Code phần Agent
+                return View("Index"); 
+            }
             else return View("Index");
         }
-
-      
+        
+        [HttpGet]
         public ActionResult ViewDetail_Agent(string agentCode)
         {
             AGENT agent = new AGENT();
@@ -88,6 +93,7 @@ namespace WebMVC.Controllers
             {
                 agent = response.Content.ReadAsAsync<AGENT>().Result;
             }
+            loadDataIntoViewAddNewAgent(agent);
             return View(agent);
         }
 
@@ -233,20 +239,25 @@ namespace WebMVC.Controllers
                 List<MERCHANT_TYPE> listMerchantType = responseMerchantType.Content.ReadAsAsync<List<MERCHANT_TYPE>>().Result;
                 List<CITY> listCity = responseCity.Content.ReadAsAsync<List<CITY>>().Result;
                 List<AGENT> listAgent = responseAgent.Content.ReadAsAsync<List<AGENT>>().Result; ;
+                foreach (var Agent in listAgent )
+                {
+                    Agent.AgentName = Agent.AgentCode.ToString() + " - " + Agent.AgentName.ToString();
+                }
+                
                 List<PROCESSOR> listProcessor = responseProcessor.Content.ReadAsAsync<List<PROCESSOR>>().Result;
 
                 if (merchant != null)
                 {
                     ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName", merchant.BackEndProcessor);
                     ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName", merchant.CityCode);
-                    ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "MerchantType", merchant.MerchantType);
+                    ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "Description", merchant.MerchantType);
                     ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName", merchant.AgentCode);
                 }
                 else
                 {
                     ViewBag.BackEndProcessor = new SelectList(listProcessor, "ID", "ProcessorName");
                     ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName");
-                    ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "MerchantType");
+                    ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "Description");
                     ViewBag.AgentCode = new SelectList(listAgent, "AgentCode", "AgentName");
                 }
                 

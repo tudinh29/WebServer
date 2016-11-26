@@ -39,7 +39,7 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
+ 
 CREATE PROC [dbo].[sp_AddNewMerchant]
 			
 		    @MerchantName nvarchar(50)
@@ -70,7 +70,14 @@ BEGIN TRY
 		RAISERROR ('Error! Merchant code has existed.',16, 1)
 		RETURN
 	END
-	
+	declare @regionCode varchar(10)
+	set @regionCode = (Select RegionCode from CITY where CityCode =  @CityCode)
+	declare @CityName nvarchar(50)
+	set @CityName = (Select CityName from CITY where CityCode =  @CityCode)
+	declare @regionName nvarchar(50)
+	set @regionName = (Select RegionName from REGION where RegionCode =  @regionCode)
+	declare @description nvarchar(50)
+	set @description = (Select Description from MERCHANT_TYPE where MerchantType =  @MerchantType)
 	INSERT INTO MERCHANT (
 			[MerchantCode]
            ,[MerchantName]
@@ -91,7 +98,11 @@ BEGIN TRY
            ,[BankCardDBA]
            ,[FirstActiveDate]
            ,[LastActiveDate]
-           ,[AgentCode])
+           ,[AgentCode]
+		   ,[CityName]
+		  ,[RegionCode]
+		  ,[RegionName]
+		  ,[Description])
 	VALUES (
 			@MerchantCode
            ,@MerchantName
@@ -113,7 +124,15 @@ BEGIN TRY
            ,@FirstActiveDate
            ,@LastActiveDate
            ,@AgentCode
-		   )
+		   ,@CityName
+		   ,@regionCode
+		   ,@regionName
+		   ,@description)
+	
+  insert into USER_INFORMATION (UserName,Password,UserType,Status)
+  SELECT MerchantCode,'202cb962ac59075b964b07152d234b70','M','I'
+  from MERCHANT
+  where MerchantCode = @MerchantCode
 END TRY
 BEGIN CATCH
 	
@@ -198,6 +217,16 @@ BEGIN CATCH
 	RETURN
 END CATCH
 
+go
+DROP PROCEDURE [dbo].[Sp_Editmerchant]
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_SelectAllProcessor]    Script Date: 11/12/2016 8:00:22 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
 --------------------------
 go
 CREATE PROC [dbo].[Sp_Editmerchant](
@@ -224,6 +253,14 @@ CREATE PROC [dbo].[Sp_Editmerchant](
 )
 AS
 BEGIN TRY
+			declare @regionCode varchar(10)
+			set @regionCode = (Select RegionCode from CITY where CityCode =  @CityCode)
+			declare @CityName nvarchar(50)
+			set @CityName = (Select CityName from CITY where CityCode =  @CityCode)
+			declare @regionName nvarchar(50)
+			set @regionName = (Select RegionName from REGION where RegionCode =  @regionCode)
+			declare @description nvarchar(50)
+			set @description = (Select Description from MERCHANT_TYPE where MerchantType =  @MerchantType)
 			UPDATE DBO.MERCHANT
 			SET
 				MerchantName = @MerchantName,
@@ -244,7 +281,11 @@ BEGIN TRY
 				BankCardDBA = @BankCardDBA,
 				FirstActiveDate = @FirstActiveDate,
 				LastActiveDate = @LastActiveDate,
-				AgentCode = @AgentCode
+				AgentCode = @AgentCode,
+				CityName = @CityName,
+				RegionCode = @regionCode,
+				RegionName = @regionName,
+				Description = @description
 			WHERE MerchantCode = @MerchantCode
 END TRY
 BEGIN CATCH

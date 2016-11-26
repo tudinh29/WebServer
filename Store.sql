@@ -18,7 +18,25 @@ go
 create proc sp_FindAllAgent
 as
 begin
-	select * 
+	select [AgentCode]
+      ,[AgentName]
+      ,[AgentStatus]
+      ,[Owner]
+      ,[Address1]
+      ,[Address2]
+      ,[Address3]
+      ,[CityCode]
+      ,[Zip]
+      ,[Phone]
+      ,[Fax]
+      ,[Email]
+      ,[ApprovalDate]
+      ,[CloseDate]
+      ,[FirstActiveDate]
+      ,[LastActiveDate]
+      ,[CityName]
+      ,[RegionCode]
+      ,[RegionName]
 	from Agent a
 	order by a.AgentCode
 	
@@ -28,7 +46,25 @@ create  proc sp_GetAgent
 @AgentCode VARCHAR(10)
 as
 begin
-	select *
+	select [AgentCode]
+      ,[AgentName]
+      ,[AgentStatus]
+      ,[Owner]
+      ,[Address1]
+      ,[Address2]
+      ,[Address3]
+      ,[CityCode]
+      ,[Zip]
+      ,[Phone]
+      ,[Fax]
+      ,[Email]
+      ,[ApprovalDate]
+      ,[CloseDate]
+      ,[FirstActiveDate]
+      ,[LastActiveDate]
+      ,[CityName]
+      ,[RegionCode]
+      ,[RegionName]
 	from AGENT a
 	where AgentCode = @AgentCode 
 end
@@ -37,7 +73,30 @@ create  proc sp_GetMerchant
 @MerchantCode VARCHAR(10)
 as
 begin
-	select *
+	select [MerchantCode]
+      ,[MerchantName]
+      ,[BackEndProcessor]
+      ,[Status]
+      ,[Owner]
+      ,[MerchantType]
+      ,[Address1]
+      ,[Address2]
+      ,[Address3]
+      ,[CityCode]
+      ,[Zip]
+      ,[Phone]
+      ,[Fax]
+      ,[Email]
+      ,[ApprovalDate]
+      ,[CloseDate]
+      ,[BankCardDBA]
+      ,[FirstActiveDate]
+      ,[LastActiveDate]
+      ,[AgentCode]
+      ,[CityName]
+      ,[RegionCode]
+      ,[RegionName]
+      ,[Description]
 	from Merchant a
 	where MerchantCode = @MerchantCode 
 end
@@ -46,17 +105,63 @@ create  proc sp_GetMerchantByAgentCode
 @AgentCode VARCHAR(10)
 as
 begin
-	select *
+	select [MerchantCode]
+      ,[MerchantName]
+      ,[BackEndProcessor]
+      ,[Status]
+      ,[Owner]
+      ,[MerchantType]
+      ,[Address1]
+      ,[Address2]
+      ,[Address3]
+      ,[CityCode]
+      ,[Zip]
+      ,[Phone]
+      ,[Fax]
+      ,[Email]
+      ,[ApprovalDate]
+      ,[CloseDate]
+      ,[BankCardDBA]
+      ,[FirstActiveDate]
+      ,[LastActiveDate]
+      ,[AgentCode]
+      ,[CityName]
+      ,[RegionCode]
+      ,[RegionName]
+      ,[Description]
 	from Merchant a
 	where a.AgentCode = @AgentCode 
 	order by a.MerchantCode 
 end
 go
-exec 
+
 create  proc sp_FindAllMerchant
 as
 begin
-	select *
+	select [MerchantCode]
+      ,[MerchantName]
+      ,[BackEndProcessor]
+      ,[Status]
+      ,[Owner]
+      ,[MerchantType]
+      ,[Address1]
+      ,[Address2]
+      ,[Address3]
+      ,[CityCode]
+      ,[Zip]
+      ,[Phone]
+      ,[Fax]
+      ,[Email]
+      ,[ApprovalDate]
+      ,[CloseDate]
+      ,[BankCardDBA]
+      ,[FirstActiveDate]
+      ,[LastActiveDate]
+      ,[AgentCode]
+      ,[CityName]
+      ,[RegionCode]
+      ,[RegionName]
+      ,[Description]
 	from Merchant a
 	order by a.MerchantCode
 	
@@ -94,10 +199,7 @@ BEGIN
 		RETURN
 	END CATCH
 END
-
 go
-
-
 create PROC sp_InactiveOrActive_Merchant
 	@MerchantCode VARCHAR(10)
 AS
@@ -131,11 +233,3 @@ BEGIN
 	END CATCH
 END
 
-go 
-create PROC sp_FindCity
-as
-begin
-	select *
-	from CITY c
-end
-go

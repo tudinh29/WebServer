@@ -5,7 +5,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-ALTER PROC [dbo].[Sp_EditAgent](
+create PROC [dbo].[Sp_EditAgent](
 			@AgentCode varchar(10),
 			@AgentName nvarchar(50),
 			@Status char(1) ,
@@ -25,6 +25,12 @@ ALTER PROC [dbo].[Sp_EditAgent](
 )
 AS
 BEGIN TRY
+			declare @regionCode varchar(10)
+			set @regionCode = (Select RegionCode from CITY where CityCode =  @CityCode)
+			declare @CityName nvarchar(50)
+			set @CityName = (Select CityName from CITY where CityCode =  @CityCode)
+			declare @regionName nvarchar(50)
+			set @regionName = (Select RegionName from REGION where RegionCode =  @regionCode)
 			UPDATE DBO.AGENT
 			SET
 				AgentName = @AgentName,
@@ -42,7 +48,10 @@ BEGIN TRY
 				CloseDate = @CloseDate,
 				FirstActiveDate = @FirstActiveDate,
 				LastActiveDate = @LastActiveDate,
-				AgentCode = @AgentCode
+				AgentCode = @AgentCode,
+				CityName = @CityName,
+				RegionCode = @regionCode,
+				RegionName = @regionName
 			WHERE AgentCode = @AgentCode
 END TRY
 BEGIN CATCH
@@ -68,7 +77,7 @@ BEGIN
 END
 --------------------------------
 go
-CREATE PROC [dbo].[sp_AddNewAgent]
+create PROC [dbo].[sp_AddNewAgent]
 			
 		    @AgentName nvarchar(50)
            ,@Status char(1)
@@ -94,7 +103,12 @@ BEGIN TRY
 		RAISERROR ('Error! Merchant code has existed.',16, 1)
 		RETURN
 	END
-	
+	declare @regionCode varchar(10)
+	set @regionCode = (Select RegionCode from CITY where CityCode =  @CityCode)
+	declare @CityName nvarchar(50)
+	set @CityName = (Select CityName from CITY where CityCode =  @CityCode)
+	declare @regionName nvarchar(50)
+	set @regionName = (Select RegionName from REGION where RegionCode =  @regionCode)
 	INSERT INTO AGENT (
 			[AgentCode]
            ,[AgentName]
@@ -111,7 +125,10 @@ BEGIN TRY
            ,[ApprovalDate]
            ,[CloseDate]
            ,[FirstActiveDate]
-           ,[LastActiveDate])
+           ,[LastActiveDate]
+		   ,[CityName]
+		  ,[RegionCode]
+		  ,[RegionName])
 	VALUES (
 			@AgentCode
            ,@AgentName
@@ -129,7 +146,15 @@ BEGIN TRY
            ,@CloseDate
            ,@FirstActiveDate
            ,@LastActiveDate
+		   ,@CityName
+		   ,@regionCode
+		   ,@regionName
 		   )
+
+		insert into USER_INFORMATION (UserName,Password,UserType,Status)
+	  SELECT AgentCode,'202cb962ac59075b964b07152d234b70','A','I'
+	  from AGENT
+	  where AgentCode = @AgentCode
 END TRY
 BEGIN CATCH
 	
