@@ -71,7 +71,8 @@ namespace WebMVC.Controllers
         {
             if (String.IsNullOrEmpty(newPassword) || String.IsNullOrEmpty(confirmPassword) || newPassword != confirmPassword)
             {
-                ModelState.AddModelError("", "Mật khẩu mới và mật khẩu xác nhận không được để trống. Vui lòng nhập lại !!!");
+                TempData["AlertMessage"] = "Mật khẩu mới và mật khẩu xác nhận không được để trống. Vui lòng nhập lại !!!";
+                TempData["AlertType"] = "alert-warning";
                 return View("ChangePassword"); //khong nhat thiet phai co model
             }
             List<USER_INFORMATION> list = new List<USER_INFORMATION>();
@@ -86,7 +87,8 @@ namespace WebMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var check = response.Content.ReadAsAsync<bool>().Result;
-                ModelState.AddModelError("", "Change password successfully!!!");
+                TempData["AlertMessage"] = "Đổi mật khẩu thành công !!!";
+                TempData["AlertType"] = "alert-success";
                 return View("ChangePassword");
             }
             else
