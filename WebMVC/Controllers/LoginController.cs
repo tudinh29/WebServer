@@ -67,11 +67,11 @@ namespace WebMVC.Controllers
             return View("ChangePassword");
         }
 
-        public ActionResult ChangePassword_Action(string currentPassword, string newPassword, string confirmPassword)
+        public ActionResult ChangePassword_Action(string newPassword, string confirmPassword)
         {
-            if (String.IsNullOrEmpty(currentPassword) || String.IsNullOrEmpty(newPassword) || String.IsNullOrEmpty(confirmPassword) || newPassword != confirmPassword)
+            if (String.IsNullOrEmpty(newPassword) || String.IsNullOrEmpty(confirmPassword) || newPassword != confirmPassword)
             {
-                TempData["AlertMessage"] = "Vui lòng nhập đầy đủ thông tin!!!";
+                TempData["AlertMessage"] = "Mật khẩu mới và mật khẩu xác nhận không được để trống. Vui lòng nhập lại !!!";
                 TempData["AlertType"] = "alert-warning";
                 return View("ChangePassword"); //khong nhat thiet phai co model
             }
@@ -83,26 +83,17 @@ namespace WebMVC.Controllers
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var result = (USER_INFORMATION)Session[CommonConstants.USER_SESSION];
             HttpClient client = new AccessAPI().Access();
-            HttpResponseMessage response = client.GetAsync(string.Format("api/USER_INFORMATION/Change?username={0}&password={1}&newpassword={2}", result.UserName.ToString(), Encryptor.MD5Hash(currentPassword), Encryptor.MD5Hash(newPassword))).Result;
+            HttpResponseMessage response = client.GetAsync(string.Format("api/USER_INFORMATION/Change?username={0}&password={1}", result.UserName.ToString(), Encryptor.MD5Hash(newPassword))).Result;
             if (response.IsSuccessStatusCode)
             {
                 var check = response.Content.ReadAsAsync<bool>().Result;
-                if (check == true)
-                {
-                    TempData["AlertMessage"] = "Đổi mật khẩu thành công !!!";
-                    TempData["AlertType"] = "alert-success";
-                }
-                else
-                {
-                    TempData["AlertMessage"] = "Vui lòng nhập đúng mật khẩu hiện tại!!!";
-                    TempData["AlertType"] = "alert-warning";
-                }
+                TempData["AlertMessage"] = "Đổi mật khẩu thành công !!!";
+                TempData["AlertType"] = "alert-success";
                 return View("ChangePassword");
             }
             else
             {
-                TempData["AlertMessage"] = "Vui lòng nhập đúng mật khẩu hiện tại!!!";
-                TempData["AlertType"] = "alert-warning";
+                ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu còn trống. Vui lòng nhập lại !!!");
                 return View("Index"); //khong nhat thiet phai co model
             }
         }

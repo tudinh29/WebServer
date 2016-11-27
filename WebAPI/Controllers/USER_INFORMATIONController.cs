@@ -30,21 +30,15 @@ namespace WebAPI.Controllers
             return res;
         }
         [HttpGet]
-        public bool Change(string username, string password, string newpassword)
+        public bool Change(string username, string password)
         {
-            var retVal = new SqlParameter("@Success", SqlDbType.Int) { Direction = ParameterDirection.Output };
             object[] paremeter = 
                 {
                     new SqlParameter("@UserName", username),
-                    new SqlParameter("@NewPassword", newpassword),
-                    new SqlParameter("@CurrentPassword", password), 
-                    retVal
+                    new SqlParameter("@NewPassword", password)
                 };
-            db.Database.ExecuteSqlCommand("exec @Success = sp_ChangePassword @UserName, @CurrentPassword, @NewPassword", paremeter);
-            if ((int)retVal.Value == 1)
-                return true;
-            else
-                return false;
+            db.Database.ExecuteSqlCommand("exec sp_ChangePassword @UserName, @NewPassword", paremeter);
+            return true;
         }
         //public List<USER_INFOMATION> Search(string username, string password)
         //{
