@@ -34,15 +34,34 @@ namespace WebMVC.Controllers
             }
             else return View("Index");
 
-            var listMerchantType = getListMerchantType(list);
-            var listRegion = getListRegion(list);
-            var cardTypeReport = getCardTypeReport(list);
-            ViewBag.listRegion = listRegion;
-            ViewBag.listMerchantType = listMerchantType;
-            ViewBag.listSummary = list;
-            ViewBag.cardTypeReport = cardTypeReport;
-            ViewBag.lineChartData = lineChartData;
-            return View();
+            HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
+            HttpResponseMessage responseCity = client.GetAsync(string.Format("api/Region/FindAllRegion")).Result;
+            if (responseCity.IsSuccessStatusCode && responseMerchantType.IsSuccessStatusCode)
+            {
+                List<MERCHANT_TYPE> lookupType = responseMerchantType.Content.ReadAsAsync<List<MERCHANT_TYPE>>().Result;
+                List<REGION> lookupRegion = responseCity.Content.ReadAsAsync<List<REGION>>().Result;
+
+                var listMerchantType = getListMerchantType(list);
+                var listRegion = getListRegion(list);
+                var cardTypeReport = getCardTypeReport(list);
+                foreach (var item in listMerchantType)
+                {
+                    item.MerchantTypeName = lookupType.FirstOrDefault(a => a.MerchantType == item.MerchantType).Description.ToString();
+                }
+                foreach (var item in listRegion)
+                {
+                    item.RegionName = lookupRegion.FirstOrDefault(a => a.RegionCode == item.RegionCode).RegionName.ToString();
+                }
+                ViewBag.listRegion = listRegion;
+                ViewBag.listMerchantType = listMerchantType;
+                ViewBag.listSummary = list;
+                ViewBag.cardTypeReport = cardTypeReport;
+                ViewBag.lineChartData = lineChartData;
+                return View();
+            }
+            else return View("Index");
+
+            
         }
 
         private List<MERCHANT_SUMMARY_DAILY> getListMerchantType(List<MERCHANT_SUMMARY_DAILY> list)

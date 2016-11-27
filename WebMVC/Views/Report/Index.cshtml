@@ -795,7 +795,7 @@
                 {
                     item.MerchantType = "Khác";
                 }
-                DonutData += "{label: \"{0}\", value: {1} },".Replace("{0}", item.MerchantType).Replace("{1}", item.SaleAmount.ToString());
+                DonutData += "{label: \"{0}\", value: {1} },".Replace("{0}", item.MerchantTypeName).Replace("{1}", item.SaleAmount.ToString());
             }
             if (DonutData.Length > 1)
             {
@@ -821,7 +821,7 @@
                 {
                     item.RegionCode = "Khác";
                 }
-                BarData += "{device: \"{0}\", geekbench: {1} },".Replace("{0}", item.RegionCode).Replace("{1}", item.SaleAmount.ToString());
+                BarData += "{device: \"{0}\", geekbench: {1} },".Replace("{0}", item.RegionName).Replace("{1}", item.SaleAmount.ToString());
             }
             if (BarData.Length > 1)
             {

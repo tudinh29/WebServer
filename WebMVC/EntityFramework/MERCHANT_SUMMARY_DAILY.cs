@@ -160,5 +160,9 @@ namespace WebMVC.EntityFramework
 
         [StringLength(10)]
         public string AgentCode { get; set; }
+
+        public string RegionName { get; set; }
+
+        public string MerchantTypeName { get; set; }
     }
 }

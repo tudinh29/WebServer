@@ -79,3 +79,13 @@ SELECT [ReportDate]
   FROM MERCHANT_SUMMARY_DAILY
   WHERE  AgentCode = @AgentCode
 End
+go
+
+create Procedure SP_FindAllRegion
+As
+Begin
+SELECT [RegionCode]
+      ,[RegionName]
+      ,[CountryCode]
+  FROM [SERVER].[dbo].[REGION]
+End
