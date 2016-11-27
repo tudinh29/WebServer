@@ -652,6 +652,7 @@
     <Compile Include="EntityFramework\PROCESSOR.cs" />
     <Compile Include="EntityFramework\REGION.cs" />
     <Compile Include="EntityFramework\RETRIVAL.cs" />
+    <Compile Include="EntityFramework\STATUS.cs" />
     <Compile Include="EntityFramework\TRANSACTION_DETAIL.cs" />
     <Compile Include="EntityFramework\TRANSACTION_TYPE.cs" />
     <Compile Include="EntityFramework\USER_INFORMATION.cs" />
