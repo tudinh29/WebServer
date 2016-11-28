@@ -30,7 +30,8 @@ go
 
 /* 
 Version			Changer				Date			Detail
-1.0				Phạm Ngọc Thiện		26/10/2016		Thêm vào bản message													
+1.0				Phạm Ngọc Thiện		26/10/2016		Thêm vào bản message	
+1.1				Phạm Ngọc Thiện		28/11/2016		Thêm isread là false vào														
 */
 
 CREATE PROC sp_InsertMessage
@@ -44,7 +45,7 @@ BEGIN
 	BEGIN TRY
 	DECLARE @dateSend DATETIME
 		SET @dateSend = GETDATE()
-		INSERT INTO MESSAGE(Sender, SenderType, Receiver, ReceiverType, Message, DateSend) VALUES (@sender, @senderType, @receive, @receiveType, @message, @dateSend)
+		INSERT INTO MESSAGE(Sender, SenderType, Receiver, ReceiverType, Message, DateSend, IsRead) VALUES (@sender, @senderType, @receive, @receiveType, @message, @dateSend,0)
 	END TRY
 	BEGIN CATCH
 		RAISERROR (N'Loi',16,1)
