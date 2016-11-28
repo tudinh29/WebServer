@@ -411,6 +411,63 @@ namespace WebMVC.Controllers
             }
 
         }
+
+        [HttpGet]
+        public ActionResult ViewListMerchant(string agentCode, string regionCode, int page = 1, int size = 10)
+        {
+            List<MERCHANT> list = new List<MERCHANT>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View("Index");
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", agentCode)).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+            }
+            @ViewBag.action = "ViewListMerchant";
+            @ViewBag.agentCode = agentCode;
+            @ViewBag.regionCode = regionCode;
+            var listMerchant = list.ToPagedList(page, size);
+            loadDataIntoViewViewListMerchant(agentCode, regionCode);
+            return View(listMerchant);
+        }
+
+        public void loadDataIntoViewViewListMerchant (string agentCode, string regionCode)
+        {
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantAvailable?agentCode={0}&regionCode={1}", agentCode, regionCode)).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                List<MERCHANT> listMerchant = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                ViewBag.MerchantCode = new SelectList(listMerchant, "MerchantCode", "MerchantCode");
+            }
+            
+        }
+
+        [HttpPost]
+        public ActionResult UpdateAgentOfMerchant(string merchantCode, string agentCode, string regionCode)
+        {
+            var check = new bool();
+            MERCHANT merchant = new MERCHANT() { AgentCode = agentCode };
+            if (ModelState.IsValid)
+            {
+                HttpClient client = new AccessAPI().Access();
+                HttpResponseMessage response = client.PostAsJsonAsync(string.Format("api/MERCHANT/UpdateAgentOfMerchant?merchantCode={0}", merchantCode), merchant).Result;
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                    check = response.Content.ReadAsAsync<bool>().Result;
+
+                if (check == true)
+                    return RedirectToAction("Agent");
+            }
+            //loadDataIntoViewViewListMerchant(agentCode, regionCode);
+            return View("ViewListMerchant", agentCode, regionCode);
+        }
     }
 }
 

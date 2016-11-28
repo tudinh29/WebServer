@@ -139,7 +139,10 @@
                                         <td>@item.CityName</td>
                                         <td>@item.LastActiveDate</td>
                                         <td>@item.CloseDate</td>
-                                        <th><button class="btn btn-default">Detail</button></th>
+                                        <td>
+                                            @Html.ActionLink("Chi tiết", "ViewListMerchant", "Management",
+                                         new { agentCode = @item.AgentCode, regionCode = @item.RegionCode}, null)
+                                        </td>
                                     </tr>
                                 }
                             </tbody>

@@ -1016,6 +1016,7 @@
     <Content Include="Views\Login\ChangePassword.cshtml" />
     <Content Include="Views\Management\AddNewAgent.cshtml" />
     <Content Include="Views\Statistical\MerchantStatistical.cshtml" />
+    <Content Include="Views\Management\ViewListMerchant.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
