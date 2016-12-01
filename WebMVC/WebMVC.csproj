@@ -635,6 +635,7 @@
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RetrivalController.cs" />
+    <Compile Include="Controllers\RetrivalInvalidController.cs" />
     <Compile Include="Controllers\StatisticalController.cs" />
     <Compile Include="EntityFramework\AGENT.cs" />
     <Compile Include="EntityFramework\CARD.cs" />
@@ -652,6 +653,7 @@
     <Compile Include="EntityFramework\PROCESSOR.cs" />
     <Compile Include="EntityFramework\REGION.cs" />
     <Compile Include="EntityFramework\RETRIVAL.cs" />
+    <Compile Include="EntityFramework\RETRIVAL_INVALID.cs" />
     <Compile Include="EntityFramework\STATUS.cs" />
     <Compile Include="EntityFramework\TRANSACTION_DETAIL.cs" />
     <Compile Include="EntityFramework\TRANSACTION_TYPE.cs" />
@@ -1016,6 +1018,9 @@
     <Content Include="Views\Login\ChangePassword.cshtml" />
     <Content Include="Views\Management\AddNewAgent.cshtml" />
     <Content Include="Views\Statistical\MerchantStatistical.cshtml" />
+    <Content Include="Views\Retrival\ViewRetrivalValid.cshtml" />
+    <Content Include="Views\RetrivalInvalid\Index.cshtml" />
+    <Content Include="Views\RetrivalInvalid\RetrivalError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

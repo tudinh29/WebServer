@@ -10,7 +10,7 @@ namespace WebAPI
     {
         public static SqlConnection ConnectionData()
         {
-            string connectionString = @"Data Source=DESKTOP-6GPGD7K;Initial Catalog=SERVER;Integrated Security=True";
+            string connectionString = @"Data Source=DESKTOP-1H5NO01;Initial Catalog=DB;Integrated Security=True";
             SqlConnection cn = new SqlConnection(connectionString);
             cn.Open();
             return cn;
