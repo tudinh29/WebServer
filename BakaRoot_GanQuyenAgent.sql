@@ -1,5 +1,6 @@
 ----Ngay			NguoiChinhSua				Version-----
 ----01/12/2016		Nguyen Pham Hoang Diem		1.0
+----01/12/2016		Nguyen Pham Hoang Diem		1.1
 
 DROP PROCEDURE [dbo].[sp_FindMerchantAvailable]
 GO
@@ -14,7 +15,7 @@ CREATE proc [dbo].[sp_FindMerchantAvailable]
 AS
 
 BEGIN
-	SELECT top 100 [MerchantCode]
+	SELECT top 1000 [MerchantCode]
 			  ,[MerchantName]
 			  ,[BackEndProcessor]
 			  ,[Status]
