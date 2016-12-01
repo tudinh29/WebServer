@@ -15,7 +15,7 @@
         @using (Html.BeginForm("Index", "Retrival", FormMethod.Get))
         {
             <div class="col-sm-3">
-                <input type="text" class="form-control" name="searchString" />
+                <input type="text" class="form-control" value="@ViewBag.searchString" name="searchString" />
             </div>
             <div class="col-sm-1">
                 <button class="btn btn-primary" type="submit" style="border:0">Find</button>
@@ -69,5 +69,7 @@
         </div>
     </div>
 </div>
-
-
+<div class="col-md-11 text-right">
+    <a href="@Url.Action("ExportExcel", "Retrival", new { searchString = ViewBag.searchString })" class="btn btn-primary btn" id=" btnExcel">Excel</a>
+    <a href="@Url.Action("ExportCSV", "Retrival", new { searchString = ViewBag.searchString })" class="btn btn-primary btn" id=" btnExcel">CSV</a>
+</div>

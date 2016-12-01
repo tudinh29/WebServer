@@ -2,7 +2,7 @@
     @using PagedList.Mvc;
     @using System.Web.Mvc;
     @using WebMVC.EntityFramework;
-                            
+    @using System.Web.Mvc.Html;
     @{
         ViewBag.Title = "ViewListMerchant";
         Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,17 +11,16 @@
     @section header{
         Danh sách các Merchant
     }
-    @using(Html.BeginForm("UpdateAgentOfMerchant", "Management", new {agentCode = @ViewBag.agentCode, regionCode = @ViewBag.regionCode}, FormMethod.Post))
+    @using (Html.BeginForm("UpdateAgentOfMerchant", "Management", new { agentCode = @ViewBag.agentCode, regionCode = @ViewBag.regionCode }, FormMethod.Post))
     {
         <div class="row">
             <div class="col-lg-12">
                 <div class="col-md-2"></div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     @Html.DropDownList("MerchantCode", null, htmlAttributes: new { @class = "form-control" })
                 </div>
-                
                 <div class="col-md-2">
-                    <button class="btn btn-primary" type="submit">Add new</button>
+                    <button class="btn btn-primary" type="submit" OnClick="return Confirm()">Add new</button>
                 </div>
             </div>
         </div>
@@ -103,3 +102,8 @@
     </div>
 
     <script src="~/Assets/js/MyCustomJS.js"></script>
+    <script type="text/javascript">
+        function Confirm() {
+            return confirm("Are you sure ?")
+        }
+    </script>
