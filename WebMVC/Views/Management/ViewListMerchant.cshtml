@@ -9,14 +9,14 @@
     }
 
     @section header{
-        Danh sách các Merchant
+        @ViewBag.agentCode
     }
     @using (Html.BeginForm("UpdateAgentOfMerchant", "Management", new { agentCode = @ViewBag.agentCode, regionCode = @ViewBag.regionCode }, FormMethod.Post))
     {
         <div class="row">
             <div class="col-lg-12">
-                <div class="col-md-2"></div>
-                <div class="col-md-5">
+                <div class="col-md-3"><h4>Available Merchant:</h4></div>
+                <div class="col-md-4">
                     @Html.DropDownList("MerchantCode", null, htmlAttributes: new { @class = "form-control" })
                 </div>
                 <div class="col-md-2">
