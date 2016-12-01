@@ -455,7 +455,7 @@ namespace WebMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateAgentOfMerchant(string merchantCode, string agentCode, string regionCode)
+        public ActionResult UpdateAgentOfMerchant(string merchantCode, string agentCode, string regionCode, int page = 1, int size = 10)
         {
             var check = new bool();
             MERCHANT merchant = new MERCHANT() { AgentCode = agentCode };
@@ -466,12 +466,24 @@ namespace WebMVC.Controllers
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                     check = response.Content.ReadAsAsync<bool>().Result;
-
-                if (check == true)
-                    return RedirectToAction("Agent");
             }
+            //if (check == true)
+            //{
+                
+            //}
+            List<MERCHANT> list = new List<MERCHANT>();
+            HttpClient client1 = new AccessAPI().Access();
+            HttpResponseMessage response1 = client1.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", agentCode)).Result;
+            if (response1.IsSuccessStatusCode)
+            {
+                list = response1.Content.ReadAsAsync<List<MERCHANT>>().Result;
+            }
+            @ViewBag.action = "ViewListMerchant";
+            @ViewBag.agentCode = agentCode;
+            @ViewBag.regionCode = regionCode;
+            var listMerchant = list.ToPagedList(page, size);
             loadDataIntoViewViewListMerchant(agentCode, regionCode);
-            return View("ViewListMerchant", agentCode, regionCode);
+            return View("ViewListMerchant", listMerchant);
         }
 
         public ActionResult MerChantExportCSV(string searchString)
