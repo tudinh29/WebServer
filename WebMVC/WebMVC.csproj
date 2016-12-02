@@ -638,6 +638,7 @@
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RetrivalController.cs" />
+    <Compile Include="Controllers\RetrivalInvalidController.cs" />
     <Compile Include="Controllers\StatisticalController.cs" />
     <Compile Include="Controllers\Transaction_Detail_InvalidController.cs" />
     <Compile Include="EntityFramework\AGENT.cs" />
@@ -656,6 +657,7 @@
     <Compile Include="EntityFramework\PROCESSOR.cs" />
     <Compile Include="EntityFramework\REGION.cs" />
     <Compile Include="EntityFramework\RETRIVAL.cs" />
+    <Compile Include="EntityFramework\RETRIVAL_INVALID.cs" />
     <Compile Include="EntityFramework\STATUS.cs" />
     <Compile Include="EntityFramework\TRANSACTION_DETAIL.cs" />
     <Compile Include="EntityFramework\TRANSACTION_DETAIL_INVALID.cs" />
@@ -1024,6 +1026,9 @@
     <Content Include="Views\Statistical\MerchantStatistical.cshtml" />
     <Content Include="Views\Transaction_Detail_Invalid\Index.cshtml" />
     <Content Include="Views\Transaction_Detail_Invalid\TransInvalidPDF.cshtml" />
+    <Content Include="Views\Retrival\ViewRetrivalValid.cshtml" />
+    <Content Include="Views\RetrivalInvalid\Index.cshtml" />
+    <Content Include="Views\RetrivalInvalid\RetrivalError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

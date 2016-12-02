@@ -1,7 +1,7 @@
-﻿@using WebMVC.EntityFramework;
+@using WebMVC.EntityFramework;
 @{
 
-    var model = Session[WebMVC.Common.CommonConstants.USER_SESSION]; //khai báo 1 session bên common giống như bên Cart
+    var model = Session[WebMVC.Common.CommonConstants.USER_SESSION]; //khai b�o 1 session b�n common gi?ng nh? b�n Cart
     var temp = new USER_INFORMATION();
     if (model != null)
     {
@@ -15,197 +15,9 @@
     @{Html.RenderAction("TitleHome", "Home");}
     <!-- /.navbar-header -->
     <ul class="nav navbar-top-links navbar-right">
-        @*<li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-messages">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>John Smith</strong>
-                                <span class="pull-right text-muted">
-                                    <em>Yesterday</em>
-                                </span>
-                            </div>
-                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend/Assets.</div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>John Smith</strong>
-                                <span class="pull-right text-muted">
-                                    <em>Yesterday</em>
-                                </span>
-                            </div>
-                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend/Assets.</div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>John Smith</strong>
-                                <span class="pull-right text-muted">
-                                    <em>Yesterday</em>
-                                </span>
-                            </div>
-                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend/Assets.</div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>Read All Messages</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-messages -->
-            </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-tasks">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 1</strong>
-                                    <span class="pull-right text-muted">40% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                        <span class="sr-only">40% Complete (success)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 2</strong>
-                                    <span class="pull-right text-muted">20% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        <span class="sr-only">20% Complete</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 3</strong>
-                                    <span class="pull-right text-muted">60% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                        <span class="sr-only">60% Complete (warning)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 4</strong>
-                                    <span class="pull-right text-muted">80% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                        <span class="sr-only">80% Complete (danger)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>See All Tasks</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-tasks -->
-            </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-alerts">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-comment fa-fw"></i> New Comment
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                <span class="pull-right text-muted small">12 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-tasks fa-fw"></i> New Task
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>See All Alerts</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-alerts -->
-            </li>*@
-        <!-- /.dropdown -->
-        <a href="@Url.Action("Index", "Message")" class="btn btn-info">Message <div class="btn btn-danger">@NumberUnreadMessage</div></a>
+        <a href="@Url.Action("Index", "Message")" class="btn btn-info">Message
+        <div class="btn btn-danger">@NumberUnreadMessage</div>
+        </a>
         <li class="dropdown">
             
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -228,15 +40,15 @@
 
                 </li>
                 <li>
-                    <a href="@Url.Action("ChangePassword", "Login")"><i class="fa fa-pencil fa-fw"></i> Đổi mật khẩu</a>
+                    <a href="@Url.Action("ChangePassword", "Login")"><i class="fa fa-pencil fa-fw"></i> ??i m?t kh?u</a>
                 </li>
                 @*<li>
                         <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>*@
                 <li class="divider"></li>
                 <li>
-                    <a href="@Url.Action("Logout", "Login")"><i class="fa fa-sign-out fa-fw"></i>Đăng xuất</a>
-                    @*@Html.ActionLink("Đăng xuất", "Logout", "Login")*@
+                    <a href="@Url.Action("Logout", "Login")"><i class="fa fa-sign-out fa-fw"></i>??ng xu?t</a>
+                    @*@Html.ActionLink("??ng xu?t", "Logout", "Login")*@
                 </li>
             </ul>
             <!-- /.dropdown-user -->
@@ -259,12 +71,12 @@
                     <!-- /input-group -->
                 </li>
                 <li>
-                    <a href="/"><i class="fa fa-dashboard fa-fw"></i>Trang chủ</a>
+                    <a href="/"><i class="fa fa-dashboard fa-fw"></i>Trang ch?</a>
                 </li>
                 <li>
                     @if (Convert.ToChar(temp.UserType) == 'A')
                     {
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Quản lý<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Qu?n l�<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="@Url.Action("Merchant", "Management")">Merchant</a>
@@ -277,7 +89,7 @@
                     }
                     else
                     {
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Quản lý<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Qu?n l�<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="@Url.Action("Agent", "Management")">Agent</a>
@@ -295,18 +107,28 @@
                 <li>
                     @if (Convert.ToChar(temp.UserType) != 'M')
                     {
-                        <a href="@Url.Action("Index", "Statistical")"><i class="fa fa-edit fa-fw"></i> Thống kê</a>
+                        <a href="@Url.Action("Index", "Statistical")"><i class="fa fa-edit fa-fw"></i> Th?ng k�</a>
                     }
                 </li>
                 @if (Convert.ToChar(temp.UserType) != 'M' && Convert.ToChar(temp.UserType) != 'A')
                 {
                     <li>
-                        <a href="@Url.Action("Index", "Retrival")"><i class="fa fa-edit fa-fw"></i> Truy hồi</a>
+                        <a href="@Url.Action("Index", "Retrival")"><i class="fa fa-edit fa-fw"></i> Truy h?i</a>
                     </li>
                 }
+<<<<<<< HEAD
                     <li>
-                        <a href="@Url.Action("Index", "TRANSACTION_DETAIL_INVALID")"><i class="fa fa-edit fa-fw"></i>Giao dịch lỗi</a>
+                        <a href="@Url.Action("Index", "TRANSACTION_DETAIL_INVALID")"><i class="fa fa-edit fa-fw"></i>Giao d?ch l?i</a>
                     </li>
+=======
+                <li>
+                    @if (Convert.ToChar(temp.UserType) != 'M')
+                    {
+                        <a href="@Url.Action("Index", "RetrivalInvalid")"><i class="fa fa-edit fa-fw"></i>Truy h?i kh�ng h?p l?</a>
+                    }
+                </li>
+
+>>>>>>> origin/t?o_trang_Retrival_Invalid
                 @*<li>
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -379,3 +201,16 @@
     </div>
     <!-- /.navbar-static-side -->
 </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,42 @@
+﻿@model List<WebMVC.EntityFramework.RETRIVAL_INVALID>
+    @using PagedList.Mvc;
+    @using System.Web.Mvc;
+    @{
+        ViewBag.Title = "RetrivalError";
+    }
+
+    <h2>RetrivalError</h2>
+
+
+
+    <h2>Retrival Invalid</h2>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <th>Retrival Code</th>
+        <td>Account Number</td>
+        <td>Merchant Code</td>
+        <td>Transaction Code</td>
+        <td>Transaction Date</td>
+        <td>Report Date</td>
+        <td>Amount</td>
+        <td>Error Message</td>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => item.RetrivalCode)</td>
+                    <td>@Html.DisplayFor(model => item.AccountNumber)</td>
+                    <td>@Html.DisplayFor(model => item.MerchantCode)</td>
+                    <td>@Html.DisplayFor(model => item.TransactionCode)</td>
+                    <td>@Html.DisplayFor(model => item.TransactionDate)</td>
+                    <td>@Html.DisplayFor(model => item.ReportDate)</td>
+                    <td>@Html.DisplayFor(model => item.Amout)</td>
+                    <td>@Html.DisplayFor(model => item.ErrorMessage)</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
