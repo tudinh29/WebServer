@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 namespace WebMVC.Controllers
 {
-    public class RetrivalInvalidController : Controller
+    public class RetrivalInvalidController : BaseController
     {
         [HttpGet]
         // GET: RetrivalInvalid

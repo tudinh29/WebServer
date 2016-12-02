@@ -1,7 +1,6 @@
-﻿
-@model List<webmvc.entityframework.retrival_invalid>
-@using PagedList.Mvc;
-@using System.Web.Mvc;
+﻿@model List<WebMVC.EntityFramework.RETRIVAL_INVALID>
+    @using PagedList.Mvc;
+    @using System.Web.Mvc;
     @{
         ViewBag.Title = "RetrivalError";
     }
@@ -30,8 +29,8 @@
                     <td>@Html.DisplayFor(model => item.AccountNumber)</td>
                     <td>@Html.DisplayFor(model => item.MerchantCode)</td>
                     <td>@Html.DisplayFor(model => item.TransactionCode)</td>
-                    <td>@Html.DisplayFor(model => item.TransactionDate.Value.ToString("yyyy-MM-dd"))</td>
-                    <td>@Html.DisplayFor(model => item.ReportDate.Value.ToString("yyyy-MM-dd"))</td>
+                    <td>@Html.DisplayFor(model => item.TransactionDate)</td>
+                    <td>@Html.DisplayFor(model => item.ReportDate)</td>
                     <td>@Html.DisplayFor(model => item.Amout)</td>
                     <td>@Html.DisplayFor(model => item.ErrorMessage)</td>
 
