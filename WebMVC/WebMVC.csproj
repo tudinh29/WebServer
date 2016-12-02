@@ -57,6 +57,9 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\..\..\Downloads\Programs\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -636,6 +639,7 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RetrivalController.cs" />
     <Compile Include="Controllers\StatisticalController.cs" />
+    <Compile Include="Controllers\Transaction_Detail_InvalidController.cs" />
     <Compile Include="EntityFramework\AGENT.cs" />
     <Compile Include="EntityFramework\CARD.cs" />
     <Compile Include="EntityFramework\CARD_TYPE.cs" />
@@ -654,6 +658,7 @@
     <Compile Include="EntityFramework\RETRIVAL.cs" />
     <Compile Include="EntityFramework\STATUS.cs" />
     <Compile Include="EntityFramework\TRANSACTION_DETAIL.cs" />
+    <Compile Include="EntityFramework\TRANSACTION_DETAIL_INVALID.cs" />
     <Compile Include="EntityFramework\TRANSACTION_TYPE.cs" />
     <Compile Include="EntityFramework\USER_INFORMATION.cs" />
     <Compile Include="Global.asax.cs">
@@ -661,6 +666,7 @@
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Statistic.cs" />
+    <Compile Include="Models\TransInvalidTiny.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1016,6 +1022,8 @@
     <Content Include="Views\Login\ChangePassword.cshtml" />
     <Content Include="Views\Management\AddNewAgent.cshtml" />
     <Content Include="Views\Statistical\MerchantStatistical.cshtml" />
+    <Content Include="Views\Transaction_Detail_Invalid\Index.cshtml" />
+    <Content Include="Views\Transaction_Detail_Invalid\TransInvalidPDF.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

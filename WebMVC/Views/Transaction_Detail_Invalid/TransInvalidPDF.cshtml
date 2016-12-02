@@ -1,0 +1,39 @@
+﻿
+@model List<webmvc.models.transinvalidtiny>
+    @{
+        ViewBag.Title = "Transaction_Detail_Invalid";
+    }
+
+    <h2>Transaction_Detail_Invalid</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Transaction Code</th>
+                <th>ReportDate</th>
+                <th>Merchant Code</th>
+                <th>Transaction Type</th>
+                <th>Account Number</th>
+                <th>Card Type</th>
+                <th>Amount</th>
+                <th>Error Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="row_@item.TransactionCode">
+                    <td>
+                        @item.TransactionCode
+                    </td>
+                    <td>@item.MerchantCode</td>
+                    <td>@item.TransactionTypeCode</td>
+                    <td>@item.AccountNumber</td>
+                    <td>@item.CardtypeCode</td>
+                    <td>@item.TransactionAmount</td>
+                    <td>@item.ErrorMessage</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+

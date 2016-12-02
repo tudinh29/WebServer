@@ -794,5 +794,7 @@ namespace WebMVC.EntityFramework
                 .IsFixedLength()
                 .IsUnicode(false);
         }
+
+        public System.Data.Entity.DbSet<WebMVC.EntityFramework.TRANSACTION_DETAIL_INVALID> TRANSACTION_DETAIL_INVALID { get; set; }
     }
 }
