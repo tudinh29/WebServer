@@ -8,6 +8,8 @@ using WebMVC.Common;
 using WebMVC.EntityFramework;
 using PagedList;
 using Rotativa;
+using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace WebMVC.Controllers
 {
@@ -16,9 +18,19 @@ namespace WebMVC.Controllers
         // GET: Report
         public ActionResult Index()
         {
+            string startDate = "20161030";
+            string endDate = "20161130";
+
+            if (HttpContext.Request.HttpMethod == "POST")
+            {
+                startDate = Request["startdate"];
+                endDate = Request["enddate"];
+            }
+            
             List<MERCHANT_SUMMARY_DAILY> list = new List<MERCHANT_SUMMARY_DAILY>();
+
             HttpClient client = new AccessAPI().Access();
-            HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetReportData")).Result;
+            HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetReportDataGenerality?startDate={0}&endDate={1}", startDate, endDate)).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -26,7 +38,7 @@ namespace WebMVC.Controllers
             }
             else return View("Index");
 
-            response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetReportDateForLineChart")).Result;
+            response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetReportDateForLineChartGenerality?startDate={0}&endDate={1}", startDate, endDate)).Result;
             List<Models.Statistic> lineChartData = new List<Models.Statistic>();
             if (response.IsSuccessStatusCode)
             {
@@ -61,7 +73,7 @@ namespace WebMVC.Controllers
             }
             else return View("Index");
 
-            
+
         }
 
         private List<MERCHANT_SUMMARY_DAILY> getListMerchantType(List<MERCHANT_SUMMARY_DAILY> list)

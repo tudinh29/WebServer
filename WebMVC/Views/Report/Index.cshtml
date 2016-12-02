@@ -36,13 +36,121 @@
    
 
 }
-@section header{
 
+<form id="mainform" action="http://localhost:21231/Report" method="POST">
+    <input name="startdate" id="startdate" style="display:none" type="text">
+    <input name="enddate" id="enddate" style="display:none" type="text">
+
+   
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#quick-report">Quick Report</a></li>
+        <li><a data-toggle="tab" href="#report-date">Report by Date</a></li>
+        <li><a data-toggle="tab" href="#report-month">Report by Month</a></li>
+        <li><a data-toggle="tab" href="#report-quarter">Report by Quarter</a></li>
+        <li><a data-toggle="tab" href="#report-year">Report by Year</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="quick-report" class="tab-pane fade in active">
+            <br />
+            <div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <input class="btn btn-success" value="Report This Month" id="viewThisMonth" type="button">
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="btn btn-success" value="Report This Year" id="viewThisYear" type="button">
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="btn btn-success" value="Report This Quarter" id="viewThisQuarter" type="button">
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+        <div id="report-date" class="tab-pane fade in">
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="startDay" placeholder="Start Day">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <input class="form-control form-control-inline" value="" id="endDay" placeholder="End Day" type="text">
+                </div>
+                <div class="col-sm-4">
+                    <input class="btn btn-success" value="View" id="viewDay" type="button">
+                </div>
+            </div>
+            <br />
+        </div>
+        <div id="report-month" class="tab-pane fade">
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <input class="form-control" value="" id="startMonth" type="text" placeholder="Start Month">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <input class="form-control" value="" id="endMonth" placeholder="End Month" type="text">
+                </div>
+                <div class="col-sm-4">
+                    <input class="btn btn-success" value="View" id="viewMonth" type="button">
+                </div>
+            </div>
+            <br />
+        </div>
+        <div id="report-quarter" class="tab-pane fade">
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <input class="form-control" value="" id="startQuarter" placeholder="Start Quarter" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <input class="form-control" value="" id="endQuarter" placeholder="End Quarter" type="text">
+                </div>
+                <div class="col-sm-4">
+                    <input class="btn btn-success" value="View" id="viewQuarter" type="button">
+                </div>
+            </div>
+            <br />
+        </div>
+        <div id="report-year" class="tab-pane fade">
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <input class="form-control" value="" id="startYear" placeholder="Start Year" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <input class="form-control" value="" id="endYear" placeholder="End Year" type="text">
+                </div>
+                <div class="col-sm-4">
+                    <input class="btn btn-success" value="View" id="viewYear" type="button">
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</form>
+
+@section header{
     <i class="fa fa-bar-chart-o"></i> Charts
 }
+
 <link href="~/Assets/css/myStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Assets/css/datepicker.css">
+
 <script src="/Assets/js/flot/excanvas.min.js"></script>
 <script src="/Assets/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="~/Assets/js/bootstrap-datepicker.js"></script>
+<script src="~/Assets/js/moment.js"></script>
 <!-- The Modal -->
 <div id="RevenueModal" class="modal">
 
@@ -936,3 +1044,179 @@
 
 
         </script>
+<script type="text/javascript">
+            // When the document is ready
+            $(document).ready(function () {
+
+                $('#example1').datepicker({
+                    format: "mm/yyyy",
+					viewMode: "months",
+					minViewMode: "months"
+                });
+
+				//Config for Quarter
+				/*
+				$.fn.datepicker.dates['qtrs'] = {
+				  days: ["Sunday", "Moonday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+				  daysShort: ["Sun", "Moon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+				  daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+				  months: ["Q1", "Q2", "Q3", "Q4", "", "", "", "", "", "", "", ""],
+				  monthsShort: ["Jan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mar", "Apr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;May&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jun", "Jul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aug&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sep", "Oct&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dec", "", "", "", "", "", "", "", ""],
+				  today: "Today",
+				  clear: "Clear",
+				  format: "mm/dd/yyyy",
+				  titleFormat: "MM yyyy",
+
+				  weekStart: 0
+				};
+				*/
+				//End Config for Quarter
+
+
+				var nowTemp = new Date();
+				var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+				var startDay = $('#startDay').datepicker({
+					format: "dd/mm/yyyy",
+					onRender: function(date) {
+						return date.valueOf() < now.valueOf() ? 'disabled' : '';
+				  }
+				}).on('changeDate', function(ev) {
+					if (ev.date.valueOf() > endDay.date.valueOf()) {
+						var newDate = new Date(ev.date)
+						newDate.setDate(newDate.getDate() + 1);
+						endDay.setValue(newDate);
+					}
+					startDay.hide();
+					$('#endDay')[0].focus();
+				}).data('datepicker');
+
+				var endDay = $('#endDay').datepicker({
+					format: "dd/mm/yyyy",
+					onRender: function(date) {
+						return date.valueOf() <= startDay.date.valueOf() ? 'disabled' : '';
+				  }
+				}).on('changeDate', function(ev) {
+					endDay.hide();
+				}).data('datepicker');
+
+				//Month
+				var startMonth = $('#startMonth').datepicker({
+					format: "mm/yyyy",
+					viewMode: "months",
+					minViewMode: "months",
+					onRender: function(date) {
+						return date.valueOf() < now.valueOf() ? 'disabled' : '';
+				  }
+				}).on('changeDate', function(ev) {
+					if (ev.date.valueOf() > endMonth.date.valueOf()) {
+						var newDate = new Date(ev.date)
+						newDate.setDate(newDate.getDate() + 1);
+						endMonth.setValue(newDate);
+					}
+					startMonth.hide();
+					$('#endMonth')[0].focus();
+				}).data('datepicker');
+
+				var endMonth = $('#endMonth').datepicker({
+					format: "mm/yyyy",
+					viewMode: "months",
+					minViewMode: "months",
+					onRender: function(date) {
+						return date.valueOf() <= startMonth.date.valueOf() ? 'disabled' : '';
+				  }
+				}).on('changeDate', function(ev) {
+					endMonth.hide();
+				}).data('datepicker');
+
+				//Year
+				var startYear = $('#startYear').datepicker({
+					format: " yyyy",
+					viewMode: "years",
+					minViewMode: "years",
+					onRender: function(date) {
+						return date.valueOf() < now.valueOf() ? 'disabled' : '';
+				  }
+				}).on('changeDate', function(ev) {
+					if (ev.date.valueOf() > endYear.date.valueOf()) {
+						var newDate = new Date(ev.date)
+						newDate.setDate(newDate.getDate() + 1);
+						endYear.setValue(newDate);
+					}
+					startYear.hide();
+					$('#endYear')[0].focus();
+				}).data('datepicker');
+
+				var endYear = $('#endYear').datepicker({
+					format: " yyyy",
+					viewMode: "years",
+					minViewMode: "years",
+					onRender: function(date) {
+						return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
+				  }
+				}).on('changeDate', function(ev) {
+					endYear.hide();
+				}).data('datepicker');
+
+            });
+</script>
+
+<script>
+			$(document).ready(function () {
+				var dateFormat = 'YYYYMMDD';
+				$('#viewThisMonth').click(function() {
+					$("#startdate").attr("value", moment().startOf('month').format(dateFormat));
+					$("#enddate").attr("value", moment().endOf('month').format(dateFormat));
+					$("#mainform").submit();
+
+					console.log(moment().startOf('month').format(dateFormat));
+					console.log(moment().endOf('month').format(dateFormat));
+				});
+
+				$('#viewThisYear').click(function() {
+					$("#startdate").attr("value", moment().startOf('year').format(dateFormat));
+					$("#enddate").attr("value", moment().endOf('year').format(dateFormat));
+					$("#mainform").submit();
+
+					console.log(moment().startOf('year').format(dateFormat));
+					console.log(moment().endOf('year').format(dateFormat));
+				});
+
+				$('#viewThisQuarter').click(function() {
+					$("#startdate").attr("value", moment().startOf('quarter').format(dateFormat));
+					$("#enddate").attr("value", moment().endOf('quarter').format(dateFormat));
+					$("#mainform").submit();
+
+					console.log(moment().startOf('quarter').format(dateFormat));
+					console.log(moment().endOf('quarter').format(dateFormat));
+				});
+
+				$('#viewDay').click(function() {
+					$("#startdate").attr("value", moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
+					$("#enddate").attr("value", moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
+					$("#mainform").submit();
+
+					console.log(moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
+					console.log(moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
+				});
+
+				$('#viewMonth').click(function() {
+					$("#startdate").attr("value", moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
+					$("#enddate").attr("value", moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
+					$("#mainform").submit();
+
+					console.log(moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
+					console.log(moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
+				});
+
+				$('#viewYear').click(function() {
+					$("#startdate").attr("value", moment("01/01/" + $('#startYear').val(), "DD/MM/ YYYY").format(dateFormat));
+					$("#enddate").attr("value", moment("31/12/" + $('#endYear').val(), "DD/MM/ YYYY").endOf("year").format(dateFormat));
+					$("#mainform").submit();
+
+					console.log(moment("01/01/" + $('#startYear').val(), "DD/MM/ YYYY").format(dateFormat));
+					console.log(moment("31/12/" + $('#endYear').val(), "DD/MM/ YYYY").endOf("year").format(dateFormat));
+				});
+
+            });
+</script>
