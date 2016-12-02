@@ -15,12 +15,23 @@ namespace WebMVC.Controllers
     {
         [HttpGet]
         // GET: Retrival
-        public ViewResult Index(string searchString, int page = 1, int size = 10)
+        public ViewResult Index(string searchString, string currentFilter, int? page, int size = 10)
         {
             List<RETRIVAL> list = new List<RETRIVAL>();
             HttpClient client = new AccessAPI().Access();
             //HttpClient client = new HttpClient();
             //client.BaseAddress = new Uri("http://localhost:21212/");
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+            int pageNumber = (page ?? 1);
 
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             if (String.IsNullOrEmpty(searchString))
@@ -31,7 +42,7 @@ namespace WebMVC.Controllers
                 {
                     list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
                 }
-                var listRetrival = list.ToPagedList(page, size);
+                var listRetrival = list.ToPagedList(pageNumber, size);
                 return View(listRetrival);
             }
             else
@@ -42,7 +53,7 @@ namespace WebMVC.Controllers
                 {
                     list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
                 }
-                var listRetrival = list.ToPagedList(page, size);
+                var listRetrival = list.ToPagedList(pageNumber, size);
                 return View(listRetrival);
             }
             

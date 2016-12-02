@@ -15,7 +15,7 @@
         @using (Html.BeginForm("Index", "Retrival", FormMethod.Get))
         {
             <div class="col-sm-3">
-                <input type="text" class="form-control" name="searchString" />
+                <input type="text" class="form-control" name="searchString"/>
             </div>
             <div class="col-sm-1">
                 <button class="btn btn-primary" type="submit" style="border:0">Find</button>
@@ -59,7 +59,7 @@
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, Page => Url.Action("Index", "Retrival", new { Page }))
+                @Html.PagedListPager(Model, Page => Url.Action("Index", "Retrival", new { Page, searchString = ViewBag.searchString, currentFilter = ViewBag.CurrentFilter }))
             </div>
             <div class="panel-body">
                 <div class="row">
