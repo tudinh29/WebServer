@@ -173,7 +173,6 @@ namespace WebMVC.Controllers
         [HttpGet]
         public ActionResult FindMerchantElement(string searchString, int page = 1, int size = 10)
         {
-
             List<MERCHANT> list = new List<MERCHANT>();
             var model = Session[CommonConstants.USER_SESSION];
             var temp = new USER_INFORMATION();
@@ -556,7 +555,7 @@ namespace WebMVC.Controllers
             }
 
             StringWriter sw = new StringWriter();
-            sw.WriteLine("Merchant Code,Merchant Name,Merchant Description,Status,Owner,Address,City,Last Active Date,Closed Date");
+            sw.WriteLine("Merchant Code,Merchant Name,Merchant Type,Status,Owner,Address,City,Last Active Date,Closed Date");
             Response.ClearContent();
             Response.Buffer = true;
             Response.AddHeader("content-disposition", "attachment; filename=MERCHANT_LIST.csv");
@@ -564,7 +563,7 @@ namespace WebMVC.Controllers
             //var csv = new CsvWriter(sw);
             foreach (var item in list)
             {
-                sw.WriteLine(String.Format("{0},{1},{2},{3},{4},{5} {6} {7},{8},{9},{10}", item.MerchantCode, item.MerchantName, item.MerchantType, item.Status, item.Owner, item.Address1, item.Address2, item.Address3, item.CITY, item.LastActiveDate.ToString(), item.CloseDate.ToString()
+                sw.WriteLine(String.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", item.MerchantCode, item.MerchantName, item.MerchantType, item.Status, item.Owner, item.Address1, item.CITY, item.LastActiveDate.ToString(), item.CloseDate.ToString()
                     ));
             }
             Response.Output.Write(sw.ToString());

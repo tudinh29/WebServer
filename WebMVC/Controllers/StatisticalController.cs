@@ -121,12 +121,64 @@ namespace WebMVC.Controllers
             return merchantSummary;
         }
 
-        public ActionResult ExportExcel()
+        public ActionResult ExportExcel(string searchString)
         {
-            var list = getAllSumDaily().ToList();
+            List<Models.MerchantSummaryDailyTiny> lists = new List<Models.MerchantSummaryDailyTiny>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View();
+
+            if (temp.UserType == "T")   //Master
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    lists = getAllSumDaily();
+                    @ViewBag.searchString = searchString;
+                }
+                else
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryElement?searchString={0}", searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+            }
+            else if (temp.UserType == "A")
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefault?AgentCode={0}", temp.UserName)).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+                else
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryForAgentElement?AgentCode={0}&&searchString={1}", temp.UserName, searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+            }
+            else return View();
 
             var gv = new GridView();
-            gv.DataSource = list;
+            gv.DataSource = lists;
             gv.DataBind();
 
             Response.ClearContent();
@@ -147,20 +199,72 @@ namespace WebMVC.Controllers
             return View("Index");
         }
 
-        public ActionResult ExportCSV()
+        public ActionResult ExportCSV(string searchString)
         {
-            var list = getAllSumDaily().ToList();
-           
+            List<Models.MerchantSummaryDailyTiny> lists = new List<Models.MerchantSummaryDailyTiny>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View();
+
+            if (temp.UserType == "T")   //Master
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    lists = getAllSumDaily();
+                }
+                else
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryElement?searchString={0}", searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+            }
+            else if (temp.UserType == "A")
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefault?AgentCode={0}", temp.UserName)).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+                else
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryForAgentElement?AgentCode={0}&&searchString={1}", temp.UserName, searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+            }
+            else return View();
+
             StringWriter sw = new StringWriter();
-            sw.WriteLine("Report Date,Merchant Code,Sale Amount,Return Amount,Region Code,Merchant Type,Agent Code");
+            sw.WriteLine("Merchant Code,Sale Amount,Sale Count,Return Amount,Return Count,Net Amount,Transaction Count,Key Amount,Report Date");
             Response.ClearContent();
             Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=MERCHANT_SUMMARY_DAILY.csv");
+            Response.AddHeader("content-disposition", "attachment; filename=MERCHANT_LIST.csv");
             Response.ContentType = "text/csv";
-            var csv = new CsvWriter(sw);
-            foreach (var item in list)
+            //var csv = new CsvWriter(sw);
+            foreach (var item in lists)
             {
-                csv.WriteRecord(item);
+                sw.WriteLine(String.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}", item.MerchantCode, item.SaleAmount, item.SaleCount, item.ReturnAmount, item.ReturnCount, item.NetAmount, item.TransactionCount, item.KeyedAmount, item.ReportDate.ToString()
+                    ));
             }
             Response.Output.Write(sw.ToString());
             Response.Flush();
