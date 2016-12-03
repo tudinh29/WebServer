@@ -18,10 +18,7 @@ using WebAPI.Controllers;
 using Newtonsoft.Json;
 using System.Data;
 using Rotativa;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using iTextSharp.text.html;
-using iTextSharp.text.html.simpleparser;
+
 
 
 
@@ -341,40 +338,7 @@ namespace WebMVC.Controllers
                    
                 }
             }
-            /*GridView gv = new GridView();
-            gv.AllowPaging = false;
-            gv.DataSource = listTransInvalid;
-            gv.DataBind();
-
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=Transaction_Detail_Invalid.pdf");
-            Response.ContentType = "application/pdf";
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            //Response.Charset = "";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter hw = new HtmlTextWriter(sw);
-            iTextSharp.text.Font fontTable = FontFactory.GetFont("Arial", 5, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-            gv.RenderControl(hw);
-            StringReader sr = new StringReader(sw.ToString());
-
-            Document pdfDoc = new Document(PageSize.A4, 10.0F, 10.0F, 10.0F, 0.0F);
-
-            HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
-           
-            PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-
-            pdfDoc.Open();
-
-            htmlparser.Parse(sr);
-
-            pdfDoc.Close();
-
-            Response.Write(pdfDoc);
-
-            Response.End();  
-            var list = listTransInvalid.ToPagedList(page, size);
-            return View("Index", list);*/
+            
            return new Rotativa.PartialViewAsPdf("TransInvalidPDF", listTransInvalid)
             {   //MerchantSumaryDailyStatistical
                 FileName = "Transaction_Detail_Invalid.pdf",
