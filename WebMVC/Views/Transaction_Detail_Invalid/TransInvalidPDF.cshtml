@@ -21,16 +21,16 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr id="row_@item.TransactionCode">
-                    <td>
-                        @item.TransactionCode
-                    </td>
-                    <td>@item.MerchantCode</td>
-                    <td>@item.TransactionTypeCode</td>
-                    <td>@item.AccountNumber</td>
-                    <td>@item.CardtypeCode</td>
-                    <td>@item.TransactionAmount</td>
-                    <td>@item.ErrorMessage</td>
+                <tr>
+                    
+                    <td>@Html.DisplayFor(model => item.TransactionCode)</td>
+                    <td>@Html.DisplayFor(model => item.MerchantCode)</td>
+                    <td>@Html.DisplayFor(model => item.TransactionTypeCode)</td>
+                    <td>@Html.DisplayFor(model => item.AccountNumber)</td>
+                    <td>@Html.DisplayFor(model => item.CardtypeCode)</td>
+                    <td>@Html.DisplayFor(model => item.TransactionAmount)</td>
+                    <td>@Html.DisplayFor(model => item.ErrorMessage)</td>
+               
                 </tr>
             }
 
