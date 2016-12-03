@@ -11,7 +11,7 @@ Begin
 		where ReportDate < @currentDate and ReportDate >= @firstDate
 		group by ReportDate
 End
-
+go
 Create Procedure SP_GetReportData_Generality (@startDate varchar(10), @endDate varchar(10)) As
 Begin
 	declare @currentDate date
@@ -42,3 +42,73 @@ Begin
 		where ReportDate < @currentDate and ReportDate >= @firstDate
 		group by RegionCode,MerchantType
 End
+
+go
+
+alter Procedure SP_GetMerchantSummary_Default
+As
+Begin
+SELECT  top 10000 [ReportDate]
+      ,[MerchantCode]
+      ,[SaleAmount]
+      ,[SaleCount]
+      ,[ReturnAmount]
+	  ,[ReturnCount]
+      ,[NetAmount]
+	  ,[TransactionCount]
+	  ,[KeyedAmount]
+  FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
+end
+go
+
+alter Procedure SP_FindMerchantSummaryElement @Element varchar(50)
+As
+Begin
+SELECT  top 10000 [ReportDate]
+      ,[MerchantCode]
+      ,[SaleAmount]
+      ,[SaleCount]
+      ,[ReturnAmount]
+	  ,[ReturnCount]
+      ,[NetAmount]
+	  ,[TransactionCount]
+	  ,[KeyedAmount]
+  FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
+  WHERE [MerchantCode] like '%'+@Element+'%' OR
+		[ReportDate] like '%'+@Element+'%' OR
+		  [SaleAmount] like '%'+@Element+'%' OR
+		  [SaleCount] like '%'+@Element+'%' OR
+		  [ReturnAmount] like '%'+@Element+'%' OR
+		  [ReturnCount] like '%'+@Element+'%' OR
+		  [NetAmount] like '%'+@Element+'%' OR
+		  [TransactionCount] like '%'+@Element+'%' OR
+		  [KeyedAmount] like '%'+@Element+'%' 
+	ORDER BY ReportDate
+end
+go
+
+
+alter Procedure SP_FindMerchantSummaryElementByAgent (@Element varchar(50),@AgentCode varchar(10))
+As
+Begin
+SELECT  top 10000 [ReportDate]
+      ,[MerchantCode]
+      ,[SaleAmount]
+      ,[SaleCount]
+      ,[ReturnAmount]
+	  ,[ReturnCount]
+      ,[NetAmount]
+	  ,[TransactionCount]
+	  ,[KeyedAmount]
+  FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
+  WHERE [AgentCode] = @AgentCode and ([MerchantCode] like '%'+@Element+'%' OR
+		[ReportDate] like '%'+@Element+'%' OR
+		  [SaleAmount] like '%'+@Element+'%' OR
+		  [SaleCount] like '%'+@Element+'%' OR
+		  [ReturnAmount] like '%'+@Element+'%' OR
+		  [ReturnCount] like '%'+@Element+'%' OR
+		  [NetAmount] like '%'+@Element+'%' OR
+		  [TransactionCount] like '%'+@Element+'%' OR
+		  [KeyedAmount] like '%'+@Element+'%' )
+	ORDER BY ReportDate
+end

@@ -17,14 +17,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<RETRIVAL> FindRetrivalInvalid(string searchString)
+        public List<RETRIVAL_INVALID> FindRetrivalInvalid(string searchString)
         {
             object[] parameter =
                 {
                     new SqlParameter("@Element", searchString)
                 };
 
-            var res = db.Database.SqlQuery<RETRIVAL>("exec sp_FindRetrivalInvalid @Element", parameter).ToList();
+            var res = db.Database.SqlQuery<RETRIVAL_INVALID>("exec sp_FindRetrivalInvalid @Element", parameter).ToList();
             return res;
         }
 

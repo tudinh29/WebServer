@@ -14,11 +14,16 @@
     <div class="row">
         @using (Html.BeginForm("Index", "RetrivalInvalid", FormMethod.Get))
         {
-            <div class="col-sm-3">
-                <input type="text" class="form-control" name="searchString" placeholder="Search"/>
-            </div>
-            <div class="col-sm-1">
-                <button class="btn btn-primary" type="submit" style="border:0">Search</button>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" value="@ViewBag.searchString" name="searchString" placeholder="Search" />
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-info" type="submit" style="border:0">Tìm</button>
+                    </div>
+                </div>
             </div>
         }
     </div>
@@ -58,7 +63,7 @@
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, Page => Url.Action("Index", "RetrivalInvalid", new { Page }))
+                @Html.PagedListPager(Model, Page => Url.Action("Index", "RetrivalInvalid", new { Page, searchString = ViewBag.searchString }))
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -70,8 +75,8 @@
 </div>
 
 <div class="col-md-10 text-right">
-    <a href="@Url.Action("ExportExcel", "RetrivalInvalid")" class="btn btn-primary btn-lg">Excel</a>
-    <a href="@Url.Action("ExportPDF", "RetrivalInvalid")" class="btn btn-primary btn-lg">PDF</a>
-    <a href="@Url.Action("ExportCSV", "RetrivalInvalid")" class="btn btn-primary btn-lg">CSV</a>
+    <a href="@Url.Action("ExportExcel", "RetrivalInvalid", new { searchString = ViewBag.searchString })" class="btn btn-primary">Excel</a>
+    <a href="@Url.Action("ExportPDF", "RetrivalInvalid", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
+    <a href="@Url.Action("ExportCSV", "RetrivalInvalid", new { searchString = ViewBag.searchString })" class="btn btn-primary">CSV</a>
 </div>
 

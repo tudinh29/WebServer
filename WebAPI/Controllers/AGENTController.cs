@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPI.EntityFramework;
-using Newtonsoft.Json;
 using PagedList;
 
 namespace WebAPI.Controllers

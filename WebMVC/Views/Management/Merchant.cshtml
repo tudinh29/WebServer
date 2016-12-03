@@ -44,11 +44,11 @@
                 <input type="text" id="searchString" value="@ViewBag.searchString" name="searchString" class="form-control" />
             </div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-info">Tìm kiếm</button>
+                <button type="submit" class="btn btn-info">Tìm</button><br /><br />
             </div>
+            
         </div>
     </div>
-    <br /><br />
     <script type="text/javascript">
         window.onload = function () {
             document.getElementById("searchString").focus();
@@ -91,7 +91,7 @@
                                 <tr>
                                     <th>Merchant Code</th>
                                     <th>Merchant Name</th>
-                                    <th>Merchant Description</th>
+                                    <th>Merchant Type</th>
                                     <th>Status</th>
                                     <th>Owner</th>
                                     <th>Address</th>
@@ -134,8 +134,8 @@
                                         <td>@item.Owner</td>
                                         <td>@item.Address1</td>
                                         <td>@item.CityName</td>
-                                        <td>@item.LastActiveDate</td>
-                                        <td>@item.CloseDate</td>
+                                        <td>@item.LastActiveDate.Value.ToString("yyyy-MM-dd")</td>
+                                        <td>@item.CloseDate.Value.ToString("yyyy-MM-dd")</td>
                                     </tr>
                                 }
                             </tbody>
@@ -153,4 +153,8 @@
     </div>
 </div>
 
-<script src="~/Assets/js/MyCustomJS.js"></script>
+<div class="col-md-11 text-right">
+    <a href="@Url.Action("ExportPDF", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
+    <a href="@Url.Action("MerchantExportExcel", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">Excel</a>
+    <a href="@Url.Action("MerchantExportCSV", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">CSV</a>
+</div>

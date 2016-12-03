@@ -10,6 +10,12 @@ using WebAPI.Controllers;
 using PagedList;
 using System.Web.Mvc.Html;
 using Newtonsoft.Json;
+using System.IO;
+using CsvHelper;
+using Rotativa;
+using ClosedXML.Excel;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 
 
 namespace WebMVC.Controllers
@@ -42,7 +48,7 @@ namespace WebMVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult FindAgentElement(string searchString, int page = 1, int size = 10)
+        public ActionResult FindAgentElement(string searchString, int? page, int size = 10)
         {
 
             List<AGENT> list = new List<AGENT>();
@@ -55,7 +61,7 @@ namespace WebMVC.Controllers
             else return View("Index");
             //HttpClient client = new HttpClient();
             //client.BaseAddress = new Uri("http://localhost:21212/");
-
+            int pageNumber = (page ?? 1);
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             if (temp.UserType == "T")
             {
@@ -72,7 +78,7 @@ namespace WebMVC.Controllers
                     list = response.Content.ReadAsAsync<List<AGENT>>().Result;
                 }
                 @ViewBag.searchString = searchString;
-                var listAgent = list.ToPagedList(page, size);
+                var listAgent = list.ToPagedList(pageNumber, size);
                 return View("Agent", listAgent);
             }
             else return View("Index");
@@ -410,6 +416,356 @@ namespace WebMVC.Controllers
                 }                
             }
 
+        }
+
+        [HttpGet]
+        public ActionResult ViewListMerchant(string agentName, string agentCode, string regionCode, int page = 1, int size = 10)
+        {
+            List<MERCHANT> list = new List<MERCHANT>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View("Index");
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", agentCode)).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+            }
+            @ViewBag.action = "ViewListMerchant";
+            @ViewBag.agentCode = agentCode;
+            @ViewBag.agentName = agentName;
+            @ViewBag.regionCode = regionCode;
+            var listMerchant = list.ToPagedList(page, size);
+            loadDataIntoViewViewListMerchant(agentCode, regionCode);
+            return View(listMerchant);
+        }
+
+        public void loadDataIntoViewViewListMerchant (string agentCode, string regionCode)
+        {
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantAvailable?agentCode={0}&regionCode={1}", agentCode, regionCode)).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                List<MERCHANT> listMerchant = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                foreach (var merchant in listMerchant )
+                {
+                    merchant.MerchantName = merchant.MerchantCode.ToString() + " - " + merchant.MerchantName.ToString();
+                }
+                ViewBag.MerchantCode = new SelectList(listMerchant, "MerchantCode", "MerchantName");
+            } 
+             
+        }
+
+        [HttpPost]
+        public ActionResult UpdateAgentOfMerchant(string merchantCode, string agentCode, string regionCode, int page = 1, int size = 10)
+        {
+            var check = new bool();
+            MERCHANT merchant = new MERCHANT() { AgentCode = agentCode };
+            if (ModelState.IsValid)
+            {
+                HttpClient client = new AccessAPI().Access();
+                HttpResponseMessage response = client.PostAsJsonAsync(string.Format("api/MERCHANT/UpdateAgentOfMerchant?merchantCode={0}", merchantCode), merchant).Result;
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                    check = response.Content.ReadAsAsync<bool>().Result;
+            }
+            //if (check == true)
+            //{
+                
+            //}
+            List<MERCHANT> list = new List<MERCHANT>();
+            HttpClient client1 = new AccessAPI().Access();
+            HttpResponseMessage response1 = client1.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", agentCode)).Result;
+            if (response1.IsSuccessStatusCode)
+            {
+                list = response1.Content.ReadAsAsync<List<MERCHANT>>().Result;
+            }
+            @ViewBag.action = "ViewListMerchant";
+            @ViewBag.agentCode = agentCode;
+            @ViewBag.regionCode = regionCode;
+            var listMerchant = list.ToPagedList(page, size);
+            loadDataIntoViewViewListMerchant(agentCode, regionCode);
+            return View("ViewListMerchant", listMerchant);
+        }
+
+        public ActionResult MerChantExportCSV(string searchString)
+        {
+            List<MERCHANT> list = new List<MERCHANT>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View("Index");
+            //client.BaseAddress = new Uri("http://localhost:21212/");
+
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpClient client = new AccessAPI().Access();
+
+            if (temp.UserType == "T")
+            {
+                if (searchString == "" || searchString == null)
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    }
+                }
+                else
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantElement?searchString={0}", searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+            }
+            else
+            {
+                if (temp.UserType == "A")
+                {
+                    if (searchString == "" || searchString == null)
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", temp.UserName)).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                        }
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCodeAndElement?searchString={0}&agentCode={1}", searchString, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                        }
+                        @ViewBag.searchString = searchString;
+                        @ViewBag.agentCode = temp.UserName;
+                    }
+                }
+                else return View("Index");
+            }
+
+            StringWriter sw = new StringWriter();
+            sw.WriteLine("Merchant Code,Merchant Name,Merchant Description,Status,Owner,Address,City,Last Active Date,Closed Date");
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=MERCHANT_LIST.csv");
+            Response.ContentType = "text/csv";
+            //var csv = new CsvWriter(sw);
+            foreach (var item in list)
+            {
+                sw.WriteLine(String.Format("{0},{1},{2},{3},{4},{5} {6} {7},{8},{9},{10}", item.MerchantCode, item.MerchantName, item.MerchantType, item.Status, item.Owner, item.Address1, item.Address2, item.Address3, item.CITY, item.LastActiveDate.ToString(), item.CloseDate.ToString()
+                    ));
+            }
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return View("Index");
+        }
+
+        public ActionResult AgentExportCSV(string searchString)
+        {
+            List<AGENT> list = new List<AGENT>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View("Index");
+
+            if (temp.UserType == "T")
+            {
+                HttpClient client = new AccessAPI().Access();
+                if (searchString == "" || searchString == null)
+                {
+                    HttpResponseMessage response1 = client.GetAsync(string.Format("api/Agent/FindAllAgent")).Result;
+
+                    if (response1.IsSuccessStatusCode)
+                    {
+                        list = response1.Content.ReadAsAsync<List<AGENT>>().Result;
+                    }
+                }
+
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAgentElement?searchString={0}", searchString)).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                }
+                @ViewBag.searchString = searchString;
+            }
+            else return View("Index");
+
+            StringWriter sw = new StringWriter();
+            sw.WriteLine("Agent Code,Agent Name,Status,Owner,Address,City,Last Active Date,Closed Date");
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=AGENT_LIST.csv");
+            Response.ContentType = "text/csv";
+            //var csv = new CsvWriter(sw);
+            foreach (var item in list)
+            {
+                sw.WriteLine(String.Format("{0},{1},{2},{3},{4},{5},{6},{7}", item.AgentCode, item.AgentName, item.AgentStatus, item.Owner, item.Address1, item.CITY, item.LastActiveDate.ToString(), item.CloseDate.ToString()
+                    ));
+            }
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return View("Index");
+        }
+
+        public ActionResult MerChantExportExcel(string searchString)
+        {
+            List<MERCHANT> list = new List<MERCHANT>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View("Index");
+            //client.BaseAddress = new Uri("http://localhost:21212/");
+
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpClient client = new AccessAPI().Access();
+
+            if (temp.UserType == "T")
+            {
+                if (searchString == "" || searchString == null)
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    }
+                }
+                else
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantElement?searchString={0}", searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+            }
+            else
+            {
+                if (temp.UserType == "A")
+                {
+                    if (searchString == "" || searchString == null)
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", temp.UserName)).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                        }
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCodeAndElement?searchString={0}&agentCode={1}", searchString, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                        }
+                        @ViewBag.searchString = searchString;
+                        @ViewBag.agentCode = temp.UserName;
+                    }
+                }
+                else return View("Index");
+            }
+
+            var gv = new GridView();
+            gv.DataSource = list.ToList();
+            gv.DataBind();
+
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=MERCHANT_LIST.xls");
+            Response.ContentType = "appliation/ms-excel";
+
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter tw = new HtmlTextWriter(sw);
+
+            gv.RenderControl(tw);
+
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return View("Index");
+        }
+
+        public ActionResult AgentExportExcel(string searchString)
+        {
+            List<AGENT> list = new List<AGENT>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View("Index");
+
+            if (temp.UserType == "T")
+            {
+                HttpClient client = new AccessAPI().Access();
+                if (searchString == "" || searchString == null)
+                {
+                    HttpResponseMessage response1 = client.GetAsync(string.Format("api/Agent/FindAllAgent")).Result;
+
+                    if (response1.IsSuccessStatusCode)
+                    {
+                        list = response1.Content.ReadAsAsync<List<AGENT>>().Result;
+                    }
+                }
+
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAgentElement?searchString={0}", searchString)).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                }
+                @ViewBag.searchString = searchString;
+            }
+            else return View("Index");
+
+            var gv = new GridView();
+            gv.DataSource = list.ToList();
+            gv.DataBind();
+
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=AGENT_LIST.xls");
+            Response.ContentType = "appliation/ms-excel";
+
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter tw = new HtmlTextWriter(sw);
+
+            gv.RenderControl(tw);
+
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return View("Index");
         }
     }
 }

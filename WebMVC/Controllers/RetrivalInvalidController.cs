@@ -48,6 +48,7 @@ namespace WebMVC.Controllers
                 {
                     list = response.Content.ReadAsAsync<List<RETRIVAL_INVALID>>().Result;
                 }
+                @ViewBag.searchString = searchString;
                 var listRetrival = list.ToPagedList(page, size);
                 return View(listRetrival);
             }

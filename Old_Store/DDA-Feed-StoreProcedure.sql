@@ -32,21 +32,6 @@ End
 go
 
 go
-create Procedure SP_GetMerchantSummary_Default
-As
-Begin
-SELECT  [ReportDate]
-      ,[MerchantCode]
-      ,[SaleAmount]
-      ,[SaleCount]
-      ,[ReturnAmount]
-	  ,[ReturnCount]
-      ,[NetAmount]
-	  ,[TransactionCount]
-	  ,[KeyedAmount]
-  FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
-end
-go
 
 create Procedure SP_GetReportDataForLineChart_Default
 As

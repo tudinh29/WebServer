@@ -24,6 +24,7 @@
                 <tr>
                     
                     <td>@Html.DisplayFor(model => item.TransactionCode)</td>
+                    <td>@item.ReportDate.ToString("yyyy-MM-dd")</td>
                     <td>@Html.DisplayFor(model => item.MerchantCode)</td>
                     <td>@Html.DisplayFor(model => item.TransactionTypeCode)</td>
                     <td>@Html.DisplayFor(model => item.AccountNumber)</td>

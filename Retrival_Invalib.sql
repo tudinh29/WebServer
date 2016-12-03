@@ -1,17 +1,19 @@
-USE [DB]
+USE [SERVER]
 GO
-CREATE PROC [dbo].[sp_GetAllRetrivalInvalid]
+
+create PROC [dbo].[sp_GetAllRetrivalInvalid]
 as
 begin
-	select *
+	SELECT a.RetrivalCode,ISNULL( a.AccountNumber,0) as AccountNumber, a.MerchantCode, a.TransactionCode, ISNULL(a.TransactionDate,'1900-1-1') AS TransactionDate, a.ReportDate, ISNULL( a.Amout,0) as Amout, ISNULL(A.ErrorMessage,'Error') as ErrorMessage
 	from RETRIVAL_INVALID a
 	order by a.RetrivalCode
 end
-Alter proc [dbo].[sp_FindRetrivalInvalid] @Element varchar(50)
+go
+create proc [dbo].[sp_FindRetrivalInvalid] @Element varchar(50)
 AS
 BEGIN
 	
-		SELECT a.RetrivalCode,ISNULL( a.AccountNumber,0), a.MerchantCode, a.TransactionCode, a.TransactionDate, a.ReportDate, ISNULL( a.Amout,0), ISNULL(A.ErrorMessage,'Error')
+		SELECT a.RetrivalCode,ISNULL( a.AccountNumber,0) as AccountNumber, a.MerchantCode, a.TransactionCode, ISNULL(a.TransactionDate,'1900-1-1')AS TransactionDate, a.ReportDate, ISNULL( a.Amout,0) as Amout, ISNULL(A.ErrorMessage,'Error') as ErrorMessage
 		FROM RETRIVAL_INVALID a
 		WHERE  a.RetrivalCode like '%'+@Element+'%'
 			   OR a.AccountNumber like '%'+@Element+'%'

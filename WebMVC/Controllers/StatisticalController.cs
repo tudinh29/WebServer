@@ -23,7 +23,7 @@ namespace WebMVC.Controllers
     public class StatisticalController : BaseController
     {
         // GET: Statistical
-        public ActionResult Index()
+        public ActionResult Index(string searchString,int page = 1, int size = 10)
         {
             List<Models.MerchantSummaryDailyTiny> lists = new List<Models.MerchantSummaryDailyTiny>();
             var model = Session[CommonConstants.USER_SESSION];
@@ -36,22 +36,51 @@ namespace WebMVC.Controllers
 
             if (temp.UserType == "T")   //Master
             {
-                lists = getAllSumDaily();
-                ViewBag.leg = lists.Count();
-                return View(lists);              
-            }
-            else if (temp.UserType == "A")   
-            {
-                //Code here
-
-                HttpClient client = new AccessAPI().Access();
-                HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefault?AgentCode={0}", temp.UserName)).Result;
-                if (response.IsSuccessStatusCode)
+                if (String.IsNullOrEmpty(searchString))
                 {
-                    lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    var listStatic = getAllSumDaily().ToPagedList(page, size);
+                    return View(listStatic);       
                 }
-                ViewBag.leg = lists.Count();
-                return View(lists);
+                else
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryElement?searchString={0}", searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    var listStatic = lists.ToPagedList(page, size);
+                    @ViewBag.searchString = searchString;
+                    return View(listStatic);
+                }
+            }
+            else if (temp.UserType == "A")
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefault?AgentCode={0}", temp.UserName)).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    var listStatic = lists.ToPagedList(page, size);
+                    return View(listStatic);       
+                }
+                else
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryForAgentElement?AgentCode={0}&&searchString={1}",temp.UserName,searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    var listStatic = lists.ToPagedList(page, size);
+                    @ViewBag.searchString = searchString;
+                    return View(listStatic);
+                }
             }
             else return View();
            
