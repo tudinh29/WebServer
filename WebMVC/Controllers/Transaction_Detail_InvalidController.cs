@@ -30,7 +30,7 @@ namespace WebMVC.Controllers
         //
         // GET: /Transaction_Detail_Invalid/
         [HttpGet]
-        public ActionResult Index(int page = 1, int size = 10)
+        public ActionResult Index(string searchString, int page = 1, int size = 10)
         {
             List<Models.TransInvalidTiny> transInvalid = new List<Models.TransInvalidTiny>();
             var model = Session[CommonConstants.USER_SESSION];
@@ -42,18 +42,11 @@ namespace WebMVC.Controllers
             HttpClient client = new AccessAPI().Access();
             if(temp.UserType == "T")
             {
-                HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindAllTransaction_Detail_Invalid")).Result;
-                if (response.IsSuccessStatusCode)
+                
+                if(searchString == null)
                 {
-                    transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
-                }
-               
-            }
-            else
-            {
-                if(temp.UserType == "A")
-                {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalid_Agent?AgentCode={0}", temp.UserName)).Result;
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindAllTransaction_Detail_Invalid")).Result;
+
                     if (response.IsSuccessStatusCode)
                     {
                         transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
@@ -61,13 +54,63 @@ namespace WebMVC.Controllers
                 }
                 else
                 {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalid_Merchant?MerchantCode={0}", temp.UserName)).Result;
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalidElement?searchString={0}", searchString)).Result;
+
                     if (response.IsSuccessStatusCode)
                     {
                         transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                     }
+                    @ViewBag.search = searchString;
                 }
+                
+                
             }
+            else
+            {
+                if(temp.UserType == "A")
+                {
+
+                    if(searchString == null)
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalid_Agent?AgentCode={0}", temp.UserName)).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
+                        }
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalidElement_Agent?searchString={0}&agentCode={1}", searchString, temp.UserName)).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
+                        }
+                        @ViewBag.search = searchString;
+                    }
+                    
+                   // @ViewBag.search = search;
+                }
+                else
+                {
+                    if(searchString == null)
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalid_Merchant?MerchantCode={0}", temp.UserName)).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
+                        }
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalidElement_Merchant?searchString={0}&merchantCode={1}", searchString, temp.UserName)).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
+                        }
+                        @ViewBag.search = searchString;
+                    }
+                }
+                }
             var listTransInvalid = transInvalid.ToPagedList(page, size);
             return View(listTransInvalid);
         }
@@ -98,6 +141,7 @@ namespace WebMVC.Controllers
                         listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                     }
                     @TempData["search"] = search;
+                    @ViewBag.search = search;
                 }
 
                 var list=  listTransInvalid.ToPagedList(page, size);
@@ -141,6 +185,7 @@ namespace WebMVC.Controllers
                             listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                         }
                         @TempData["search"] = search;
+                        @ViewBag.search = search;
                         @ViewBag.agentCode = temp.UserName;
                     }
 
@@ -149,7 +194,7 @@ namespace WebMVC.Controllers
                 }
             }
         }
-        public ActionResult ExportToExcel(int page= 1, int size = 10)
+        public ActionResult ExportToExcel(string searchString, int page= 1, int size = 10)
         {
             List<Models.TransInvalidTiny> listTransInvalid = new List<Models.TransInvalidTiny>();
             var model = Session[CommonConstants.USER_SESSION];
@@ -159,7 +204,7 @@ namespace WebMVC.Controllers
                 temp = (USER_INFORMATION)model;
             }
             HttpClient client = new AccessAPI().Access();
-            var searchString = @TempData["search"];
+            
             if(temp.UserType == "T")
             {
                 
@@ -180,6 +225,7 @@ namespace WebMVC.Controllers
                     {
                         listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                     }
+                    @ViewBag.search = searchString;
                 }
                 
                 
@@ -204,6 +250,7 @@ namespace WebMVC.Controllers
                         {
                             listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                         }
+                        @ViewBag.search = searchString;
                     }
                     
                    // @ViewBag.search = search;
@@ -225,6 +272,7 @@ namespace WebMVC.Controllers
                         {
                             listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                         }
+                        @ViewBag.search = searchString;
                     }
                     
                     //@ViewBag.search = search;
@@ -255,7 +303,7 @@ namespace WebMVC.Controllers
 
         }
 
-        public ActionResult ExportToPDF()
+        public ActionResult ExportToPDF(string searchString)
         {
 
             var listTransInvalid = new List<Models.TransInvalidTiny>();
@@ -267,7 +315,7 @@ namespace WebMVC.Controllers
                 temp = (USER_INFORMATION)model;
             }
             HttpClient client = new AccessAPI().Access();
-            var searchString = @TempData["search"];
+            
             if (temp.UserType == "T")
             {
 
@@ -288,6 +336,7 @@ namespace WebMVC.Controllers
                     {
                         listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                     }
+                    @ViewBag.search = searchString;
                 }
 
 
@@ -312,6 +361,7 @@ namespace WebMVC.Controllers
                         {
                             listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                         }
+                        @ViewBag.search = searchString;
                     }
 
                    
@@ -333,6 +383,7 @@ namespace WebMVC.Controllers
                         {
                             listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                         }
+                        @ViewBag.search = searchString;
                     }
 
                    
@@ -345,7 +396,7 @@ namespace WebMVC.Controllers
                 CustomSwitches = footer
             };
         }
-        public ActionResult ExportToCSV(int page= 1, int size = 10)
+        public ActionResult ExportToCSV(string searchString, int page= 1, int size = 10)
         {
             List<Models.TransInvalidTiny> listTransInvalid = new List<Models.TransInvalidTiny>();
             string footer = "--footer-right \"Date: [date] [time]\" " + "--footer-center \"Page: [page] of [toPage]\" --footer-line --footer-font-size \"9\" --footer-spacing 5 --footer-font-name \"calibri light\"";
@@ -356,7 +407,7 @@ namespace WebMVC.Controllers
                 temp = (USER_INFORMATION)model;
             }
             HttpClient client = new AccessAPI().Access();
-            var searchString = @TempData["search"];
+            
             if (temp.UserType == "T")
             {
 
@@ -377,6 +428,7 @@ namespace WebMVC.Controllers
                     {
                         listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                     }
+                    @ViewBag.search = searchString;
                 }
 
 
@@ -393,6 +445,7 @@ namespace WebMVC.Controllers
                         {
                             listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                         }
+                     
                     }
                     else
                     {
@@ -401,6 +454,7 @@ namespace WebMVC.Controllers
                         {
                             listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                         }
+                        @ViewBag.search = searchString;
                     }
 
                    
@@ -422,6 +476,7 @@ namespace WebMVC.Controllers
                         {
                             listTransInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
                         }
+                        @ViewBag.search = searchString;
                     }
 
                   

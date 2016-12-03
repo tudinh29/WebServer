@@ -66,16 +66,16 @@
                             }
                         </tbody>
                     </table>
-                    @Html.PagedListPager(Model, Page => Url.Action("Index", "TRANSACTION_DETAIL_INVALID", new { Page }))
+                    @Html.PagedListPager(Model, Page => Url.Action("Index", "TRANSACTION_DETAIL_INVALID", new { Page, searchString = @ViewBag.search }))
                 </div>
 
             </div>
         </div>
     </div>
     <div class="col-md-10 text-right">
-        <a href="@Url.Action("ExportToExcel", "TRANSACTION_DETAIL_INVALID")" class="btn btn-primary btn-lg">Excel</a>
-        <a href="@Url.Action("ExportToPDF", "TRANSACTION_DETAIL_INVALID")" class="btn btn-primary btn-lg">PDF</a>
-        <a href="@Url.Action("ExportToCSV", "TRANSACTION_DETAIL_INVALID")" class="btn btn-primary btn-lg">CSV</a>
+        <a href="@Url.Action("ExportToExcel", "TRANSACTION_DETAIL_INVALID", new {searchString = @ViewBag.search})" class="btn btn-primary btn-lg">Excel</a>
+        <a href="@Url.Action("ExportToPDF", "TRANSACTION_DETAIL_INVALID", new { searchString = @ViewBag.search})" class="btn btn-primary btn-lg">PDF</a>
+        <a href="@Url.Action("ExportToCSV", "TRANSACTION_DETAIL_INVALID", new { searchString = @ViewBag.search })" class="btn btn-primary btn-lg">CSV</a>
     </div>
 
 
