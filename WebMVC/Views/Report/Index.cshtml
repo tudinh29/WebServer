@@ -22,7 +22,7 @@
     var MerchantResort = listMerchantType.Find(x => x.MerchantType.Contains("RS"));
     var MerchantSupermarket = listMerchantType.Find(x => x.MerchantType.Contains("SM"));
     var MerchantStore = listMerchantType.Find(x => x.MerchantType.Contains("ST"));
-    var OtherMerchant = listMerchantType.Find(x => x.MerchantType.Contains("")); 
+    var OtherMerchant = listMerchantType.Find(x => x.MerchantType.Contains(""));
     /*if (OtherMerchant == null)
     {
         OtherMerchant = new MERCHANT_SUMMARY_DAILY();
@@ -33,15 +33,16 @@
         OtherMerchant.ReturnCount = 0;
         OtherMerchant.ReturnCount = 0;
     }*/
-   
+
 
 }
 
 <form id="mainform" action="http://localhost:21231/Report" method="POST">
     <input name="startdate" id="startdate" style="display:none" type="text">
     <input name="enddate" id="enddate" style="display:none" type="text">
+    <input name="reportType" id="reportType" style="display:none" type="text">
 
-   
+
 
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#quick-report">Quick Report</a></li>
@@ -157,7 +158,7 @@
     <!-- Modal content -->
     <div class="modal-content">
         <span class="close">×</span>
-        
+
         <div class="row">
             <div class="col-xs-9">
                 <p>Total revenue:revenue</p>
@@ -393,7 +394,7 @@
                 </div>
             </div>
 
-            </div>
+        </div>
     </div>
 </div>
 
@@ -402,7 +403,7 @@
 <div id="RegionModal" class="modal">
 
     <!-- Modal content -->
-    
+
     <div class="modal-content">
         <div class="modal-content-heading">
             Region type detail
@@ -521,7 +522,6 @@
     </div>
 </div>
 <!-- End form religion-->
-
 <!--Begin form merchant type -->
 <div id="MerchantTypeModal" class="modal">
 
@@ -725,173 +725,142 @@
         </div>
     </div>
 </div>
-        <!-- End form merchant type-->
+<!-- End form merchant type-->
+<!-- Flot Charts -->
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-money fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="h4">@cardTypeReport.FirstOrDefault().NetAmount</div>
+                        <div>Total Revenue</div>
+                    </div>
+                </div>
+            </div>
 
-        <div id="mySidenav" class="sidenavFilter">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox">This month</input>
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox">This year</input>
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox">....</input>
-                </label>
-            </div>
-            <button style="margin-left:30%" type="submit" class="btn btn-default">Submit</button>
         </div>
-        <div id="main">
-            <div class="container-fluid">
-
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
                 <div class="row">
-                    <span style="font-size:20px;cursor:pointer;margin-left:10px" onclick="openNav()"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span>
-
-                </div>
-                <!-- Flot Charts -->
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-money fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="h4">@cardTypeReport.FirstOrDefault().NetAmount</div>
-                                        <div>Total Revenue</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                    <div class="col-xs-3">
+                        <i class="fa fa-shopping-cart fa-5x"></i>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-shopping-cart fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="h4">@cardTypeReport.FirstOrDefault().SaleAmount</div>
-                                        <div>Total sales</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-warning fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="h4">@cardTypeReport.FirstOrDefault().ReturnAmount</div>
-                                        <div>Total returns</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-support fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="h4">@cardTypeReport.FirstOrDefault().TransactionCount</div>
-                                        <div>Total transactions</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="h4">@cardTypeReport.FirstOrDefault().SaleAmount</div>
+                        <div>Total sales</div>
                     </div>
                 </div>
-                <!-- /.row -->
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
                 <div class="row">
-                    <div class="col-lg-4" style="width:60%">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Revenue Graph</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="morris-line-chart"></div>
-                                <div id="detailRevenueBtn" class="text-right" onclick="Display('detailRevenueBtn','RevenueModal',0)">
-                                    <a>View Details <i class="fa fa-arrow-circle-up"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-xs-3">
+                        <i class="fa fa-warning fa-5x"></i>
                     </div>
-                    <div class="col-lg-4" style="width:33%">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Card Type</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="flot-chart">
-                                    <div class="flot-chart-content" id="flot-pie-chart"></div>
-                                </div>
-                                <div id="detailCardTypeBtn" class="text-right" onclick="Display('detailCardTypeBtn','CardTypeModal',1)">
-                                    <a>View Details <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="h4">@cardTypeReport.FirstOrDefault().ReturnAmount</div>
+                        <div>Total returns</div>
                     </div>
                 </div>
+            </div>
 
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
                 <div class="row">
-                    <div class="col-lg-4" style="width:60%;min-width:400px">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Region</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="morris-bar-chart"></div>
-                                <div id="detailReligionBtn" class="text-right" onclick="Display('detailReligionBtn','RegionModal',2)">
-                                    <a>View Details <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-xs-3">
+                        <i class="fa fa-support fa-5x"></i>
                     </div>
-                    <div class="col-lg-4" style="width:33%;min-width:400px">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Merchant Type</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="morris-donut-chart"></div>
-                                <div id="detailMerchantTypeBtn" class="text-right" onclick="Display('detailMerchantTypeBtn','MerchantTypeModal',3)">
-                                    <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="h4">@cardTypeReport.FirstOrDefault().TransactionCount</div>
+                        <div>Total transactions</div>
                     </div>
-
-
                 </div>
-                <!-- /.row -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-4" style="width:60%">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Revenue Graph</h3>
+            </div>
+            <div class="panel-body">
+                <div id="morris-line-chart"></div>
+                <div id="detailRevenueBtn" class="text-right" onclick="Display('detailRevenueBtn','RevenueModal',0)">
+                    <a>View Details <i class="fa fa-arrow-circle-up"></i></a>
+                </div>
             </div>
         </div>
-        <script src="~/Assets/js/MyCustomJS.js"></script>
+    </div>
+    <div class="col-lg-4" style="width:33%">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Card Type</h3>
+            </div>
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <div class="flot-chart-content" id="flot-pie-chart"></div>
+                </div>
+                <div id="detailCardTypeBtn" class="text-right" onclick="Display('detailCardTypeBtn','CardTypeModal',1)">
+                    <a>View Details <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4" style="width:60%;min-width:400px">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Region</h3>
+            </div>
+            <div class="panel-body">
+                <div id="morris-bar-chart"></div>
+                <div id="detailReligionBtn" class="text-right" onclick="Display('detailReligionBtn','RegionModal',2)">
+                    <a>View Details <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4" style="width:33%;min-width:400px">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Merchant Type</h3>
+            </div>
+            <div class="panel-body">
+                <div id="morris-donut-chart"></div>
+                <div id="detailMerchantTypeBtn" class="text-right" onclick="Display('detailMerchantTypeBtn','MerchantTypeModal',3)">
+                    <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-        <script>
-            $(function () {
+</div>
+<!-- /.row -->
 
-                @{
+<script src="~/Assets/js/MyCustomJS.js"></script>
+<script>
+    $(function () {
+        @{
             var DonutData = String.Empty;
             var BarData = String.Empty;
             var LineData = String.Empty;
@@ -929,7 +898,7 @@
                 {
                     item.RegionCode = "Khác";
                 }
-                BarData += "{device: \"{0}\", geekbench: {1} },".Replace("{0}", item.RegionName).Replace("{1}", item.SaleAmount.ToString());
+                BarData += "{region: \"{0}\", sale: {1} },".Replace("{0}", item.RegionName).Replace("{1}", item.SaleAmount.ToString());
             }
             if (BarData.Length > 1)
             {
@@ -951,272 +920,290 @@
 
         }
 
-                // Donut Chart
-                Morris.Donut({
-                    element: 'morris-donut-chart',
-                    data: [@Html.Raw(DonutData)],
-                    resize: true
-                });
+        // Donut Chart
+        Morris.Donut({
+            element: 'morris-donut-chart',
+            data: [@Html.Raw(DonutData)],
+            resize: true
+        });
 
-                Morris.Bar({
-                    element: 'morris-bar-chart',
-                    data: [@Html.Raw(BarData)],
-                    xkey: 'device',
-                    ykeys: ['geekbench'],
-                    labels: ['Số lượng'],
-                    barRatio: 0.4,
-                    xLabelAngle: 35,
-                    hideHover: 'auto',
-                    resize: true
-                });
+        Morris.Bar({
+            element: 'morris-bar-chart',
+            data: [@Html.Raw(BarData)],
+            xkey: 'region',
+            ykeys: ['sale'],
+            labels: ['Sale amount'],
+            barRatio: 0.4,
+            xLabelAngle: 35,
+            hideHover: 'auto',
+            resize: true
+        });
 
-                Morris.Line({
-                    // ID of the element in which to draw the chart.
-                    element: 'morris-line-chart',
-                    // Chart data records -- each entry in this array corresponds to a point on
-                    // the chart.
-                    data: [@Html.Raw(LineData)],
-                    // The name of the data record attribute that contains x-visitss.
-                    xkey: 'd',
-                    // A list of names of data record attributes that contain y-visitss.
-                    ykeys: ['sales'],
-                    // Labels for the ykeys -- will be displayed when you hover over the
-                    // chart.
-                    labels: ['Sale amount'],
-                    // Disables line smoothing
-                    smooth: false,
-                    resize: true
-                });
+        Morris.Line({
+            // ID of the element in which to draw the chart.
+            element: 'morris-line-chart',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
+            data: [@Html.Raw(LineData)],
+            // The name of the data record attribute that contains x-visitss.
+            xkey: 'd',
+            // A list of names of data record attributes that contain y-visitss.
+            ykeys: ['sales'],
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            labels: ['Sale amount'],
+            // Disables line smoothing
+            smooth: false,
+            resize: true,
+            parseTime: false,
+            lineColors: ['#F5ABB0'],
+            pointFillColors: ['#FF3300'],
+            hoverCallback: function (index, options, content) {
+                var data = options.data[index];
+                content = "<div class='morris-hover-row-label'>" + data.d + "</div><div class='morris-hover-point' style='color: #0b62a4'> Sale Amount: $" + data.sales + "</div>"
+                return content
+            },
+        });
 
-                var data = [@Html.Raw(CardTypeData)];
+        var data = [@Html.Raw(CardTypeData)];
 
-                var plotObj = $.plot($("#flot-pie-chart"), data, {
-                    series: {
-                        pie: {
-                            show: true
-                        }
-                    },
-                    grid: {
-                        hoverable: true
-                    },
-                    tooltip: true,
-                    tooltipOpts: {
-                        content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
-                        shifts: {
-                            x: 20,
-                            y: 0
-                        },
-                        defaultTheme: false
-                    }
-                });
-            });
-
-        </script>
-
-        <script>
-            function Display(idBtn, idForm, index) {
-                // Get the modal
-                var modal = document.getElementById(idForm);
-
-                // Get the button that opens the modal
-                //var btn = document.getElementById(idBtn);
-                // Get the <span> element that closes the modal
-                var span = document.getElementsByClassName("close")[index];
-
-                // When the user clicks the button, open the modal
-
-                //btn.onclick = function () {
-                modal.style.display = "block";
-                //}
-
-                // When the user clicks on <span> (x), close the modal
-                span.onclick = function () {
-                    modal.style.display = "none";
+        var plotObj = $.plot($("#flot-pie-chart"), data, {
+            series: {
+                pie: {
+                    show: true
                 }
-
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function (event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
+            },
+            grid: {
+                hoverable: true
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                shifts: {
+                    x: 20,
+                    y: 0
+                },
+                defaultTheme: false
             }
+        });
+    });
 
-
-        </script>
-<script type="text/javascript">
-            // When the document is ready
-            $(document).ready(function () {
-
-                $('#example1').datepicker({
-                    format: "mm/yyyy",
-					viewMode: "months",
-					minViewMode: "months"
-                });
-
-				//Config for Quarter
-				/*
-				$.fn.datepicker.dates['qtrs'] = {
-				  days: ["Sunday", "Moonday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-				  daysShort: ["Sun", "Moon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-				  daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-				  months: ["Q1", "Q2", "Q3", "Q4", "", "", "", "", "", "", "", ""],
-				  monthsShort: ["Jan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mar", "Apr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;May&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jun", "Jul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aug&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sep", "Oct&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dec", "", "", "", "", "", "", "", ""],
-				  today: "Today",
-				  clear: "Clear",
-				  format: "mm/dd/yyyy",
-				  titleFormat: "MM yyyy",
-
-				  weekStart: 0
-				};
-				*/
-				//End Config for Quarter
-
-
-				var nowTemp = new Date();
-				var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-
-				var startDay = $('#startDay').datepicker({
-					format: "dd/mm/yyyy",
-					onRender: function(date) {
-						return date.valueOf() < now.valueOf() ? 'disabled' : '';
-				  }
-				}).on('changeDate', function(ev) {
-					if (ev.date.valueOf() > endDay.date.valueOf()) {
-						var newDate = new Date(ev.date)
-						newDate.setDate(newDate.getDate() + 1);
-						endDay.setValue(newDate);
-					}
-					startDay.hide();
-					$('#endDay')[0].focus();
-				}).data('datepicker');
-
-				var endDay = $('#endDay').datepicker({
-					format: "dd/mm/yyyy",
-					onRender: function(date) {
-						return date.valueOf() <= startDay.date.valueOf() ? 'disabled' : '';
-				  }
-				}).on('changeDate', function(ev) {
-					endDay.hide();
-				}).data('datepicker');
-
-				//Month
-				var startMonth = $('#startMonth').datepicker({
-					format: "mm/yyyy",
-					viewMode: "months",
-					minViewMode: "months",
-					onRender: function(date) {
-						return date.valueOf() < now.valueOf() ? 'disabled' : '';
-				  }
-				}).on('changeDate', function(ev) {
-					if (ev.date.valueOf() > endMonth.date.valueOf()) {
-						var newDate = new Date(ev.date)
-						newDate.setDate(newDate.getDate() + 1);
-						endMonth.setValue(newDate);
-					}
-					startMonth.hide();
-					$('#endMonth')[0].focus();
-				}).data('datepicker');
-
-				var endMonth = $('#endMonth').datepicker({
-					format: "mm/yyyy",
-					viewMode: "months",
-					minViewMode: "months",
-					onRender: function(date) {
-						return date.valueOf() <= startMonth.date.valueOf() ? 'disabled' : '';
-				  }
-				}).on('changeDate', function(ev) {
-					endMonth.hide();
-				}).data('datepicker');
-
-				//Year
-				var startYear = $('#startYear').datepicker({
-					format: " yyyy",
-					viewMode: "years",
-					minViewMode: "years",
-					onRender: function(date) {
-						return date.valueOf() < now.valueOf() ? 'disabled' : '';
-				  }
-				}).on('changeDate', function(ev) {
-					if (ev.date.valueOf() > endYear.date.valueOf()) {
-						var newDate = new Date(ev.date)
-						newDate.setDate(newDate.getDate() + 1);
-						endYear.setValue(newDate);
-					}
-					startYear.hide();
-					$('#endYear')[0].focus();
-				}).data('datepicker');
-
-				var endYear = $('#endYear').datepicker({
-					format: " yyyy",
-					viewMode: "years",
-					minViewMode: "years",
-					onRender: function(date) {
-						return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
-				  }
-				}).on('changeDate', function(ev) {
-					endYear.hide();
-				}).data('datepicker');
-
-            });
 </script>
 
 <script>
-			$(document).ready(function () {
-				var dateFormat = 'YYYYMMDD';
-				$('#viewThisMonth').click(function() {
-					$("#startdate").attr("value", moment().startOf('month').format(dateFormat));
-					$("#enddate").attr("value", moment().endOf('month').format(dateFormat));
-					$("#mainform").submit();
+    function Display(idBtn, idForm, index) {
+        // Get the modal
+        var modal = document.getElementById(idForm);
 
-					console.log(moment().startOf('month').format(dateFormat));
-					console.log(moment().endOf('month').format(dateFormat));
-				});
+        // Get the button that opens the modal
+        //var btn = document.getElementById(idBtn);
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[index];
 
-				$('#viewThisYear').click(function() {
-					$("#startdate").attr("value", moment().startOf('year').format(dateFormat));
-					$("#enddate").attr("value", moment().endOf('year').format(dateFormat));
-					$("#mainform").submit();
+        // When the user clicks the button, open the modal
 
-					console.log(moment().startOf('year').format(dateFormat));
-					console.log(moment().endOf('year').format(dateFormat));
-				});
+        //btn.onclick = function () {
+        modal.style.display = "block";
+        //}
 
-				$('#viewThisQuarter').click(function() {
-					$("#startdate").attr("value", moment().startOf('quarter').format(dateFormat));
-					$("#enddate").attr("value", moment().endOf('quarter').format(dateFormat));
-					$("#mainform").submit();
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
 
-					console.log(moment().startOf('quarter').format(dateFormat));
-					console.log(moment().endOf('quarter').format(dateFormat));
-				});
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
 
-				$('#viewDay').click(function() {
-					$("#startdate").attr("value", moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
-					$("#enddate").attr("value", moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
-					$("#mainform").submit();
 
-					console.log(moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
-					console.log(moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
-				});
+</script>
+<script type="text/javascript">
+    // When the document is ready
+    $(document).ready(function () {
 
-				$('#viewMonth').click(function() {
-					$("#startdate").attr("value", moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
-					$("#enddate").attr("value", moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
-					$("#mainform").submit();
+        $('#example1').datepicker({
+            format: "mm/yyyy",
+            viewMode: "months",
+            minViewMode: "months"
+        });
 
-					console.log(moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
-					console.log(moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
-				});
+        //Config for Quarter
+        /*
+        $.fn.datepicker.dates['qtrs'] = {
+          days: ["Sunday", "Moonday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          daysShort: ["Sun", "Moon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+          daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+          months: ["Q1", "Q2", "Q3", "Q4", "", "", "", "", "", "", "", ""],
+          monthsShort: ["Jan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mar", "Apr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;May&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jun", "Jul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aug&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sep", "Oct&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nov&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dec", "", "", "", "", "", "", "", ""],
+          today: "Today",
+          clear: "Clear",
+          format: "mm/dd/yyyy",
+          titleFormat: "MM yyyy",
 
-				$('#viewYear').click(function() {
-					$("#startdate").attr("value", moment("01/01/" + $('#startYear').val(), "DD/MM/ YYYY").format(dateFormat));
-					$("#enddate").attr("value", moment("31/12/" + $('#endYear').val(), "DD/MM/ YYYY").endOf("year").format(dateFormat));
-					$("#mainform").submit();
+          weekStart: 0
+        };
+        */
+        //End Config for Quarter
 
-					console.log(moment("01/01/" + $('#startYear').val(), "DD/MM/ YYYY").format(dateFormat));
-					console.log(moment("31/12/" + $('#endYear').val(), "DD/MM/ YYYY").endOf("year").format(dateFormat));
-				});
 
-            });
+        var nowTemp = new Date();
+        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+        var startDay = $('#startDay').datepicker({
+            format: "dd/mm/yyyy",
+            onRender: function (date) {
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            if (ev.date.valueOf() > endDay.date.valueOf()) {
+                var newDate = new Date(ev.date)
+                newDate.setDate(newDate.getDate() + 1);
+                endDay.setValue(newDate);
+            }
+            startDay.hide();
+            $('#endDay')[0].focus();
+        }).data('datepicker');
+
+        var endDay = $('#endDay').datepicker({
+            format: "dd/mm/yyyy",
+            onRender: function (date) {
+                return date.valueOf() <= startDay.date.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            endDay.hide();
+        }).data('datepicker');
+
+        //Month
+        var startMonth = $('#startMonth').datepicker({
+            format: "mm/yyyy",
+            viewMode: "months",
+            minViewMode: "months",
+            onRender: function (date) {
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            if (ev.date.valueOf() > endMonth.date.valueOf()) {
+                var newDate = new Date(ev.date)
+                newDate.setDate(newDate.getDate() + 1);
+                endMonth.setValue(newDate);
+            }
+            startMonth.hide();
+            $('#endMonth')[0].focus();
+        }).data('datepicker');
+
+        var endMonth = $('#endMonth').datepicker({
+            format: "mm/yyyy",
+            viewMode: "months",
+            minViewMode: "months",
+            onRender: function (date) {
+                return date.valueOf() <= startMonth.date.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            endMonth.hide();
+        }).data('datepicker');
+
+        //Year
+        var startYear = $('#startYear').datepicker({
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            onRender: function (date) {
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            if (ev.date.valueOf() > endYear.date.valueOf()) {
+                var newDate = new Date(ev.date)
+                newDate.setDate(newDate.getDate() + 1);
+                endYear.setValue(newDate);
+            }
+            startYear.hide();
+            $('#endYear')[0].focus();
+        }).data('datepicker');
+
+        var endYear = $('#endYear').datepicker({
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            onRender: function (date) {
+                return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            endYear.hide();
+        }).data('datepicker');
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        var dateFormat = 'YYYYMMDD';
+        $('#viewThisMonth').click(function () {
+            $("#startdate").attr("value", moment().startOf('month').format(dateFormat));
+            $("#enddate").attr("value", moment().endOf('month').format(dateFormat));
+            $("#reportType").attr("value", "Month");
+            $("#mainform").submit();
+
+            console.log(moment().startOf('month').format(dateFormat));
+            console.log(moment().endOf('month').format(dateFormat));
+        });
+
+        $('#viewThisYear').click(function () {
+            $("#startdate").attr("value", moment().startOf('year').format(dateFormat));
+            $("#enddate").attr("value", moment().endOf('year').format(dateFormat));
+            $("#mainform").submit();
+
+            console.log(moment().startOf('year').format(dateFormat));
+            console.log(moment().endOf('year').format(dateFormat));
+        });
+
+        $('#viewThisQuarter').click(function () {
+            $("#startdate").attr("value", moment().startOf('quarter').format(dateFormat));
+            $("#enddate").attr("value", moment().endOf('quarter').format(dateFormat));
+            $("#mainform").submit();
+
+            console.log(moment().startOf('quarter').format(dateFormat));
+            console.log(moment().endOf('quarter').format(dateFormat));
+        });
+
+        $('#viewDay').click(function () {
+            $("#startdate").attr("value", moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
+            $("#enddate").attr("value", moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
+            $("#mainform").submit();
+
+            console.log(moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
+            console.log(moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
+        });
+
+        $('#viewMonth').click(function () {
+            $("#startdate").attr("value", moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
+            $("#enddate").attr("value", moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
+            $("#mainform").submit();
+
+            console.log(moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
+            console.log(moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
+        });
+
+        $('#viewQuarter').click(function () {
+            $("#startdate").attr("value", moment("01/" + $('#startQuarter').val(), "DD/MM/YYYY").format(dateFormat));
+            $("#enddate").attr("value", moment("01/" + $('#endQuarter').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
+            $("#mainform").submit();
+
+            console.log(moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
+            console.log(moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
+        });
+
+        $('#viewYear').click(function () {
+            $("#startdate").attr("value", moment("01/01/" + $('#startYear').val(), "DD/MM/ YYYY").format(dateFormat));
+            $("#enddate").attr("value", moment("31/12/" + $('#endYear').val(), "DD/MM/ YYYY").endOf("year").format(dateFormat));
+            $("#mainform").submit();
+
+            console.log(moment("01/01/" + $('#startYear').val(), "DD/MM/ YYYY").format(dateFormat));
+            console.log(moment("31/12/" + $('#endYear').val(), "DD/MM/ YYYY").endOf("year").format(dateFormat));
+        });
+
+    });
 </script>

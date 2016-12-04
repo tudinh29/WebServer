@@ -577,6 +577,7 @@
     <Content Include="Assets\dist\js\sb-admin-2.js" />
     <Content Include="Assets\images\bg.jpg" />
     <Content Include="Assets\images\process.gif" />
+    <Content Include="Assets\js\bootstrap-datepicker.js" />
     <Content Include="Assets\js\flot-data.js" />
     <Content Include="Assets\js\flot\excanvas.min.js" />
     <Content Include="Assets\js\flot\flot-data.js" />
@@ -588,6 +589,7 @@
     <Content Include="Assets\js\jquery.bootpag.js" />
     <Content Include="Assets\css\jquery.dataTables.min.css" />
     <Content Include="Assets\js\jquery.min.js" />
+    <Content Include="Assets\js\moment.js" />
     <Content Include="Assets\js\morris-data.js" />
     <Content Include="Assets\js\morris\morris-data.js" />
     <Content Include="Assets\js\morris\morris.js" />

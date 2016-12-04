@@ -20,11 +20,12 @@ namespace WebMVC.Controllers
         {
             string startDate = "20161030";
             string endDate = "20161130";
-
+            string type = "";
             if (HttpContext.Request.HttpMethod == "POST")
             {
                 startDate = Request["startdate"];
                 endDate = Request["enddate"];
+                type = Request["reportType"];
             }
             
             List<MERCHANT_SUMMARY_DAILY> list = new List<MERCHANT_SUMMARY_DAILY>();
