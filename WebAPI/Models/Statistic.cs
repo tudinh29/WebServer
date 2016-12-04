@@ -11,10 +11,11 @@ namespace WebAPI.Models
     public class Statistic
     {
         [Required]
-        [StringLength(10)]
+        [StringLength(50)]
         public string Name { get; set; }
         [Required]
         public decimal Value { get; set; }
+        public decimal ReturnAmount { get; set; }
     }
 
     public class MerchantSummaryDailyTiny

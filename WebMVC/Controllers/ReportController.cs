@@ -20,7 +20,8 @@ namespace WebMVC.Controllers
         {
             string startDate = "20161030";
             string endDate = "20161130";
-            string reportType = "";
+            string reportType = "Day";
+
             if (HttpContext.Request.HttpMethod == "POST")
             {
                 startDate = Request["startdate"];
