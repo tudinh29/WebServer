@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 29, 2016 3:35:55 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hcmus.model.pojo.Merchant" table="MERCHANT">
+        <id name="MerchantCode" type="string">
+            <column name="MerchantCode" length="10" />
+            <generator class="assigned" />
+        </id>
+        
+        <property name="AgentCode" type="string" >
+            <column name="AgentCode" not-null="true" length="10" />
+        </property>
+        
+        <property name="CityCode" type="string" >
+            <column name="CityCode" length="10" />
+        </property>
+		<property name="BackEndProcessor" type="integer">
+            <column name="BackEndProcessor" not-null="true" />
+        </property>
+        <property name="MerchantType" type="string">
+            <column name="MerchantType" length="10"/>
+        </property>
+
+        <property name="MerchantName" type="string">
+            <column name="MerchantName" not-null="true" />
+        </property>
+        <property name="Status" type="java.lang.Character">
+            <column name="Status" length="1" />
+        </property>
+        <property name="Owner" type="string">
+            <column name="Owner" />
+        </property>
+        <property name="Address1" type="string">
+            <column name="Address1" />
+        </property>
+        <property name="Address2" type="string">
+            <column name="Address2" />
+        </property>
+        <property name="Address3" type="string">
+            <column name="Address3" />
+        </property>
+        <property name="Zip" type="java.lang.Integer">
+            <column name="Zip" />
+        </property>
+        <property name="Phone" type="string">
+            <column name="Phone" length="20" />
+        </property>
+        <property name="Fax" type="string">
+            <column name="Fax" length="20" />
+        </property>
+        <property name="Email" type="string">
+            <column name="Email" length="30" />
+        </property>
+        <property name="ApprovalDate" type="date">
+            <column name="ApprovalDate" length="10" />
+        </property>
+        <property name="CloseDate" type="date">
+            <column name="CloseDate" length="10" />
+        </property>
+        <property name="BankCardDba" type="string">
+            <column name="BankCardDBA" length="50" />
+        </property>
+        <property name="FirstActiveDate" type="date">
+            <column name="FirstActiveDate" length="10" />
+        </property>
+        <property name="LastActiveDate" type="date">
+            <column name="LastActiveDate" length="10" />
+        </property>
+        <property name="CityName" type="string">
+            <column name="CityName" />
+        </property>
+        <property name="RegionCode" type="string">
+            <column name="RegionCode" length="10" />
+        </property>
+        <property name="RegionName" type="string">
+            <column name="RegionName" />
+        </property>
+        <property name="Description" type="string">
+            <column name="Description" />
+        </property>
+        <many-to-one name="AGENT" class ="com.hcmus.model.pojo.Agent" lazy="no-proxy" fetch="select" insert="false" update = "false">
+        	<column name="AgentCode" length="10"/>
+        </many-to-one>
+        
+        <many-to-one name="CITY" class ="com.hcmus.model.pojo.City" lazy="no-proxy" fetch="select" insert="false" update = "false">
+        	<column name="CityCode" length="10"/>
+        </many-to-one>
+        
+        <many-to-one name="PROCESSOR" class ="com.hcmus.model.pojo.Processor" lazy="no-proxy" fetch="select" insert="false" update = "false">
+        	<column name="BackEndProcessor" length="10"/>
+        </many-to-one>
+        
+        <many-to-one name="MERCHANTTYPE" class ="com.hcmus.model.pojo.MerchantType" lazy="no-proxy" fetch="select" insert="false" update = "false">
+        	<column name="MerchantType" length="10"/>
+        </many-to-one>
+        
+        <set name="TRANSACTIONDETAILS" table="TRANSACTION_DETAIL" lazy="extra" fetch="select">
+            <key>
+                <column name="MerchantCode" length="10" not-null="true" />
+            </key>
+            <one-to-many class="com.hcmus.model.pojo.TransactionDetail" />
+        </set>
+        <set name="RETRIVALS" table="RETRIVAL" lazy="extra" fetch="select">
+            <key>
+                <column name="MerchantCode" length="10" not-null="true" />
+            </key>
+            <one-to-many class="com.hcmus.model.pojo.Retrival" />
+        </set>
+    </class>
+</hibernate-mapping>

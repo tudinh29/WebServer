@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 29, 2016 3:35:55 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hcmus.model.pojo.CardType" table="CARD_TYPE">
+        <id name="cardTypeCode" type="string">
+            <column name="CardTypeCode" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="description" type="string">
+            <column name="Description" not-null="true" />
+        </property>
+        <set name="cards" table="CARD" inverse="true" lazy="true" fetch="select" >
+            <key>
+                <column name="CardTypeCode" length="10" not-null="true" />
+            </key>
+            <one-to-many class="com.hcmus.model.pojo.Card" />
+        </set>
+    </class>
+</hibernate-mapping>

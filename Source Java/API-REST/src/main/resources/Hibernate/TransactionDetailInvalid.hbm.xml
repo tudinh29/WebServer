@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 29, 2016 3:35:55 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hcmus.model.pojo.TransactionDetailInvalid" table="TRANSACTION_DETAIL_INVALID">
+        <composite-id>
+            <key-property name="transactionCode" column="TransactionCode" type="string"/>
+            <key-property name="reportDate" column="ReportDate" type="date"/>
+        </composite-id>
+        <property name="merchantCode" type="string">
+            <column name="MerchantCode" length="10" not-null="true" />
+        </property>
+        <property name="terminalNumber" type="string">
+            <column name="TerminalNumber" length="20" not-null="true" />
+        </property>
+        <property name="fileSource" type="int">
+            <column name="FileSource" not-null="true" />
+        </property>
+        <property name="batchNumber" type="java.lang.Long">
+            <column name="BatchNumber" />
+        </property>
+        <property name="expirationDate" type="date">
+            <column name="ExpirationDate" length="10" />
+        </property>
+        <property name="cardtypeCode" type="string">
+            <column name="CardtypeCode" length="10" />
+        </property>
+        <property name="transactionAmount" type="big_decimal">
+            <column name="TransactionAmount" scale="4" />
+        </property>
+        <property name="transactionDate" type="date">
+            <column name="TransactionDate" length="10" />
+        </property>
+        <property name="transactionTime" type="time">
+            <column name="TransactionTime" length="16" />
+        </property>
+        <property name="keyedEntry" type="java.lang.Boolean">
+            <column name="KeyedEntry" />
+        </property>
+        <property name="authorizationNumber" type="string">
+            <column name="AuthorizationNumber" length="20" />
+        </property>
+        <property name="reportTime" type="time">
+            <column name="ReportTime" length="16" />
+        </property>
+        <property name="description" type="string">
+            <column name="Description" />
+        </property>
+        <property name="accountNumber" type="string">
+            <column name="AccountNumber" length="20" not-null="true" />
+        </property>
+        <property name="firstTwelveAccountNumber" type="string">
+            <column name="FirstTwelveAccountNumber" length="12" />
+        </property>
+        <property name="transactionTypeCode" type="string">
+            <column name="TransactionTypeCode" length="10" />
+        </property>
+        <property name="regionCode" type="string">
+            <column name="RegionCode" length="10" />
+        </property>
+        <property name="merchantType" type="string">
+            <column name="MerchantType" length="10" />
+        </property>
+        <property name="agentCode" type="string">
+            <column name="AgentCode" length="10" />
+        </property>
+        <property name="errorMessage" type="string">
+            <column name="ErrorMessage" />
+        </property>
+    </class>
+</hibernate-mapping>

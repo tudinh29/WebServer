@@ -1,0 +1,98 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+<bean
+class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<property name="location">
+		<value>classpath:/Properties/environment.properties</value>
+	</property>
+</bean>
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<property name="driverClassName" value="${DataSource.driverClassName}"/>
+		<property name="url" value="${DataSource.url}"/>
+		<property name="username" value ="${DataSource.username}"/>
+		<property name="password" value ="${DataSource.password}"/>
+	</bean>		
+	<!--org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean  -->
+	<!-- org.springframework.orm.hibernate3.LocalSessionFactoryBean -->
+	<bean id="sessionFactory"
+		  class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+	         	<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	    
+	    <property name="mappingResources">
+			<list>
+           		<value>/Hibernate/Merchant.hbm.xml</value>
+           		<value>/Hibernate/Agent.hbm.xml</value>
+           		<value>/Hibernate/City.hbm.xml</value>
+           		<value>/Hibernate/Card.hbm.xml</value>
+           		<value>/Hibernate/CardType.hbm.xml</value>
+          		<value>/Hibernate/Country.hbm.xml</value>
+          		<value>/Hibernate/MerchantSummaryDaily.hbm.xml</value>
+          		<value>/Hibernate/MerchantSummaryMonthly.hbm.xml</value>
+          		<value>/Hibernate/MerchantSummaryQuarterly.hbm.xml</value>
+          		<value>/Hibernate/MerchantSummaryYearly.hbm.xml</value>
+           		<value>/Hibernate/MerchantType.hbm.xml</value>
+           		<value>/Hibernate/Processor.hbm.xml</value>
+           		<value>/Hibernate/Region.hbm.xml</value>
+           		<value>/Hibernate/Retrival.hbm.xml</value>
+           		<value>/Hibernate/TransactionDetail.hbm.xml</value>
+           		<value>/Hibernate/TransactionDetailInvalid.hbm.xml</value>
+           		<value>/Hibernate/TransactionType.hbm.xml</value>
+           		<value>/Hibernate/UserInformation.hbm.xml</value>
+			</list>
+      	</property>
+	   
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	    <property name="sessionFactory">
+	        <ref local="sessionFactory" />
+	    </property>
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+     
+   <bean id="MerchantService" class="com.hcmus.model.service.MerchantService">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+   </bean>
+   
+   <bean id="TransactionDetailService" class="com.hcmus.model.service.TransactionDetailService">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+   </bean>
+   
+   <bean id="AgentService" class="com.hcmus.model.service.AgentService">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+   </bean>
+   
+   <context:component-scan base-package="com.hcmus.controller" />
+	
+	
+	
+	
+	
+</beans>

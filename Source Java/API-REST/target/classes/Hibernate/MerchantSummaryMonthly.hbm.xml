@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 29, 2016 3:35:55 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hcmus.model.pojo.MerchantSummaryMonthly" table="MERCHANT_SUMMARY_MONTHLY">
+        <composite-id >
+            <key-property name="reportMonth" column="ReportMonth" type="int"/>
+            <key-property name="reportYear" column="ReportYear" type="int"/>
+            <key-property name="merchantCode" column="MerchantCode" type="string"/>
+        </composite-id>
+        <property name="saleAmount" type="big_decimal">
+            <column name="SaleAmount" scale="4" />
+        </property>
+        <property name="saleCount" type="java.lang.Integer">
+            <column name="SaleCount" />
+        </property>
+        <property name="returnAmount" type="big_decimal">
+            <column name="ReturnAmount" scale="4" />
+        </property>
+        <property name="returnCount" type="java.lang.Integer">
+            <column name="ReturnCount" />
+        </property>
+        <property name="netAmount" type="big_decimal">
+            <column name="NetAmount" scale="4" />
+        </property>
+        <property name="transactionCount" type="java.lang.Integer">
+            <column name="TransactionCount" />
+        </property>
+        <property name="keyedAmount" type="big_decimal">
+            <column name="KeyedAmount" scale="4" />
+        </property>
+        <property name="keyedCount" type="java.lang.Integer">
+            <column name="KeyedCount" />
+        </property>
+        <property name="keyedReturnAmount" type="big_decimal">
+            <column name="KeyedReturnAmount" scale="4" />
+        </property>
+        <property name="keyedReturnCount" type="java.lang.Integer">
+            <column name="KeyedReturnCount" />
+        </property>
+        <property name="keyedNetAmount" type="big_decimal">
+            <column name="KeyedNetAmount" scale="4" />
+        </property>
+        <property name="keyedTransactionCount" type="java.lang.Integer">
+            <column name="KeyedTransactionCount" />
+        </property>
+        <property name="foreignCardAmount" type="big_decimal">
+            <column name="ForeignCardAmount" scale="4" />
+        </property>
+        <property name="foreignCardCount" type="java.lang.Integer">
+            <column name="ForeignCardCount" />
+        </property>
+        <property name="foreignCardReturnAmount" type="big_decimal">
+            <column name="ForeignCardReturnAmount" scale="4" />
+        </property>
+        <property name="foreignCardReturnCount" type="java.lang.Integer">
+            <column name="ForeignCardReturnCount" />
+        </property>
+        <property name="foreignCardNetAmount" type="big_decimal">
+            <column name="ForeignCardNetAmount" scale="4" />
+        </property>
+        <property name="foreignCardTransactionCount" type="java.lang.Integer">
+            <column name="ForeignCardTransactionCount" />
+        </property>
+        <property name="debitCardAmount" type="big_decimal">
+            <column name="DebitCardAmount" scale="4" />
+        </property>
+        <property name="debitCardCount" type="java.lang.Integer">
+            <column name="DebitCardCount" />
+        </property>
+        <property name="debitCardReturnAmount" type="big_decimal">
+            <column name="DebitCardReturnAmount" scale="4" />
+        </property>
+        <property name="debitCardReturnCount" type="java.lang.Integer">
+            <column name="DebitCardReturnCount" />
+        </property>
+        <property name="debitCardNetAmount" type="big_decimal">
+            <column name="DebitCardNetAmount" scale="4" />
+        </property>
+        <property name="debitCardTransactionCount" type="java.lang.Integer">
+            <column name="DebitCardTransactionCount" />
+        </property>
+        <property name="visaCardAmount" type="big_decimal">
+            <column name="VisaCardAmount" scale="4" />
+        </property>
+        <property name="visaCardCount" type="java.lang.Integer">
+            <column name="VisaCardCount" />
+        </property>
+        <property name="visaCardReturnAmount" type="big_decimal">
+            <column name="VisaCardReturnAmount" scale="4" />
+        </property>
+        <property name="visaCardReturnCount" type="java.lang.Integer">
+            <column name="VisaCardReturnCount" />
+        </property>
+        <property name="visaCardNetAmount" type="big_decimal">
+            <column name="VisaCardNetAmount" scale="4" />
+        </property>
+        <property name="visaCardTransactionCount" type="java.lang.Integer">
+            <column name="VisaCardTransactionCount" />
+        </property>
+        <property name="discoverCardAmount" type="big_decimal">
+            <column name="DiscoverCardAmount" scale="4" />
+        </property>
+        <property name="discoverCardCount" type="java.lang.Integer">
+            <column name="DiscoverCardCount" />
+        </property>
+        <property name="discoverCardReturnAmount" type="big_decimal">
+            <column name="DiscoverCardReturnAmount" scale="4" />
+        </property>
+        <property name="discoverCardReturnCount" type="java.lang.Integer">
+            <column name="DiscoverCardReturnCount" />
+        </property>
+        <property name="discoverCardNetAmount" type="big_decimal">
+            <column name="DiscoverCardNetAmount" scale="4" />
+        </property>
+        <property name="discoverCardTransactionCount" type="java.lang.Integer">
+            <column name="DiscoverCardTransactionCount" />
+        </property>
+        <property name="masterCardAmount" type="big_decimal">
+            <column name="MasterCardAmount" scale="4" />
+        </property>
+        <property name="masterCardCount" type="java.lang.Integer">
+            <column name="MasterCardCount" />
+        </property>
+        <property name="masterCardReturnAmount" type="big_decimal">
+            <column name="MasterCardReturnAmount" scale="4" />
+        </property>
+        <property name="masterCardReturnCount" type="java.lang.Integer">
+            <column name="MasterCardReturnCount" />
+        </property>
+        <property name="masterCardNetAmount" type="big_decimal">
+            <column name="MasterCardNetAmount" scale="4" />
+        </property>
+        <property name="masterCardTransactionCount" type="java.lang.Integer">
+            <column name="MasterCardTransactionCount" />
+        </property>
+        <property name="americanExpressAmount" type="big_decimal">
+            <column name="AmericanExpressAmount" scale="4" />
+        </property>
+        <property name="americanExpressCount" type="java.lang.Integer">
+            <column name="AmericanExpressCount" />
+        </property>
+        <property name="americanExpressReturnAmount" type="big_decimal">
+            <column name="AmericanExpressReturnAmount" scale="4" />
+        </property>
+        <property name="americanExpressReturnCount" type="java.lang.Integer">
+            <column name="AmericanExpressReturnCount" />
+        </property>
+        <property name="americanExpressNetAmount" type="big_decimal">
+            <column name="AmericanExpressNetAmount" scale="4" />
+        </property>
+        <property name="americanExpressTransactionCount" type="java.lang.Integer">
+            <column name="AmericanExpressTransactionCount" />
+        </property>
+        <property name="otherCardAmount" type="big_decimal">
+            <column name="OtherCardAmount" scale="4" />
+        </property>
+        <property name="otherCardCount" type="java.lang.Integer">
+            <column name="OtherCardCount" />
+        </property>
+        <property name="otherCardReturnAmount" type="big_decimal">
+            <column name="OtherCardReturnAmount" scale="4" />
+        </property>
+        <property name="otherCardReturnCount" type="java.lang.Integer">
+            <column name="OtherCardReturnCount" />
+        </property>
+        <property name="otherCardNetAmount" type="big_decimal">
+            <column name="OtherCardNetAmount" scale="4" />
+        </property>
+        <property name="otherCardTransactionCount" type="java.lang.Integer">
+            <column name="OtherCardTransactionCount" />
+        </property>
+        <property name="regionCode" type="string">
+            <column name="RegionCode" length="10" />
+        </property>
+        <property name="merchantType" type="string">
+            <column name="MerchantType" length="10" />
+        </property>
+        <property name="agentCode" type="string">
+            <column name="AgentCode" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>
