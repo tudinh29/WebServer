@@ -62,6 +62,9 @@
         <property name="regionName" type="string">
             <column name="RegionName" />
         </property>
+         <many-to-one name="city" class ="com.hcmus.model.pojo.City" lazy="no-proxy" fetch="select" insert="false" update = "false">
+        	<column name="CityCode" length="10"/>
+        </many-to-one>
         <set name="merchants" table="MERCHANT"  lazy="true" fetch="select">
             <key>
                 <column name="AgentCode" length="10" not-null="true" />
