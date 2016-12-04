@@ -75,42 +75,42 @@ namespace WebMVC.Controllers
             
         }
 
-        [HttpGet]
-        public ActionResult FindAgentElement(string searchString, int? page, int size = 10)
-        {
+        //[HttpGet]
+        //public ActionResult FindAgentElement(string searchString, int? page, int size = 10)
+        //{
 
-            List<AGENT> list = new List<AGENT>();
-            var model = Session[CommonConstants.USER_SESSION];
-            var temp = new USER_INFORMATION();
-            if (model != null)
-            {
-                temp = (USER_INFORMATION)model;
-            }
-            else return View("Index");
-            //HttpClient client = new HttpClient();
-            //client.BaseAddress = new Uri("http://localhost:21212/");
-            int pageNumber = (page ?? 1);
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            if (temp.UserType == "T")
-            {
-                HttpClient client = new AccessAPI().Access();
-                if (searchString == "")
-                {
-                    return RedirectToAction("Agent");
-                }
+        //    List<AGENT> list = new List<AGENT>();
+        //    var model = Session[CommonConstants.USER_SESSION];
+        //    var temp = new USER_INFORMATION();
+        //    if (model != null)
+        //    {
+        //        temp = (USER_INFORMATION)model;
+        //    }
+        //    else return View("Index");
+        //    //HttpClient client = new HttpClient();
+        //    //client.BaseAddress = new Uri("http://localhost:21212/");
+        //    int pageNumber = (page ?? 1);
+        //    //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //    if (temp.UserType == "T")
+        //    {
+        //        HttpClient client = new AccessAPI().Access();
+        //        if (searchString == "")
+        //        {
+        //            return RedirectToAction("Agent");
+        //        }
 
-                HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAgentElement?searchString={0}", searchString)).Result;
+        //        HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAgentElement?searchString={0}", searchString)).Result;
 
-                if (response.IsSuccessStatusCode)
-                {
-                    list = response.Content.ReadAsAsync<List<AGENT>>().Result;
-                }
-                @ViewBag.searchString = searchString;
-                var listAgent = list.ToPagedList(pageNumber, size);
-                return View("Agent", listAgent);
-            }
-            else return View("Index");
-        }
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+        //        }
+        //        @ViewBag.searchString = searchString;
+        //        var listAgent = list.ToPagedList(pageNumber, size);
+        //        return View("Agent", listAgent);
+        //    }
+        //    else return View("Index");
+        //}
         
         [HttpGet]
         public ActionResult ViewDetail_Agent(string agentCode)
@@ -229,69 +229,69 @@ namespace WebMVC.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult FindMerchantElement(string searchString, int page = 1, int size = 10)
-        {
-            List<MERCHANT> list = new List<MERCHANT>();
-            var model = Session[CommonConstants.USER_SESSION];
-            var temp = new USER_INFORMATION();
-            if (model != null)
-            {
-                temp = (USER_INFORMATION)model;
-            }
-            else return View("Index");
-            //client.BaseAddress = new Uri("http://localhost:21212/");
+        //[HttpGet]
+        //public ActionResult FindMerchantElement(string searchString, int page = 1, int size = 10)
+        //{
+        //    List<MERCHANT> list = new List<MERCHANT>();
+        //    var model = Session[CommonConstants.USER_SESSION];
+        //    var temp = new USER_INFORMATION();
+        //    if (model != null)
+        //    {
+        //        temp = (USER_INFORMATION)model;
+        //    }
+        //    else return View("Index");
+        //    //client.BaseAddress = new Uri("http://localhost:21212/");
 
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpClient client = new AccessAPI().Access();
+        //    //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //    HttpClient client = new AccessAPI().Access();
 
-            if (temp.UserType == "T")
-            {
-                if (searchString == "")
-                {
-                    return RedirectToAction("Merchant");
-                }
-                else
-                {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantElement?searchString={0}", searchString)).Result;
+        //    if (temp.UserType == "T")
+        //    {
+        //        if (searchString == "")
+        //        {
+        //            return RedirectToAction("Merchant");
+        //        }
+        //        else
+        //        {
+        //            HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantElement?searchString={0}", searchString)).Result;
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
-                    }
-                    @ViewBag.searchString = searchString;
-                }
+        //            if (response.IsSuccessStatusCode)
+        //            {
+        //                list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+        //            }
+        //            @ViewBag.searchString = searchString;
+        //        }
                 
-                var listMerchant = list.ToPagedList(page, size);
-                return View("Merchant", listMerchant);
-            }
-            else
-            {
-                if (temp.UserType == "A")
-                {
-                    if (searchString == "")
-                    {
-                        return RedirectToAction("Merchant");
-                    }
-                    else
-                    {
-                        HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCodeAndElement?searchString={0}&agentCode={1}", searchString, temp.UserName)).Result;
+        //        var listMerchant = list.ToPagedList(page, size);
+        //        return View("Merchant", listMerchant);
+        //    }
+        //    else
+        //    {
+        //        if (temp.UserType == "A")
+        //        {
+        //            if (searchString == "")
+        //            {
+        //                return RedirectToAction("Merchant");
+        //            }
+        //            else
+        //            {
+        //                HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCodeAndElement?searchString={0}&agentCode={1}", searchString, temp.UserName)).Result;
 
-                        if (response.IsSuccessStatusCode)
-                        {
-                            list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
-                        }
-                        @ViewBag.searchString = searchString;
-                        @ViewBag.agentCode = temp.UserName;
-                    }
+        //                if (response.IsSuccessStatusCode)
+        //                {
+        //                    list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+        //                }
+        //                @ViewBag.searchString = searchString;
+        //                @ViewBag.agentCode = temp.UserName;
+        //            }
 
-                    var listMerchant = list.ToPagedList(page, size);
-                    return View("Merchant", listMerchant);
-                }
-                else return View("Index");
-            }
+        //            var listMerchant = list.ToPagedList(page, size);
+        //            return View("Merchant", listMerchant);
+        //        }
+        //        else return View("Index");
+        //    }
             
-        }
+        //}
 
         public void loadDataIntoViewAddNewMerchant(MERCHANT merchant=null)
         {
