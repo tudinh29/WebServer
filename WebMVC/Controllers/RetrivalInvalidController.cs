@@ -54,16 +54,32 @@ namespace WebMVC.Controllers
             }
         }
 
-        public ActionResult ExportPDF()
+        public ActionResult ExportPDF(string searchString)
         {
-            HttpClient client = new AccessAPI().Access();
-            string footer = "--footer-right \"Date: [date] [time]\" " + "--footer-center \"Page: [page] of [toPage]\" --footer-line --footer-font-size \"9\" --footer-spacing 5 --footer-font-name \"calibri light\"";
-            HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/GetAllRetrivalInvalid")).Result;
             var list = new List<RETRIVAL_INVALID>();
-            if (response.IsSuccessStatusCode)
+
+            string footer = "--footer-right \"Date: [date] [time]\" " + "--footer-center \"Page: [page] of [toPage]\" --footer-line --footer-font-size \"9\" --footer-spacing 5 --footer-font-name \"calibri light\"";
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
             {
+                temp = (USER_INFORMATION)model;
+            }
+
+            HttpClient client = new AccessAPI().Access();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/FindRetrivalInvalid?searchString={0}", searchString)).Result;
                 list = response.Content.ReadAsAsync<List<RETRIVAL_INVALID>>().Result;
             }
+            else
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/GetAllRetrivalInvalid")).Result;
+                list = response.Content.ReadAsAsync<List<RETRIVAL_INVALID>>().Result;
+            }
+
+
             return new Rotativa.PartialViewAsPdf("RetrivalError", list)
             {   //RetrivalInvalid
                 FileName = "RetrivalInvalid.pdf",
@@ -71,9 +87,23 @@ namespace WebMVC.Controllers
             };
         }
 
-        public ActionResult ExportExcel()
+        public ActionResult ExportExcel(string searchString)
         {
             var list = getAllRetrivalInvalid().ToList();
+            HttpClient client = new AccessAPI().Access();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/FindRetrivalInvalid?searchString={0}", searchString)).Result;
+                list = response.Content.ReadAsAsync<List<RETRIVAL_INVALID>>().Result;
+            }
+            else
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/GetAllRetrivalInvalid")).Result;
+                list = response.Content.ReadAsAsync<List<RETRIVAL_INVALID>>().Result;
+            }
 
             var gv = new GridView();
             gv.DataSource = list;
@@ -97,9 +127,23 @@ namespace WebMVC.Controllers
             return View("Index");
         }
 
-        public ActionResult ExportCSV()
+        public ActionResult ExportCSV(string searchString)
         {
             var list = getAllRetrivalInvalid().ToList();
+            HttpClient client = new AccessAPI().Access();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/FindRetrivalInvalid?searchString={0}", searchString)).Result;
+                list = response.Content.ReadAsAsync<List<RETRIVAL_INVALID>>().Result;
+            }
+            else
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/GetAllRetrivalInvalid")).Result;
+                list = response.Content.ReadAsAsync<List<RETRIVAL_INVALID>>().Result;
+            }
 
             StringWriter sw = new StringWriter();
             sw.WriteLine("Retrival Code,Account Number,Merchant Code,Transaction Code,Tracsaction Date,Report Date,Amount, Error Message");
