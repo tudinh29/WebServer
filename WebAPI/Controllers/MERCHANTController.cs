@@ -18,6 +18,12 @@ namespace WebAPI.Controllers
     {
         private APIDbContext db = new APIDbContext();
 
+        [HttpGet]
+        public List<MERCHANT> FindFilter(string query)
+        {
+            var res = db.Database.SqlQuery<MERCHANT>(query).ToList();
+            return res;
+        }
 
         [HttpGet]
         public List<MERCHANT> FindAllMerchant()
