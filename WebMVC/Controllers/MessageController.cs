@@ -59,7 +59,7 @@ namespace WebMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 message = response.Content.ReadAsAsync<MESSAGE>().Result;
-                if (message.Receiver != null)
+                if (message.Receiver != "ALL" && message.Receiver != "all" && user.UserName != message.Sender)
                 {
                     HttpResponseMessage response1 = client.PostAsync(string.Format("api/MESSAGE/UpdateIsRead?ID={0}", id), content).Result;
                     bool check = response1.IsSuccessStatusCode;

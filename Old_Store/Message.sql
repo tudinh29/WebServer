@@ -1,6 +1,7 @@
 ﻿-------------------------------MESSAGE-------------------------------------
 /*
-Version          Changer                Date               Detail         
+Version          Changer                Date               Detail
+1.1              Phạm Ngọc Thiện        23/11/2016         Cập nhật lại điều kiện readmessage                 
 1.0              Phạm Ngọc Thiện        07/11/2016         Đọc danh sách tin nhắn
 */
 create proc sp_ReadMessage
@@ -10,7 +11,7 @@ as
 begin
 	select *
 	from MESSAGE M
-	where (M.ReceiverType = @UserType and (M.Receiver = @MaCode)) or (M.ReceiverType = @UserType and (M.Receiver IS NULL))
+	where (M.ReceiverType = @UserType and (M.Receiver = @MaCode)) or (M.ReceiverType = @UserType and (M.Receiver = 'ALL'))
 	order by M.DateSend desc
 end
 go
@@ -93,7 +94,7 @@ AS
 BEGIN
 	SELECT COUNT(*) AS Number
 	FROM MESSAGE M
-	WHERE ((M.ReceiverType = @UserType and (M.Receiver = @MaCode)) or (M.ReceiverType = @UserType and (M.Receiver IS NULL))) AND M.IsRead = 0 AND M.Receiver IS NOT NULL;
+	WHERE ((M.ReceiverType = @UserType and (M.Receiver = @MaCode)) or (M.ReceiverType = @UserType and (M.Receiver = 'ALL'))) AND M.IsRead = 0 AND M.Receiver != 'ALL';
 END
 
 --------------------------------------------------------------------------------------
