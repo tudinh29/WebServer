@@ -20,29 +20,44 @@
         <thead>
             <tr>
                 <th>Nơi gửi</th>
-                <th>Kiểu nơi gửi</th>
+                @*<th>Kiểu nơi gửi</th>*@
                 <th>Nơi nhận</th>
                 <th>Kiểu nơi nhận</th>
-                @*<th>Message</th>*@
+                <th>Message</th>
                 <th>Ngày gửi</th>
                 <th>Trạng Thái</th>
             </tr>
         </thead>
         <tbody>
-            
                 @foreach (var item in Model)
                 {
+                    int length = item.Message.Length;
+                    
                     <tr id="@item.ID">
                         <td>@item.Sender</td>
-                        <td>@item.SenderType</td>
+                        @*<td>@item.SenderType</td>*@
                         <td>@item.Receiver</td>
                         <td>@item.ReceiverType</td>
-                        @*<td>thông báo cho merchant</td>*@
+                        @if (length >= 10)
+                        {
+                            <td>@item.Message.Substring(0, 10)</td>
+                        }
+                        else
+                        {
+                            <td>@item.Message.Substring(0, length)</td>
+                        }
                         <td>@item.DateSend</td>
                         <td>
                             @if (item.IsRead == false)
                             {
-                                <a href="/Message/ViewMessage/@item.ID" class="btn btn-primary btn-lg">Chưa xem</a>
+                                if (item.Receiver == "ALL" || item.Receiver == "all")
+                                {
+                                    <a href="/Message/ViewMessage/@item.ID" class="btn btn-success btn-lg">Chưa xem</a>
+                                }
+                                else
+                                {
+                                    <a href="/Message/ViewMessage/@item.ID" class="btn btn-primary btn-lg">Chưa xem</a>
+                                }
                             }
                             else
                             {

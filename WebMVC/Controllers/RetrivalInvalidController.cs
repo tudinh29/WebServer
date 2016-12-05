@@ -57,7 +57,6 @@ namespace WebMVC.Controllers
         public ActionResult ExportPDF(string searchString)
         {
             var list = new List<RETRIVAL_INVALID>();
-           
             string footer = "--footer-right \"Date: [date] [time]\" " + "--footer-center \"Page: [page] of [toPage]\" --footer-line --footer-font-size \"9\" --footer-spacing 5 --footer-font-name \"calibri light\"";
             var model = Session[CommonConstants.USER_SESSION];
             var temp = new USER_INFORMATION();
@@ -79,7 +78,6 @@ namespace WebMVC.Controllers
                 list = response.Content.ReadAsAsync<List<RETRIVAL_INVALID>>().Result;
             }
 
-           
             return new Rotativa.PartialViewAsPdf("RetrivalError", list)
             {   //RetrivalInvalid
                 FileName = "RetrivalInvalid.pdf",
@@ -93,7 +91,7 @@ namespace WebMVC.Controllers
             HttpClient client = new AccessAPI().Access();
             var model = Session[CommonConstants.USER_SESSION];
             var temp = new USER_INFORMATION();
-            
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/FindRetrivalInvalid?searchString={0}", searchString)).Result;
