@@ -158,8 +158,17 @@ namespace WebMVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult Merchant(string searchString, int page = 1, int size = 10)
+        public ActionResult Merchant(string MerchantType, string RegionType, string Active, List<string> MerchantTypeValue, List<string> RegionTypeValue, List<string> ActiveTypeValue, string searchString, int page = 1, int size = 10)
         {
+            CheckBoxValue(ref MerchantType, ref MerchantTypeValue);
+            ViewBag.tempMerchantType = MerchantType;
+
+            CheckBoxValue(ref RegionType, ref RegionTypeValue);
+            ViewBag.tempRegionType = RegionType;
+
+            CheckBoxValue(ref Active, ref ActiveTypeValue);
+            ViewBag.tempActive = Active;           
+
             List<MERCHANT> list = new List<MERCHANT>();
             var model = Session[CommonConstants.USER_SESSION];
             var temp = new USER_INFORMATION();
@@ -170,19 +179,58 @@ namespace WebMVC.Controllers
             else return View("Index");
             HttpClient client = new AccessAPI().Access();
             @ViewBag.action = "Merchant";
+            HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
+            HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/FindAllRegion")).Result;
+            if (responseMerchantType.IsSuccessStatusCode && responseRegion.IsSuccessStatusCode)
+            {
+                List<MERCHANT_TYPE> listMerchantType = responseMerchantType.Content.ReadAsAsync<List<MERCHANT_TYPE>>().Result;
+                List<REGION> listRegion = responseRegion.Content.ReadAsAsync<List<REGION>>().Result;
+                ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "Description");
+                ViewBag.RegionType = new SelectList(listRegion, "RegionCode", "RegionName");
+            }
+
             if (temp.UserType == "T")
             {
                 if (String.IsNullOrEmpty(searchString))
                 {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
-                    if (response.IsSuccessStatusCode)
+                    if(MerchantTypeValue == null &&  RegionTypeValue == null && ActiveTypeValue == null)
                     {
-                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                        }
+
+                        var listMerchant = list.ToPagedList(page, size);
+
+                        return View(listMerchant);
                     }
+                    else
+                    {
+                        //string ViewBa = HttpUtility.UrlDecode(MerchantTypeValue[0]);
+                        string abc = Request.QueryString["MerchantTypeValue"];
+                        string query = queryFilter(MerchantTypeValue, RegionTypeValue, ActiveTypeValue);
+                        //string url = HttpContext.Current.Request.Url.PathAndQuery;
+                        //ViewBag.Url = Request.Url.Query;
+                        List<MERCHANT> listMerchant = new List<MERCHANT>();
+                        HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/MERCHANT/FindFilter?query={0}", query)).Result;
 
-                    var listMerchant = list.ToPagedList(page, size);
+                        if (responseFilter.IsSuccessStatusCode)
+                        {
+                            listMerchant = responseFilter.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                        }
+                        //MerchantTypeValue=CL&MerchantTypeValue=DN
+                        //string ViewBa = HttpUtility.UrlDecode(MerchantTypeValue[0]); 
+                        var listMerchant_1 = listMerchant.ToPagedList(page, size);
+                        ViewBag.MerchantTypeValue = MerchantTypeValue;
+                        ViewBag.RegionTypeValue = RegionTypeValue;
+                        ViewBag.ActiveTypeValue = ActiveTypeValue;
+                        ViewBag.query = "CLMerchantTypeValueDN";//Server.UrlEncode("Dog&Cat"); ;
 
-                    return View(listMerchant);
+                        //MerchantTypeValue=CL&MerchantTypeValue=DN
+                        return View(listMerchant_1);
+                    }
+                    
                 }
                 else
                 {
@@ -824,6 +872,82 @@ namespace WebMVC.Controllers
             Response.End();
 
             return View("Index");
+        }
+
+        private void CheckBoxValue(ref string tempCheck, ref List<string> TypeValue)
+        {
+            if (TypeValue == null && String.IsNullOrEmpty(tempCheck) == false)
+                TypeValue = tempCheck.Split(',').ToList();
+            if (String.IsNullOrEmpty(tempCheck) && TypeValue != null)
+                tempCheck = String.Join(",", TypeValue);
+        }
+        public string queryFilter(List<string> MerchantTypeValue, List<string> RegionTypeValue, List<string> ActiveTypeValue)
+        {
+            string query = "select * from MERCHANT M where ";
+            string ConditionMerchant = "";
+            string ConditionRegion = "";
+            string ConditionActive = "";
+            if (MerchantTypeValue != null)
+            {
+                ConditionMerchant = ConditionMerchant + "(";
+                for (int i = 0; i < MerchantTypeValue.Count; i++)
+                {
+                    ConditionMerchant = ConditionMerchant + "M.MerchantType = " + "'" + MerchantTypeValue[i] + "'";
+                    if (i < MerchantTypeValue.Count - 1)
+                    {
+                        ConditionMerchant = ConditionMerchant + " or ";
+                    }
+                }
+                ConditionMerchant = ConditionMerchant + ")";
+                query = query + ConditionMerchant;
+            }
+
+            if (RegionTypeValue != null)
+            {
+                ConditionRegion = ConditionRegion + "(";
+                for (int i = 0; i < RegionTypeValue.Count; i++)
+                {
+                    ConditionRegion = ConditionRegion + "M.RegionCode = " + "'" + RegionTypeValue[i] + "'";
+                    if (i < RegionTypeValue.Count - 1)
+                    {
+                        ConditionRegion = ConditionRegion + " or ";
+                    }
+                }
+                ConditionRegion = ConditionRegion + ")";
+
+                if (MerchantTypeValue == null)
+                {
+                    query = query + ConditionRegion;
+                }
+                else
+                {
+                    query = query + " and " + ConditionRegion;
+                }
+            }
+
+            if (ActiveTypeValue != null)
+            {
+                ConditionActive = ConditionActive + "(";
+                for (int i = 0; i < ActiveTypeValue.Count; i++)
+                {
+                    ConditionActive = ConditionActive + "M.Status = " + "'" + ActiveTypeValue[i] + "'";
+                    if (i < ActiveTypeValue.Count - 1)
+                    {
+                        ConditionActive = ConditionActive + " or ";
+                    }
+                }
+                ConditionActive = ConditionActive + ")";
+
+                if (RegionTypeValue == null && MerchantTypeValue == null)
+                {
+                    query = query + ConditionActive;
+                }
+                else
+                {
+                    query = query + " and " + ConditionActive;
+                }
+            }
+            return query;
         }
     }
 }
