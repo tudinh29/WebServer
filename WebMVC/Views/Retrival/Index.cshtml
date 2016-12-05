@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<WebMVC.EntityFramework.RETRIVAL>
+﻿@model List<WebMVC.EntityFramework.RETRIVAL>
 @using PagedList.Mvc;
 @using System.Web.Mvc;
 @{
@@ -56,14 +56,38 @@
                                 <td>@item.AccountNumber</td>
                                 <td>@item.MerchantCode</td>
                                 <td>@item.TransactionCode</td>
-                                <td>@item.TransactionDate.Value.ToString("yyyy-MM-dd")</td>
-                                <td>@item.ReportDate.Value.ToString("yyyy-MM-dd")</td>
+                                <td>@item.TransactionDate</td>
+                                <td>@item.ReportDate</td>
                                 <td>@item.Amout</td>
                             </tr>
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, Page => Url.Action("Index", "Retrival", new { Page, searchString = ViewBag.searchString }))
+                @if (ViewBag.TotalPage > 1)
+                {
+                    var pageDisplay = (int)ViewBag.MaxPage;
+                    int totalPage = (int)ViewBag.TotalPage;
+                    int currentPage = (int)ViewBag.Page;
+
+                    var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                    var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                @Html.ActionLink("Trang đầu", "Index", "Retrival", new { page = ViewBag.First, searchString = ViewBag.searchString }, null)
+                            </li>
+                            @for (int i = startPageIndex; i <= endPageIndex; i++)
+                            {
+                                <li>
+                                    @Html.ActionLink(i.ToString(), "Index", "Retrival", new { page = i, searchString = ViewBag.searchString }, null)
+                                </li>
+                            }
+                            <li>
+                                @Html.ActionLink("Trang cuối", "Index", "Retrival", new { page = ViewBag.Last, searchString = ViewBag.searchString }, null)
+                            </li>
+                        </ul>
+                    </nav>
+                }
             </div>
             <div class="panel-body">
                 <div class="row">
