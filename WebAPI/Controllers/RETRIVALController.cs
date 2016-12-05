@@ -16,9 +16,14 @@ namespace WebAPI.Controllers
         private APIDbContext db = new APIDbContext();
 
         [HttpGet]
-        public List<RETRIVAL> FindAllRetrival()
+        public List<RETRIVAL> FindAllRetrival(int pageIndex, int pageSize)
         {
-            var res = db.Database.SqlQuery<RETRIVAL>("sp_FindAllRetrival").ToList();
+            object[] paremeter = 
+                {
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+            var res = db.Database.SqlQuery<RETRIVAL>("sp_FindAllRetrival @pageIndex, @pageSize", paremeter).ToList();
             return res;
         }
 
@@ -34,17 +39,34 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<RETRIVAL> FindRetrivalElement(string searchString)
+        public List<RETRIVAL> FindRetrivalElement(string searchString, int pageIndex, int pageSize)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+
+            var res = db.Database.SqlQuery<RETRIVAL>("exec sp_FindRetrivalElement @Element, @pageIndex, @pageSize", parameter).ToList();
+            return res;
+        }
+        [HttpGet]
+        public int CountRetrivalElement(string searchString)
         {
             object[] parameter =
                 {
                     new SqlParameter("@Element", searchString)
                 };
-
-            var res = db.Database.SqlQuery<RETRIVAL>("exec sp_FindRetrivalElement @Element", parameter).ToList();
-            return res;
+            var res = db.Database.SqlQuery<int>("sp_CountRetrivalElement @Element", parameter).ToList();
+            return res[0];
         }
-
+        [HttpGet]
+        public int CountRetrival()
+        {
+            var res = db.Database.SqlQuery<int>("sp_CountRetrival").ToList();
+            return res[0];
+        }
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutRETRIVAL(string id, RETRIVAL rETRIVAL)
         {
