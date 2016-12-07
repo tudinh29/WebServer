@@ -1,5 +1,10 @@
---Alter procedure sp_FindRetrivalElement
-ALTER proc [dbo].[sp_FindRetrivalElement] @Element varchar(50), @pageIndex int, @pageSize int
+DROP PROCEDURE [dbo].[sp_FindRetrivalElement_ForQuery] 
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[sp_FindRetrivalElement_ForQuery] @Element varchar(50), @pageIndex int, @pageSize int
 AS
 BEGIN
 		SELECT a.RetrivalCode, a.AccountNumber, a.MerchantCode, a.TransactionCode, a.TransactionDate, a.ReportDate, a.Amout 
@@ -15,8 +20,15 @@ BEGIN
 		Offset @pageIndex*@pageSize row 
 		fetch next @pageSize row only 
 END
+GO
 
-CREATE proc [dbo].[sp_CountRetrivalElement] @Element varchar(50)
+DROP PROCEDURE [dbo].[sp_CountRetrivalElement] 
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[sp_CountRetrivalElement] @Element varchar(50)
 AS
 BEGIN
 		SELECT Count(*) 
@@ -29,9 +41,15 @@ BEGIN
 			   OR a.ReportDate like '%'+@Element+'%'
 				OR a.TransactionDate like '%'+@Element+'%'
 END
+GO
 
---Alter proc find all retrival
-ALTER proc [dbo].[sp_FindAllRetrival]
+DROP PROCEDURE [dbo].[sp_FindAllRetrival_ForQuery]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[sp_FindAllRetrival_ForQuery]
 	@pageIndex int,
 	@pageSize int
 as
@@ -42,10 +60,18 @@ begin
 	Offset @pageIndex*@pageSize row 
 	fetch next @pageSize row only 
 end
+GO
 
+DROP PROCEDURE [dbo].[sp_CountRetrival]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROC [dbo].[sp_CountRetrival]
 AS
 BEGIN
 	SELECT Count(*)
 	FROM RETRIVAL
 END
+GO
