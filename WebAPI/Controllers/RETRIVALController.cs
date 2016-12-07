@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
                     new SqlParameter("@pageIndex", pageIndex),
                     new SqlParameter("@pageSize", pageSize)
                 };
-            var res = db.Database.SqlQuery<RETRIVAL>("sp_FindAllRetrival @pageIndex, @pageSize", paremeter).ToList();
+            var res = db.Database.SqlQuery<RETRIVAL>("sp_FindAllRetrival_ForQuery @pageIndex, @pageSize", paremeter).ToList();
             return res;
         }
 
@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
                     new SqlParameter("@pageSize", pageSize)
                 };
 
-            var res = db.Database.SqlQuery<RETRIVAL>("exec sp_FindRetrivalElement @Element, @pageIndex, @pageSize", parameter).ToList();
+            var res = db.Database.SqlQuery<RETRIVAL>("exec sp_FindRetrivalElement_ForQuery @Element, @pageIndex, @pageSize", parameter).ToList();
             return res;
         }
         [HttpGet]
