@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 29, 2016 3:35:55 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hcmus.model.pojo.Agent" table="AGENT">
+        <id name="agentCode" type="string">
+            <column name="AgentCode" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="cityCode" type = "string">
+            <column name="CityCode" length="10" />
+        </property>
+        <property name="agentName" type="string">
+            <column name="AgentName" not-null="true" />
+        </property>
+        <property name="agentStatus" type="java.lang.Character">
+            <column name="AgentStatus" length="1" />
+        </property>
+        <property name="owner" type="string">
+            <column name="Owner" />
+        </property>
+        <property name="address1" type="string">
+            <column name="Address1" />
+        </property>
+        <property name="address2" type="string">
+            <column name="Address2" />
+        </property>
+        <property name="address3" type="string">
+            <column name="Address3" />
+        </property>
+        <property name="zip" type="java.lang.Integer">
+            <column name="Zip" />
+        </property>
+        <property name="phone" type="string">
+            <column name="Phone" length="20" />
+        </property>
+        <property name="fax" type="string">
+            <column name="Fax" length="20" />
+        </property>
+        <property name="email" type="string">
+            <column name="Email" length="30" />
+        </property>
+        <property name="approvalDate" type="date">
+            <column name="ApprovalDate" length="10" />
+        </property>
+        <property name="closeDate" type="date">
+            <column name="CloseDate" length="10" />
+        </property>
+        <property name="firstActiveDate" type="date">
+            <column name="FirstActiveDate" length="10" />
+        </property>
+        <property name="lastActiveDate" type="date">
+            <column name="LastActiveDate" length="10" />
+        </property>
+        <property name="cityName" type="string">
+            <column name="CityName" />
+        </property>
+        <property name="regionCode" type="string">
+            <column name="RegionCode" length="10" />
+        </property>
+        <property name="regionName" type="string">
+            <column name="RegionName" />
+        </property>
+         <many-to-one name="city" class ="com.hcmus.model.pojo.City" lazy="no-proxy" fetch="select" insert="false" update = "false">
+        	<column name="CityCode" length="10"/>
+        </many-to-one>
+        <set name="merchants" table="MERCHANT"  lazy="true" fetch="select">
+            <key>
+                <column name="AgentCode" length="10" not-null="true" />
+            </key>
+            <one-to-many class="com.hcmus.model.pojo.Merchant" />
+        </set>
+    </class>
+</hibernate-mapping>

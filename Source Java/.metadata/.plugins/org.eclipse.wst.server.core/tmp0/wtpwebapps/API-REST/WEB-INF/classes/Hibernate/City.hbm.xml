@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 29, 2016 3:35:55 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hcmus.model.pojo.City" table="CITY">
+        <id name="cityCode" type="string">
+            <column name="CityCode" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="regionCode" type="string">
+            <column name="RegionCode" length="10"  />
+        </property>
+        
+        <many-to-one name="region" class="com.hcmus.model.pojo.Region" lazy="no-proxy" fetch="select" insert="false" update = "false">
+            <column name="RegionCode" length="10" />
+        </many-to-one>
+     
+        <property name="cityName" type="string">
+            <column name="CityName" not-null="true" />
+        </property>
+        <set name="merchants" table="MERCHANT" lazy="true" fetch="select">
+            <key>
+                <column name="CityCode" length="10" />
+            </key>
+            <one-to-many class="com.hcmus.model.pojo.Merchant" />
+        </set>
+        <set name="agents" table="AGENT" lazy="true" fetch="select">
+            <key>
+                <column name="CityCode" length="10" />
+            </key>
+            <one-to-many class="com.hcmus.model.pojo.Agent" />
+        </set>
+    </class>
+</hibernate-mapping>

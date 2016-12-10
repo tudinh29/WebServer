@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 29, 2016 3:35:55 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hcmus.model.pojo.UserInformation" table="USER_INFORMATION">
+        <id name="userName" type="string">
+            <column name="UserName" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="password" type="string">
+            <column name="Password" length="32" not-null="true" />
+        </property>
+        <property name="userType" type="char">
+            <column name="UserType" length="1" not-null="true" />
+        </property>
+        <property name="status" type="char">
+            <column name="Status" length="1" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
