@@ -646,6 +646,7 @@
     <Compile Include="EntityFramework\CITY.cs" />
     <Compile Include="EntityFramework\COUNTRY.cs" />
     <Compile Include="EntityFramework\MERCHANT.cs" />
+    <Compile Include="EntityFramework\MERCHANT_SUMMARY.cs" />
     <Compile Include="EntityFramework\MERCHANT_SUMMARY_DAILY.cs" />
     <Compile Include="EntityFramework\MERCHANT_SUMMARY_MONTHLY.cs" />
     <Compile Include="EntityFramework\MERCHANT_SUMMARY_QUARTERLY.cs" />

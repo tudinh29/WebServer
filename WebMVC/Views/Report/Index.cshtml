@@ -4,10 +4,10 @@
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var listSummary = ViewBag.listSummary as List<MERCHANT_SUMMARY_DAILY>;
-    var listRegion = ViewBag.listRegion as List<MERCHANT_SUMMARY_DAILY>;
-    var listMerchantType = ViewBag.listMerchantType as List<MERCHANT_SUMMARY_DAILY>;
-    var cardTypeReport = ViewBag.cardTypeReport as List<MERCHANT_SUMMARY_DAILY>;
+    var listSummary = ViewBag.listSummary as List<MERCHANT_SUMMARY>;
+    var listRegion = ViewBag.listRegion as List<MERCHANT_SUMMARY>;
+    var listMerchantType = ViewBag.listMerchantType as List<MERCHANT_SUMMARY>;
+    var cardTypeReport = ViewBag.cardTypeReport as List<MERCHANT_SUMMARY>;
     var lineChartData = ViewBag.lineChartData as List<Statistic>;
     //region
     var NorthVN = listRegion.Find(x => x.RegionCode.Contains("NorthVN"));
@@ -38,10 +38,15 @@
 }
 
 <form id="mainform" action="http://localhost:21231/Report" method="POST">
-    <input name="startdate" id="startdate" style="display:none" type="text">
-    <input name="enddate" id="enddate" style="display:none" type="text">
     <input name="reportType" id="reportType" style="display:none" type="text">
-
+    <input name="reportStartDate" id="reportStartDate" style="display:none" type="text">
+    <input name="reportEndDate" id="reportEndDate" style="display:none" type="text">
+    <input name="reportStartMonth" id="reportStartMonth" style="display:none" type="text">
+    <input name="reportEndMonth" id="reportEndMonth" style="display:none" type="text">
+    <input name="reportStartYear" id="reportStartYear" style="display:none" type="text">
+    <input name="reportEndYear" id="reportEndYear" style="display:none" type="text">
+    <input name="reportStartQuarter" id="reportStartQuarter" style="display:none" type="text">
+    <input name="reportEndQuarter" id="reportEndQuarter" style="display:none" type="text">
 
 
     <ul class="nav nav-tabs">
@@ -866,7 +871,7 @@
             var LineData = String.Empty;
             var CardTypeData = String.Empty;
 
-            foreach (MERCHANT_SUMMARY_DAILY item in listMerchantType)
+            foreach (MERCHANT_SUMMARY item in listMerchantType)
             {
                 if (item.MerchantType == null)
                 {
@@ -892,7 +897,7 @@
                 LineData = LineData.Substring(0, LineData.Length - 1);
             }
 
-            foreach (MERCHANT_SUMMARY_DAILY item in listRegion)
+            foreach (MERCHANT_SUMMARY item in listRegion)
             {
                 if (item.RegionCode == null)
                 {
@@ -906,7 +911,7 @@
             }
 
 
-            foreach (MERCHANT_SUMMARY_DAILY item in cardTypeReport)
+            foreach (MERCHANT_SUMMARY item in cardTypeReport)
             {
                 CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Foreign Card").Replace("{1}", item.ForeignCardAmount.ToString());
                 CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Debit Card").Replace("{1}", item.DebitCardAmount.ToString());
@@ -1142,49 +1147,54 @@
     $(document).ready(function () {
         var dateFormat = 'YYYYMMDD';
         $('#viewThisMonth').click(function () {
-            $("#startdate").attr("value", moment().startOf('month').format(dateFormat));
-            $("#enddate").attr("value", moment().endOf('month').format(dateFormat));
-            $("#reportType").attr("value", "Month");
+            $("#reportStartDate").attr("value", moment().startOf('month').format(dateFormat));
+            $("#reportEndDate").attr("value", moment().startOf('day').format(dateFormat));
+            $("#reportType").attr("value", "Day");
             $("#mainform").submit();
-
-            console.log(moment().startOf('month').format(dateFormat));
-            console.log(moment().endOf('month').format(dateFormat));
         });
 
         $('#viewThisYear').click(function () {
-            $("#startdate").attr("value", moment().startOf('year').format(dateFormat));
-            $("#enddate").attr("value", moment().endOf('year').format(dateFormat));
+            $("#reportStartMonth").attr("value", '1');
+            $("#reportEndMonth").attr("value", moment().startOf('month').format('MM'));
+            $("#reportStartYear").attr("value", moment().startOf('year').format('YYYY'));
+            $("#reportEndYear").attr("value", moment().startOf('year').format('YYYY'));
+            $("#reportType").attr("value", "Month");
             $("#mainform").submit();
-
-            console.log(moment().startOf('year').format(dateFormat));
-            console.log(moment().endOf('year').format(dateFormat));
         });
 
         $('#viewThisQuarter').click(function () {
-            $("#startdate").attr("value", moment().startOf('quarter').format(dateFormat));
-            $("#enddate").attr("value", moment().endOf('quarter').format(dateFormat));
+            $("#reportStartMonth").attr("value", moment().startOf('quarter').format('MM'));
+            $("#reportEndMonth").attr("value", moment().startOf('month').format('MM'));
+            $("#reportStartYear").attr("value", moment().startOf('year').format('YYYY'));
+            $("#reportEndYear").attr("value", moment().startOf('year').format('YYYY'));
+            $("#reportType").attr("value", "Month");
             $("#mainform").submit();
-
-            console.log(moment().startOf('quarter').format(dateFormat));
-            console.log(moment().endOf('quarter').format(dateFormat));
         });
 
         $('#viewDay').click(function () {
-            $("#startdate").attr("value", moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
-            $("#enddate").attr("value", moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
+            $("#reportStartDate").attr("value", moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
+            $("#reportEndDate").attr("value", moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
+            $("#reportType").attr("value", "Day");
             $("#mainform").submit();
-
-            console.log(moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
-            console.log(moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
         });
 
         $('#viewMonth').click(function () {
-            $("#startdate").attr("value", moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
-            $("#enddate").attr("value", moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
-            $("#mainform").submit();
+            var startDateUserInput = moment("01/" + $('#startMonth').val(), "DD/MM/YYYY");
+            var endDateUserInput = moment("01/" + $('#endMonth').val(), "DD/MM/YYYY");
 
-            console.log(moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
-            console.log(moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
+            if ($('#startMonth').val() === $('#endMonth').val()) {
+                $("#reportStartDate").attr("value", startDateUserInput.format(dateFormat));
+                $("#reportEndDate").attr("value", endDateUserInput.endOf("month").format(dateFormat));
+                $("#reportType").attr("value", "Day");
+            } else {
+                $("#reportStartMonth").attr("value", startDateUserInput.format('MM'));
+                $("#reportEndMonth").attr("value", endDateUserInput.format('MM'));
+                $("#reportStartYear").attr("value", startDateUserInput.format('YYYY'));
+                $("#reportEndYear").attr("value", endDateUserInput.format('YYYY'));
+                $("#reportType").attr("value", "Month");
+            }
+           
+            $("#mainform").submit();
         });
 
         $('#viewQuarter').click(function () {
@@ -1197,12 +1207,18 @@
         });
 
         $('#viewYear').click(function () {
-            $("#startdate").attr("value", moment("01/01/" + $('#startYear').val(), "DD/MM/ YYYY").format(dateFormat));
-            $("#enddate").attr("value", moment("31/12/" + $('#endYear').val(), "DD/MM/ YYYY").endOf("year").format(dateFormat));
-            $("#mainform").submit();
+            if ($('#startYear').val() === $('#endYear').val()) {
+                $("#reportStartMonth").attr("value", '1');
+                $("#reportEndMonth").attr("value", '12');
+               
+                $("#reportType").attr("value", "Month");
+            } else {
+                $("#reportType").attr("value", "Year");
+            }
+            $("#reportStartYear").attr("value", $('#startYear').val().replace(" ", ""));
+            $("#reportEndYear").attr("value", $('#endYear').val().replace(" ", ""));
 
-            console.log(moment("01/01/" + $('#startYear').val(), "DD/MM/ YYYY").format(dateFormat));
-            console.log(moment("31/12/" + $('#endYear').val(), "DD/MM/ YYYY").endOf("year").format(dateFormat));
+            $("#mainform").submit();
         });
 
     });

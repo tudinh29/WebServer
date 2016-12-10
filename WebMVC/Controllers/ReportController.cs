@@ -18,29 +18,78 @@ namespace WebMVC.Controllers
         // GET: Report
         public ActionResult Index()
         {
-            string startDate = "20161030";
-            string endDate = "20161130";
             string reportType = "Day";
+            string reportStartDate = "20161101";// DateTime.Now.ToString("yyyyMM") + "01";
+            string reportEndDate = "20161130";//DateTime.Now.ToString("yyyyMMdd");
+            string reportStartMonth = String.Empty;
+            string reportEndMonth = String.Empty;
+            string reportStartYear = String.Empty;
+            string reportEndYear = String.Empty;
+            string reportStartQuarter = String.Empty;
+            string reportEndQuarter = String.Empty;
+
+            string reportDataDayFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDataGenerality?startDate={0}&endDate={1}";
+            string reportDateDayForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDateForLineChartGenerality?startDate={0}&endDate={1}";
+
+            string reportDataMonthFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDataMonthly?startMonth={0}&startYear={1}&endMonth={2}&endYear={3}";
+            string reportDateMonthForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDateForLineChartMonthly?startMonth={0}&startYear={1}&endMonth={2}&endYear={3}";
+
+            string reportDataQuarterFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDataQuarterly?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}";
+            string reportDateQuarterForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDateForLineChartQuarterly?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}";
+
+            string reportDataYearFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDataYearly?startYear={0}&endYear={1}";
+            string reportDateYearForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDateForLineChartYearly?startYear={0}&endYear={1}";
+
+            string reportDataAPI = String.Format(reportDataDayFormat, reportStartDate, reportEndDate);
+            string reportDateForLineAPI = String.Format(reportDateDayForLineFormat, reportStartDate, reportEndDate);
 
             if (HttpContext.Request.HttpMethod == "POST")
             {
-                startDate = Request["startdate"];
-                endDate = Request["enddate"];
                 reportType = Request["reportType"];
+                reportStartDate = Request["reportStartDate"];
+                reportEndDate = Request["reportEndDate"];
+                reportStartMonth = Request["reportStartMonth"];
+                reportEndMonth = Request["reportEndMonth"];
+                reportStartYear = Request["reportStartYear"];
+                reportEndYear = Request["reportEndYear"];
+                reportStartQuarter = Request["reportStartQuarter"];
+                reportEndQuarter = Request["reportEndQuarter"];
+
+                switch (reportType.ToLower())
+                {
+                    case "day":
+                        reportDataAPI = String.Format(reportDataDayFormat, reportStartDate, reportEndDate);
+                        reportDateForLineAPI = String.Format(reportDateDayForLineFormat, reportStartDate, reportEndDate);
+                        break;
+                    case "month":
+                        reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear);
+                        reportDateForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear);
+                        break;
+                    case "quarter":
+                        reportDataAPI = String.Format(reportDataQuarterFormat, reportStartQuarter, reportStartYear, reportEndQuarter, reportEndYear);
+                        reportDateForLineAPI = String.Format(reportDateQuarterForLineFormat, reportStartQuarter, reportStartYear, reportEndQuarter, reportEndYear);
+                        break;
+                    case "year":
+                        reportDataAPI = String.Format(reportDataYearFormat, reportStartYear, reportEndYear);
+                        reportDateForLineAPI = String.Format(reportDateYearForLineFormat, reportStartYear, reportEndYear);
+                        break;
+                    default:
+                        break;
+                }
             }
             
-            List<MERCHANT_SUMMARY_DAILY> list = new List<MERCHANT_SUMMARY_DAILY>();
+            List<MERCHANT_SUMMARY> list = new List<MERCHANT_SUMMARY>();
 
             HttpClient client = new AccessAPI().Access();
-            HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetReportDataGenerality?startDate={0}&endDate={1}", startDate, endDate)).Result;
+            HttpResponseMessage response = client.GetAsync(reportDataAPI).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_DAILY>>().Result;
+                list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY>>().Result;
             }
             else return View("Index");
 
-            response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetReportDateForLineChartGenerality?startDate={0}&endDate={1}", startDate, endDate)).Result;
+            response = client.GetAsync(reportDateForLineAPI).Result;
             List<Models.Statistic> lineChartData = new List<Models.Statistic>();
             if (response.IsSuccessStatusCode)
             {
@@ -78,9 +127,9 @@ namespace WebMVC.Controllers
 
         }
 
-        private List<MERCHANT_SUMMARY_DAILY> getListMerchantType(List<MERCHANT_SUMMARY_DAILY> list)
+        private List<MERCHANT_SUMMARY> getListMerchantType(List<MERCHANT_SUMMARY> list)
         {
-            var res = list.GroupBy(a => a.MerchantType).Select(x => new MERCHANT_SUMMARY_DAILY
+            var res = list.GroupBy(a => a.MerchantType).Select(x => new MERCHANT_SUMMARY
             {
                 MerchantType = x.Key,
                 SaleAmount = x.Sum(y => y.SaleAmount),
@@ -142,9 +191,9 @@ namespace WebMVC.Controllers
         }
 
 
-        private List<MERCHANT_SUMMARY_DAILY> getListRegion(List<MERCHANT_SUMMARY_DAILY> list)
+        private List<MERCHANT_SUMMARY> getListRegion(List<MERCHANT_SUMMARY> list)
         {
-            var res = list.GroupBy(a => a.RegionCode).Select(x => new MERCHANT_SUMMARY_DAILY
+            var res = list.GroupBy(a => a.RegionCode).Select(x => new MERCHANT_SUMMARY
             {
                 RegionCode = x.Key,
                 SaleAmount = x.Sum(y => y.SaleAmount),
@@ -206,9 +255,9 @@ namespace WebMVC.Controllers
         }
 
 
-        private List<MERCHANT_SUMMARY_DAILY> getCardTypeReport(List<MERCHANT_SUMMARY_DAILY> list)
+        private List<MERCHANT_SUMMARY> getCardTypeReport(List<MERCHANT_SUMMARY> list)
         {
-            var res = list.GroupBy(a => a.ReportDate).Select(x => new MERCHANT_SUMMARY_DAILY
+            var res = list.GroupBy(a => a.ReportDate).Select(x => new MERCHANT_SUMMARY
             {
                 ReportDate = x.Key,
                 SaleAmount = x.Sum(y => y.SaleAmount),
