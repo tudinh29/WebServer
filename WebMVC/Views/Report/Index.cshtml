@@ -157,40 +157,7 @@
 <script src="/Assets/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="~/Assets/js/bootstrap-datepicker.js"></script>
 <script src="~/Assets/js/moment.js"></script>
-<!-- The Modal -->
-<div id="RevenueModal" class="modal">
 
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">×</span>
-
-        <div class="row">
-            <div class="col-xs-9">
-                <p>Total revenue:revenue</p>
-            </div>
-            <div class="col-xs-9 ">
-                <p>Total transaction:</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-9">
-                <p>Total sale: </p>
-            </div>
-            <div class="col-xs-9">
-                <p>Sale count: </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-9">
-                <p>Total return: </p>
-            </div>
-            <div class="col-xs-9 ">
-                <p>Return count: </p>
-            </div>
-        </div>
-    </div>
-
-</div>
 
 <!-- From Card Type -->
 <div id="CardTypeModal" class="modal">
@@ -207,26 +174,26 @@
                 <h3>American Card</h3>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total revenue: @cardTypeReport.FirstOrDefault().AmericanExpressNetAmount</p>
+                        <p>Total revenue: @(cardTypeReport.Count() == 0 ? 0: @cardTypeReport.FirstOrDefault().AmericanExpressNetAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Total transaction: @cardTypeReport.FirstOrDefault().AmericanExpressTransactionCount  </p>
+                        <p>Total transaction: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressTransactionCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total sale: @cardTypeReport.FirstOrDefault().AmericanExpressAmount </p>
+                        <p>Total sale: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressAmount)</p>
                     </div>
                     <div class="col-xs-9">
-                        <p>Sale count: @cardTypeReport.FirstOrDefault().AmericanExpressCount </p>
+                        <p>Sale count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total return: @cardTypeReport.FirstOrDefault().AmericanExpressReturnAmount</p>
+                        <p>Total return: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressReturnAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Return count: @cardTypeReport.FirstOrDefault().AmericanExpressReturnCount</p>
+                        <p>Return count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressReturnCount)</p>
                     </div>
                 </div>
             </div>
@@ -235,26 +202,26 @@
                 <h3>Debit Card</h3>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total revenue: @cardTypeReport[0].DebitCardNetAmount </p>
+                        <p>Total revenue: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardNetAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Total transaction: @cardTypeReport[0].DebitCardTransactionCount  </p>
+                        <p>Total transaction: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardTransactionCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total sale: @cardTypeReport[0].DebitCardAmount </p>
+                        <p>Total sale: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardAmount)</p>
                     </div>
                     <div class="col-xs-9">
-                        <p>Sale count: @cardTypeReport[0].DebitCardCount </p>
+                        <p>Sale count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total return: @cardTypeReport[0].DebitCardReturnAmount</p>
+                        <p>Total return: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardReturnAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Return count: @cardTypeReport[0].DebitCardReturnCount</p>
+                        <p>Return count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardReturnCount)</p>
                     </div>
                 </div>
             </div>
@@ -263,26 +230,26 @@
                 <h3>Discover Card</h3>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total revenue: @cardTypeReport[0].DiscoverCardNetAmount</p>
+                        <p>Total revenue: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardNetAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Total transaction: @cardTypeReport[0].DiscoverCardTransactionCount  </p>
+                        <p>Total transaction: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardTransactionCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total sale: @cardTypeReport[0].DiscoverCardAmount </p>
+                        <p>Total sale: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardAmount)</p>
                     </div>
                     <div class="col-xs-9">
-                        <p>Sale count: @cardTypeReport[0].DiscoverCardCount </p>
+                        <p>Sale count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total return: @cardTypeReport[0].DiscoverCardReturnAmount</p>
+                        <p>Total return: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardReturnAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Return count: @cardTypeReport[0].DiscoverCardReturnCount</p>
+                        <p>Return count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardReturnCount)</p>
                     </div>
                 </div>
             </div>
@@ -291,26 +258,26 @@
                 <h3>Foreign Card</h3>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total revenue: @cardTypeReport[0].ForeignCardNetAmount</p>
+                        <p>Total revenue: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardNetAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Total transaction: @cardTypeReport[0].ForeignCardTransactionCount  </p>
+                        <p>Total transaction: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardTransactionCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total sale: @cardTypeReport[0].ForeignCardAmount </p>
+                        <p>Total sale: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardAmount)</p>
                     </div>
                     <div class="col-xs-9">
-                        <p>Sale count: @cardTypeReport[0].ForeignCardCount </p>
+                        <p>Sale count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total return: @cardTypeReport[0].ForeignCardReturnAmount</p>
+                        <p>Total return: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardReturnAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Return count: @cardTypeReport[0].ForeignCardReturnCount</p>
+                        <p>Return count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardReturnCount)</p>
                     </div>
                 </div>
             </div>
@@ -319,26 +286,26 @@
                 <h3>Master Card</h3>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total revenue: @cardTypeReport[0].MasterCardNetAmount</p>
+                        <p>Total revenue: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardNetAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Total transaction: @cardTypeReport[0].MasterCardTransactionCount  </p>
+                        <p>Total transaction: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardTransactionCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total sale: @cardTypeReport[0].MasterCardAmount </p>
+                        <p>Total sale: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardAmount)</p>
                     </div>
                     <div class="col-xs-9">
-                        <p>Sale count: @cardTypeReport[0].MasterCardCount </p>
+                        <p>Sale count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total return: @cardTypeReport[0].MasterCardReturnAmount</p>
+                        <p>Total return: @(cardTypeReport.Count() == 0 ? 0 :@cardTypeReport[0].MasterCardReturnAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Return count: @cardTypeReport[0].MasterCardReturnCount</p>
+                        <p>Return count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardReturnCount)</p>
                     </div>
                 </div>
             </div>
@@ -347,26 +314,26 @@
                 <h3>Visa Card</h3>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total revenue: @cardTypeReport[0].VisaCardNetAmount </p>
+                        <p>Total revenue: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardNetAmount )</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Total transaction: @cardTypeReport[0].VisaCardTransactionCount  </p>
+                        <p>Total transaction: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardTransactionCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total sale: @cardTypeReport[0].VisaCardAmount </p>
+                        <p>Total sale: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardAmount)</p>
                     </div>
                     <div class="col-xs-9">
-                        <p>Sale count: @cardTypeReport[0].VisaCardCount </p>
+                        <p>Sale count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total return: @cardTypeReport[0].VisaCardReturnAmount</p>
+                        <p>Total return: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardReturnAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Return count: @cardTypeReport[0].VisaCardReturnCount</p>
+                        <p>Return count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardReturnCount)</p>
                     </div>
                 </div>
             </div>
@@ -375,26 +342,26 @@
                 <h3>Master Card</h3>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total revenue: @cardTypeReport[0].OtherCardNetAmount</p>
+                        <p>Total revenue: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardNetAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Total transaction: @cardTypeReport[0].OtherCardTransactionCount  </p>
+                        <p>Total transaction: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardTransactionCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total sale: @cardTypeReport[0].OtherCardAmount </p>
+                        <p>Total sale: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardAmount)</p>
                     </div>
                     <div class="col-xs-9">
-                        <p>Sale count: @cardTypeReport[0].OtherCardCount </p>
+                        <p>Sale count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardCount)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total return: @cardTypeReport[0].OtherCardReturnAmount</p>
+                        <p>Total return: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardReturnAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
-                        <p>Return count: @cardTypeReport[0].OtherCardReturnCount</p>
+                        <p>Return count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardReturnCount)</p>
                     </div>
                 </div>
             </div>
@@ -808,7 +775,7 @@
             <div class="panel-body">
                 <div id="morris-line-chart"></div>
                 <div id="detailRevenueBtn" class="text-right" onclick="Display('detailRevenueBtn','RevenueModal',0)">
-                    <a>View Details <i class="fa fa-arrow-circle-up"></i></a>
+                  
                 </div>
             </div>
         </div>
@@ -890,7 +857,7 @@
                 {
                     item.Name = "Khác";
                 }
-                LineData += "{d: \"{0}\", sales: {1} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString());
+                LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString());
             }
             if (LineData.Length > 1)
             {
@@ -965,7 +932,7 @@
             pointFillColors: ['#FF3300'],
             hoverCallback: function (index, options, content) {
                 var data = options.data[index];
-                content = "<div class='morris-hover-row-label'>" + data.d + "</div><div class='morris-hover-point' style='color: #0b62a4'> Sale Amount: $" + data.sales + "</div>"
+                content = "<div class='morris-hover-row-label'>" + data.d + "</div><div class='morris-hover-point' style='color: #0b62a4'>Sale Amount: $" + data.sales + "<br>Return Amount: $"+ -data.returns+ "<br>Transactions: "+ data.count+ "</div>"
                 return content
             },
         });

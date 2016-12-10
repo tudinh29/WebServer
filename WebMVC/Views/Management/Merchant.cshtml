@@ -168,8 +168,8 @@
                                                 <td>@item.Owner</td>
                                                 <td>@item.Address1</td>
                                                 <td>@item.CityName</td>
-                                                <td>@item.LastActiveDate.Value.ToString("yyyy-MM-dd")</td>
-                                                <td>@item.CloseDate.Value.ToString("yyyy-MM-dd")</td>
+                                                <td>@(String.IsNullOrEmpty(item.LastActiveDate.ToString()) ? "" : item.LastActiveDate.Value.ToString("yyyy-MM-dd"))</td>
+                                                <td>@(String.IsNullOrEmpty(item.CloseDate.ToString()) ? "" : item.CloseDate.Value.ToString("yyyy-MM-dd"))</td>
                                             </tr>
                                         }
                                     </tbody>

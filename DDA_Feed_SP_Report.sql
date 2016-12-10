@@ -1,5 +1,6 @@
 -- Update 08/12/2016 --
-
+drop Procedure SP_GetReportData_Monthly 
+go
 Create Procedure SP_GetReportData_Monthly (@startMonth int, @startYear int, 
 	@endMonth int, @endYear int) 
 As
@@ -36,7 +37,10 @@ Begin
 			and (ReportMonth + (ReportYear * 12)) >= @firstDate
 		group by  RegionCode,MerchantType
 End
-
+go
+go
+drop Procedure SP_GetReportData_Quarterly 
+go
 -------------------------------
 Create Procedure SP_GetReportData_Quarterly (
 	@startQuarter int, @startYear int, 
@@ -75,6 +79,9 @@ Begin
 		and (ReportQuarter + (ReportYear * 4)) >= @firstDate
 		group by  RegionCode,MerchantType
 End
+go
+drop Procedure SP_GetReportData_Yearly 
+go
 -------------------------------
 Create Procedure SP_GetReportData_Yearly (
 	@startYear int, @endYear int)
@@ -107,6 +114,9 @@ Begin
 		and ReportYear >= @startYear
 		group by  RegionCode,MerchantType
 End
+go
+drop Procedure SP_GetReportDataForLineChart_Monthly 
+go
 -------------------------------
 Create Procedure SP_GetReportDataForLineChart_Monthly (
 	@startMonth int, @startYear int, 
@@ -119,12 +129,16 @@ Begin
 	set @firstDate =  @startMonth + (@startYear * 12)
 	
 	SELECT ConCat(ReportMonth, '/', ReportYear) as Name,
-		SUM(SaleAmount) AS Value
-	FROM MERCHANT_SUMMARY_MONTHLY 
+		SUM(SaleAmount) AS Value, SUM(ReturnAmount) as ReturnAmount, CAST(SUM(TransactionCount)as BIGINT) as TransactionCount
+	FROM MERCHANT_SUMMARY_MONTHLY
 	where (ReportMonth + (ReportYear * 12)) <= @currentDate
 		and (ReportMonth + (ReportYear * 12)) >= @firstDate
 	group by  ReportMonth, ReportYear
+	Order by ReportYear,ReportMonth
 End
+go
+drop Procedure SP_GetReportDataForLineChart_Quarterly 
+go
 ---------------------------------------
 Create Procedure SP_GetReportDataForLineChart_Quarterly (
 	@startQuarter int, @startYear int, 
@@ -137,28 +151,34 @@ Begin
 	set @firstDate =  @startQuarter + (@endYear * 4)
 
 	SELECT ConCat(ReportQuarter, '/', ReportYear) as Name,
-		SUM(SaleAmount) AS Value
+		SUM(SaleAmount) AS Value, SUM(ReturnAmount) as ReturnAmount, CAST(SUM(TransactionCount)as BIGINT) as TransactionCount
 	FROM MERCHANT_SUMMARY_QUARTERLY 
 	where (ReportQuarter + (ReportYear * 4)) <= @currentDate
 		and (ReportQuarter + (ReportYear * 4)) >= @firstDate
 	group by  ReportQuarter, ReportYear
+	Order by ReportYear,ReportQuarter
 End
+go
+drop Procedure SP_GetReportDataForLineChart_Yearly 
+go
 ----------------------------------------
 Create Procedure SP_GetReportDataForLineChart_Yearly (
 	@startYear int, @endYear int) 
 As
 Begin
 	SELECT CONVERT(varchar(4), ReportYear) as Name,
-		SUM(SaleAmount) AS Value
+		SUM(SaleAmount) AS Value, SUM(ReturnAmount) as ReturnAmount, CAST(SUM(TransactionCount)as BIGINT) as TransactionCount
 	FROM MERCHANT_SUMMARY_YEARLY 
 	where ReportYear <= @endYear
 		and ReportYear >= @startYear
 	group by  ReportYear
+	Order by ReportYear
 End
 
-
-
-Alter Procedure SP_GetReportDataForLineChart_Generality (@startDate varchar(10), @endDate varchar(10)) As
+go
+drop Procedure SP_GetReportDataForLineChart_Generality
+go
+create Procedure SP_GetReportDataForLineChart_Generality (@startDate varchar(10), @endDate varchar(10)) As
 Begin
 	declare @currentDate date
 	declare @firstDate date
@@ -166,13 +186,16 @@ Begin
 	set @firstDate =  CAST(@startDate AS DATETIME)
 	
 		SELECT CONVERT(varchar(max),ReportDate,103) as Name,
-		 SUM(SaleAmount) AS Value
+		 SUM(SaleAmount) AS Value, SUM(ReturnAmount) as ReturnAmount, CAST(SUM(TransactionCount)as BIGINT) as TransactionCount
 		FROM MERCHANT_SUMMARY_DAILY 
 		where ReportDate < @currentDate and ReportDate >= @firstDate
 		group by ReportDate
+		Order by ReportDate
 End
 go
-Alter Procedure SP_GetReportData_Generality (@startDate varchar(10), @endDate varchar(10)) As
+drop Procedure SP_GetReportData_Generality
+go
+create Procedure SP_GetReportData_Generality (@startDate varchar(10), @endDate varchar(10)) As
 Begin
 	declare @currentDate date
 	declare @firstDate date
@@ -205,7 +228,9 @@ End
 
 go
 -- End Update 08/12/2016 --
-alter Procedure SP_GetMerchantSummary_Default
+drop Procedure SP_GetMerchantSummary_Default
+go
+create Procedure SP_GetMerchantSummary_Default
 As
 Begin
 SELECT  top 10000 [ReportDate]
@@ -220,8 +245,9 @@ SELECT  top 10000 [ReportDate]
   FROM [SERVER].[dbo].[MERCHANT_SUMMARY_DAILY]
 end
 go
-
-alter Procedure SP_FindMerchantSummaryElement @Element varchar(50)
+drop Procedure SP_FindMerchantSummaryElement
+go
+create Procedure SP_FindMerchantSummaryElement @Element varchar(50)
 As
 Begin
 SELECT  top 10000 [ReportDate]
@@ -247,8 +273,9 @@ SELECT  top 10000 [ReportDate]
 end
 go
 
-
-alter Procedure SP_FindMerchantSummaryElementByAgent (@Element varchar(50),@AgentCode varchar(10))
+drop Procedure SP_FindMerchantSummaryElementByAgent
+go
+create Procedure SP_FindMerchantSummaryElementByAgent (@Element varchar(50),@AgentCode varchar(10))
 As
 Begin
 SELECT  top 10000 [ReportDate]

@@ -15,7 +15,8 @@ namespace WebMVC.Models
         public decimal Value { get; set; }
 
         public decimal ReturnAmount { get; set; }
-    
+
+        public Int64? TransactionCount { get; set; }
     }
 
     public class MerchantSummaryDailyTiny
