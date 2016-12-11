@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
     {
         private APIDbContext db = new APIDbContext();
 
-        [HttpGet]
+        [HttpPost]
         public List<USER_INFORMATION> Search(string username, string password)
         {
             object[] paremeter = 
@@ -26,9 +26,10 @@ namespace WebAPI.Controllers
                     new SqlParameter("@UserName", username),
                     new SqlParameter("@Password", password)
                 };
-            var res =  db.Database.SqlQuery<USER_INFORMATION>("sp_Login @UserName, @Password", paremeter).ToList();
+            var res = db.Database.SqlQuery<USER_INFORMATION>("sp_Login @UserName, @Password", paremeter).ToList();
             return res;
         }
+
         [HttpGet]
         public bool Change(string username, string password, string newpassword)
         {

@@ -14,6 +14,7 @@ using System.Web.Http.Description;
 using System.Web.Http.Results;
 using System.Web.Script.Serialization;
 using WebAPI.EntityFramework;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -136,6 +137,14 @@ namespace WebAPI.Controllers
             return db.MERCHANT_SUMMARY_DAILY.Count(e => e.ReportDate == id) > 0;
         }
 
+
+        [HttpGet]
+        public List<MerchantSummaryDailyTiny> FindFilter(string query)
+        {
+            var res = db.Database.SqlQuery<MerchantSummaryDailyTiny>(query).ToList();
+            return res;
+        }
+
         [HttpGet]
         public List<Models.MerchantSummaryDailyTiny> GetMerchantSummaryDefault()
         {
@@ -216,6 +225,9 @@ namespace WebAPI.Controllers
             var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDataForLineChart_Generality @startDate, @endDate", paremeter).ToList();
             return dbReturn;
         }
+
+        
+
 
 
     }

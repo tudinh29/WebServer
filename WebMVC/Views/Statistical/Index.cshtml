@@ -6,10 +6,33 @@
     ViewBag.Title = "Statistical";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+    var MerchantType = (SelectList)ViewBag.MerchantType;
+    var RegionType = (SelectList)ViewBag.RegionType;
+    var MerchantTypeValue = (List<string>)ViewBag.MerchantTypeValue;
+    var RegionTypeValue = (List<string>)ViewBag.RegionTypeValue;
 }
 @section header{
     Statistical
 }
+
+<style>
+    #mySidenav li {
+        list-style-type: none;
+        margin-left: 10%;
+        font-weight: lighter;
+    }
+
+    li > label {
+        font-weight: lighter;
+    }
+
+    .btn-default {
+        font-weight: bold;
+    }
+</style>
+
+<link href="~/Assets/css/myStyle.css" rel="stylesheet" />
+
 
 @using (Html.BeginForm("Index", "Statistical", FormMethod.Get))
 {
@@ -26,6 +49,39 @@
         </div>
     </div>
 }
+
+
+@using (Html.BeginForm("Index", "Statistical", FormMethod.Get))
+{
+    <div id="mySidenav" class="sidenavFilter" style="top:25%">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+        <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#MerchantType">Loại merchant</button>
+        <div id="MerchantType" class="collapse">
+            @foreach (var item in MerchantType)
+            {
+                <li><label><input id="@item.Value" class="CheckValue" type="checkbox" name="MerchantTypeValue" value="@item.Value">@item.Text</label></li>
+            }
+        </div>
+
+        <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#RegionType">Vùng Miền</button>
+        <div id="RegionType" class="collapse">
+            @foreach (var item in RegionType)
+            {
+                <li><label><input id="@item.Value" class="CheckValue" type="checkbox" name="RegionTypeValue" value="@item.Value">@item.Text</label></li>
+            }
+        </div>
+        <br>
+        <center>
+            <p>
+                <button id="btnMerchantType" type="submit" class="btn btn-primary">Filter</button>
+                <button id="cleanCheckbox" type="submit" class="btn btn-primary">Clean</button>
+            </p>
+        </center>
+    </div>
+
+}
+
 
 <div id="main">
     <div class="container-fluid">
@@ -67,7 +123,7 @@
                                 }
                             </tbody>
                         </table>
-                        @Html.PagedListPager(Model, Page => Url.Action("Index", "Statistical", new { Page, @searchString = @ViewBag.searchString}))
+                        @Html.PagedListPager(Model, Page => Url.Action("Index", "Statistical", new { Page, @searchString = @ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType }))
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -90,3 +146,34 @@
 </div>
 
 
+<script type="text/javascript">
+    @if (MerchantTypeValue != null)
+    {
+        foreach (var item in MerchantTypeValue){
+        <text>
+    $("#@item").prop('checked', true);
+    </text>
+        }
+    }
+
+    @if (RegionTypeValue != null)
+       {
+           foreach (var item in RegionTypeValue)
+           {
+               <text>
+    $("#@item").prop('checked', true);
+    </text>
+           }
+       }
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#cleanCheckbox').off('click').on('click', function (e) {
+            e.preventDefault();
+            $(".CheckValue").prop('checked', false);
+        });
+    });
+
+</script>

@@ -21,10 +21,19 @@
     Danh sách các Merchant
 }
 <style>
-   #mySidenav li{
-        list-style-type: none; 
-        margin-left:10%;
+    #mySidenav li {
+        list-style-type: none;
+        margin-left: 10%;
+        font-weight: lighter;
     }
+
+    li > label{
+        font-weight: lighter;
+    }
+    .btn-default{
+        font-weight: bold;
+    }
+
 </style>
 <link href="~/Assets/css/myStyle.css" rel="stylesheet" />
 <script type="text/javascript">
@@ -69,168 +78,168 @@
     </script>
 }
 
-   
 
 
-        @using (Html.BeginForm("Merchant", "Management", FormMethod.Get))
-        {
-            <div id="mySidenav" class="sidenavFilter" style="top:25%">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                
-                    <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#MerchantType">Loại merchant</button>
-                    <div id="MerchantType" class="collapse in">
-                        @foreach (var item in MerchantType)
-                        {
-                            <li><input id="@item.Value" class="CheckValue" type="checkbox" name="MerchantTypeValue" value="@item.Value">@item.Text</li>
-                        }
-                    </div>
 
-                    <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#RegionType">Vùng Miền</button>
-                    <div id="RegionType" class="collapse in">
-                        @foreach (var item in RegionType)
-                        {
-                            <li><input id="@item.Value" class="CheckValue" type="checkbox" name="RegionTypeValue" value="@item.Value">@item.Text</li>
-                        }
-                    </div>
+@using (Html.BeginForm("Merchant", "Management", FormMethod.Get))
+{
+    <div id="mySidenav" class="sidenavFilter" style="top:25%">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-                    <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#status">Status</button>
-                    <div id="status" class="collapse in">
+        <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#MerchantType" >Loại merchant</button>
+        <div id="MerchantType" class="collapse">
+            @foreach (var item in MerchantType)
+            {
+                <li><label><input id="@item.Value" class="CheckValue" type="checkbox" name="MerchantTypeValue" value="@item.Value">@item.Text</label></li>
+            }
+        </div>
 
-                        <li><input id=" a" class="CheckValue" type="checkbox" name="ActiveTypeValue" value="A">Active</li>
-                        <li><input id="I" class="CheckValue" type="checkbox" name="ActiveTypeValue" value="I">Inactive</li>
+        <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#RegionType">Vùng Miền</button>
+        <div id="RegionType" class="collapse">
+            @foreach (var item in RegionType)
+            {
+                <li><label><input id="@item.Value" class="CheckValue" type="checkbox" name="RegionTypeValue" value="@item.Value">@item.Text</label></li>
+            }
+        </div>
 
-                    </div>
-                    <br>
-                <center>
-                    <p>
-                        <button id="btnMerchantType" type="submit" class="btn btn-primary">Filter</button>
-                        <button id="cleanCheckbox" type="submit" class="btn btn-primary">Clean</button>
-                    </p>
-                </center>
-            </div>
+        <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#status">Status</button>
+        <div id="status" class="collapse">
 
-        }
+            <li><label><input id=" a" class="CheckValue" type="checkbox" name="ActiveTypeValue" value="A">Active</label></li>
+            <li><label><input id="I" class="CheckValue" type="checkbox" name="ActiveTypeValue" value="I">Inactive</label></li>
 
-        <div id="main">
-            <div class="container-fluid">
-                <div class="row">
-                    <span style="font-size:20px;cursor:pointer;margin-left:10px" onclick="openNav()"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span>
-                </div>
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Merchant Code</th>
-                                            <th>Merchant Name</th>
-                                            <th>Merchant Type</th>
-                                            <th>Status</th>
-                                            <th>Owner</th>
-                                            <th>Address</th>
-                                            <th>City</th>
-                                            <th>Last Active Date</th>
-                                            <th>Closed Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr id="row_@item.MerchantCode">
-                                                <td>
-                                                    @Html.ActionLink(@item.MerchantCode, "ViewDetail_Merchant", "Management",
+        </div>
+        <br>
+        <center>
+            <p>
+                <button id="btnMerchantType" type="submit" class="btn btn-primary">Filter</button>
+                <button id="cleanCheckbox" type="submit" class="btn btn-primary">Clean</button>
+            </p>
+        </center>
+    </div>
+
+}
+
+<div id="main">
+    <div class="container-fluid">
+        <div class="row">
+            <span style="font-size:20px;cursor:pointer;margin-left:10px" onclick="openNav()"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span>
+        </div>
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Merchant Code</th>
+                                    <th>Merchant Name</th>
+                                    <th>Merchant Type</th>
+                                    <th>Status</th>
+                                    <th>Owner</th>
+                                    <th>Address</th>
+                                    <th>City</th>
+                                    <th>Last Active Date</th>
+                                    <th>Closed Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="row_@item.MerchantCode">
+                                        <td>
+                                            @Html.ActionLink(@item.MerchantCode, "ViewDetail_Merchant", "Management",
                                          new { merchantCode = @item.MerchantCode }, null)
-                                                </td>
-                                                <td>@item.MerchantName</td>
-                                                <td>@item.Description</td>
-                                                <td>
+                                        </td>
+                                        <td>@item.MerchantName</td>
+                                        <td>@item.Description</td>
+                                        <td>
 
-                                                    @if (Convert.ToChar(@item.Status) == 'A')
-                                                    {
-                                                        @Ajax.ActionLink("ACTIVE", "ChangeStatus", "Management", new { @id = item.MerchantCode }, new AjaxOptions
+                                            @if (Convert.ToChar(@item.Status) == 'A')
+                                            {
+                                                @Ajax.ActionLink("ACTIVE", "ChangeStatus", "Management", new { @id = item.MerchantCode }, new AjaxOptions
                                                {
                                                    OnComplete = "OnComplete('" + @item.MerchantCode + "')",
                                                    HttpMethod = "Post"
                                                }, new { id = "btnStatus_" + @item.MerchantCode, @class = "btn btn-success" })
 
-                                                    }
-                                                    else
-                                                    {
-                                                        @Ajax.ActionLink("INACTIVE", "ChangeStatus", "Management", new { @id = item.MerchantCode }, new AjaxOptions
+                                            }
+                                            else
+                                            {
+                                                @Ajax.ActionLink("INACTIVE", "ChangeStatus", "Management", new { @id = item.MerchantCode }, new AjaxOptions
                                                {
                                                    OnComplete = "OnComplete('" + @item.MerchantCode + "')",
                                                    HttpMethod = "Post"
                                                }, new { id = "btnStatus_" + @item.MerchantCode, @class = "btn btn-danger" })
 
-                                                    }
-                                                </td>
-                                                <td>@item.Owner</td>
-                                                <td>@item.Address1</td>
-                                                <td>@item.CityName</td>
-                                                <td>@item.LastActiveDate.Value.ToString("yyyy-MM-dd")</td>
-                                                <td>@item.CloseDate.Value.ToString("yyyy-MM-dd")</td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                                @Html.PagedListPager(Model, Page => Url.Action(@ViewBag.action, "Management", new { Page, @searchString = @ViewBag.searchString, @agentCode = @ViewBag.agentCode, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }))
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
+                                            }
+                                        </td>
+                                        <td>@item.Owner</td>
+                                        <td>@item.Address1</td>
+                                        <td>@item.CityName</td>
+                                        <td>@item.LastActiveDate.Value.ToString("yyyy-MM-dd")</td>
+                                        <td>@item.CloseDate.Value.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        @Html.PagedListPager(Model, Page => Url.Action(@ViewBag.action, "Management", new { Page, @searchString = @ViewBag.searchString, @agentCode = @ViewBag.agentCode, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }))
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
 
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="col-md-11 text-right">
-            <a href="@Url.Action("ExportPDF", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
-            <a href="@Url.Action("MerchantExportExcel", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">Excel</a>
-            <a href="@Url.Action("MerchantExportCSV", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">CSV</a>
-        </div>
+<div class="col-md-11 text-right">
+    <a href="@Url.Action("ExportPDF", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
+    <a href="@Url.Action("MerchantExportExcel", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">Excel</a>
+    <a href="@Url.Action("MerchantExportCSV", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">CSV</a>
+</div>
 
-        <script type="text/javascript">
+<script type="text/javascript">
     @if (MerchantTypeValue != null)
     {
         foreach (var item in MerchantTypeValue){
         <text>
-            $("#@item").prop('checked', true);
-            </text>
+    $("#@item").prop('checked', true);
+    </text>
         }
     }
 
-            @if (RegionTypeValue != null)
+    @if (RegionTypeValue != null)
        {
            foreach (var item in RegionTypeValue)
            {
                <text>
-            $("#@item").prop('checked', true);
-            </text>
+    $("#@item").prop('checked', true);
+    </text>
            }
        }
 
-            @if (ActiveTypeValue != null)
+    @if (ActiveTypeValue != null)
         {
             foreach (var item in ActiveTypeValue)
             {
                 <text>
-            $("#@item").prop('checked', true);
-            </text>
+    $("#@item").prop('checked', true);
+    </text>
             }
         }
-        </script>
+</script>
 
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#cleanCheckbox').off('click').on('click', function (e) {
-                    e.preventDefault();
-                    $(".CheckValue").prop('checked', false);
-                });
-            });
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#cleanCheckbox').off('click').on('click', function (e) {
+            e.preventDefault();
+            $(".CheckValue").prop('checked', false);
+        });
+    });
 
-        </script>
+</script>

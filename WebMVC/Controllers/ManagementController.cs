@@ -28,8 +28,15 @@ namespace WebMVC.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Agent(string searchString, int page = 1,int size = 10)
+        public ActionResult Agent(string RegionType, string Active, List<string> RegionTypeValue, List<string> ActiveTypeValue, string searchString, int page = 1, int size = 10)
         {
+
+            CheckBoxValue(ref RegionType, ref RegionTypeValue);
+            ViewBag.tempRegionType = RegionType;
+
+            CheckBoxValue(ref Active, ref ActiveTypeValue);
+            ViewBag.tempActive = Active;  
+
             IList<AGENT> list = new List<AGENT>();
             var model = Session[CommonConstants.USER_SESSION];
             var temp = new USER_INFORMATION();
@@ -38,25 +45,49 @@ namespace WebMVC.Controllers
                 temp = (USER_INFORMATION)model;
             }
             else return View("Index");
-           
-            //HttpClient client = new HttpClient();
-            //client.BaseAddress = new Uri("http://localhost:21212/");
 
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpClient client = new AccessAPI().Access();
+            @ViewBag.action = "Agent";
+            HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/FindAllRegion")).Result;
+            if (responseRegion.IsSuccessStatusCode)
+            {
+                List<REGION> listRegion = responseRegion.Content.ReadAsAsync<List<REGION>>().Result;
+                ViewBag.RegionType = new SelectList(listRegion, "RegionCode", "RegionName");
+            }
+
             if (temp.UserType == "T")
             {
-                HttpClient client = new AccessAPI().Access();
+               
                 @ViewBag.action = "Agent";
                 if (String.IsNullOrEmpty(searchString))
                 {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAllAgent")).Result;
-
-                    if (response.IsSuccessStatusCode)
+                    if (RegionTypeValue == null && ActiveTypeValue == null)
                     {
-                        list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/AGENT/FindAllAgent")).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                        }
+
+                        var listAgent = list.ToPagedList(page, size);
+
+                        return View(listAgent);
                     }
-                    var listAgent = list.ToPagedList(page, size);
-                    return View(listAgent);
+                    else
+                    {
+                        string query = queryFilterAgent(RegionTypeValue, ActiveTypeValue);
+                        List<AGENT> listAgent = new List<AGENT>();
+                        HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/AGENT/FindFilter?query={0}", query)).Result;
+
+                        if (responseFilter.IsSuccessStatusCode)
+                        {
+                            listAgent = responseFilter.Content.ReadAsAsync<List<AGENT>>().Result;
+                        }
+                        var listAgent_1 = listAgent.ToPagedList(page, size);
+                        ViewBag.RegionTypeValue = RegionTypeValue;
+                        ViewBag.ActiveTypeValue = ActiveTypeValue;
+                        return View(listAgent_1);
+                    }
                 }
                 else
                 {
@@ -207,11 +238,7 @@ namespace WebMVC.Controllers
                     }
                     else
                     {
-                        //string ViewBa = HttpUtility.UrlDecode(MerchantTypeValue[0]);
-                        string abc = Request.QueryString["MerchantTypeValue"];
-                        string query = queryFilter(MerchantTypeValue, RegionTypeValue, ActiveTypeValue);
-                        //string url = HttpContext.Current.Request.Url.PathAndQuery;
-                        //ViewBag.Url = Request.Url.Query;
+                        string query = queryFilterMerchant(MerchantTypeValue, RegionTypeValue, ActiveTypeValue);
                         List<MERCHANT> listMerchant = new List<MERCHANT>();
                         HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/MERCHANT/FindFilter?query={0}", query)).Result;
 
@@ -219,15 +246,10 @@ namespace WebMVC.Controllers
                         {
                             listMerchant = responseFilter.Content.ReadAsAsync<List<MERCHANT>>().Result;
                         }
-                        //MerchantTypeValue=CL&MerchantTypeValue=DN
-                        //string ViewBa = HttpUtility.UrlDecode(MerchantTypeValue[0]); 
                         var listMerchant_1 = listMerchant.ToPagedList(page, size);
                         ViewBag.MerchantTypeValue = MerchantTypeValue;
                         ViewBag.RegionTypeValue = RegionTypeValue;
                         ViewBag.ActiveTypeValue = ActiveTypeValue;
-                        ViewBag.query = "CLMerchantTypeValueDN";//Server.UrlEncode("Dog&Cat"); ;
-
-                        //MerchantTypeValue=CL&MerchantTypeValue=DN
                         return View(listMerchant_1);
                     }
                     
@@ -251,13 +273,33 @@ namespace WebMVC.Controllers
                 {
                     if (String.IsNullOrEmpty(searchString))
                     {
-                        HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", temp.UserName)).Result;
-                        if (response.IsSuccessStatusCode)
+                        if (MerchantTypeValue == null && RegionTypeValue == null && ActiveTypeValue == null)
                         {
-                            list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                            HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", temp.UserName)).Result;
+                            if (response.IsSuccessStatusCode)
+                            {
+                                list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                            }
+                            var listMerchant = list.ToPagedList(page, size);
+                            return View(listMerchant);
+                        } 
+                        else
+                        {
+                            string query = queryFilterMerchant(MerchantTypeValue, RegionTypeValue, ActiveTypeValue);
+                            query = query + "and AgentCode = '" + temp.UserName + "'";
+                            List<MERCHANT> listMerchant = new List<MERCHANT>();
+                            HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/MERCHANT/FindFilter?query={0}", query)).Result;
+
+                            if (responseFilter.IsSuccessStatusCode)
+                            {
+                                listMerchant = responseFilter.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                            }
+                            var listMerchant_1 = listMerchant.ToPagedList(page, size);
+                            ViewBag.MerchantTypeValue = MerchantTypeValue;
+                            ViewBag.RegionTypeValue = RegionTypeValue;
+                            ViewBag.ActiveTypeValue = ActiveTypeValue;
+                            return View(listMerchant_1);
                         }
-                        var listMerchant = list.ToPagedList(page, size);
-                        return View(listMerchant);
                     }
                     else
                     {
@@ -881,7 +923,7 @@ namespace WebMVC.Controllers
             if (String.IsNullOrEmpty(tempCheck) && TypeValue != null)
                 tempCheck = String.Join(",", TypeValue);
         }
-        public string queryFilter(List<string> MerchantTypeValue, List<string> RegionTypeValue, List<string> ActiveTypeValue)
+        public string queryFilterMerchant(List<string> MerchantTypeValue, List<string> RegionTypeValue, List<string> ActiveTypeValue)
         {
             string query = "select * from MERCHANT M where ";
             string ConditionMerchant = "";
@@ -939,6 +981,52 @@ namespace WebMVC.Controllers
                 ConditionActive = ConditionActive + ")";
 
                 if (RegionTypeValue == null && MerchantTypeValue == null)
+                {
+                    query = query + ConditionActive;
+                }
+                else
+                {
+                    query = query + " and " + ConditionActive;
+                }
+            }
+            return query;
+        }
+
+        public string queryFilterAgent(List<string> RegionTypeValue, List<string> ActiveTypeValue)
+        {
+            string query = "select * from AGENT A where ";
+            string ConditionRegion = "";
+            string ConditionActive = "";
+
+            if (RegionTypeValue != null)
+            {
+                ConditionRegion = ConditionRegion + "(";
+                for (int i = 0; i < RegionTypeValue.Count; i++)
+                {
+                    ConditionRegion = ConditionRegion + "A.RegionCode = " + "'" + RegionTypeValue[i] + "'";
+                    if (i < RegionTypeValue.Count - 1)
+                    {
+                        ConditionRegion = ConditionRegion + " or ";
+                    }
+                }
+                ConditionRegion = ConditionRegion + ")";
+                query = query + ConditionRegion;
+            }
+
+            if (ActiveTypeValue != null)
+            {
+                ConditionActive = ConditionActive + "(";
+                for (int i = 0; i < ActiveTypeValue.Count; i++)
+                {
+                    ConditionActive = ConditionActive + "A.AgentStatus = " + "'" + ActiveTypeValue[i] + "'";
+                    if (i < ActiveTypeValue.Count - 1)
+                    {
+                        ConditionActive = ConditionActive + " or ";
+                    }
+                }
+                ConditionActive = ConditionActive + ")";
+
+                if (RegionTypeValue == null)
                 {
                     query = query + ConditionActive;
                 }
