@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 29, 2016 3:35:55 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hcmus.model.pojo.MerchantSummaryDailyTiny" table="MERCHANT_SUMMARY_DAILY">
+        <composite-id >
+            <key-property name="reportDate" column="ReportDate" type="date"/>
+            <key-property name="merchantCode" column="MerchantCode" type="string"/>
+        </composite-id>
+        <property name="saleAmount" type="big_decimal">
+            <column name="SaleAmount" scale="4" />
+        </property>
+        <property name="saleCount" type="java.lang.Integer">
+            <column name="SaleCount" />
+        </property>
+        <property name="returnAmount" type="big_decimal">
+            <column name="ReturnAmount" scale="4" />
+        </property>
+        <property name="returnCount" type="java.lang.Integer">
+            <column name="ReturnCount" />
+        </property>
+        <property name="netAmount" type="big_decimal">
+            <column name="NetAmount" scale="4" />
+        </property>
+        <property name="transactionCount" type="java.lang.Integer">
+            <column name="TransactionCount" />
+        </property>
+        <property name="keyedAmount" type="big_decimal">
+            <column name="KeyedAmount" scale="4" />
+        </property>
+        </class>
+</hibernate-mapping>

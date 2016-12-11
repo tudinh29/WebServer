@@ -47,6 +47,8 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
            		<value>/Hibernate/CardType.hbm.xml</value>
           		<value>/Hibernate/Country.hbm.xml</value>
           		<value>/Hibernate/MerchantSummaryDaily.hbm.xml</value>
+          		<value>/Hibernate/MerchantSummaryDailyTiny.hbm.xml</value>
+          		<value>/Hibernate/Statistic.hbm.xml</value>
           		<value>/Hibernate/MerchantSummaryMonthly.hbm.xml</value>
           		<value>/Hibernate/MerchantSummaryQuarterly.hbm.xml</value>
           		<value>/Hibernate/MerchantSummaryYearly.hbm.xml</value>
@@ -84,6 +86,24 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
    </bean>
    
    <bean id="AgentService" class="com.hcmus.model.service.AgentService">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+   </bean>
+   
+   <bean id="MerchantSummaryDailyService" class="com.hcmus.model.service.MerchantSummaryDailyService">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+   </bean>
+   
+   <bean id="MerchantSummaryDailyTinyService" class="com.hcmus.model.service.MerchantSummaryDailyTinyService">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+   </bean>
+   
+   <bean id="StatisticService" class="com.hcmus.model.service.StatisticService">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory"/>
 		</property>
