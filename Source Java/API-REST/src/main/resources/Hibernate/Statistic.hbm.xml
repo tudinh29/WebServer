@@ -7,13 +7,13 @@
         <return-scalar column="name" type="string" />
         <return-scalar column="value" type="big_decimal" />
 
-        { call SP_GetReportDataForLineChart_Default :startDate, :endDate }
+        SP_GetReportDataForLineChart_Generality :startDate, :endDate
     </sql-query>
     
     <sql-query name="SP_GetReportDataForLineChart_Default">
         <return-scalar column="name" type="string" />
         <return-scalar column="value" type="big_decimal" />
 
-        { call SP_GetReportDataForLineChart_Default }
+        SP_GetReportDataForLineChart_Default
     </sql-query>
 </hibernate-mapping>
