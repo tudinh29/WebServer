@@ -85,7 +85,7 @@
 
 <div class="col-md-10 text-right">
     <a href="@Url.Action("ExportExcel", "Statistical", new { searchString = ViewBag.searchString })" class="btn btn-primary btn-lg">Excel</a>
-    <a href="@Url.Action("ExportPDF", "Statistical")" class="btn btn-primary btn-lg">PDF</a>
+    <a href="@Url.Action("ExportPDF", "Statistical",new { searchString = ViewBag.searchString })" class="btn btn-primary btn-lg">PDF</a>
     <a href="@Url.Action("ExportCSV", "Statistical", new { searchString = ViewBag.searchString })" class="btn btn-primary btn-lg">CSV</a>
 </div>
 

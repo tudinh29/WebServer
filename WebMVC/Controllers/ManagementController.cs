@@ -74,7 +74,116 @@ namespace WebMVC.Controllers
             else return View("Index");
             
         }
+        public ActionResult ExportAgentPDF(string searchString)
+        {
+            string footer = "--footer-right \"Date: [date] [time]\" " + "--footer-center \"Page: [page] of [toPage]\" --footer-line --footer-font-size \"9\" --footer-spacing 5 --footer-font-name \"calibri light\"";
+            List<AGENT> list = new List<AGENT>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View("Index");
 
+            //HttpClient client = new HttpClient();
+            //client.BaseAddress = new Uri("http://localhost:21212/");
+
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            if (temp.UserType == "T")
+            {
+                HttpClient client = new AccessAPI().Access();
+                @ViewBag.action = "Agent";
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAllAgent")).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                    }
+                }
+                else
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAgentElement?searchString={0}", searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+            }
+            else return View("Index");
+
+            return new Rotativa.PartialViewAsPdf("AgentPDF", list)
+            {   
+                FileName = "AgentManagement.pdf",
+                CustomSwitches = footer
+            };
+        }
+        public ActionResult ExportMerchantPDF(string searchString)
+        {
+            string footer = "--footer-right \"Date: [date] [time]\" " + "--footer-center \"Page: [page] of [toPage]\" --footer-line --footer-font-size \"9\" --footer-spacing 5 --footer-font-name \"calibri light\"";
+             List<MERCHANT> list = new List<MERCHANT>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View("Index");
+            HttpClient client = new AccessAPI().Access();
+            if (temp.UserType == "T")   //Master
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    }
+                }
+                else
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantElement?searchString={0}", searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+            }
+            else if (temp.UserType == "A")
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCode?agentCode={0}", temp.UserName)).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    }
+                }
+                else
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCodeAndElement?searchString={0}&agentCode={1}", searchString, temp.UserName)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                    @ViewBag.agentCode = temp.UserName;
+                }
+            }
+            else return View("Index");
+            return new Rotativa.PartialViewAsPdf("MerchantPDF", list)
+            {   //MerchantSumaryDailyStatistical
+                FileName = "MerchantManagement.pdf",
+                CustomSwitches = footer
+            };
+        }
         //[HttpGet]
         //public ActionResult FindAgentElement(string searchString, int? page, int size = 10)
         //{
@@ -111,7 +220,7 @@ namespace WebMVC.Controllers
         //    }
         //    else return View("Index");
         //}
-        
+
         [HttpGet]
         public ActionResult ViewDetail_Agent(string agentCode)
         {
