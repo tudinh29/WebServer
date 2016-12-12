@@ -79,6 +79,12 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		</property>
    </bean>
    
+    <bean id="RetrivalService" class="com.hcmus.model.service.RetrivalService">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+   </bean>
+   
    <bean id="TransactionDetailService" class="com.hcmus.model.service.TransactionDetailService">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory"/>
