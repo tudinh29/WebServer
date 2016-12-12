@@ -161,9 +161,10 @@
         </div>
     </div>
     <div class="col-md-11 text-right">
-         <a href="@Url.Action("ExportPDF", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
+         <a href="@Url.Action("ExportAgentPDF", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
          <a href="@Url.Action("AgentExportExcel", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">Excel</a>
          <a href="@Url.Action("AgentExportCSV", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">CSV</a>
+        
     </div>
     <script src="~/Assets/js/MyCustomJS.js"></script>
 

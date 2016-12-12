@@ -66,6 +66,7 @@ namespace WebMVC.Controllers
                         lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
                     }
                     var listStatic = lists.ToPagedList(page, size);
+                    @ViewBag.searchString = searchString;
                     return View(listStatic);       
                 }
                 else
@@ -83,20 +84,66 @@ namespace WebMVC.Controllers
                 }
             }
             else return View();
-           
         }
 
-        public ActionResult ExportPDF()
+        public ActionResult ExportPDF(string searchString)
         {
-            HttpClient client = new AccessAPI().Access();
+            //HttpClient client = new AccessAPI().Access();
             string footer = "--footer-right \"Date: [date] [time]\" " + "--footer-center \"Page: [page] of [toPage]\" --footer-line --footer-font-size \"9\" --footer-spacing 5 --footer-font-name \"calibri light\"";
-            HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant")).Result;
-            var list = new List<MERCHANT>();
-            if (response.IsSuccessStatusCode)
+            List<Models.MerchantSummaryDailyTiny> lists = new List<Models.MerchantSummaryDailyTiny>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
             {
-                list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                temp = (USER_INFORMATION)model;
             }
-            return new Rotativa.PartialViewAsPdf("MerchantStatistical", list)
+            else return View();
+
+            if (temp.UserType == "T")   //Master
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    lists = getAllSumDaily();
+                    @ViewBag.searchString = searchString;
+                }
+                else
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryElement?searchString={0}", searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+            }
+            else if (temp.UserType == "A")
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefault?AgentCode={0}", temp.UserName)).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+                else
+                {
+                    HttpClient client = new AccessAPI().Access();
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryForAgentElement?AgentCode={0}&&searchString={1}", temp.UserName, searchString)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+            }
+            else return View();
+            return new Rotativa.PartialViewAsPdf("MerchantStatistical", lists)
             {   //MerchantSumaryDailyStatistical
                 FileName = "MerchantStatistical.pdf",
                 CustomSwitches = footer

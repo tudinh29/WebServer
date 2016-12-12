@@ -1030,6 +1030,8 @@
     <Content Include="Views\RetrivalInvalid\Index.cshtml" />
     <Content Include="Views\RetrivalInvalid\RetrivalError.cshtml" />
     <Content Include="Views\Management\ViewListMerchant.cshtml" />
+    <Content Include="Views\Management\AgentPDF.cshtml" />
+    <Content Include="Views\Management\MerchantPDF.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

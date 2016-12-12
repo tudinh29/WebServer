@@ -1,0 +1,37 @@
+﻿@model List<WebMVC.EntityFramework.MERCHANT>
+@{
+    ViewBag.Title = "ExportMerchantPDF";
+}
+<h2 size="20" align="center">MERCHANT MANAGEMENT</h2>
+<table class="table table-striped table-bordered table-hover">
+    <tbody>
+    <td>MerchantCode</td>
+    <td>MerchantName</td>
+    <td>MerchantType</td>
+    <td>Status</td>
+    <td>Owner</td>
+    <td>Address</td>
+    <td>City</td>
+    <td>LastActiveDate</td>
+    <td>ClosedDate</td>
+    </tbody>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(model => item.MerchantCode )</td>
+                <td>@Html.DisplayFor(model => item.MerchantName )</td>
+                <td>@Html.DisplayFor(model => item.MerchantType )</td>
+                <td>@Html.DisplayFor(model => item.Status )</td>
+                <td>@Html.DisplayFor(model => item.Owner )</td>
+                <td>@Html.DisplayFor(model => item.Address1 )</td>
+                <td>@Html.DisplayFor(model => item.CITY )</td>
+                <td>@Html.DisplayFor(model => item.LastActiveDate)</td>
+                <td>@Html.DisplayFor(model => item.CloseDate)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
