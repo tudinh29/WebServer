@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 29, 2016 3:34:04 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hcmus.model.pojo.RetrivalInvalid" table="RETRIVAL_INVALID">
+        <id name="retrivalCode" type="string">
+            <column name="RetrivalCode" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="accountNumber" type="string">
+            <column name="AccountNumber" length="20" />
+        </property>
+        <property name="merchantCode" type="string">
+            <column name="MerchantCode" length="10" not-null="true" />
+        </property>
+        <property name="transactionCode" type="string">
+            <column name="TransactionCode" length="20" />
+        </property>
+        <property name="transactionDate" type="date">
+            <column name="TransactionDate" length="10" />
+        </property>
+        <property name="reportDate" type="date">
+            <column name="ReportDate" length="10" />
+        </property>
+        <property name="amout" type="big_decimal">
+            <column name="Amout" scale="4" />
+        </property>
+        <property name="errorMessage" type="string">
+            <column name="ErrorMessage" />
+        </property>
+    </class>
+</hibernate-mapping>
