@@ -111,16 +111,28 @@
         </div>
         <div id="report-quarter" class="tab-pane fade">
             <br />
-            <div class="row">
-                <div class="col-sm-4">
+            <div class="col">
+                <div class="row-sm-4">
                     <div class="form-group">
-                        <input class="form-control" value="" id="startQuarter" placeholder="Start Quarter" type="text">
+                        <select id="startQuarter" class="form-control">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select> 
+                        <input class="form-control" value="" id="startQuarterYear" placeholder="Start Quarter" type="text">
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <input class="form-control" value="" id="endQuarter" placeholder="End Quarter" type="text">
+                <div class="row-sm-4">
+                    <select id="endQuarter" class="form-control">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select> 
+                    <input class="form-control" value="" id="endQuarterYear" placeholder="End Quarter" type="text">
                 </div>
-                <div class="col-sm-4">
+                <div class="row-sm-4">
                     <input class="btn btn-success" value="View" id="viewQuarter" type="button">
                 </div>
             </div>
@@ -1026,10 +1038,7 @@
         var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
         var startDay = $('#startDay').datepicker({
-            format: "dd/mm/yyyy",
-            onRender: function (date) {
-                return date.valueOf() < now.valueOf() ? 'disabled' : '';
-            }
+            format: "dd/mm/yyyy"
         }).on('changeDate', function (ev) {
             if (ev.date.valueOf() > endDay.date.valueOf()) {
                 var newDate = new Date(ev.date)
@@ -1043,7 +1052,7 @@
         var endDay = $('#endDay').datepicker({
             format: "dd/mm/yyyy",
             onRender: function (date) {
-                return date.valueOf() <= startDay.date.valueOf() ? 'disabled' : '';
+                
             }
         }).on('changeDate', function (ev) {
             endDay.hide();
@@ -1107,6 +1116,35 @@
             endYear.hide();
         }).data('datepicker');
 
+        //Quarter
+        var startQuarter = $('#startQuarterYear').datepicker({
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            onRender: function (date) {
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            if (ev.date.valueOf() > endYear.date.valueOf()) {
+                var newDate = new Date(ev.date)
+                newDate.setDate(newDate.getDate() + 1);
+                endYear.setValue(newDate);
+            }
+            startQuarter.hide();
+            $('#endQuarterYear')[0].focus();
+        }).data('datepicker');
+
+        var endQuarter = $('#endQuarterYear').datepicker({
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            onRender: function (date) {
+                return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            endQuarter.hide();
+        }).data('datepicker');
+
     });
 </script>
 
@@ -1165,6 +1203,27 @@
         });
 
         $('#viewQuarter').click(function () {
+            var startQuarterRp = document.getElementById('startQuarter').value;
+            var endQuarterRp = document.getElementById('endQuarter').value;
+            var startYearRp = $('#startQuarterYear').val().trim();
+            var endYearRp = $('#endQuarterYear').val().trim();
+
+            if ((startQuarterRp === endQuarterRp) && (startYearRp === endYearRp)) { //report by month
+                $("#reportStartMonth").attr("value", (startQuarterRp - 1) * 3 + 1);
+                $("#reportEndMonth").attr("value", (endQuarterRp - 1) * 3 + 1);
+                $("#reportStartYear").attr("value", startYearRp);
+                $("#reportEndYear").attr("value", startYearRp);
+                $("#reportType").attr("value", "Month");
+                $("#mainform").submit();
+            } else { //report by quarter
+                $("#reportStartQuarter").attr("value", startQuarterRp);
+                $("#reportEndQuarter").attr("value", endQuarterRp);
+                $("#reportStartYear").attr("value", startYearRp);
+                $("#reportEndYear").attr("value", endYearRp);
+                $("#reportType").attr("value", "Quarter");
+                $("#mainform").submit();
+            }
+
             $("#startdate").attr("value", moment("01/" + $('#startQuarter').val(), "DD/MM/YYYY").format(dateFormat));
             $("#enddate").attr("value", moment("01/" + $('#endQuarter').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
             $("#mainform").submit();
