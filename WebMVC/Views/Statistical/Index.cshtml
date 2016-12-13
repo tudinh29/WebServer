@@ -54,7 +54,10 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr id="row_@item.MerchantCode">
-                                        <td>@item.MerchantCode</td>
+                                        <td>
+                                            @Html.ActionLink(@item.MerchantCode, "ViewDetailDay", "Statistical",
+                                        new { MerchantCode = @item.MerchantCode }, null)
+                                        </td>
                                         <td>@item.SaleAmount</td>
                                         <td>@item.ReturnAmount</td>
                                         <td>@item.SaleCount</td>

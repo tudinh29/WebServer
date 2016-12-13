@@ -85,6 +85,61 @@ namespace WebMVC.Controllers
             }
             else return View();
         }
+        public ActionResult ViewDetailDay(string MerchantCode)
+        {
+            //Tâm code
+            return View();
+        }
+
+        public ActionResult Month(string searchString, int page = 1, int size = 10)
+        {
+            // Diễm Code
+            return View();
+        }
+        public ActionResult ViewDetailMonth(string MerchantCode)
+        {
+            return View();
+        }
+        public ActionResult Quarter(string searchString, int page = 1, int size = 10)
+        {
+            return View();
+        }
+        public ActionResult ViewDetailQuarter(string MerchantCode)
+        {
+            return View();
+        }
+        public ActionResult Year(string searchString, int page = 1, int size = 10)
+        {
+            return View();
+        }
+        public ActionResult ViewDetailYear(string MerchantCode)
+        {
+            return View();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public ActionResult ExportPDF(string searchString)
         {
