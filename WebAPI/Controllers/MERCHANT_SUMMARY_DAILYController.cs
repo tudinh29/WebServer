@@ -14,6 +14,7 @@ using System.Web.Http.Description;
 using System.Web.Http.Results;
 using System.Web.Script.Serialization;
 using WebAPI.EntityFramework;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -134,6 +135,14 @@ namespace WebAPI.Controllers
         private bool MERCHANT_SUMMARY_DAILYExists(DateTime id)
         {
             return db.MERCHANT_SUMMARY_DAILY.Count(e => e.ReportDate == id) > 0;
+        }
+
+
+        [HttpGet]
+        public List<MerchantSummaryDailyTiny> FindFilter(string query)
+        {
+            var res = db.Database.SqlQuery<MerchantSummaryDailyTiny>(query).ToList();
+            return res;
         }
 
         [HttpGet]

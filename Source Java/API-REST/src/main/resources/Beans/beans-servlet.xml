@@ -127,6 +127,12 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<ref bean="sessionFactory"/>
 		</property>
    </bean>
+
+   <bean id="CityService" class="com.hcmus.model.service.CityService">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+   </bean>
    
    <context:component-scan base-package="com.hcmus.controller" />
 	

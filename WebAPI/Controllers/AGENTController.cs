@@ -19,6 +19,14 @@ namespace WebAPI.Controllers
     {
         private APIDbContext db = new APIDbContext();
 
+
+        [HttpGet]
+        public List<AGENT> FindFilter(string query)
+        {
+            var res = db.Database.SqlQuery<AGENT>(query).ToList();
+            return res;
+        }
+
         [HttpGet]
         public List<AGENT> FindAllAgent()
         {
@@ -61,7 +69,7 @@ namespace WebAPI.Controllers
                 db.Database.ExecuteSqlCommand("exec sp_InactiveOrActive_Agent @AgentCode", paremeter);
                 return true;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -243,6 +251,6 @@ namespace WebAPI.Controllers
             return db.AGENT.Count(e => e.AgentCode == id) > 0;
         }
 
-        
+
     }
 }

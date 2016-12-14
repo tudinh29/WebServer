@@ -20,6 +20,7 @@ namespace WebMVC.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult Login(LoginModel model)
         {
             if (model.UserName == null || model.Password == null)
@@ -30,19 +31,14 @@ namespace WebMVC.Controllers
 
             List<USER_INFORMATION> list = new List<USER_INFORMATION>();
 
-            //HttpClient client = new HttpClient();
-            //client.BaseAddress = new Uri("http://localhost:21212/");
-
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpClient client = new AccessAPI().Access();
-            HttpResponseMessage response = client.GetAsync(string.Format("api/USER_INFORMATION/Search?username={0}&password={1}", model.UserName, Encryptor.MD5Hash(model.Password))).Result;
-
+            StringContent content = new StringContent("");
+            HttpResponseMessage response = client.PostAsync(string.Format("api/USER_INFORMATION/Search?username={0}&password={1}", model.UserName, Encryptor.MD5Hash(model.Password)), content).Result;
             if (response.IsSuccessStatusCode)
             {
                 list = response.Content.ReadAsAsync<List<USER_INFORMATION>>().Result;
-                //return RedirectToAction("Index", "Home");
             }
-            if(list.Count == 1)
+            if (list.Count == 1)
             {
                 var userSession = new USER_INFORMATION();
                 userSession = list[0];
@@ -56,6 +52,7 @@ namespace WebMVC.Controllers
             }
         }
 
+       
         public ActionResult Logout()
         {
             Session.Abandon();

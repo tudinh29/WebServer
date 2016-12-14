@@ -77,12 +77,12 @@
        <artifactId>slf4j-api</artifactId>
        <version>1.7.7</version>
 	</dependency>
-	
-  	<dependency>
+	<dependency>
   		<groupId>com.microsoft.sqlserver</groupId>
   		<artifactId>sqljdbc4</artifactId>
   		<version>4.0</version>
 	</dependency>
+  	
 	<dependency>  
         <groupId>com.fasterxml.jackson.core</groupId>  
         <artifactId>jackson-databind</artifactId>  
