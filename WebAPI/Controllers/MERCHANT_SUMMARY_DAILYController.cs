@@ -187,6 +187,28 @@ namespace WebAPI.Controllers
             return res;
 
         }
+        [HttpGet]
+        public List<Models.MerchantSummaryDailyTiny> GetMerchantSummaryForMerchantCode(string MerchantCode)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@MerchantCode", MerchantCode)
+                };
+            var res = db.Database.SqlQuery<Models.MerchantSummaryDailyTiny>("exec SP_GetMerchantSummaryForMerchantCode @MerchantCode", paremeter).ToList();
+            return res;
+        }
+        [HttpGet]
+        public List<Models.MerchantSummaryDailyTiny> GetMerchantSummaryForAgentDefaultMerchantCode(string AgentCode, string MerchantCode, DateTime ReportDate)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@AgentCode", AgentCode),
+                    new SqlParameter("@MerchantCode", MerchantCode),
+                    new SqlParameter("@ReportDate",ReportDate)
+                };
+            var res = db.Database.SqlQuery<Models.MerchantSummaryDailyTiny>("exec SP_GetMerchantSummaryForAgent_Default_MerchantCode @AgentCode,@MerchantCode,@ReportDate", paremeter).ToList();
+            return res;
+        }
 
         [HttpGet]
         public List<MERCHANT_SUMMARY_DAILY> GetReportData()

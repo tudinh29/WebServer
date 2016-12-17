@@ -1032,6 +1032,7 @@
     <Content Include="Views\Management\ViewListMerchant.cshtml" />
     <Content Include="Views\Management\AgentPDF.cshtml" />
     <Content Include="Views\Management\MerchantPDF.cshtml" />
+    <Content Include="Views\Statistical\ViewDetailDay.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

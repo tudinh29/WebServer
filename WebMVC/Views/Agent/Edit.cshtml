@@ -22,119 +22,107 @@
                             @Html.HiddenFor(model => model.AgentCode)
 
                             <div class="col-lg-6">
-                                <form role="form">
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.AgentName)</labe>
-                                        @Html.TextBoxFor(model => model.AgentName, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.AgentName)
-                                    </div>
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.AgentName)</labe>
+                                    @Html.TextBoxFor(model => model.AgentName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.AgentName)
+                                </div>
 
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.AgentStatus)</labe>
-                                        @Html.TextBoxFor(model => model.AgentStatus, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.AgentStatus)
-                                    </div>
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.AgentStatus)</labe>
+                                    @Html.TextBoxFor(model => model.AgentStatus, new { @class = "form-control", @Disabled = "true" })
+                                    @Html.ValidationMessageFor(model => model.AgentStatus)
+                                </div>
 
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.Owner)</labe>
-                                        @Html.TextBoxFor(model => model.Owner, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.Owner)
-                                    </div>
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.Owner)</labe>
+                                    @Html.TextBoxFor(model => model.Owner, new { @class = "form-control", @Disabled = "true" })
+                                    @Html.ValidationMessageFor(model => model.Owner)
+                                </div>
 
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.Address1)</labe>
-                                        @Html.TextBoxFor(model => model.Address1, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.Address1)
-                                    </div>
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.Address1)</labe>
+                                    @Html.TextBoxFor(model => model.Address1, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Address1)
+                                </div>
 
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.Address2)</labe>
-                                        @Html.TextBoxFor(model => model.Address2, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.Address2)
-                                    </div>
-
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.Address2)</labe>
+                                    @Html.TextBoxFor(model => model.Address2, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Address2)
+                                </div>
 
 
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.Address3)</labe>
-                                        @Html.TextBoxFor(model => model.Address3, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.Address3)
-                                    </div>
+
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.Address3)</labe>
+                                    @Html.TextBoxFor(model => model.Address3, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Address3)
+                                </div>
 
 
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.CityCode)</labe>
-                                        @Html.TextBoxFor(model => model.CityCode, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.CityCode)
-                                    </div>
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.CityCode)</labe>
+                                    @Html.TextBoxFor(model => model.CityCode, new { @class = "form-control", @Disabled = "true" })
+                                    @Html.ValidationMessageFor(model => model.CityCode)
+                                </div>
 
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.Zip)</labe>
-                                        @Html.TextBoxFor(model => model.Zip, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.Zip)
-                                    </div>
-
-                                </form>
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.Zip)</labe>
+                                    @Html.TextBoxFor(model => model.Zip, new { @class = "form-control", @Disabled = "true" })
+                                    @Html.ValidationMessageFor(model => model.Zip)
+                                </div>
                             </div>
 
                             <div class="col-lg-6">
-                                <form role="form">
-
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.Phone)</labe>
-                                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.Phone)
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.Fax)</labe>
-                                        @Html.TextBoxFor(model => model.Fax, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.Fax)
-                                    </div>
-
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.Email)</labe>
-                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.Email)
-                                    </div>
-
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.ApprovalDate)</labe>
-                                        @Html.TextBoxFor(model => model.ApprovalDate, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.ApprovalDate)
-                                    </div>
-
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.CloseDate)</labe>
-                                        @Html.TextBoxFor(model => model.CloseDate, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.CloseDate)
-                                    </div>
-
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.FirstActiveDate)</labe>
-                                        @Html.TextBoxFor(model => model.FirstActiveDate, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.FirstActiveDate)
-                                    </div>
-
-                                    <div class="form-group">
-                                        <labe>@Html.LabelFor(model => model.LastActiveDate)</labe>
-                                        @Html.TextBoxFor(model => model.LastActiveDate, new { @class = "form-control", @Disabled = "true" })
-                                        @Html.ValidationMessageFor(model => model.LastActiveDate)
-                                    </div>
-                                </form>
-                            </div>
-
-
-
-
-
-                            @*<div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Save" class="btn btn-default" />
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.Phone)</labe>
+                                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Phone)
                                 </div>
-                            </div>*@
 
+
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.Fax)</labe>
+                                    @Html.TextBoxFor(model => model.Fax, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Fax)
+                                </div>
+
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.Email)</labe>
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.ApprovalDate)</labe>
+                                    @Html.TextBoxFor(model => model.ApprovalDate, new { @class = "form-control", @Disabled = "true" })
+                                    @Html.ValidationMessageFor(model => model.ApprovalDate)
+                                </div>
+
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.CloseDate)</labe>
+                                    @Html.TextBoxFor(model => model.CloseDate, new { @class = "form-control", @Disabled = "true" })
+                                    @Html.ValidationMessageFor(model => model.CloseDate)
+                                </div>
+
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.FirstActiveDate)</labe>
+                                    @Html.TextBoxFor(model => model.FirstActiveDate, new { @class = "form-control", @Disabled = "true" })
+                                    @Html.ValidationMessageFor(model => model.FirstActiveDate)
+                                </div>
+
+                                <div class="form-group">
+                                    <labe>@Html.LabelFor(model => model.LastActiveDate)</labe>
+                                    @Html.TextBoxFor(model => model.LastActiveDate, new { @class = "form-control", @Disabled = "true" })
+                                    @Html.ValidationMessageFor(model => model.LastActiveDate)
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                    <div class="col-md-offset col-md-12">
+                                         <input type="submit" value="Save" class="btn btn-default btn-block" />
+                                    </div>
+                                </div>*@
                         }
                     </div>
                 </div>
@@ -142,5 +130,4 @@
         </div>
     </div>
 </div>
-
 

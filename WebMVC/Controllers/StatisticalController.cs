@@ -139,7 +139,34 @@ namespace WebMVC.Controllers
         public ActionResult ViewDetailDay(string MerchantCode)
         {
             //Tâm code
-            return View();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View();
+            List<MerchantSummaryDailyTiny> list = new List<MerchantSummaryDailyTiny>();
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage response;
+            if (temp.UserType == "A")
+            {
+
+                response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefaultMerchantCode?AgentCode={0}&&MerchantCode={1}&&ReportDate={2}", temp.UserName, Request.QueryString["MerchantCode"], Request.QueryString["ReportDate"])).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    list = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                }
+            }
+            if (temp.UserType == "M")
+            {
+                response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForMerchantCode?MerchantCode={0}", temp.UserName)).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    list = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                }
+            }
+            return View(list);
         }
 
         public ActionResult Month(string searchString, int page = 1, int size = 10)
