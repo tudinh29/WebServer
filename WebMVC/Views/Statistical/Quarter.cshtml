@@ -91,9 +91,12 @@
 
     <div id="main">
         <div class="container-fluid">
-            <div class="row">
-                <span style="font-size:20px;cursor:pointer;margin-left:10px" onclick="openNav()"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span>
-            </div>
+            @if (temp.UserType == "A" || temp.UserType == "T")
+            {
+                <div class="row">
+                    <span style="font-size:20px;cursor:pointer;margin-left:10px" onclick="openNav()"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span>
+                </div>
+            }
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -145,16 +148,16 @@
                                 <nav>
                                     <ul class="pagination">
                                         <li>
-                                            @Html.ActionLink("Trang đầu", "Quarter", "Statistical", new { page = ViewBag.First, searchString = ViewBag.searchString }, null)
+                                            @Html.ActionLink("Trang đầu", "Quarter", "Statistical", new { page = ViewBag.First, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType }, null)
                                         </li>
                                         @for (int i = startPageIndex; i <= endPageIndex; i++)
                                         {
                                             <li>
-                                                @Html.ActionLink(i.ToString(), "Quarter", "Statistical", new { page = i, searchString = ViewBag.searchString }, null)
+                                                @Html.ActionLink(i.ToString(), "Quarter", "Statistical", new { page = i, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType }, null)
                                             </li>
                                         }
                                         <li>
-                                            @Html.ActionLink("Trang cuối", "Quarter", "Statistical", new { page = ViewBag.Last, searchString = ViewBag.searchString }, null)
+                                            @Html.ActionLink("Trang cuối", "Quarter", "Statistical", new { page = ViewBag.Last, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType }, null)
                                         </li>
                                     </ul>
                                 </nav>

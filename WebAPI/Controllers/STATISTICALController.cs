@@ -489,7 +489,21 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public int CountFilterYearly(string query)
+        public List<MERCHANT_SUMMARY_MONTHLY> FindFilterMonthly(string query)
+        {
+            var res = db.Database.SqlQuery<MERCHANT_SUMMARY_MONTHLY>(query).ToList();
+            return res;
+        }
+
+        [HttpGet]
+        public List<MERCHANT_SUMMARY_QUARTERLY> FindFilterQuarterly(string query)
+        {
+            var res = db.Database.SqlQuery<MERCHANT_SUMMARY_QUARTERLY>(query).ToList();
+            return res;
+        }
+
+        [HttpGet]
+        public int CountFilter(string query)
         {
             var res = db.Database.SqlQuery<int>(query).ToList();
             return res[0];
