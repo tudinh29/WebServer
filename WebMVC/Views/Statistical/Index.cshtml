@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<WebMVC.Models.MerchantSummaryDailyTiny>
+﻿@model List<WebMVC.EntityFramework.MERCHANT_SUMMARY_DAILY>
 @using PagedList.Mvc;
 @using System.Web.Mvc;
 @using WebMVC.EntityFramework;
@@ -126,7 +126,32 @@
                                 }
                             </tbody>
                         </table>
-                        @Html.PagedListPager(Model, Page => Url.Action("Index", "Statistical", new { Page, @searchString = @ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType }))
+                        <!--Html.PagedListPager(Model, Page => Url.Action("Index", "Statistical", new { Page, searchString = ViewBag.searchString, MerchantType = ViewBag.tempMerchantType, RegionType = ViewBag.tempRegionType }))-->
+                        @if (ViewBag.TotalPage > 1)
+                        {
+                            var pageDisplay = (int)ViewBag.MaxPage;
+                            int totalPage = (int)ViewBag.TotalPage;
+                            int currentPage = (int)ViewBag.Page;
+
+                            var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                            var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+                            <nav>
+                                <ul class="pagination">
+                                    <li>
+                                        @Html.ActionLink("Trang đầu", "Index", "Statistical", new { page = ViewBag.First, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType }, null)
+                                    </li>
+                                    @for (int i = startPageIndex; i <= endPageIndex; i++)
+                                    {
+                                        <li>
+                                            @Html.ActionLink(i.ToString(), "Index", "Statistical", new { page = i, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType}, null)
+                                        </li>
+                                    }
+                                    <li>
+                                        @Html.ActionLink("Trang cuối", "Index", "Statistical", new { page = ViewBag.Last, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType}, null)
+                                    </li>
+                                </ul>
+                            </nav>
+                        }
                     </div>
                     <div class="panel-body">
                         <div class="row">
