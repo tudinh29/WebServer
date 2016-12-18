@@ -77,7 +77,18 @@ namespace WebMVC.Controllers
                         break;
                 }
             }
-            
+
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View();
+
+            reportDataAPI += ("&code=" + temp.UserName);
+            reportDateForLineAPI += ("&code=" + temp.UserName);
+
             List<MERCHANT_SUMMARY> list = new List<MERCHANT_SUMMARY>();
 
             HttpClient client = new AccessAPI().Access();

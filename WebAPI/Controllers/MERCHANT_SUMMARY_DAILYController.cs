@@ -249,82 +249,88 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<MERCHANT_SUMMARY> GetReportDataMonthly(int startMonth, int startYear, int endMonth, int endYear)
+        public List<MERCHANT_SUMMARY> GetReportDataMonthly(int startMonth, int startYear, int endMonth, int endYear, string code)
         {
             object[] paremeter =
                {
                     new SqlParameter("@startMonth", startMonth),
                     new SqlParameter("@startYear", startYear),
                     new SqlParameter("@endMonth", endMonth),
-                    new SqlParameter("@endYear", endYear)
+                    new SqlParameter("@endYear", endYear),
+                    new SqlParameter("@code", code)
                 };
-            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY>("SP_GetReportData_Monthly @startMonth, @startYear, @endMonth, @endYear", paremeter).ToList();
+            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY>("SP_GetReportData_Monthly @startMonth, @startYear, @endMonth, @endYear, @code", paremeter).ToList();
             return dbReturn;
         }
 
         [HttpGet]
-        public List<MERCHANT_SUMMARY> GetReportDataQuarterly(int startQuarter, int startYear, int endQuarter, int endYear)
+        public List<MERCHANT_SUMMARY> GetReportDataQuarterly(int startQuarter, int startYear, int endQuarter, int endYear, string code)
         {
             object[] paremeter =
                {
                     new SqlParameter("@startQuarter", startQuarter),
                     new SqlParameter("@startYear", startYear),
                     new SqlParameter("@endQuarter", endQuarter),
-                    new SqlParameter("@endYear", endYear)
+                    new SqlParameter("@endYear", endYear),
+                    new SqlParameter("@code", code)
                 };
-            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY>("SP_GetReportData_Quarterly @startQuarter, @startYear, @endQuarter, @endYear", paremeter).ToList();
+            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY>("SP_GetReportData_Quarterly @startQuarter, @startYear, @endQuarter, @endYear, @code", paremeter).ToList();
             return dbReturn;
         }
 
         [HttpGet]
-        public List<MERCHANT_SUMMARY> GetReportDataYearly(int startYear, int endYear)
+        public List<MERCHANT_SUMMARY> GetReportDataYearly(int startYear, int endYear, string code)
         {
             object[] paremeter =
                {
                     new SqlParameter("@startYear", startYear),
-                    new SqlParameter("@endYear", endYear)
+                    new SqlParameter("@endYear", endYear),
+                    new SqlParameter("@code", code)
                 };
-            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY>("SP_GetReportData_Yearly @startYear, @endYear", paremeter).ToList();
+            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY>("SP_GetReportData_Yearly @startYear, @endYear, @code", paremeter).ToList();
             return dbReturn;
         }
 
         [HttpGet]
-        public List<Models.Statistic> GetReportDateForLineChartMonthly(int startMonth, int startYear, int endMonth, int endYear)
+        public List<Models.Statistic> GetReportDateForLineChartMonthly(int startMonth, int startYear, int endMonth, int endYear, string code)
         {
             object[] paremeter =
                {
                     new SqlParameter("@startMonth", startMonth),
                     new SqlParameter("@startYear", startYear),
                     new SqlParameter("@endMonth", endMonth),
-                    new SqlParameter("@endYear", endYear)
+                    new SqlParameter("@endYear", endYear),
+                    new SqlParameter("@code", code)
                 };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDataForLineChart_Monthly @startMonth, @startYear, @endMonth, @endYear", paremeter).ToList();
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDataForLineChart_Monthly @startMonth, @startYear, @endMonth, @endYear, @code", paremeter).ToList();
             return dbReturn;
         }
 
         [HttpGet]
-        public List<Models.Statistic> GetReportDateForLineChartQuarterly(int startQuarter, int startYear, int endQuarter, int endYear)
+        public List<Models.Statistic> GetReportDateForLineChartQuarterly(int startQuarter, int startYear, int endQuarter, int endYear, string code)
         {
             object[] paremeter =
                {
                     new SqlParameter("@startQuarter", startQuarter),
                     new SqlParameter("@startYear", startYear),
                     new SqlParameter("@endQuarter", endQuarter),
-                    new SqlParameter("@endYear", endYear)
+                    new SqlParameter("@endYear", endYear),
+                    new SqlParameter("@code", code)
                 };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDataForLineChart_Quarterly @startQuarter, @startYear, @endQuarter, @endYear", paremeter).ToList();
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDataForLineChart_Quarterly @startQuarter, @startYear, @endQuarter, @endYear, @code", paremeter).ToList();
             return dbReturn;
         }
 
         [HttpGet]
-        public List<Models.Statistic> GetReportDateForLineChartYearly(int startYear, int endYear)
+        public List<Models.Statistic> GetReportDateForLineChartYearly(int startYear, int endYear, string code)
         {
             object[] paremeter =
                {
                     new SqlParameter("@startYear", startYear),
-                    new SqlParameter("@endYear", endYear)
+                    new SqlParameter("@endYear", endYear),
+                    new SqlParameter("@code", code)
                 };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDataForLineChart_Yearly @startYear, @endYear", paremeter).ToList();
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDataForLineChart_Yearly @startYear, @endYear, @code", paremeter).ToList();
             return dbReturn;
         }
     }
