@@ -142,34 +142,630 @@ namespace WebMVC.Controllers
             return View();
         }
 
-        public ActionResult Month(string searchString, int page = 1, int size = 10)
+        public ActionResult Month(string MerchantType, string RegionType, List<string> MerchantTypeValue, List<string> RegionTypeValue, string searchString, int page = 1, int size = 10)
         {
-            // Diễm Code
-            return View();
+            List<MERCHANT_SUMMARY_MONTHLY> list = new List<MERCHANT_SUMMARY_MONTHLY>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View();
+            int totalPage = 0;
+            int maxPage = 4;
+            int totalRetrival = 0;
+            //HttpClient client = new HttpClient();
+            //client.BaseAddress = new Uri("http://localhost:21212/");
+            //Filter
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
+            HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/FindAllRegion")).Result;
+            if (responseMerchantType.IsSuccessStatusCode && responseRegion.IsSuccessStatusCode)
+            {
+                List<MERCHANT_TYPE> listMerchantType = responseMerchantType.Content.ReadAsAsync<List<MERCHANT_TYPE>>().Result;
+                List<REGION> listRegion = responseRegion.Content.ReadAsAsync<List<REGION>>().Result;
+                ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "Description");
+                ViewBag.RegionType = new SelectList(listRegion, "RegionCode", "RegionName");
+            }
+            //End Filter
+
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            if (temp.UserType == "T")
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    HttpResponseMessage response1 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryMonthly")).Result;
+
+                    if (response1.IsSuccessStatusCode)
+                    {
+                        totalRetrival = response1.Content.ReadAsAsync<int>().Result;
+                    }
+
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindAllMerchantSummaryMonthly?pageIndex={0}&pageSize={1}", page - 1, size)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_MONTHLY>>().Result;
+                        totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                        ViewBag.Total = totalRetrival;
+                        ViewBag.Page = page;
+                        ViewBag.TotalPage = totalPage;
+                        ViewBag.MaxPage = maxPage;
+                        ViewBag.First = 1;
+                        ViewBag.Last = totalPage;
+                    }
+                    return View(list.ToList());
+                }
+                else
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryMonthlyElement?searchString={0}&pageIndex={1}&pageSize={2}", searchString, page - 1, size)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_MONTHLY>>().Result;
+                        HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryMonthlyElement?searchString={0}", searchString)).Result;
+                        if (response2.IsSuccessStatusCode)
+                        {
+                            totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                        }
+                        totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                        ViewBag.Total = totalRetrival;
+                        ViewBag.Page = page;
+                        ViewBag.TotalPage = totalPage;
+                        ViewBag.MaxPage = maxPage;
+                        ViewBag.First = 1;
+                        ViewBag.Last = totalPage;
+                    }
+                    @ViewBag.searchString = searchString;
+                    return View(list.ToList());
+                }
+            }
+            else
+            {
+                if (temp.UserType == "A")
+                {
+                    //agent
+                    if (String.IsNullOrEmpty(searchString))
+                    {
+                        HttpResponseMessage response1 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryMonthly_Agent?AgentCode={0}", temp.UserName)).Result;
+
+                        if (response1.IsSuccessStatusCode)
+                        {
+                            totalRetrival = response1.Content.ReadAsAsync<int>().Result;
+                        }
+
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindAllMerchantSummaryMonthly_Agent?pageIndex={0}&pageSize={1}&AgentCode={2}", page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_MONTHLY>>().Result;
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        return View(list.ToList());
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryMonthlyElement_Agent?searchString={0}&pageIndex={1}&pageSize={2}&AgentCode={3}", searchString, page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_MONTHLY>>().Result;
+                            HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryMonthlyElement_Agent?searchString={0}&AgentCode={1}", searchString, temp.UserName)).Result;
+                            if (response2.IsSuccessStatusCode)
+                            {
+                                totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                            }
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        @ViewBag.searchString = searchString;
+                        return View(list.ToList());
+                    }
+                }
+                else
+                {
+                    //merchant
+                    if (String.IsNullOrEmpty(searchString))
+                    {
+                        HttpResponseMessage response1 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryMonthly_Merchant?MerchantCode={0}", temp.UserName)).Result;
+
+                        if (response1.IsSuccessStatusCode)
+                        {
+                            totalRetrival = response1.Content.ReadAsAsync<int>().Result;
+                        }
+
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindAllMerchantSummaryMonthly_Merchant?pageIndex={0}&pageSize={1}&MerchantCode={2}", page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_MONTHLY>>().Result;
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        return View(list.ToList());
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryMonthlyElement_Merchant?searchString={0}&pageIndex={1}&pageSize={2}&MerchantCode={3}", searchString, page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_MONTHLY>>().Result;
+                            HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryMonthlyElement_MerchantCode?searchString={0}&MerchantCode={1}", searchString, temp.UserName)).Result;
+                            if (response2.IsSuccessStatusCode)
+                            {
+                                totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                            }
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        @ViewBag.searchString = searchString;
+                        return View(list.ToList());
+                    }
+                }
+            }
         }
-        public ActionResult ViewDetailMonth(string MerchantCode)
+        public ActionResult ViewDetailMonth(string ReportMonth, string ReportYear, string MerchantCode)
         {
-            return View();
+            MERCHANT_SUMMARY_MONTHLY list = new MERCHANT_SUMMARY_MONTHLY();
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryMonthly?ReportMonth={0}&ReportYear={1}&MerchantCode={2}", ReportMonth, ReportYear, MerchantCode)).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                list = response.Content.ReadAsAsync<MERCHANT_SUMMARY_MONTHLY>().Result;
+            }
+            @ViewBag.ReportMonth = ReportMonth;
+            @ViewBag.ReportYear = ReportYear;
+            @ViewBag.MerchantCode = MerchantCode;
+            return View(list);
         }
-        public ActionResult Quarter(string searchString, int page = 1, int size = 10)
+        public ActionResult Quarter(string MerchantType, string RegionType, List<string> MerchantTypeValue, List<string> RegionTypeValue, string searchString, int page = 1, int size = 10)
         {
-            return View();
+            List<MERCHANT_SUMMARY_QUARTERLY> list = new List<MERCHANT_SUMMARY_QUARTERLY>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View();
+            int totalPage = 0;
+            int maxPage = 4;
+            int totalRetrival = 0;
+            //HttpClient client = new HttpClient();
+            //client.BaseAddress = new Uri("http://localhost:21212/");
+            //Filter
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
+            HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/FindAllRegion")).Result;
+            if (responseMerchantType.IsSuccessStatusCode && responseRegion.IsSuccessStatusCode)
+            {
+                List<MERCHANT_TYPE> listMerchantType = responseMerchantType.Content.ReadAsAsync<List<MERCHANT_TYPE>>().Result;
+                List<REGION> listRegion = responseRegion.Content.ReadAsAsync<List<REGION>>().Result;
+                ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "Description");
+                ViewBag.RegionType = new SelectList(listRegion, "RegionCode", "RegionName");
+            }
+            //End Filter
+
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            if (temp.UserType == "T")
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    HttpResponseMessage response1 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryQuarterly")).Result;
+
+                    if (response1.IsSuccessStatusCode)
+                    {
+                        totalRetrival = response1.Content.ReadAsAsync<int>().Result;
+                    }
+
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindAllMerchantSummaryQuarterly?pageIndex={0}&pageSize={1}", page - 1, size)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_QUARTERLY>>().Result;
+                        totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                        ViewBag.Total = totalRetrival;
+                        ViewBag.Page = page;
+                        ViewBag.TotalPage = totalPage;
+                        ViewBag.MaxPage = maxPage;
+                        ViewBag.First = 1;
+                        ViewBag.Last = totalPage;
+                    }
+                    return View(list.ToList());
+                }
+                else
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryQuarterlyElement?searchString={0}&pageIndex={1}&pageSize={2}", searchString, page - 1, size)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_QUARTERLY>>().Result;
+                        HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryQuarterlyElement?searchString={0}", searchString)).Result;
+                        if (response2.IsSuccessStatusCode)
+                        {
+                            totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                        }
+                        totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                        ViewBag.Total = totalRetrival;
+                        ViewBag.Page = page;
+                        ViewBag.TotalPage = totalPage;
+                        ViewBag.MaxPage = maxPage;
+                        ViewBag.First = 1;
+                        ViewBag.Last = totalPage;
+                    }
+                    @ViewBag.searchString = searchString;
+                    return View(list.ToList());
+                }
+            }
+            else
+            {
+                if (temp.UserType == "A")
+                {
+                    //agent
+                    if (String.IsNullOrEmpty(searchString))
+                    {
+                        HttpResponseMessage response1 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryQuarterly_Agent?AgentCode={0}", temp.UserName)).Result;
+
+                        if (response1.IsSuccessStatusCode)
+                        {
+                            totalRetrival = response1.Content.ReadAsAsync<int>().Result;
+                        }
+
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindAllMerchantSummaryQuarterly_Agent?pageIndex={0}&pageSize={1}&AgentCode={2}", page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_QUARTERLY>>().Result;
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        return View(list.ToList());
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryQuarterlyElement_Agent?searchString={0}&pageIndex={1}&pageSize={2}&AgentCode={3}", searchString, page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_QUARTERLY>>().Result;
+                            HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryQuarterlyElement_Agent?searchString={0}&AgentCode={1}", searchString, temp.UserName)).Result;
+                            if (response2.IsSuccessStatusCode)
+                            {
+                                totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                            }
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        @ViewBag.searchString = searchString;
+                        return View(list.ToList());
+                    }
+                }
+                else
+                {
+                    //merchant
+                    if (String.IsNullOrEmpty(searchString))
+                    {
+                        HttpResponseMessage response1 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryQuarterly_Merchant?MerchantCode={0}", temp.UserName)).Result;
+
+                        if (response1.IsSuccessStatusCode)
+                        {
+                            totalRetrival = response1.Content.ReadAsAsync<int>().Result;
+                        }
+
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindAllMerchantSummaryQuarterly_Merchant?pageIndex={0}&pageSize={1}&MerchantCode={2}", page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_QUARTERLY>>().Result;
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        return View(list.ToList());
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryQuarterlyElement_Merchant?searchString={0}&pageIndex={1}&pageSize={2}&MerchantCode={3}", searchString, page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_QUARTERLY>>().Result;
+                            HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryQuarterlyElement_MerchantCode?searchString={0}&MerchantCode={1}", searchString, temp.UserName)).Result;
+                            if (response2.IsSuccessStatusCode)
+                            {
+                                totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                            }
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        @ViewBag.searchString = searchString;
+                        return View(list.ToList());
+                    }
+                }
+            }
         }
-        public ActionResult ViewDetailQuarter(string MerchantCode)
+        public ActionResult ViewDetailQuarter(string ReportQuarter, string ReportYear, string MerchantCode)
         {
-            return View();
+            MERCHANT_SUMMARY_QUARTERLY list = new MERCHANT_SUMMARY_QUARTERLY();
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryQuarterly?ReportQuarter={0}&ReportYear={1}&MerchantCode={2}", ReportQuarter, ReportYear, MerchantCode)).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                list = response.Content.ReadAsAsync<MERCHANT_SUMMARY_QUARTERLY>().Result;
+            }
+            @ViewBag.ReportQuarter = ReportQuarter;
+            @ViewBag.ReportYear = ReportYear;
+            @ViewBag.MerchantCode = MerchantCode;
+            return View(list);
         }
-        public ActionResult Year(string searchString, int page = 1, int size = 10)
+        public ActionResult Year(string MerchantType, string RegionType, List<string> MerchantTypeValue, List<string> RegionTypeValue, string searchString, int page = 1, int size = 10)
         {
-            return View();
+            List<MERCHANT_SUMMARY_YEARLY> list = new List<MERCHANT_SUMMARY_YEARLY>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View();
+            int totalPage = 0;
+            int maxPage = 4;
+            int totalRetrival = 0;
+            //HttpClient client = new HttpClient();
+            //client.BaseAddress = new Uri("http://localhost:21212/");
+            //Filter
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
+            HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/FindAllRegion")).Result;
+            if (responseMerchantType.IsSuccessStatusCode && responseRegion.IsSuccessStatusCode)
+            {
+                List<MERCHANT_TYPE> listMerchantType = responseMerchantType.Content.ReadAsAsync<List<MERCHANT_TYPE>>().Result;
+                List<REGION> listRegion = responseRegion.Content.ReadAsAsync<List<REGION>>().Result;
+                ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "Description");
+                ViewBag.RegionType = new SelectList(listRegion, "RegionCode", "RegionName");
+            }
+            //End Filter
+            if (MerchantTypeValue != null || RegionTypeValue != null)
+            {
+                //Có thì lọc thôi
+                string findQuery = FindFilterYearly(MerchantTypeValue, RegionTypeValue, page-1, size);
+                string countQuery = CountFilterYearly(MerchantTypeValue, RegionTypeValue);
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindFilterYearly?query={0}", findQuery)).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_YEARLY>>().Result;
+                    HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountFilterYearly?query={0}", countQuery)).Result;
+                    if (response2.IsSuccessStatusCode)
+                    {
+                        totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                    }
+                    totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                    ViewBag.Total = totalRetrival;
+                    ViewBag.Page = page;
+                    ViewBag.TotalPage = totalPage;
+                    ViewBag.MaxPage = maxPage;
+                    ViewBag.First = 1;
+                    ViewBag.Last = totalPage;
+                }
+                ViewBag.MerchantTypeValue = MerchantTypeValue;
+                ViewBag.RegionTypeValue = RegionTypeValue;
+                return View(list.ToList());
+            }
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            if (temp.UserType == "T")
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    HttpResponseMessage response1 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryYearly")).Result;
+
+                    if (response1.IsSuccessStatusCode)
+                    {
+                        totalRetrival = response1.Content.ReadAsAsync<int>().Result;
+                    }
+
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindAllMerchantSummaryYearly?pageIndex={0}&pageSize={1}", page - 1, size)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_YEARLY>>().Result;
+                        totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                        ViewBag.Total = totalRetrival;
+                        ViewBag.Page = page;
+                        ViewBag.TotalPage = totalPage;
+                        ViewBag.MaxPage = maxPage;
+                        ViewBag.First = 1;
+                        ViewBag.Last = totalPage;
+                    }
+                    return View(list.ToList());
+                }
+                else
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryYearlyElement?searchString={0}&pageIndex={1}&pageSize={2}", searchString, page - 1, size)).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_YEARLY>>().Result;
+                        HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryYearlyElement?searchString={0}", searchString)).Result;
+                        if (response2.IsSuccessStatusCode)
+                        {
+                            totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                        }
+                        totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                        ViewBag.Total = totalRetrival;
+                        ViewBag.Page = page;
+                        ViewBag.TotalPage = totalPage;
+                        ViewBag.MaxPage = maxPage;
+                        ViewBag.First = 1;
+                        ViewBag.Last = totalPage;
+                    }
+                    @ViewBag.searchString = searchString;
+                    return View(list.ToList());
+                }
+            }
+            else
+            {
+                if (temp.UserType == "A")
+                {
+                    //agent
+                    if (String.IsNullOrEmpty(searchString))
+                    {
+                        HttpResponseMessage response1 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryYearly_Agent?AgentCode={0}", temp.UserName)).Result;
+
+                        if (response1.IsSuccessStatusCode)
+                        {
+                            totalRetrival = response1.Content.ReadAsAsync<int>().Result;
+                        }
+
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindAllMerchantSummaryYearly_Agent?pageIndex={0}&pageSize={1}&AgentCode={2}", page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_YEARLY>>().Result;
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        return View(list.ToList());
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryYearlyElement_Agent?searchString={0}&pageIndex={1}&pageSize={2}&AgentCode={3}", searchString, page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_YEARLY>>().Result;
+                            HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryYearlyElement_Agent?searchString={0}&AgentCode={1}", searchString, temp.UserName)).Result;
+                            if (response2.IsSuccessStatusCode)
+                            {
+                                totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                            }
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        @ViewBag.searchString = searchString;
+                        return View(list.ToList());
+                    }
+                }
+                else
+                {
+                    //merchant
+                    if (String.IsNullOrEmpty(searchString))
+                    {
+                        HttpResponseMessage response1 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryYearly_Merchant?MerchantCode={0}", temp.UserName)).Result;
+
+                        if (response1.IsSuccessStatusCode)
+                        {
+                            totalRetrival = response1.Content.ReadAsAsync<int>().Result;
+                        }
+
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindAllMerchantSummaryYearly_Merchant?pageIndex={0}&pageSize={1}&MerchantCode={2}", page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_YEARLY>>().Result;
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        return View(list.ToList());
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryYearlyElement_Merchant?searchString={0}&pageIndex={1}&pageSize={2}&MerchantCode={3}", searchString, page - 1, size, temp.UserName)).Result;
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_YEARLY>>().Result;
+                            HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountMerchantSummaryYearlyElement_MerchantCode?searchString={0}&MerchantCode={1}", searchString, temp.UserName)).Result;
+                            if (response2.IsSuccessStatusCode)
+                            {
+                                totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                            }
+                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                            ViewBag.Total = totalRetrival;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
+                        }
+                        @ViewBag.searchString = searchString;
+                        return View(list.ToList());
+                    }
+                }
+            }
         }
-        public ActionResult ViewDetailYear(string MerchantCode)
+        public ActionResult ViewDetailYear(string ReportYear, string MerchantCode)
         {
-            return View();
+            MERCHANT_SUMMARY_YEARLY list = new MERCHANT_SUMMARY_YEARLY();
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage response = client.GetAsync(string.Format("api/Statistical/FindMerchantSummaryYearly?ReportYear={0}&MerchantCode={1}", ReportYear, MerchantCode)).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                list = response.Content.ReadAsAsync<MERCHANT_SUMMARY_YEARLY>().Result;
+            }
+            @ViewBag.ReportYear = ReportYear;
+            @ViewBag.MerchantCode = MerchantCode;
+            return View(list);
         }
 
-
-
+        
 
 
 
@@ -475,6 +1071,117 @@ namespace WebMVC.Controllers
                     query = query + " and " + ConditionRegion;
                 }
             }           
+            return query;
+        }
+
+        public string CountFilterYearly(List<string> MerchantTypeValue, List<string> RegionTypeValue)
+        {
+            string query = "select count(*) from MERCHANT_SUMMARY_YEARLY M where ";
+            string ConditionMerchant = "";
+            string ConditionRegion = "";
+            if (MerchantTypeValue != null)
+            {
+                //Lọc theo merchant type trước
+                ConditionMerchant = ConditionMerchant + "(";
+                for (int i = 0; i < MerchantTypeValue.Count; i++)
+                {
+                    ConditionMerchant = ConditionMerchant + "M.MerchantType = " + "'" + MerchantTypeValue[i] + "'";
+                    if (i < MerchantTypeValue.Count - 1)
+                    {
+                        ConditionMerchant = ConditionMerchant + " or ";
+                    }
+                }
+                ConditionMerchant = ConditionMerchant + ")";
+                query = query + ConditionMerchant;
+
+                if (RegionTypeValue != null)
+                {
+                    //Nếu có thêm region thì lọc cả 2
+                    ConditionRegion = ConditionRegion + "(";
+                    for (int i = 0; i < RegionTypeValue.Count; i++)
+                    {
+                        ConditionRegion = ConditionRegion + "M.RegionCode = " + "'" + RegionTypeValue[i] + "'";
+                        if (i < RegionTypeValue.Count - 1)
+                        {
+                            ConditionRegion = ConditionRegion + " or ";
+                        }
+                    }
+                    ConditionRegion = ConditionRegion + ")";
+                    query = query + " and " + ConditionRegion;
+                }
+                return query;
+            }
+            else
+            {
+                //Lọc theo Region
+                ConditionRegion = ConditionRegion + "(";
+                for (int i = 0; i < RegionTypeValue.Count; i++)
+                {
+                    ConditionRegion = ConditionRegion + "M.RegionCode = " + "'" + RegionTypeValue[i] + "'";
+                    if (i < RegionTypeValue.Count - 1)
+                    {
+                        ConditionRegion = ConditionRegion + " or ";
+                    }
+                }
+                ConditionRegion = ConditionRegion + ")";
+                query = query + ConditionRegion;
+                return query;
+            }
+        }
+
+        public string FindFilterYearly(List<string> MerchantTypeValue, List<string> RegionTypeValue, int page = 1, int size = 10)
+        {
+            string query = "select * from MERCHANT_SUMMARY_YEARLY M where ";
+            string ConditionMerchant = "";
+            string ConditionRegion = "";
+            if (MerchantTypeValue != null)
+            {
+                //Lọc theo merchant type trước
+                ConditionMerchant = ConditionMerchant + "(";
+                for (int i = 0; i < MerchantTypeValue.Count; i++)
+                {
+                    ConditionMerchant = ConditionMerchant + "M.MerchantType = " + "'" + MerchantTypeValue[i] + "'";
+                    if (i < MerchantTypeValue.Count - 1)
+                    {
+                        ConditionMerchant = ConditionMerchant + " or ";
+                    }
+                }
+                ConditionMerchant = ConditionMerchant + ")";
+                query = query + ConditionMerchant;
+
+                if (RegionTypeValue != null)
+                {
+                    //Nếu có thêm region thì lọc cả 2
+                    ConditionRegion = ConditionRegion + "(";
+                    for (int i = 0; i < RegionTypeValue.Count; i++)
+                    {
+                        ConditionRegion = ConditionRegion + "M.RegionCode = " + "'" + RegionTypeValue[i] + "'";
+                        if (i < RegionTypeValue.Count - 1)
+                        {
+                            ConditionRegion = ConditionRegion + " or ";
+                        }
+                    }
+                    ConditionRegion = ConditionRegion + ")";
+                    query = query + " and " + ConditionRegion;
+                }
+            }
+            else
+            {
+                //Lọc theo Region
+                ConditionRegion = ConditionRegion + "(";
+                for (int i = 0; i < RegionTypeValue.Count; i++)
+                {
+                    ConditionRegion = ConditionRegion + "M.RegionCode = " + "'" + RegionTypeValue[i] + "'";
+                    if (i < RegionTypeValue.Count - 1)
+                    {
+                        ConditionRegion = ConditionRegion + " or ";
+                    }
+                }
+                ConditionRegion = ConditionRegion + ")";
+                query = query + ConditionRegion;
+            }
+
+            query = query + " order by ReportYear Offset " + page.ToString() + "*" + size.ToString() + " row fetch next " + size.ToString() + " row only";
             return query;
         }
     }
