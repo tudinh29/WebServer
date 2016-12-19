@@ -177,7 +177,7 @@ End
 -- end update 18/12/2016
 
 -- Update 08/12/2016 --
-drop Procedure SP_GetReportData_Monthly 
+/*drop Procedure SP_GetReportData_Monthly 
 go
 Create Procedure SP_GetReportData_Monthly (@startMonth int, @startYear int, 
 	@endMonth int, @endYear int) 
@@ -352,7 +352,7 @@ Begin
 	group by  ReportYear
 	Order by ReportYear
 End
-
+*/
 go
 drop Procedure SP_GetReportDataForLineChart_Generality
 go
