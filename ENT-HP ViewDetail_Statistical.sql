@@ -7,7 +7,8 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
+drop Procedure SP_GetMerchantSummaryForMerchantCode
+go
 CREATE Procedure SP_GetMerchantSummaryForMerchantCode @MerchantCode varchar(10)
 As
 Begin
@@ -26,7 +27,8 @@ End
 
 GO
 
-
+drop Procedure SP_GetMerchantSummaryForAgent_Default_MerchantCode
+go 
 CREATE Procedure SP_GetMerchantSummaryForAgent_Default_MerchantCode @AgentCode varchar(10),@MerchantCode varchar(10),@ReportDate Date
 As
 Begin

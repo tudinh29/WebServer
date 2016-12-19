@@ -1,6 +1,7 @@
 USE [SERVER]
 GO
-
+drop PROC [dbo].[sp_GetAllRetrivalInvalid]
+go
 create PROC [dbo].[sp_GetAllRetrivalInvalid]
 as
 begin
@@ -8,6 +9,8 @@ begin
 	from RETRIVAL_INVALID a
 	order by a.RetrivalCode
 end
+go
+drop proc [dbo].[sp_FindRetrivalInvalid]
 go
 create proc [dbo].[sp_FindRetrivalInvalid] @Element varchar(50)
 AS
