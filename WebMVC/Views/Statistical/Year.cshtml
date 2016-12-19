@@ -105,7 +105,6 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Report Year</th>
                                         <th>Merchant Code</th>
                                         <th>Sale Amount</th>
                                         <th>Sale Count</th>
@@ -113,25 +112,25 @@
                                         <th>Return Count</th>
                                         <th>Net Amount</th>
                                         <th>Transaction Count</th>
-                                        <th></th>
+                                        <th>Keyed Amount</th>
+                                        <th>Report Month</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
                                         <tr id="row_@item.MerchantCode _@item.ReportYear">
-                                            <td>@item.ReportYear</td>
-                                            <td>@item.MerchantCode</td>
+                                            <td>
+                                                @Html.ActionLink(@item.MerchantCode, "ViewDetailYear", "Statistical",
+                                     new { ReportYear = @item.ReportYear, MerchantCode = @item.MerchantCode }, null)
                                             <td>@item.SaleAmount</td>
                                             <td>@item.SaleCount</td>
                                             <td>@item.ReturnAmount</td>
                                             <td>@item.ReturnCount</td>
                                             <td>@item.NetAmount</td>
                                             <td>@item.TransactionCount</td>
-                                            <td>
-                                                @Html.ActionLink("Chi tiết", "ViewDetailYear", "Statistical",
-                                         new { ReportYear = @item.ReportYear, MerchantCode = @item.MerchantCode }, null)
-                                        </td>
+                                            <td>@item.KeyedAmount</td>
+                                            <td>@item.ReportYear.ToString() </td>
                                     </tr>
                                     }
                                 </tbody>
