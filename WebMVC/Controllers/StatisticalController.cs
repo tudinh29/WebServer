@@ -456,17 +456,9 @@ namespace WebMVC.Controllers
                             {
                                 totalRetrival = response2.Content.ReadAsAsync<int>().Result;
                             }
-                            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
-                            ViewBag.Total = totalRetrival;
-                            ViewBag.Page = page;
-                            ViewBag.TotalPage = totalPage;
-                            ViewBag.MaxPage = maxPage;
-                            ViewBag.First = 1;
-                            ViewBag.Last = totalPage;
                         }
                         ViewBag.MerchantTypeValue = MerchantTypeValue;
                         ViewBag.RegionTypeValue = RegionTypeValue;
-                        return View(list.ToList());
                     }
                     else
                     {
