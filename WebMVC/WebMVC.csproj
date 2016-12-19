@@ -630,6 +630,7 @@
     <Compile Include="Common\Encryptor.cs" />
     <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CompareController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
@@ -1033,6 +1034,7 @@
     <Content Include="Views\Management\AgentPDF.cshtml" />
     <Content Include="Views\Management\MerchantPDF.cshtml" />
     <Content Include="Views\Statistical\ViewDetailDay.cshtml" />
+    <Content Include="Views\Compare\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
