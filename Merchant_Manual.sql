@@ -1,3 +1,6 @@
+go
+drop proc sp_CountFindMerchantByAgentCodeAndElement_ForQuery
+go
 CREATE proc sp_CountFindMerchantByAgentCodeAndElement_ForQuery
 	@Element varchar(50),
 	@AgentCode varchar(50)
@@ -33,8 +36,9 @@ BEGIN
 END
 GO
 
-exec sp_CountFindMerchantByAgentCodeAndElement_ForQuery 'Store','AG00026090',0,10
-
+go
+drop proc sp_FindMerchantByAgentCodeAndElement_ForQuery
+go
 CREATE proc sp_FindMerchantByAgentCodeAndElement_ForQuery
 	@Element varchar(50),
 	@AgentCode varchar(50),
@@ -98,8 +102,8 @@ BEGIN
 END
 GO
 
-
-
+drop proc sp_CountMerchantByAgentCode_ForQuery
+go
 create  proc sp_CountMerchantByAgentCode_ForQuery
 		@AgentCode VARCHAR(10)
 as
@@ -110,7 +114,8 @@ begin
 end
 go
 
-
+drop proc sp_GetMerchantByAgentCode_ForQuery
+go
 create  proc sp_GetMerchantByAgentCode_ForQuery
 		@AgentCode VARCHAR(10),
 		@pageIndex int, 
@@ -150,8 +155,8 @@ end
 go
 
 
-
-
+drop proc sp_CountMerchant
+go
 CREATE PROC sp_CountMerchant
 AS
 BEGIN
@@ -159,7 +164,8 @@ BEGIN
 	FROM MERCHANT
 END
 GO
-
+drop proc sp_FindAllMerchant_ForQuery
+go
 CREATE PROC sp_FindAllMerchant_ForQuery
 	@pageIndex int,
 	@pageSize int
@@ -173,10 +179,9 @@ begin
 end
 GO
 
-exec sp_FindMerchantElement_ForQuery 'Store', 0, 10 
-exec sp_FindMerchantElement 'MC00029533'
-drop proc sp_FindMerchantElement_ForQuery
 
+drop proc sp_FindMerchantElement_ForQuery
+go
 create proc [dbo].[sp_FindMerchantElement_ForQuery] @Element varchar(50), @pageIndex int, @pageSize int
 AS
 
@@ -236,7 +241,8 @@ BEGIN
 END
 GO
 
-exec sp_CountMerchantElement_ForQuery 'Store'
+drop proc sp_CountMerchantElement_ForQuery 
+go
 create proc [dbo].[sp_CountMerchantElement_ForQuery] @Element varchar(50)
 AS
 

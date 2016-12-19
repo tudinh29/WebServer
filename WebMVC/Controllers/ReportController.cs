@@ -42,7 +42,7 @@ namespace WebMVC.Controllers
 
             string reportDataAPI = String.Format(reportDataDayFormat, reportStartDate, reportEndDate);
             string reportDateForLineAPI = String.Format(reportDateDayForLineFormat, reportStartDate, reportEndDate);
-
+            
             if (HttpContext.Request.HttpMethod == "POST")
             {
                 reportType = Request["reportType"];

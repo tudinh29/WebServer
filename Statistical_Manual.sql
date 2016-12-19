@@ -1,4 +1,6 @@
-exec SP_FindMerchantSummaryElementByAgent_ForQuery 'MC57431970','AG39207356',1,10
+go 
+drop Procedure SP_FindCountMerchantSummaryElementByAgent_ForQuery 
+go
 
 create Procedure SP_FindCountMerchantSummaryElementByAgent_ForQuery 
 	@Element varchar(50),
@@ -17,7 +19,9 @@ SELECT Count(*)
 		  [TransactionCount] like '%'+@Element+'%' OR
 		  [KeyedAmount] like '%'+@Element+'%' )
 end
-
+go 
+drop Procedure SP_FindMerchantSummaryElementByAgent_ForQuery 
+go
 
 create Procedure SP_FindMerchantSummaryElementByAgent_ForQuery 
 	@Element varchar(50),
@@ -44,7 +48,8 @@ end
 
 
 
-exec SP_GetMerchantSummaryForAgent_Default_ForQuery 'AG00026090',1,10
+go drop Procedure SP_GetCountMerchantSummaryForAgent_Default_ForQuery 
+go
 
 create Procedure SP_GetCountMerchantSummaryForAgent_Default_ForQuery
  @AgentCode varchar(10)
@@ -56,7 +61,8 @@ SELECT Count(*)
 End
 go
 
-
+go drop Procedure SP_GetMerchantSummaryForAgent_Default_ForQuery 
+go
 create Procedure SP_GetMerchantSummaryForAgent_Default_ForQuery
  @AgentCode varchar(10),
  @pageIndex int,
@@ -73,7 +79,8 @@ End
 go
 
 
-
+go drop Procedure SP_FindCountMerchantSummaryElement_ForQuery 
+go
 
 
 create Procedure SP_FindCountMerchantSummaryElement_ForQuery
@@ -93,7 +100,8 @@ SELECT Count(*)
 		  [KeyedAmount] like '%'+@Element+'%' 
 end
 go
-
+go drop Procedure SP_FindMerchantSummaryElement_ForQuery 
+go
 Create Procedure SP_FindMerchantSummaryElement_ForQuery
 	@Element varchar(50), 	
 	@pageIndex int,
@@ -116,8 +124,8 @@ SELECT *
   fetch next @pageSize row only 
 end
 go
-
-exec SP_GetMerchantSummary_Default_ForQuery 1,10
+go drop Procedure SP_GetMerchantSummary_Default_ForQuery 
+go
 Create Procedure SP_GetMerchantSummary_Default_ForQuery
 	@pageIndex int, 
 	@pageSize int
@@ -129,7 +137,8 @@ SELECT*
   Offset (@pageIndex - 1)*@pageSize row 
   fetch next @pageSize row only 
 end
-
+go drop Procedure SP_GetCountMerchantSummary_Default_ForQuery 
+go
 create Procedure SP_GetCountMerchantSummary_Default_ForQuery
 As
 Begin
