@@ -1035,6 +1035,12 @@
     <Content Include="Views\Management\MerchantPDF.cshtml" />
     <Content Include="Views\Statistical\ViewDetailDay.cshtml" />
     <Content Include="Views\Compare\Index.cshtml" />
+    <Content Include="Views\Statistical\Month.cshtml" />
+    <Content Include="Views\Statistical\Year.cshtml" />
+    <Content Include="Views\Statistical\ViewDetailYear.cshtml" />
+    <Content Include="Views\Statistical\ViewDetailMonth.cshtml" />
+    <Content Include="Views\Statistical\ViewDetailQuarter.cshtml" />
+    <Content Include="Views\Statistical\Quarter.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

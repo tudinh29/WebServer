@@ -1,0 +1,261 @@
+﻿@model WebMVC.EntityFramework.MERCHANT_SUMMARY_QUARTERLY
+@using PagedList.Mvc;
+@using System.Web.Mvc;
+@{
+    ViewBag.Title = "Detail_MerchantSummaryQuarterly";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section header{
+    @ViewBag.ReportYear - @ViewBag.MerchantCode
+}
+
+<table class="table table-striped table-bordered table-hover">
+    <tbody>
+        <tr>
+            <th>Report Quarter</th>
+            <th>@Model.ReportQuarter</th>
+        </tr>
+        <tr>
+            <th>Report Year</th>
+            <th>@Model.ReportYear</th>
+        </tr>
+        <tr>
+            <th>Merchant Code</th>
+            <th>@Model.MerchantCode</th>
+        </tr>
+        <tr>
+            <th>Sale Amount</th>
+            <th>@Model.SaleAmount</th>
+        </tr>
+        <tr>
+            <th>Sale Count</th>
+            <th>@Model.SaleCount</th>
+        </tr>
+        <tr>
+            <th>Return Amount</th>
+            <th>@Model.ReturnAmount</th>
+        </tr>
+        <tr>
+            <th>Return Count</th>
+            <th>@Model.ReturnCount</th>
+        </tr>
+        <tr>
+            <th>Net Amount</th>
+            <th>@Model.NetAmount</th>
+        </tr>
+        <tr>
+            <th>Transaction Count</th>
+            <th>@Model.TransactionCount</th>
+        </tr>
+        <tr>
+            <th>Keyed Sale Amount</th>
+            <th>@Model.KeyedAmount</th>
+        </tr>
+        <tr>
+            <th>Keyed Sale Count</th>
+            <th>@Model.KeyedCount</th>
+        </tr>
+        <tr>
+            <th>Keyed Return Amount</th>
+            <th>@Model.KeyedReturnAmount</th>
+        </tr>
+        <tr>
+            <th>Keyed Return Count</th>
+            <th>@Model.KeyedReturnCount</th>
+        </tr>
+        <tr>
+            <th>Keyed Net Amount</th>
+            <th>@Model.KeyedNetAmount</th>
+        </tr>
+        <tr>
+            <th>Keyed Transaction Count</th>
+            <th>@Model.KeyedTransactionCount</th>
+        </tr>
+        <tr>
+            <th>ForeignCard Sale Amount</th>
+            <th>@Model.ForeignCardAmount</th>
+        </tr>
+        <tr>
+            <th>ForeignCard Sale Count</th>
+            <th>@Model.ForeignCardCount</th>
+        </tr>
+        <tr>
+            <th>ForeignCard Return Amount</th>
+            <th>@Model.ForeignCardReturnAmount</th>
+        </tr>
+        <tr>
+            <th>ForeignCard Return Count</th>
+            <th>@Model.ForeignCardReturnCount</th>
+        </tr>
+        <tr>
+            <th>ForeignCard Net Amount</th>
+            <th>@Model.ForeignCardNetAmount</th>
+        </tr>
+        <tr>
+            <th>ForeignCard Transaction Count</th>
+            <th>@Model.ForeignCardTransactionCount</th>
+        </tr>
+        <tr>
+            <th>DebitCard Sale Amount</th>
+            <th>@Model.DebitCardAmount</th>
+        </tr>
+        <tr>
+            <th>DebitCard Sale Count</th>
+            <th>@Model.DebitCardCount</th>
+        </tr>
+        <tr>
+            <th>DebitCard Return Amount</th>
+            <th>@Model.DebitCardReturnAmount</th>
+        </tr>
+        <tr>
+            <th>DebitCard Return Count</th>
+            <th>@Model.DebitCardReturnCount</th>
+        </tr>
+        <tr>
+            <th>DebitCard Net Amount</th>
+            <th>@Model.DebitCardNetAmount</th>
+        </tr>
+        <tr>
+            <th>DebitCard Transaction Count</th>
+            <th>@Model.DebitCardTransactionCount</th>
+        </tr>
+        <tr>
+            <th>VisaCard Sale Amount</th>
+            <th>@Model.VisaCardAmount</th>
+        </tr>
+        <tr>
+            <th>VisaCard Sale Count</th>
+            <th>@Model.VisaCardCount</th>
+        </tr>
+        <tr>
+            <th>VisaCard Return Amount</th>
+            <th>@Model.VisaCardReturnAmount</th>
+        </tr>
+        <tr>
+            <th>VisaCard Return Count</th>
+            <th>@Model.VisaCardReturnCount</th>
+        </tr>
+        <tr>
+            <th>VisaCard Net Amount</th>
+            <th>@Model.VisaCardNetAmount</th>
+        </tr>
+        <tr>
+            <th>VisaCard Transaction Count</th>
+            <th>@Model.VisaCardTransactionCount</th>
+        </tr>
+        <tr>
+            <th>DiscoverCard Sale Amount</th>
+            <th>@Model.DiscoverCardAmount</th>
+        </tr>
+        <tr>
+            <th>DiscoverCard Sale Count</th>
+            <th>@Model.DiscoverCardCount</th>
+        </tr>
+        <tr>
+            <th>DiscoverCard Return Amount</th>
+            <th>@Model.DiscoverCardReturnAmount</th>
+        </tr>
+        <tr>
+            <th>DiscoverCard Return Count</th>
+            <th>@Model.DiscoverCardReturnCount</th>
+        </tr>
+        <tr>
+            <th>DiscoverCard Net Amount</th>
+            <th>@Model.DiscoverCardNetAmount</th>
+        </tr>
+        <tr>
+            <th>DiscoverCard Transaction Count</th>
+            <th>@Model.DiscoverCardTransactionCount</th>
+        </tr>
+        <tr>
+            <th>MasterCard Sale Amount</th>
+            <th>@Model.MasterCardAmount</th>
+        </tr>
+        <tr>
+            <th>MasterCard Sale Count</th>
+            <th>@Model.MasterCardCount</th>
+        </tr>
+        <tr>
+            <th>MasterCard Return Amount</th>
+            <th>@Model.MasterCardReturnAmount</th>
+        </tr>
+        <tr>
+            <th>MasterCard Return Count</th>
+            <th>@Model.MasterCardReturnCount</th>
+        </tr>
+        <tr>
+            <th>MasterCard Net Amount</th>
+            <th>@Model.MasterCardNetAmount</th>
+        </tr>
+        <tr>
+            <th>MasterCard Transaction Count</th>
+            <th>@Model.MasterCardTransactionCount</th>
+        </tr>
+        <tr>
+            <th>AmericanExpress Sale Amount</th>
+            <th>@Model.AmericanExpressAmount</th>
+        </tr>
+        <tr>
+            <th>AmericanExpress Sale Count</th>
+            <th>@Model.AmericanExpressCount</th>
+        </tr>
+        <tr>
+            <th>AmericanExpress Return Amount</th>
+            <th>@Model.AmericanExpressReturnAmount</th>
+        </tr>
+        <tr>
+            <th>AmericanExpress Return Count</th>
+            <th>@Model.AmericanExpressReturnCount</th>
+        </tr>
+        <tr>
+            <th>AmericanExpress Net Amount</th>
+            <th>@Model.AmericanExpressNetAmount</th>
+        </tr>
+        <tr>
+            <th>AmericanExpress Transaction Count</th>
+            <th>@Model.AmericanExpressTransactionCount</th>
+        </tr>
+        <tr>
+            <th>OtherCard Sale Amount</th>
+            <th>@Model.OtherCardAmount</th>
+        </tr>
+        <tr>
+            <th>OtherCard Sale Count</th>
+            <th>@Model.OtherCardCount</th>
+        </tr>
+        <tr>
+            <th>OtherCard Return Amount</th>
+            <th>@Model.OtherCardReturnAmount</th>
+        </tr>
+        <tr>
+            <th>OtherCard Return Count</th>
+            <th>@Model.OtherCardReturnCount</th>
+        </tr>
+        <tr>
+            <th>OtherCard Net Amount</th>
+            <th>@Model.OtherCardNetAmount</th>
+        </tr>
+        <tr>
+            <th>OtherCard Transaction Count</th>
+            <th>@Model.OtherCardTransactionCount</th>
+        </tr>
+        <tr>
+            <th>Region Code</th>
+            <th>@Model.RegionCode</th>
+        </tr>
+        <tr>
+            <th>Merchant Type</th>
+            <th>@Model.MerchantType</th>
+        </tr>
+        <tr>
+            <th>Agent Code</th>
+            <th>@Model.AgentCode</th>
+        </tr>
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("Back to List", "Quarter")
+</div>
+
+

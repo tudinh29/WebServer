@@ -15,7 +15,8 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
+drop Procedure SP_GetReportData_Generality_compare
+go
 CREATE Procedure [dbo].[SP_GetReportData_Generality_compare] (@month1 int, @year1 int, @month2 int, @year2 int) As
 Begin
 	declare @currentDate date

@@ -173,6 +173,7 @@
     <Compile Include="Controllers\MESSAGETYPEController.cs" />
     <Compile Include="Controllers\MERCHANT_TYPEController.cs" />
     <Compile Include="Controllers\PROCESSORController.cs" />
+    <Compile Include="Controllers\STATISTICALController.cs" />
     <Compile Include="Controllers\TRANSACTION_DETAIL_INVALIDController.cs" />
     <Compile Include="Controllers\RETRIVAL_INVALIDController.cs" />
     <Compile Include="Controllers\USER_INFORMATIONController.cs" />
@@ -221,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Statistical\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

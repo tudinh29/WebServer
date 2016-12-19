@@ -26,6 +26,119 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        public int CountFindFilter(string query)
+        {
+            var res = db.Database.SqlQuery<int>(query).ToList();
+            return res[0];
+        }
+
+        [HttpGet]
+        public List<MERCHANT> FindAllMerchant_ForQuery(int pageIndex, int pageSize)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+            var res = db.Database.SqlQuery<MERCHANT>("sp_FindAllMerchant_ForQuery @pageIndex, @pageSize", parameter).ToList();
+            return res;
+        }
+
+        [HttpGet]
+        public int CountMerchant()
+        {
+            var res = db.Database.SqlQuery<int>("sp_CountMerchant").ToList();
+            return res[0];
+        }
+
+        [HttpGet]
+        public List<MERCHANT> FindMerchantElement_ForQuery(string searchString, int pageIndex, int pageSize)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+
+            var res = db.Database.SqlQuery<MERCHANT>("sp_FindMerchantElement_ForQuery @Element, @pageIndex, @pageSize", parameter).ToList();
+            return res;
+        }
+
+        [HttpGet]
+        public int CountMerchantElement_ForQuery(string searchString)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString)
+                };
+
+            var res = db.Database.SqlQuery<int>("sp_CountMerchantElement_ForQuery @Element", parameter).ToList();
+            return res[0];
+        }
+
+        [HttpGet]
+        public List<MERCHANT> GetMerchantByAgentCode_ForQuery(string agentCode, int pageIndex, int pageSize)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@AgentCode", agentCode),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+            var res = db.Database.SqlQuery<MERCHANT>("sp_GetMerchantByAgentCode_ForQuery @AgentCode, @pageIndex, @pageSize", paremeter).ToList();
+            return res;
+        }
+
+
+        [HttpGet]
+        public int CountMerchantByAgentCode_ForQuery(string agentCode)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@AgentCode", agentCode)
+                };
+            var res = db.Database.SqlQuery<int>("sp_CountMerchantByAgentCode_ForQuery @AgentCode", paremeter).ToList();
+            return res[0];
+        }
+
+
+        [HttpGet]
+        public List<MERCHANT> FindMerchantByAgentCodeAndElement_ForQuery(string searchString, string agentCode, int pageIndex, int pageSize)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@AgentCode", agentCode),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+            var res = db.Database.SqlQuery<MERCHANT>("sp_FindMerchantByAgentCodeAndElement_ForQuery @Element, @AgentCode, @pageIndex, @pageSize", paremeter).ToList();
+            return res;
+        }
+
+
+        [HttpGet]
+        public int CountFindMerchantByAgentCodeAndElement_ForQuery(string searchString, string agentCode)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@AgentCode", agentCode)
+                };
+            var res = db.Database.SqlQuery<int>("sp_CountFindMerchantByAgentCodeAndElement_ForQuery @Element, @AgentCode", paremeter).ToList();
+            return res[0];
+        }
+
+
+
+
+
+
+
+
+
+        [HttpGet]
         public List<MERCHANT> FindAllMerchant()
         {
             var res = db.Database.SqlQuery<MERCHANT>("sp_FindAllMerchant").ToList();
@@ -90,8 +203,8 @@ namespace WebAPI.Controllers
             var res = db.Database.SqlQuery<MERCHANT>("sp_GetMerchantByAgentCode @AgentCode", paremeter).ToList();
             return res;
         }
-        
-        
+
+
 
         [HttpPost]
         public bool ChangeStatus(string merchantCode)
@@ -143,8 +256,8 @@ namespace WebAPI.Controllers
                     + ",@Address1,@Address2,@Address3,@CityCode,@Zip,@Phone,@Fax,@Email, @ApprovalDate,@CloseDate,@BankCardDBA,@FirstActiveDate"
                     + ",@LastActiveDate,@AgentCode";
                 db.Database.ExecuteSqlCommand(sql, parameter);
-                  
-               //trong sql server t de null dc debug lại đi
+
+                //trong sql server t de null dc debug lại đi
                 return true;
             }
             catch (Exception ex)
@@ -189,7 +302,7 @@ namespace WebAPI.Controllers
                     + ",@LastActiveDate,@AgentCode";
                 db.Database.ExecuteSqlCommand(sql, parameter);
 
-                
+
                 return true;
             }
             catch (Exception ex)
@@ -198,7 +311,7 @@ namespace WebAPI.Controllers
                 return false;
             }
         }
-        
+
         // DELETE: api/MERCHANT/5
         [ResponseType(typeof(MERCHANT))]
         public async Task<IHttpActionResult> DeleteMERCHANT(string id)
@@ -230,7 +343,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public bool UpdateAgentOfMerchant (string merchantCode, MERCHANT merchant)
+        public bool UpdateAgentOfMerchant(string merchantCode, MERCHANT merchant)
         {
             try
             {

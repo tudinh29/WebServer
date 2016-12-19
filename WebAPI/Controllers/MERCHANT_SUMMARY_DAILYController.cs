@@ -138,12 +138,129 @@ namespace WebAPI.Controllers
         }
 
 
+
+
         [HttpGet]
-        public List<MerchantSummaryDailyTiny> FindFilter(string query)
+        public List<MERCHANT_SUMMARY_DAILY> FindFilter(string query)
         {
-            var res = db.Database.SqlQuery<MerchantSummaryDailyTiny>(query).ToList();
+            var res = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>(query).ToList();
             return res;
         }
+
+        [HttpGet]
+        public int FindCountFilter(string query)
+        {
+            var res = db.Database.SqlQuery<int>(query).ToList();
+            return res[0];
+        }
+
+        [HttpGet]
+        public List<MERCHANT_SUMMARY_DAILY> GetMerchantSummaryDefault_ForQuery(int pageIndex, int pageSize)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+
+            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("SP_GetMerchantSummary_Default_ForQuery @pageIndex, @pageSize", parameter).ToList();
+            return dbReturn;
+        }
+
+        [HttpGet]
+        public int CountMerchantSummaryDaily()
+        {
+            var res = db.Database.SqlQuery<int>("SP_GetCountMerchantSummary_Default_ForQuery").ToList();
+            return res[0];
+        }
+
+        [HttpGet]
+        public List<MERCHANT_SUMMARY_DAILY> FindMerchantSummaryElement_ForQuery(string searchString, int pageIndex, int pageSize)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+
+            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("SP_FindMerchantSummaryElement_ForQuery @Element, @pageIndex, @pageSize", parameter).ToList();
+            return dbReturn;
+        }
+
+        [HttpGet]
+        public int FindCountMerchantSummaryElement_ForQuery(string searchString)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString)
+                };
+            var res = db.Database.SqlQuery<int>("SP_FindCountMerchantSummaryElement_ForQuery @Element", parameter).ToList();
+            return res[0];
+        }
+
+
+        [HttpGet]
+        public List<MERCHANT_SUMMARY_DAILY> GetMerchantSummaryForAgentDefault_ForQuery(string AgentCode, int pageIndex, int pageSize)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@AgentCode", AgentCode),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+            var res = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("SP_GetMerchantSummaryForAgent_Default_ForQuery @AgentCode, @pageIndex, @pageSize", paremeter).ToList();
+            return res;
+        }
+        public int GetCountMerchantSummaryForAgentDefault_ForQuery(string AgentCode)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@AgentCode", AgentCode)
+                };
+            var res = db.Database.SqlQuery<int>("SP_GetCountMerchantSummaryForAgent_Default_ForQuery @AgentCode", paremeter).ToList();
+            return res[0];
+        }
+
+        [HttpGet]
+        public List<MERCHANT_SUMMARY_DAILY> FindMerchantSummaryForAgentElement_ForQuery(string searchString, string AgentCode, int pageIndex, int pageSize)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@AgentCode", AgentCode),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+
+            var res = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("SP_FindMerchantSummaryElementByAgent_ForQuery @Element, @AgentCode, @pageIndex, @pageSize", parameter).ToList();
+            return res;
+
+        }
+
+        [HttpGet]
+        public int FindCountMerchantSummaryForAgentElement_ForQuery(string searchString, string AgentCode)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@AgentCode", AgentCode)
+                };
+            var res = db.Database.SqlQuery<int>("SP_FindCountMerchantSummaryElementByAgent_ForQuery @Element, @AgentCode", paremeter).ToList();
+            return res[0];
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
         [HttpGet]
         public List<Models.MerchantSummaryDailyTiny> GetMerchantSummaryDefault()
@@ -342,133 +459,6 @@ namespace WebAPI.Controllers
                     new SqlParameter("@code", code)
                 };
             var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDataForLineChart_Yearly @startYear, @endYear, @code", paremeter).ToList();
-            return dbReturn;
-        }
-        [HttpGet]
-        public List<Models.Statistic> GetReportData_Generality_Compare(int startMonth, int startYear, int endMonth, int endYear)
-        {
-            object[] parameter =
-               {
-                    new SqlParameter("@month1", startMonth),
-                    new SqlParameter("@year1", startYear),
-                    new SqlParameter("@month2", endMonth),
-                    new SqlParameter("@year2", endYear),
-                };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_compare @month1, @year1,@month2, @year2", parameter).ToList();
-            return dbReturn;
-        }
-        [HttpGet]
-        public List<Models.Statistic> GetReportData_Generality_Quaterly_Compare(int startQuarter, int startYear, int endQuarter, int endYear)
-        {
-            object[] parameter =
-               {
-                    new SqlParameter("@quarter1", startQuarter),
-                    new SqlParameter("@year1", startYear),
-                    new SqlParameter("@quarter2", endQuarter),
-                    new SqlParameter("@year2", endYear),
-                };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_Quaterly_Compare @quarter1, @year1,@quarter2, @year2", parameter).ToList();
-            return dbReturn;
-        }
-
-        [HttpGet]
-        public List<Models.Statistic> GetReportData_Generality_Yearly_Compare(int startYear, int endYear)
-        {
-            object[] parameter =
-               {
-                   
-                    new SqlParameter("@year1", startYear),
-                   
-                    new SqlParameter("@year2", endYear),
-                };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_Yearly_Compare @year1, @year2", parameter).ToList();
-            return dbReturn;
-        }
-        [HttpGet]
-        public List<Models.Statistic> GetReportData_Generality_Compare_Agent(int startMonth, int startYear, int endMonth, int endYear, string agentCode)
-        {
-            object[] parameter =
-               {
-                    new SqlParameter("@month1", startMonth),
-                    new SqlParameter("@year1", startYear),
-                    new SqlParameter("@month2", endMonth),
-                    new SqlParameter("@year2", endYear),
-                    new SqlParameter("@agentCode", agentCode),
-                };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_compare_AGENT @month1, @year1,@month2, @year2, @agentCode", parameter).ToList();
-            return dbReturn;
-        }
-        [HttpGet]
-        public List<Models.Statistic> GetReportData_Generality_Quaterly_Compare_Agent(int startQuarter, int startYear, int endQuarter, int endYear, string agentCode)
-        {
-            object[] parameter =
-               {
-                    new SqlParameter("@quarter1", startQuarter),
-                    new SqlParameter("@year1", startYear),
-                    new SqlParameter("@quarter2", endQuarter),
-                    new SqlParameter("@year2", endYear),
-                    new SqlParameter("@agentCode", agentCode),
-                };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_Quaterly_Compare_AGENT @quarter1, @year1,@quarter2, @year2, @agentCode", parameter).ToList();
-            return dbReturn;
-        }
-
-        [HttpGet]
-        public List<Models.Statistic> GetReportData_Generality_Yearly_Compare_Agent(int startYear, int endYear, string agentCode)
-        {
-            object[] parameter =
-               {
-
-                    new SqlParameter("@year1", startYear),
-
-                    new SqlParameter("@year2", endYear),
-                     new SqlParameter("@agentCode", agentCode),
-                };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_Yearly_Compare_AGENT @year1, @year2, @agentCode", parameter).ToList();
-            return dbReturn;
-        }
-
-        [HttpGet]
-        public List<Models.Statistic> GetReportData_Generality_Compare_Merchant(int startMonth, int startYear, int endMonth, int endYear, string merchantCode)
-        {
-            object[] parameter =
-               {
-                    new SqlParameter("@month1", startMonth),
-                    new SqlParameter("@year1", startYear),
-                    new SqlParameter("@month2", endMonth),
-                    new SqlParameter("@year2", endYear),
-                    new SqlParameter("@merchantCode", merchantCode),
-                };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_compare_Merchant @month1, @year1,@month2, @year2, @merchantCode", parameter).ToList();
-            return dbReturn;
-        }
-        [HttpGet]
-        public List<Models.Statistic> GetReportData_Generality_Quaterly_Compare_Merchant(int startQuarter, int startYear, int endQuarter, int endYear, string merchantCode)
-        {
-            object[] parameter =
-               {
-                    new SqlParameter("@quarter1", startQuarter),
-                    new SqlParameter("@year1", startYear),
-                    new SqlParameter("@quarter2", endQuarter),
-                    new SqlParameter("@year2", endYear),
-                    new SqlParameter("@merchantCode", merchantCode),
-                };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_Quaterly_Compare_Merchant @quarter1, @year1,@quarter2, @year2, @merchantCode", parameter).ToList();
-            return dbReturn;
-        }
-
-        [HttpGet]
-        public List<Models.Statistic> GetReportData_Generality_Yearly_Compare_Merchant(int startYear, int endYear, string merchantCode)
-        {
-            object[] parameter =
-               {
-
-                    new SqlParameter("@year1", startYear),
-
-                    new SqlParameter("@year2", endYear),
-                    new SqlParameter("@merchantCode", merchantCode),
-                };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_Yearly_Compare_Merchant @year1, @year2, @merchantCode", parameter).ToList();
             return dbReturn;
         }
         [HttpGet]
