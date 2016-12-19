@@ -327,5 +327,46 @@ namespace WebAPI.Controllers
             var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDataForLineChart_Yearly @startYear, @endYear", paremeter).ToList();
             return dbReturn;
         }
+        [HttpGet]
+        public List<Models.Statistic> GetReportData_Generality_Compare(int startMonth, int startYear, int endMonth, int endYear)
+        {
+            object[] parameter =
+               {
+                    new SqlParameter("@month1", startMonth),
+                    new SqlParameter("@year1", startYear),
+                    new SqlParameter("@month2", endMonth),
+                    new SqlParameter("@year2", endYear),
+                };
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_compare @month1, @year1,@month2, @year2", parameter).ToList();
+            return dbReturn;
+        }
+        [HttpGet]
+        public List<Models.Statistic> GetReportData_Generality_Quaterly_Compare(int startQuarter, int startYear, int endQuarter, int endYear)
+        {
+            object[] parameter =
+               {
+                    new SqlParameter("@quarter1", startQuarter),
+                    new SqlParameter("@year1", startYear),
+                    new SqlParameter("@quarter2", endQuarter),
+                    new SqlParameter("@year2", endYear),
+                };
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_Quaterly_Compare @quarter1, @year1,@quarter2, @year2", parameter).ToList();
+            return dbReturn;
+        }
+
+        [HttpGet]
+        public List<Models.Statistic> GetReportData_Generality_Yearly_Compare(int startYear, int endYear)
+        {
+            object[] parameter =
+               {
+                   
+                    new SqlParameter("@year1", startYear),
+                   
+                    new SqlParameter("@year2", endYear),
+                };
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_Yearly_Compare @year1, @year2", parameter).ToList();
+            return dbReturn;
+        }
+
     }
 }
