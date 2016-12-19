@@ -121,7 +121,7 @@
                                         <td>@item.NetAmount</td>
                                         <td>@item.TransactionCount</td>
                                         <td>@item.KeyedAmount</td>
-                                        <td>@item.ReportDate.ToString("yyyy-MM-dd")</td>
+                                        <td>@(String.IsNullOrEmpty(item.ReportDate.ToString()) ? "" : item.ReportDate.ToString("yyyy-MM-dd"))</td>
                                     </tr>
                                 }
                             </tbody>
