@@ -138,12 +138,129 @@ namespace WebAPI.Controllers
         }
 
 
+
+
         [HttpGet]
-        public List<MerchantSummaryDailyTiny> FindFilter(string query)
+        public List<MERCHANT_SUMMARY_DAILY> FindFilter(string query)
         {
-            var res = db.Database.SqlQuery<MerchantSummaryDailyTiny>(query).ToList();
+            var res = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>(query).ToList();
             return res;
         }
+
+        [HttpGet]
+        public int FindCountFilter(string query)
+        {
+            var res = db.Database.SqlQuery<int>(query).ToList();
+            return res[0];
+        }
+
+        [HttpGet]
+        public List<MERCHANT_SUMMARY_DAILY> GetMerchantSummaryDefault_ForQuery(int pageIndex, int pageSize)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+
+            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("SP_GetMerchantSummary_Default_ForQuery @pageIndex, @pageSize", parameter).ToList();
+            return dbReturn;
+        }
+
+        [HttpGet]
+        public int CountMerchantSummaryDaily()
+        {
+            var res = db.Database.SqlQuery<int>("SP_GetCountMerchantSummary_Default_ForQuery").ToList();
+            return res[0];
+        }
+
+        [HttpGet]
+        public List<MERCHANT_SUMMARY_DAILY> FindMerchantSummaryElement_ForQuery(string searchString, int pageIndex, int pageSize)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+
+            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("SP_FindMerchantSummaryElement_ForQuery @Element, @pageIndex, @pageSize", parameter).ToList();
+            return dbReturn;
+        }
+
+        [HttpGet]
+        public int FindCountMerchantSummaryElement_ForQuery(string searchString)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString)
+                };
+            var res = db.Database.SqlQuery<int>("SP_FindCountMerchantSummaryElement_ForQuery @Element", parameter).ToList();
+            return res[0];
+        }
+
+
+        [HttpGet]
+        public List<MERCHANT_SUMMARY_DAILY> GetMerchantSummaryForAgentDefault_ForQuery(string AgentCode, int pageIndex, int pageSize)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@AgentCode", AgentCode),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+            var res = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("SP_GetMerchantSummaryForAgent_Default_ForQuery @AgentCode, @pageIndex, @pageSize", paremeter).ToList();
+            return res;
+        }
+        public int GetCountMerchantSummaryForAgentDefault_ForQuery(string AgentCode)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@AgentCode", AgentCode)
+                };
+            var res = db.Database.SqlQuery<int>("SP_GetCountMerchantSummaryForAgent_Default_ForQuery @AgentCode", paremeter).ToList();
+            return res[0];
+        }
+
+        [HttpGet]
+        public List<MERCHANT_SUMMARY_DAILY> FindMerchantSummaryForAgentElement_ForQuery(string searchString, string AgentCode, int pageIndex, int pageSize)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@AgentCode", AgentCode),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+
+            var res = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("SP_FindMerchantSummaryElementByAgent_ForQuery @Element, @AgentCode, @pageIndex, @pageSize", parameter).ToList();
+            return res;
+
+        }
+
+        [HttpGet]
+        public int FindCountMerchantSummaryForAgentElement_ForQuery(string searchString, string AgentCode)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@AgentCode", AgentCode)
+                };
+            var res = db.Database.SqlQuery<int>("SP_FindCountMerchantSummaryElementByAgent_ForQuery @Element, @AgentCode", paremeter).ToList();
+            return res[0];
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
         [HttpGet]
         public List<Models.MerchantSummaryDailyTiny> GetMerchantSummaryDefault()

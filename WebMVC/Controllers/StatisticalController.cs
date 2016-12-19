@@ -31,7 +31,8 @@ namespace WebMVC.Controllers
 
             CheckBoxValue(ref RegionType, ref RegionTypeValue);
             ViewBag.tempRegionType = RegionType;
-            List<Models.MerchantSummaryDailyTiny> lists = new List<Models.MerchantSummaryDailyTiny>();
+
+         
             var model = Session[CommonConstants.USER_SESSION];
             var temp = new USER_INFORMATION();
             if (model != null)
@@ -39,6 +40,11 @@ namespace WebMVC.Controllers
                 temp = (USER_INFORMATION)model;
             }
             else return View();
+
+            int totalPage = 0;
+            int maxPage = 4;
+            int totalRetrival = 0;
+            List<MERCHANT_SUMMARY_DAILY> ListSummary = new List<MERCHANT_SUMMARY_DAILY>();
 
             HttpClient client = new AccessAPI().Access();
             HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
@@ -55,38 +61,44 @@ namespace WebMVC.Controllers
             {
                 if (String.IsNullOrEmpty(searchString))
                 {
+                    
                     if (MerchantTypeValue == null && RegionTypeValue == null)
                     {
-                        var listStatic = getAllSumDaily().ToPagedList(page, size);
-                        return View(listStatic);
+                        HttpResponseMessage responseCount = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/CountMerchantSummaryDaily")).Result;
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryDefault_ForQuery?pageIndex={0}&pageSize={1}", page, size)).Result;
+                        if (response.IsSuccessStatusCode && responseCount.IsSuccessStatusCode)
+                        {
+                            totalRetrival = responseCount.Content.ReadAsAsync<int>().Result;
+                            ListSummary = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_DAILY>>().Result;
+                        }
                     }
                     else
                     {
-                        string query = queryFilterStatistical(MerchantTypeValue, RegionTypeValue);
-                        List<MerchantSummaryDailyTiny> listStatistical = new List<MerchantSummaryDailyTiny>();
-                        HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindFilter?query={0}", query)).Result;
+                        string queryFind = queryFilterStatistical(MerchantTypeValue, RegionTypeValue, "*");
+                        queryFind = queryFind + " order by M.ReportDate Offset " + (page - 1) * size + " row fetch next " + size + " row only";
+                        string queryCount = queryFilterStatistical(MerchantTypeValue, RegionTypeValue, "Count(*)");
+                        HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindFilter?query={0}", queryFind)).Result;
+                        HttpResponseMessage responseFilterCount = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindCountFilter?query={0}", queryCount)).Result;
 
-                        if (responseFilter.IsSuccessStatusCode)
+                        if (responseFilter.IsSuccessStatusCode && responseFilterCount.IsSuccessStatusCode)
                         {
-                            listStatistical = responseFilter.Content.ReadAsAsync<List<MerchantSummaryDailyTiny>>().Result;
+                            ListSummary = responseFilter.Content.ReadAsAsync<List<MERCHANT_SUMMARY_DAILY>>().Result;
+                            totalRetrival = responseFilterCount.Content.ReadAsAsync<int>().Result;
                         }
-                        var listStatistical_1 = listStatistical.ToPagedList(page, size);
                         ViewBag.MerchantTypeValue = MerchantTypeValue;
                         ViewBag.RegionTypeValue = RegionTypeValue;
-                        return View(listStatistical_1);
                     }
                 }
                 else
                 {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryElement?searchString={0}", searchString)).Result;
-
-                    if (response.IsSuccessStatusCode)
+                    HttpResponseMessage responseCount = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindCountMerchantSummaryElement_ForQuery?searchString={0}", searchString)).Result;
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryElement_ForQuery?searchString={0}&pageIndex={1}&pageSize={2}", searchString, page, size)).Result;
+                    if (response.IsSuccessStatusCode && responseCount.IsSuccessStatusCode)
                     {
-                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                        totalRetrival = responseCount.Content.ReadAsAsync<int>().Result;
+                        ListSummary = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_DAILY>>().Result;
                     }
-                    var listStatic = lists.ToPagedList(page, size);
-                    @ViewBag.searchString = searchString;
-                    return View(listStatic);
+                    @ViewBag.searchString = searchString;                            
                 }
             }
             else if (temp.UserType == "A")
@@ -95,46 +107,57 @@ namespace WebMVC.Controllers
                 {
                     if (MerchantTypeValue == null && RegionTypeValue == null)
                     {
-                        HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefault?AgentCode={0}", temp.UserName)).Result;
-                        if (response.IsSuccessStatusCode)
+                        HttpResponseMessage responseCount = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetCountMerchantSummaryForAgentDefault_ForQuery?AgentCode={0}", temp.UserName)).Result;
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefault_ForQuery?AgentCode={0}&pageIndex={1}&pageSize={2}",temp.UserName ,page, size)).Result;
+                        if (response.IsSuccessStatusCode && responseCount.IsSuccessStatusCode)
                         {
-                            lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
-                        }
-                        var listStatic = lists.ToPagedList(page, size);
-			@ViewBag.searchString = searchString;
-                        return View(listStatic);   
+                            totalRetrival = responseCount.Content.ReadAsAsync<int>().Result;
+                            ListSummary = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_DAILY>>().Result;
+                        }              
                     }
                     else
                     {
-                        string query = queryFilterStatistical(MerchantTypeValue, RegionTypeValue);
-                        query = query + "and AgentCode = '" + temp.UserName + "'";
-                        List<MerchantSummaryDailyTiny> listStatistical = new List<MerchantSummaryDailyTiny>();
-                        HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindFilter?query={0}", query)).Result;
+                        string queryFind = queryFilterStatistical(MerchantTypeValue, RegionTypeValue, "*");
+                        queryFind = queryFind + "and M.AgentCode = '" + temp.UserName +"' order by M.ReportDate Offset " + (page - 1) * size + " row fetch next " + size + " row only";
+                        string queryCount = queryFilterStatistical(MerchantTypeValue, RegionTypeValue, "Count(*)");
+                        queryCount = queryCount + "and M.AgentCode = '" + temp.UserName + "'";
 
-                        if (responseFilter.IsSuccessStatusCode)
+                        HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindFilter?query={0}", queryFind)).Result;
+                        HttpResponseMessage responseFilterCount = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindCountFilter?query={0}", queryCount)).Result;
+
+                        if (responseFilter.IsSuccessStatusCode && responseFilterCount.IsSuccessStatusCode)
                         {
-                            listStatistical = responseFilter.Content.ReadAsAsync<List<MerchantSummaryDailyTiny>>().Result;
+                            ListSummary = responseFilter.Content.ReadAsAsync<List<MERCHANT_SUMMARY_DAILY>>().Result;
+                            totalRetrival = responseFilterCount.Content.ReadAsAsync<int>().Result;
                         }
-                        var listStatistical_1 = listStatistical.ToPagedList(page, size);
                         ViewBag.MerchantTypeValue = MerchantTypeValue;
-                        ViewBag.RegionTypeValue = RegionTypeValue;
-                        return View(listStatistical_1);
+                        ViewBag.RegionTypeValue = RegionTypeValue;         
                     }                 
                 }
                 else
                 {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryForAgentElement?AgentCode={0}&&searchString={1}",temp.UserName,searchString)).Result;
-
-                    if (response.IsSuccessStatusCode)
+                    HttpResponseMessage responseCount = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindCountMerchantSummaryForAgentElement_ForQuery?searchString={0}&AgentCode={1}", searchString, temp.UserName)).Result;
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryForAgentElement_ForQuery?searchString={0}&AgentCode={1}&pageIndex={2}&pageSize={3}", searchString, temp.UserName, page, size)).Result;
+                    if (response.IsSuccessStatusCode && responseCount.IsSuccessStatusCode)
                     {
-                        lists = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                        totalRetrival = responseCount.Content.ReadAsAsync<int>().Result;
+                        ListSummary = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_DAILY>>().Result;
+
                     }
-                    var listStatic = lists.ToPagedList(page, size);
                     @ViewBag.searchString = searchString;
-                    return View(listStatic);
                 }
             }
             else return View();
+
+            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+            ViewBag.Total = totalRetrival;
+            ViewBag.Page = page;
+            ViewBag.TotalPage = totalPage;
+            ViewBag.MaxPage = maxPage;
+            ViewBag.First = 1;
+            ViewBag.Last = totalPage;
+            return View(ListSummary); 
+            
         }
         public ActionResult ViewDetailDay(string MerchantCode)
         {
@@ -460,9 +483,9 @@ namespace WebMVC.Controllers
             if (String.IsNullOrEmpty(tempCheck) && TypeValue != null)
                 tempCheck = String.Join(",", TypeValue);
         }
-        public string queryFilterStatistical(List<string> MerchantTypeValue, List<string> RegionTypeValue)
+        public string queryFilterStatistical(List<string> MerchantTypeValue, List<string> RegionTypeValue, string condition)
         {
-            string query = "select * from MERCHANT_SUMMARY_DAILY M where ";
+            string query = "select " + condition + " from MERCHANT_SUMMARY_DAILY M where ";
             string ConditionMerchant = "";
             string ConditionRegion = "";
             if (MerchantTypeValue != null)
