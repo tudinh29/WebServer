@@ -47,4 +47,22 @@ End
 
 GO
 
+drop Procedure SP_GetMerchantSummaryForMaster
+go 
+CREATE Procedure [dbo].[SP_GetMerchantSummaryForMaster] @MerchantCode varchar(10), @ReportDate datetime
+As
+Begin
+SELECT [ReportDate]
+      ,[MerchantCode]
+      ,[SaleAmount]
+      ,[SaleCount]
+      ,[ReturnAmount]
+	  ,[ReturnCount]
+      ,[NetAmount]
+	  ,[TransactionCount]
+	  ,[KeyedAmount]
+  FROM MERCHANT_SUMMARY_DAILY
+  WHERE MerchantCode= @MerchantCode AND ReportDate=@ReportDate
+End
+
 

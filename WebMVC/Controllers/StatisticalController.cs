@@ -159,7 +159,7 @@ namespace WebMVC.Controllers
             return View(ListSummary); 
             
         }
-        public ActionResult ViewDetailDay(string MerchantCode)
+        public ActionResult ViewDetailDay(string MerchantCode, string ReportDate)
         {
             //Tâm code
             var model = Session[CommonConstants.USER_SESSION];
@@ -171,11 +171,19 @@ namespace WebMVC.Controllers
             else return View();
             List<MerchantSummaryDailyTiny> list = new List<MerchantSummaryDailyTiny>();
             HttpClient client = new AccessAPI().Access();
-            HttpResponseMessage response;
+            HttpResponseMessage response; 
+            if (temp.UserType == "T")
+            {
+                response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForMaster?MerchantCode={0}&ReportDate={1}", MerchantCode, ReportDate)).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    list = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                }
+            }
             if (temp.UserType == "A")
             {
 
-                response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefaultMerchantCode?AgentCode={0}&&MerchantCode={1}&&ReportDate={2}", temp.UserName, Request.QueryString["MerchantCode"], Request.QueryString["ReportDate"])).Result;
+                response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefaultMerchantCode?AgentCode={0}&&MerchantCode={1}&&ReportDate={2}", temp.UserName, MerchantCode, ReportDate)).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     list = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
@@ -189,6 +197,7 @@ namespace WebMVC.Controllers
                     list = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
                 }
             }
+
             return View(list);
         }
 

@@ -115,7 +115,7 @@
                                     <tr id="row_@item.MerchantCode">
                                         <td>
                                             @Html.ActionLink(@item.MerchantCode, "ViewDetailDay", "Statistical",
-                                        new { MerchantCode = @item.MerchantCode }, null)
+                                     new { MerchantCode = @item.MerchantCode, ReportDate = @item.ReportDate.ToString("yyyy-MM-dd") }, null)
                                         </td>
                                         <td>@item.SaleAmount</td>
                                         <td>@item.ReturnAmount</td>
