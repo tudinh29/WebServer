@@ -26,8 +26,10 @@ public class MerchantController {
 
 	@RequestMapping(value = "/Merchant/{merchantCode}", method = RequestMethod.GET, produces = "application/json")  
 	public Merchant getMerchantById(@PathVariable String merchantCode) { 
-		Merchant merchant = merchantService.findByMerchantCode(merchantCode).get(0);
-		return merchant;
+		List<Merchant> merchants = merchantService.findByMerchantCode(merchantCode);
+		if (merchants.isEmpty())
+			return null;
+		return merchants.get(0);
 	}
 	@RequestMapping(value = "/Merchant/list", method = RequestMethod.GET, produces = "application/json")  
 	public List<Merchant> getAllMerchant() { 

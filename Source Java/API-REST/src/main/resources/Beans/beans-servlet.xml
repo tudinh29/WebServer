@@ -86,11 +86,7 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		</property>
    </bean>
    
-   <bean id="TransactionDetailService" class="com.hcmus.model.service.TransactionDetailService">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory"/>
-		</property>
-   </bean>
+   
    
    <bean id="AgentService" class="com.hcmus.model.service.AgentService">
 		<property name="sessionFactory">
@@ -129,6 +125,11 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
    </bean>
 
    <bean id="CityService" class="com.hcmus.model.service.CityService">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+   </bean>
+   <bean id="RegionService" class="com.hcmus.model.service.RegionService">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory"/>
 		</property>
