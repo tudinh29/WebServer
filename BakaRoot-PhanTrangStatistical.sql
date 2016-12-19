@@ -313,7 +313,7 @@ BEGIN
       ,[MerchantType]
       ,[AgentCode]
   FROM [dbo].[MERCHANT_SUMMARY_YEARLY]
-  WHERE ReportYear = @ReportYear AND MerchantCode = @MerchantCode
+  WHERE MerchantCode = @MerchantCode AND ReportYear = @ReportYear
 END
 GO
 
@@ -951,7 +951,7 @@ BEGIN
 					  OR [RegionCode] like '%'+@Element+'%'
 					  OR [MerchantType] like '%'+@Element+'%'
 					  OR [AgentCode] like '%'+@Element+'%'
-			ORDER BY [ReportYear]
+			ORDER BY [ReportMonth], [ReportYear]
 			Offset @pageIndex*@pageSize row 
 			fetch next @pageSize row only 
 END
@@ -1044,7 +1044,7 @@ as
 begin
 	select * 
 	from MERCHANT_SUMMARY_MONTHLY 
-	order by ReportYear asc, ReportMonth
+	order by [ReportMonth], [ReportYear]
 	Offset @pageIndex*@pageSize row 
 	fetch next @pageSize row only 
 end
@@ -1137,7 +1137,7 @@ BEGIN
       ,[MerchantType]
       ,[AgentCode]
   FROM [dbo].[MERCHANT_SUMMARY_MONTHLY]
-  WHERE ReportMonth = @ReportMonth AND ReportYear = @ReportYear AND MerchantCode = @MerchantCode
+  WHERE MerchantCode = @MerchantCode AND ReportMonth = @ReportMonth AND ReportYear = @ReportYear
 END
 GO
 
@@ -1276,7 +1276,7 @@ BEGIN
 					  OR [OtherCardTransactionCount] like '%'+@Element+'%'
 					  OR [RegionCode] like '%'+@Element+'%'
 					  OR [MerchantType] like '%'+@Element+'%')
-			ORDER BY [ReportYear], [ReportMonth]
+			ORDER BY [ReportMonth], [ReportYear]
 			Offset @pageIndex*@pageSize row 
 			fetch next @pageSize row only 
 END
@@ -1373,7 +1373,7 @@ begin
 	select * 
 	from MERCHANT_SUMMARY_MONTHLY
 	WHERE AgentCode = @AgentCode 
-	order by ReportYear asc, ReportMonth
+	order by [ReportMonth], [ReportYear]
 	Offset @pageIndex*@pageSize row 
 	fetch next @pageSize row only 
 end
@@ -1528,7 +1528,7 @@ BEGIN
 					  OR [OtherCardTransactionCount] like '%'+@Element+'%'
 					  OR [RegionCode] like '%'+@Element+'%'
 					  OR [MerchantType] like '%'+@Element+'%')
-			ORDER BY [ReportYear], [ReportMonth]
+			ORDER BY [ReportMonth], [ReportYear]
 			Offset @pageIndex*@pageSize row 
 			fetch next @pageSize row only 
 END
@@ -1624,7 +1624,7 @@ begin
 	select * 
 	from MERCHANT_SUMMARY_MONTHLY
 	WHERE MerchantCode = @MerchantCode
-	order by ReportYear asc, ReportMonth
+	order by [ReportMonth], [ReportYear]
 	Offset @pageIndex*@pageSize row 
 	fetch next @pageSize row only 
 end
@@ -1780,7 +1780,7 @@ BEGIN
 					  OR [RegionCode] like '%'+@Element+'%'
 					  OR [MerchantType] like '%'+@Element+'%'
 					  OR [AgentCode] like '%'+@Element+'%'
-			ORDER BY [ReportYear], [ReportQuarter]
+			ORDER BY [ReportQuarter], [ReportYear]
 			Offset @pageIndex*@pageSize row 
 			fetch next @pageSize row only 
 END
@@ -1873,7 +1873,7 @@ as
 begin
 	select * 
 	from MERCHANT_SUMMARY_QUARTERLY 
-	order by ReportYear asc, ReportQuarter
+	order by [ReportQuarter], [ReportYear]
 	Offset @pageIndex*@pageSize row 
 	fetch next @pageSize row only 
 end
@@ -1966,7 +1966,7 @@ BEGIN
       ,[MerchantType]
       ,[AgentCode]
   FROM [dbo].[MERCHANT_SUMMARY_QUARTERLY]
-  WHERE ReportQuarter = @ReportQuarter AND ReportYear = @ReportYear AND MerchantCode = @MerchantCode
+  WHERE MerchantCode = @MerchantCode AND ReportQuarter = @ReportQuarter AND ReportYear = @ReportYear 
 END
 GO
 --AGENT--
@@ -2104,7 +2104,7 @@ BEGIN
 					  OR [OtherCardTransactionCount] like '%'+@Element+'%'
 					  OR [RegionCode] like '%'+@Element+'%'
 					  OR [MerchantType] like '%'+@Element+'%')
-			ORDER BY [ReportYear], [ReportQuarter]
+			ORDER BY [ReportQuarter], [ReportYear]
 			Offset @pageIndex*@pageSize row 
 			fetch next @pageSize row only 
 END
@@ -2201,7 +2201,7 @@ begin
 	select * 
 	from MERCHANT_SUMMARY_QUARTERLY
 	WHERE AgentCode = @AgentCode 
-	order by ReportYear asc, ReportQuarter
+	order by [ReportQuarter], [ReportYear]
 	Offset @pageIndex*@pageSize row 
 	fetch next @pageSize row only 
 end
@@ -2356,7 +2356,7 @@ BEGIN
 					  OR [OtherCardTransactionCount] like '%'+@Element+'%'
 					  OR [RegionCode] like '%'+@Element+'%'
 					  OR [MerchantType] like '%'+@Element+'%')
-			ORDER BY [ReportYear], [ReportQuarter]
+			ORDER BY [ReportQuarter], [ReportYear]
 			Offset @pageIndex*@pageSize row 
 			fetch next @pageSize row only 
 END
@@ -2452,7 +2452,7 @@ begin
 	select * 
 	from MERCHANT_SUMMARY_QUARTERLY
 	WHERE MerchantCode = @MerchantCode
-	order by ReportYear asc, ReportQuarter
+	order by [ReportQuarter], [ReportYear]
 	Offset @pageIndex*@pageSize row 
 	fetch next @pageSize row only 
 end
