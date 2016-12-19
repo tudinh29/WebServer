@@ -410,5 +410,49 @@ namespace WebAPI.Controllers
             var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_Yearly_Compare_AGENT @year1, @year2, @agentCode", parameter).ToList();
             return dbReturn;
         }
+
+        [HttpGet]
+        public List<Models.Statistic> GetReportData_Generality_Compare_Merchant(int startMonth, int startYear, int endMonth, int endYear, string merchantCode)
+        {
+            object[] parameter =
+               {
+                    new SqlParameter("@month1", startMonth),
+                    new SqlParameter("@year1", startYear),
+                    new SqlParameter("@month2", endMonth),
+                    new SqlParameter("@year2", endYear),
+                    new SqlParameter("@merchantCode", merchantCode),
+                };
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_compare_Merchant @month1, @year1,@month2, @year2, @merchantCode", parameter).ToList();
+            return dbReturn;
+        }
+        [HttpGet]
+        public List<Models.Statistic> GetReportData_Generality_Quaterly_Compare_Merchant(int startQuarter, int startYear, int endQuarter, int endYear, string merchantCode)
+        {
+            object[] parameter =
+               {
+                    new SqlParameter("@quarter1", startQuarter),
+                    new SqlParameter("@year1", startYear),
+                    new SqlParameter("@quarter2", endQuarter),
+                    new SqlParameter("@year2", endYear),
+                    new SqlParameter("@merchantCode", merchantCode),
+                };
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_Quaterly_Compare_Merchant @quarter1, @year1,@quarter2, @year2, @merchantCode", parameter).ToList();
+            return dbReturn;
+        }
+
+        [HttpGet]
+        public List<Models.Statistic> GetReportData_Generality_Yearly_Compare_Merchant(int startYear, int endYear, string merchantCode)
+        {
+            object[] parameter =
+               {
+
+                    new SqlParameter("@year1", startYear),
+
+                    new SqlParameter("@year2", endYear),
+                    new SqlParameter("@merchantCode", merchantCode),
+                };
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportData_Generality_Yearly_Compare_Merchant @year1, @year2, @merchantCode", parameter).ToList();
+            return dbReturn;
+        }
     }
 }

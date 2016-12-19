@@ -91,6 +91,21 @@ namespace WebMVC.Controllers
                     reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear);
                     reportMonthForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear, temp.UserName);
                 }
+                else
+                {
+                    reportDataMonthFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDataMonthly_Compare?startMonth={0}&startYear={1}";
+                    reportDateMonthForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Compare_Merchant?startMonth={0}&startYear={1}&endMonth={2}&endYear={3}&merchantCode={4}";
+
+                    reportDataQuarterFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare_Merchant?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}&merchantCode={4}";
+                    reportDateQuarterForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare_Merchant?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}&merchantCode={4}";
+
+                    reportDataYearFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare_Merchant?startYear={0}&endYear={1}&merchantCode={4}";
+                    reportDateYearForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare_Merchant?startYear={0}&endYear={1}&merchantCode={4}";
+
+
+                    reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear);
+                    reportMonthForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear, temp.UserName);
+                }
 
             }
             
