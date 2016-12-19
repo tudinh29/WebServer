@@ -1,0 +1,212 @@
+﻿@model List<WebMVC.EntityFramework.MERCHANT_SUMMARY_QUARTERLY>
+    @using PagedList.Mvc;
+    @using System.Web.Mvc;
+    @using WebMVC.EntityFramework;
+    @{
+        ViewBag.Title = "Merchant Summary Quarterly";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+        var model = Session[WebMVC.Common.CommonConstants.USER_SESSION]; //khai báo 1 session bên common giống như bên Cart
+        var temp = new USER_INFORMATION();
+        if (model != null)
+        {
+            temp = (USER_INFORMATION)model;
+        }
+
+        var MerchantType = (SelectList)ViewBag.MerchantType;
+        var RegionType = (SelectList)ViewBag.RegionType;
+        var MerchantTypeValue = (List<string>)ViewBag.MerchantTypeValue;
+        var RegionTypeValue = (List<string>)ViewBag.RegionTypeValue;
+    }
+    @section header{
+        Merchant Summary Quarterly
+    }
+
+    <style>
+        #mySidenav li {
+            list-style-type: none;
+            margin-left: 10%;
+            font-weight: lighter;
+        }
+
+        li > label {
+            font-weight: lighter;
+        }
+
+        .btn-default {
+            font-weight: bold;
+        }
+    </style>
+    <link href="~/Assets/css/myStyle.css" rel="stylesheet" />
+
+    <div class="col-lg-12">
+        <div class="row">
+            @using (Html.BeginForm("Quarter", "Statistical", FormMethod.Get))
+            {
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" value="@ViewBag.searchString" name="searchString" />
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-info" type="submit" style="border:0">Tìm</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <br />
+    </div>
+
+    @using (Html.BeginForm("Quarter", "Statistical", new { searchString = @ViewBag.searchString }, FormMethod.Get))
+    {
+        <div id="mySidenav" class="sidenavFilter" style="top:25%">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+            <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#MerchantType">Loại merchant</button>
+            <div id="MerchantType" class="collapse">
+                @foreach (var item in MerchantType)
+                {
+                    <li><label><input id="@item.Value" class="CheckValue" type="checkbox" name="MerchantTypeValue" value="@item.Value">@item.Text</label></li>
+                }
+            </div>
+
+            <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#RegionType">Vùng Miền</button>
+            <div id="RegionType" class="collapse">
+                @foreach (var item in RegionType)
+                {
+                    <li><label><input id="@item.Value" class="CheckValue" type="checkbox" name="RegionTypeValue" value="@item.Value">@item.Text</label></li>
+                }
+            </div>
+            <br>
+            <center>
+                <p>
+                    <button id="btnMerchantType" type="submit" class="btn btn-primary">Filter</button>
+                    <button id="cleanCheckbox" type="submit" class="btn btn-primary">Clean</button>
+                </p>
+            </center>
+        </div>
+    }
+
+    <div id="main">
+        <div class="container-fluid">
+            @if (temp.UserType == "A" || temp.UserType == "T")
+            {
+                <div class="row">
+                    <span style="font-size:20px;cursor:pointer;margin-left:10px" onclick="openNav()"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span>
+                </div>
+            }
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Report Quarter</th>
+                                        <th>Report Year</th>
+                                        <th>Merchant Code</th>
+                                        <th>Sale Amount</th>
+                                        <th>Sale Count</th>
+                                        <th>Return Amount</th>
+                                        <th>Return Count</th>
+                                        <th>Net Amount</th>
+                                        <th>Transaction Count</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr id="row_@item.MerchantCode _@item.ReportQuarter _@item.ReportYear">
+                                            <td>@item.ReportQuarter</td>
+                                            <td>@item.ReportYear</td>
+                                            <td>@item.MerchantCode</td>
+                                            <td>@item.SaleAmount</td>
+                                            <td>@item.SaleCount</td>
+                                            <td>@item.ReturnAmount</td>
+                                            <td>@item.ReturnCount</td>
+                                            <td>@item.NetAmount</td>
+                                            <td>@item.TransactionCount</td>
+                                            <td>
+                                                @Html.ActionLink("Chi tiết", "ViewDetailQuarter", "Statistical",
+                                         new { ReportQuarter = @item.ReportQuarter, ReportYear = @item.ReportYear, MerchantCode = @item.MerchantCode }, null)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @if (ViewBag.TotalPage > 1)
+                            {
+                                var pageDisplay = (int)ViewBag.MaxPage;
+                                int totalPage = (int)ViewBag.TotalPage;
+                                int currentPage = (int)ViewBag.Page;
+
+                                var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                                var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+                                <nav>
+                                    <ul class="pagination">
+                                        <li>
+                                            @Html.ActionLink("Trang đầu", "Quarter", "Statistical", new { page = ViewBag.First, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType }, null)
+                                        </li>
+                                        @for (int i = startPageIndex; i <= endPageIndex; i++)
+                                        {
+                                            <li>
+                                                @Html.ActionLink(i.ToString(), "Quarter", "Statistical", new { page = i, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType }, null)
+                                            </li>
+                                        }
+                                        <li>
+                                            @Html.ActionLink("Trang cuối", "Quarter", "Statistical", new { page = ViewBag.Last, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType }, null)
+                                        </li>
+                                    </ul>
+                                </nav>
+                            }
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="col-md-11 text-right">
+        <a href="@Url.Action("ExportPDF", "Retrival", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
+        <a href="@Url.Action("ExportExcel", "Retrival", new { searchString = ViewBag.searchString })" class="btn btn-primary btn" id=" btnExcel">Excel</a>
+        <a href="@Url.Action("ExportCSV", "Retrival", new { searchString = ViewBag.searchString })" class="btn btn-primary btn" id=" btnExcel">CSV</a>
+    </div>*@
+
+    <script type="text/javascript">
+    @if (MerchantTypeValue != null)
+    {
+        foreach (var item in MerchantTypeValue){
+        <text>
+        $("#@item").prop('checked', true);
+        </text>
+        }
+    }
+
+        @if (RegionTypeValue != null)
+    {
+        foreach (var item in RegionTypeValue)
+           {
+               <text>
+        $("#@item").prop('checked', true);
+        </text>
+           }
+    }
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#cleanCheckbox').off('click').on('click', function (e) {
+                e.preventDefault();
+                $(".CheckValue").prop('checked', false);
+            });
+        });
+    </script>
+
