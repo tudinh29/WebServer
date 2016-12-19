@@ -419,20 +419,36 @@ else
                             if(name.IsEmpty())
                             {
                                 
-                                date1 = name + "/"+ y1;
+                                date1 = item.Name + "/"+ y1;
+                                date2 = int.Parse(item.Name.ToString()) + Math.Abs(quy2 - quy1) * 3 + "/" + y2;
                             }
                             else
                             {
-                                if(quy2>quy1)
+                                if (quy1 < quy2)
                                 {
                                     date2 = int.Parse(item.Name.ToString()) + Math.Abs(quy2 - quy1) * 3 + "/" + y2;
                                     date1 = name + "/" + y1;
                                 }
-                                else
+                                if ( quy1 > quy2)
                                 {
-                                    date1 = int.Parse(name.ToString()) + Math.Abs(quy2 - quy1) * 3 + "/" + y1;
-                                    date2 = item.Name + "/" + y2; 
+                                    date2 = item.Name.ToString() + "/" + y2;
+                                    date1 = int.Parse(name) + Math.Abs(quy2 - quy1) * 3 + "/" + y1;
                                 }
+                                //if (month == quy2 && quy1 > quy2)
+                                //{
+                                //    date1 = int.Parse(item.Name.ToString()) + Math.Abs(quy2 - quy1) * 3 + "/" + y1;
+                                //    date2 = name + "/" + y2;
+                                //}
+
+                                //if (month == quy2 && quy1 < quy2)
+                                //{
+                                //    date1 = item.Name.ToString() + "/" + y1;
+                                //    date2 = int.Parse(name) + Math.Abs(quy2 - quy1) * 3 + "/" + y2;
+                                //}
+                                   
+                                
+                                    
+                               
                                 
                                 
                             }
@@ -539,7 +555,7 @@ else
                     {
                         if (item.Name != name)
                         {
-                            date2 = date2.Replace(item.Name, name);
+                            date2 = date2.Replace(item.Name.ToString() + "/", name + "/");
                             if(reportType == "quater")
                             {
                                 if (month == int.Parse(q1))
@@ -578,8 +594,8 @@ else
                                 
                             }
                             
-                            date2 = date2.Replace(name, item.Name);
-                            date1 = date1.Replace(name, item.Name);
+                            date2 = date2.Replace(name + "/", item.Name.ToString() + "/");
+                            date1 = date1.Replace(name + "/", item.Name.ToString() + "/");
                             name = item.Name;
                             value = item.Value.ToString();
                             sreturn = item.ReturnAmount.ToString();
@@ -591,6 +607,7 @@ else
                         {
                             if(reportType == "quarter")
                             {
+                                //date2 = date2.Replace(item.Name.ToString() + "/", name + "/");
                                 if (month == int.Parse(q1))
                                 {
                                     LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", truchoanh).Replace("{1}", value).Replace("{2}", sreturn).Replace("{3}", scount).Replace("{4}", item.Value.ToString()).Replace("{5}", item.ReturnAmount.ToString()).Replace("{6}", item.TransactionCount.ToString()).Replace("{7}", date1).Replace("{8}", date2);

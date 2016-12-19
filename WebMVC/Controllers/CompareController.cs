@@ -28,67 +28,71 @@ namespace WebMVC.Controllers
             string reportStartQuarter = String.Empty;
             string reportEndQuarter = String.Empty;
 
-           //string reportDataMonthFormat= String.Empty;
-           //    string reportDateMonthForLineFormat = String.Empty;
-           //        string reportDataQuarterFormat= String.Empty;
-           //            string reportDateQuarterForLineFormat= String.Empty;
-           //                string reportDataYearFormat = String.Empty;
-           //                string reportDateYearForLineFormat = String.Empty;
-            string reportDataMonthFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDataMonthly_Compare?startMonth={0}&startYear={1}";
-            string reportDateMonthForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Compare?startMonth={0}&startYear={1}&endMonth={2}&endYear={3}";
+            string reportDataMonthFormat = String.Empty;
+            string reportDateMonthForLineFormat = String.Empty;
+            string reportDataQuarterFormat = String.Empty;
+            string reportDateQuarterForLineFormat = String.Empty;
+            string reportDataYearFormat = String.Empty;
+            string reportDateYearForLineFormat = String.Empty;
+
+            string reportDataAPI = String.Empty;
+            string reportMonthForLineAPI = String.Empty;
+
+            //string reportDataMonthFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDataMonthly_Compare?startMonth={0}&startYear={1}";
+            //string reportDateMonthForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Compare?startMonth={0}&startYear={1}&endMonth={2}&endYear={3}";
 
 
-            string reportDataQuarterFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}";
-            string reportDateQuarterForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}";
+            //string reportDataQuarterFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}";
+            //string reportDateQuarterForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}";
 
-            string reportDataYearFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare?startYear={0}&endYear={1}";
-            string reportDateYearForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare?startYear={0}&endYear={1}";
-
-
-
-            string reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear);
-            string reportMonthForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear);
-
-            //var model = Session[CommonConstants.USER_SESSION];
-            //var temp = new USER_INFORMATION();
-            //if (model != null)
-            //{
-            //    temp = (USER_INFORMATION)model;
-            //}
-            //HttpClient client = new AccessAPI().Access();
-            //if (temp.UserType == "T")
-            //{
-            //reportDataMonthFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDataMonthly_Compare?startMonth={0}&startYear={1}";
-            //reportDateMonthForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Compare?startMonth={0}&startYear={1}&endMonth={2}&endYear={3}";
-
-            //reportDataQuarterFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}";
-            //reportDateQuarterForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}";
-
-            //reportDataYearFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare?startYear={0}&endYear={1}";
-            //reportDateYearForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare?startYear={0}&endYear={1}";
-
-            //reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear);
-            //reportMonthForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear);
-            //}
-            //else
-            //{
-            //    if(temp.UserType == "A")
-            //    {
-            //    reportDataMonthFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDataMonthly_Compare?startMonth={0}&startYear={1}";
-            //    reportDateMonthForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Compare_Agent?startMonth={0}&startYear={1}&endMonth={2}&endYear={3}&agentCode{4}";
-
-            //    reportDataQuarterFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare_Agent?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}&agentCode{4}";
-            //    reportDateQuarterForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare_Agent?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}&agentCode{4}";
-
-            //    reportDataYearFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare_Agent?startYear={0}&endYear={1}&agentCode{2}";
-            //    reportDateYearForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare_Agent?startYear={0}&endYear={1}&agentCode{2}";
+            //string reportDataYearFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare?startYear={0}&endYear={1}";
+            //string reportDateYearForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare?startYear={0}&endYear={1}";
 
 
-             // string  reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear);
-             //  string reportMonthForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear, temp.UserName);
-            //    }
 
-            //}
+            //string reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear);
+            //string reportMonthForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear);
+
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            HttpClient client = new AccessAPI().Access();
+            if (temp.UserType == "T")
+            {
+                reportDataMonthFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDataMonthly_Compare?startMonth={0}&startYear={1}";
+                reportDateMonthForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Compare?startMonth={0}&startYear={1}&endMonth={2}&endYear={3}";
+
+                reportDataQuarterFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}";
+                reportDateQuarterForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}";
+
+                reportDataYearFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare?startYear={0}&endYear={1}";
+                reportDateYearForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare?startYear={0}&endYear={1}";
+
+                reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear);
+                reportMonthForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear);
+            }
+            else
+            {
+                if (temp.UserType == "A")
+                {
+                    reportDataMonthFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportDataMonthly_Compare?startMonth={0}&startYear={1}";
+                    reportDateMonthForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Compare_Agent?startMonth={0}&startYear={1}&endMonth={2}&endYear={3}&agentCode={4}";
+
+                    reportDataQuarterFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare_Agent?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}&agentCode={4}";
+                    reportDateQuarterForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Quaterly_Compare_Agent?startQuarter={0}&startYear={1}&endQuarter={2}&endYear={3}&agentCode={4}";
+
+                    reportDataYearFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare_Agent?startYear={0}&endYear={1}&agentCode={2}";
+                    reportDateYearForLineFormat = "api/MERCHANT_SUMMARY_DAILY/GetReportData_Generality_Yearly_Compare_Agent?startYear={0}&endYear={1}&agentCode={2}";
+
+
+                    reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear);
+                    reportMonthForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear, temp.UserName);
+                }
+
+            }
             
 
 
@@ -104,32 +108,69 @@ namespace WebMVC.Controllers
                 reportStartQuarter = Request["reportStartQuarter"];
                 reportEndQuarter = Request["reportEndQuarter"];
 
-                switch (reportType.ToLower())
+                if (temp.UserType == "T")
                 {
-                    //case "day":
+                    switch (reportType.ToLower())
+                    {
+                        //case "day":
                         //reportDataAPI = String.Format(reportDataDayFormat, reportStartDate, reportEndDate);
                         //reportDateForLineAPI = String.Format(reportDateDayForLineFormat, reportStartDate, reportEndDate);
                         //break;
-                    case "month":
-                        reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear);
-                        reportMonthForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear);
-                        //reportMonthForLineAPI1 = String.Format(reportDateMonthForLineFormat, reportEndMonth, reportEndYear);
-                        break;
-                    case "quarter":
-                        reportDataAPI = String.Format(reportDataQuarterFormat, reportStartQuarter, reportStartYear, reportEndQuarter, reportEndYear);
-                        reportMonthForLineAPI = String.Format(reportDateQuarterForLineFormat, reportStartQuarter, reportStartYear, reportEndQuarter, reportEndYear);
-                        
-                        break;
-                    case "year":
-                        reportDataAPI = String.Format(reportDataYearFormat, reportStartYear, reportEndYear);
-                        reportMonthForLineAPI = String.Format(reportDateYearForLineFormat, reportStartYear, reportEndYear);
-                        
-                        break;
-                    default:
-                        break;
+
+
+                        case "month":
+                            reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear);
+                            reportMonthForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear);
+                            //reportMonthForLineAPI1 = String.Format(reportDateMonthForLineFormat, reportEndMonth, reportEndYear);
+                            break;
+                        case "quarter":
+                            reportDataAPI = String.Format(reportDataQuarterFormat, reportStartQuarter, reportStartYear, reportEndQuarter, reportEndYear);
+                            reportMonthForLineAPI = String.Format(reportDateQuarterForLineFormat, reportStartQuarter, reportStartYear, reportEndQuarter, reportEndYear);
+
+                            break;
+                        case "year":
+                            reportDataAPI = String.Format(reportDataYearFormat, reportStartYear, reportEndYear);
+                            reportMonthForLineAPI = String.Format(reportDateYearForLineFormat, reportStartYear, reportEndYear);
+
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                else
+                {
+                    
+                        switch (reportType.ToLower())
+                        {
+                            //case "day":
+                            //reportDataAPI = String.Format(reportDataDayFormat, reportStartDate, reportEndDate);
+                            //reportDateForLineAPI = String.Format(reportDateDayForLineFormat, reportStartDate, reportEndDate);
+                            //break;
+
+
+                            case "month":
+                                reportDataAPI = String.Format(reportDataMonthFormat, reportStartMonth, reportStartYear);
+                                reportMonthForLineAPI = String.Format(reportDateMonthForLineFormat, reportStartMonth, reportStartYear, reportEndMonth, reportEndYear, temp.UserName);
+                                //reportMonthForLineAPI1 = String.Format(reportDateMonthForLineFormat, reportEndMonth, reportEndYear);
+                                break;
+                            case "quarter":
+                                reportDataAPI = String.Format(reportDataQuarterFormat, reportStartQuarter, reportStartYear, reportEndQuarter, reportEndYear, temp.UserName);
+                                reportMonthForLineAPI = String.Format(reportDateQuarterForLineFormat, reportStartQuarter, reportStartYear, reportEndQuarter, reportEndYear, temp.UserName);
+
+                                break;
+                            case "year":
+                                reportDataAPI = String.Format(reportDataYearFormat, reportStartYear, reportEndYear, temp.UserName);
+                                reportMonthForLineAPI = String.Format(reportDateYearForLineFormat, reportStartYear, reportEndYear, temp.UserName);
+
+                                break;
+                            default:
+                                break;
+                        
+                    }
+                }
+                
             }
-            HttpClient client = new AccessAPI().Access();
+            //HttpClient client = new AccessAPI().Access();
             HttpResponseMessage response = client.GetAsync(reportMonthForLineAPI).Result;
             //HttpResponseMessage response1 = client.GetAsync(reportMonthForLineAPI1).Result;
             List<Models.Statistic> lineChartData = new List<Models.Statistic>();
