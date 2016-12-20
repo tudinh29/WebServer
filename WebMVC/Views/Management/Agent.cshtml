@@ -11,9 +11,9 @@
     {
         temp = (USER_INFORMATION)model;
     }
-     var RegionType = (SelectList)ViewBag.RegionType;
-     var RegionTypeValue = (List<string>)ViewBag.RegionTypeValue;
-     var ActiveTypeValue = (List<string>)ViewBag.ActiveTypeValue;
+    var RegionType = (SelectList)ViewBag.RegionType;
+    var RegionTypeValue = (List<string>)ViewBag.RegionTypeValue;
+    var ActiveTypeValue = (List<string>)ViewBag.ActiveTypeValue;
 }
 
 @{
@@ -143,10 +143,10 @@
                                             @Html.ActionLink(@item.AgentCode, "ViewDetail_Agent", "Management",
                                             new { agentCode = @item.AgentCode }, null)
                                         </td>
-                                        <td>@item.AgentName</td>
-                                        <td>
 
-                                            @if (Convert.ToChar(@item.AgentStatus) == 'A')
+                                        <td>@(String.IsNullOrEmpty(item.AgentName.ToString()) ? "" : item.AgentName)</td>
+                                        <td>
+                                            @if ((@item.AgentStatus != null) && (Convert.ToChar(@item.AgentStatus) == 'A'))
                                             {
                                                 @Ajax.ActionLink("ACTIVE", "ChangeStatus", "Management", new { @id = item.AgentCode }, new AjaxOptions
                                                {
@@ -168,8 +168,8 @@
                                         <td>@item.Owner</td>
                                         <td>@item.Address1</td>
                                         <td>@item.CityName</td>
-                                        <td>@item.LastActiveDate.Value.ToString("yyyy-MM-dd")</td>
-                                        <td>@item.CloseDate.Value.ToString("yyyy-MM-dd")</td>
+                                        <td>@(String.IsNullOrEmpty(item.LastActiveDate.ToString()) ? "" : item.LastActiveDate.Value.ToString("yyyy-MM-dd"))</td>
+                                        <td>@(String.IsNullOrEmpty(item.CloseDate.ToString()) ? "" : item.LastActiveDate.Value.ToString("yyyy-MM-dd"))</td>
                                         <td>
                                             @Html.ActionLink("Chi tiết", "ViewListMerchant", "Management",
                                          new { agentName = @item.AgentName, agentCode = @item.AgentCode, regionCode = @item.RegionCode }, null)
@@ -178,7 +178,7 @@
                                 }
                             </tbody>
                         </table>
-                        @Html.PagedListPager(Model, Page => Url.Action(@ViewBag.action, "Management", new { Page, @searchString = @ViewBag.searchString, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive}))
+                        @Html.PagedListPager(Model, Page => Url.Action(@ViewBag.action, "Management", new { Page, @searchString = @ViewBag.searchString, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }))
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -190,10 +190,10 @@
         </div>
     </div>
     <div class="col-md-11 text-right">
-         <a href="@Url.Action("ExportAgentPDF", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
-         <a href="@Url.Action("AgentExportExcel", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">Excel</a>
-         <a href="@Url.Action("AgentExportCSV", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">CSV</a>
-        
+        <a href="@Url.Action("ExportAgentPDF", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
+        <a href="@Url.Action("AgentExportExcel", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">Excel</a>
+        <a href="@Url.Action("AgentExportCSV", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">CSV</a>
+
     </div>
     <script src="~/Assets/js/MyCustomJS.js"></script>
 </div>

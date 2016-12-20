@@ -27,8 +27,13 @@ public class RetrivalController {
 
 	@RequestMapping(value = "/Retrival/{retrivalCode}", method = RequestMethod.GET, produces = "application/json")  
 	public Retrival getRetrivalById(@PathVariable String retrivalCode) { 
-		Retrival retrival = retrivalService.findByRetrivalElement(retrivalCode).get(0);
-		return retrival;
+		List<Retrival> retrivals = retrivalService.findByRetrivalElement(retrivalCode);
+		if (retrivals.isEmpty()){
+			return null;
+		}
+		else {
+			return retrivals.get(0);
+		}
 	}
 	@RequestMapping(value = "/Retrival/list", method = RequestMethod.GET, produces = "application/json")  
 	public List<Retrival> getAllRetrival() { 

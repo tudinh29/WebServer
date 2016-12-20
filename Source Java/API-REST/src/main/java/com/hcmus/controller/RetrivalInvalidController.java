@@ -25,8 +25,13 @@ public class RetrivalInvalidController {
 
 		@RequestMapping(value = "/RetrivalInvalid/{retrivalInvalidCode}", method = RequestMethod.GET, produces = "application/json")  
 		public RetrivalInvalid getRetrivalInvalidById(@PathVariable String retrivalInvalidCode) { 
-			RetrivalInvalid retrivalInvalid = retrivalInvalidService.findByRetrivalInvalidCode(retrivalInvalidCode).get(0);
-			return retrivalInvalid;
+			List<RetrivalInvalid> retrivalInvalids = retrivalInvalidService.findByRetrivalInvalidCode(retrivalInvalidCode);
+			if (retrivalInvalids.isEmpty()){
+				return null;
+			}
+			else {
+				return retrivalInvalids.get(0);
+			}
 		}
 		@RequestMapping(value = "/RetrivalInvalid/list", method = RequestMethod.GET, produces = "application/json")  
 		public List<RetrivalInvalid> getAllRetrivalInvalid() { 

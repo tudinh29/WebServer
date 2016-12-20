@@ -30,7 +30,7 @@ public class RetrivalInvalidService {
 		Session session = getSession();
 		List<RetrivalInvalid> result = new ArrayList<RetrivalInvalid>();
 		try{
-			Query query = session.createSQLQuery("exec sp_GetRetrivalInvalid :RetrivalInvalid ").addEntity(RetrivalInvalid.class).setParameter("RetrivalCode", RetrivalCode);
+			Query query = session.createSQLQuery("exec sp_FindRetrivalInvalid :RetrivalInvalid ").addEntity(RetrivalInvalid.class).setParameter("RetrivalCode", RetrivalCode);
 			result = (List<RetrivalInvalid>)query.list();
 			
 		} catch(HibernateException ex){
@@ -44,7 +44,7 @@ public class RetrivalInvalidService {
 		Session session = getSession();
 		List<RetrivalInvalid> result = new ArrayList<RetrivalInvalid>();
 		try{
-			Query query = session.createSQLQuery("exec sp_FindAllRetrivalInvalid").addEntity(RetrivalInvalid.class);
+			Query query = session.createSQLQuery("exec sp_GetAllRetrivalInvalid").addEntity(RetrivalInvalid.class);
 			result = (List<RetrivalInvalid>)query.list();
 			
 		} catch(HibernateException ex){
