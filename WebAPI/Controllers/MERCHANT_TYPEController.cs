@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPI.EntityFramework;
+using System.Data.SqlClient;
 
 namespace WebAPI.Controllers
 {
@@ -20,6 +21,16 @@ namespace WebAPI.Controllers
         public List<MERCHANT_TYPE> SelectAllMerchantType()
         {
             var res = db.Database.SqlQuery<MERCHANT_TYPE>("sp_SelectAllMerchantType").ToList();
+            return res;
+        }
+        [HttpGet]
+        public MERCHANT_TYPE GetMerchantTypeName(string MerchantType)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@MerchantType", MerchantType)
+                };
+            MERCHANT_TYPE res = db.Database.SqlQuery<MERCHANT_TYPE>("SP_GetMerchantTypeName @MerchantType", paremeter).FirstOrDefault();
             return res;
         }
        

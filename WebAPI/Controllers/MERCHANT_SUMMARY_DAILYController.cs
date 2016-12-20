@@ -223,6 +223,28 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        public List<MERCHANT_SUMMARY_DAILY> GetMerchantSummaryForMerchantDefault_ForQuery(string MerchantCode, int pageIndex, int pageSize)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@MerchantCode", MerchantCode),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+            var res = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("SP_GetMerchantSummaryForMerchant_Default_ForQuery @MerchantCode, @pageIndex, @pageSize", paremeter).ToList();
+            return res;
+        }
+        public int GetCountMerchantSummaryForMerchantDefault_ForQuery(string MerchantCode)
+        {
+            object[] paremeter = 
+                {
+                    new SqlParameter("@MerchantCode", MerchantCode)
+                };
+            var res = db.Database.SqlQuery<int>("SP_GetCountMerchantSummaryForMerchant_Default_ForQuery @MerchantCode", paremeter).ToList();
+            return res[0];
+        }
+
+        [HttpGet]
         public List<MERCHANT_SUMMARY_DAILY> FindMerchantSummaryForAgentElement_ForQuery(string searchString, string AgentCode, int pageIndex, int pageSize)
         {
             object[] parameter =
@@ -305,28 +327,28 @@ namespace WebAPI.Controllers
 
         }
         [HttpGet]
-        public List<Models.MerchantSummaryDailyTiny> GetMerchantSummaryForMaster(string MerchantCode, string ReportDate)
+        public MERCHANT_SUMMARY_DAILY GetMerchantSummaryForMaster(string MerchantCode, string ReportDate)
         {
             object[] paremeter = 
                 {
                     new SqlParameter("@MerchantCode", MerchantCode),
                     new SqlParameter("@ReportDate",ReportDate)
                 };
-            var res = db.Database.SqlQuery<Models.MerchantSummaryDailyTiny>("exec SP_GetMerchantSummaryForMaster @MerchantCode, @ReportDate", paremeter).ToList();
+            MERCHANT_SUMMARY_DAILY res = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("exec SP_GetMerchantSummaryForMaster @MerchantCode, @ReportDate", paremeter).FirstOrDefault();
             return res;
         }
         [HttpGet]
-        public List<Models.MerchantSummaryDailyTiny> GetMerchantSummaryForMerchantCode(string MerchantCode)
+        public MERCHANT_SUMMARY_DAILY GetMerchantSummaryForMerchantCode(string MerchantCode)
         {
             object[] paremeter = 
                 {
                     new SqlParameter("@MerchantCode", MerchantCode)
                 };
-            var res = db.Database.SqlQuery<Models.MerchantSummaryDailyTiny>("exec SP_GetMerchantSummaryForMerchantCode @MerchantCode", paremeter).ToList();
+            MERCHANT_SUMMARY_DAILY res = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("exec SP_GetMerchantSummaryForMerchantCode @MerchantCode", paremeter).FirstOrDefault();
             return res;
         }
         [HttpGet]
-        public List<Models.MerchantSummaryDailyTiny> GetMerchantSummaryForAgentDefaultMerchantCode(string AgentCode, string MerchantCode, DateTime ReportDate)
+        public MERCHANT_SUMMARY_DAILY GetMerchantSummaryForAgentDefaultMerchantCode(string AgentCode, string MerchantCode, DateTime ReportDate)
         {
             object[] paremeter = 
                 {
@@ -334,7 +356,7 @@ namespace WebAPI.Controllers
                     new SqlParameter("@MerchantCode", MerchantCode),
                     new SqlParameter("@ReportDate",ReportDate)
                 };
-            var res = db.Database.SqlQuery<Models.MerchantSummaryDailyTiny>("exec SP_GetMerchantSummaryForAgent_Default_MerchantCode @AgentCode,@MerchantCode,@ReportDate", paremeter).ToList();
+            MERCHANT_SUMMARY_DAILY res = db.Database.SqlQuery<MERCHANT_SUMMARY_DAILY>("exec SP_GetMerchantSummaryForAgent_Default_MerchantCode @AgentCode,@MerchantCode,@ReportDate", paremeter).FirstOrDefault();
             return res;
         }
 

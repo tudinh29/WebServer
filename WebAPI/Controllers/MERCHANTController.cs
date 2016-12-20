@@ -64,7 +64,7 @@ namespace WebAPI.Controllers
             var res = db.Database.SqlQuery<MERCHANT>("sp_FindMerchantElement_ForQuery @Element, @pageIndex, @pageSize", parameter).ToList();
             return res;
         }
-
+        
         [HttpGet]
         public int CountMerchantElement_ForQuery(string searchString)
         {

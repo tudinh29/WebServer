@@ -106,8 +106,6 @@
                     <a href="@Url.Action("Index", "Report")"><i class="fa fa-edit fa-fw"></i>Report</a>
                 </li>
                 <li>
-                    @if (Convert.ToChar(temp.UserType) != 'M')
-                    {
                         <a href="#"><i class="fa fa-edit fa-fw"></i> Thống kê<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -123,25 +121,6 @@
                                 <a href="@Url.Action("Year", "Statistical")">Theo năm</a>
                             </li>
                         </ul>
-                    }
-                    else
-                    {
-                        <a href="#"><i class="fa fa-edit fa-fw"></i> Thống kê<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="@Url.Action("ViewDetailDay", "Statistical", new { MerchantCode = temp.UserName })">Theo ngày</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Month", "Statistical")">Theo tháng</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Quarter", "Statistical")">Theo quý</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Year", "Statistical")">Theo năm</a>
-                            </li>
-                        </ul>
-                    }
                 </li>
                 @if (Convert.ToChar(temp.UserType) != 'M' && Convert.ToChar(temp.UserType) != 'A')
                 {

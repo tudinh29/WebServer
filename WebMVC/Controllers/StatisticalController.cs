@@ -147,6 +147,52 @@ namespace WebMVC.Controllers
                     @ViewBag.searchString = searchString;
                 }
             }
+            else if (temp.UserType == "M")
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    if (MerchantTypeValue == null && RegionTypeValue == null)
+                    {
+                        HttpResponseMessage responseCount = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetCountMerchantSummaryForMerchantDefault_ForQuery?MerchantCode={0}", temp.UserName)).Result;
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForMerchantDefault_ForQuery?MerchantCode={0}&pageIndex={1}&pageSize={2}", temp.UserName, page, size)).Result;
+                        if (response.IsSuccessStatusCode && responseCount.IsSuccessStatusCode)
+                        {
+                            totalRetrival = responseCount.Content.ReadAsAsync<int>().Result;
+                            ListSummary = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_DAILY>>().Result;
+                        }
+                    }
+                    else
+                    {
+                        string queryFind = queryFilterStatistical(MerchantTypeValue, RegionTypeValue, "*");
+                        queryFind = queryFind + "and M.MerchantCode = '" + temp.UserName + "' order by M.ReportDate Offset " + (page - 1) * size + " row fetch next " + size + " row only";
+                        string queryCount = queryFilterStatistical(MerchantTypeValue, RegionTypeValue, "Count(*)");
+                        queryCount = queryCount + "and M.MerchantCode = '" + temp.UserName + "'";
+
+                        HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindFilter?query={0}", queryFind)).Result;
+                        HttpResponseMessage responseFilterCount = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindCountFilter?query={0}", queryCount)).Result;
+
+                        if (responseFilter.IsSuccessStatusCode && responseFilterCount.IsSuccessStatusCode)
+                        {
+                            ListSummary = responseFilter.Content.ReadAsAsync<List<MERCHANT_SUMMARY_DAILY>>().Result;
+                            totalRetrival = responseFilterCount.Content.ReadAsAsync<int>().Result;
+                        }
+                        ViewBag.MerchantTypeValue = MerchantTypeValue;
+                        ViewBag.RegionTypeValue = RegionTypeValue;
+                    }
+                }
+                else
+                {
+                    HttpResponseMessage responseCount = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindCountMerchantSummaryForAgentElement_ForQuery?searchString={0}&AgentCode={1}", searchString, temp.UserName)).Result;
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/FindMerchantSummaryForAgentElement_ForQuery?searchString={0}&AgentCode={1}&pageIndex={2}&pageSize={3}", searchString, temp.UserName, page, size)).Result;
+                    if (response.IsSuccessStatusCode && responseCount.IsSuccessStatusCode)
+                    {
+                        totalRetrival = responseCount.Content.ReadAsAsync<int>().Result;
+                        ListSummary = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY_DAILY>>().Result;
+
+                    }
+                    @ViewBag.searchString = searchString;
+                }
+            }
             else return View();
 
             totalPage = (int)Math.Ceiling((double)totalRetrival / size);
@@ -169,15 +215,27 @@ namespace WebMVC.Controllers
                 temp = (USER_INFORMATION)model;
             }
             else return View();
-            List<MerchantSummaryDailyTiny> list = new List<MerchantSummaryDailyTiny>();
+            MERCHANT_SUMMARY_DAILY list = new MERCHANT_SUMMARY_DAILY();
             HttpClient client = new AccessAPI().Access();
             HttpResponseMessage response; 
             if (temp.UserType == "T")
             {
                 response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForMaster?MerchantCode={0}&ReportDate={1}", MerchantCode, ReportDate)).Result;
+
                 if (response.IsSuccessStatusCode)
                 {
-                    list = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    list = response.Content.ReadAsAsync<MERCHANT_SUMMARY_DAILY>().Result;
+                    HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/MERCHANT_TYPE/GetMerchantTypeName?MerchantType={0}", list.MerchantType)).Result;
+                    HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/GetRegionName?RegionCode={0}", list.RegionCode)).Result;
+                    if (responseMerchantType.IsSuccessStatusCode && responseRegion.IsSuccessStatusCode)
+                    {
+                        MERCHANT_TYPE MerchantType = responseMerchantType.Content.ReadAsAsync<MERCHANT_TYPE>().Result;
+                        REGION Region = responseRegion.Content.ReadAsAsync<REGION>().Result;
+
+                        ViewBag.MerchantTypeName = MerchantType.Description;
+                        ViewBag.RegionName = Region.RegionName;
+                    }
+                    
                 }
             }
             if (temp.UserType == "A")
@@ -186,15 +244,35 @@ namespace WebMVC.Controllers
                 response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForAgentDefaultMerchantCode?AgentCode={0}&&MerchantCode={1}&&ReportDate={2}", temp.UserName, MerchantCode, ReportDate)).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    list = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    list = response.Content.ReadAsAsync<MERCHANT_SUMMARY_DAILY>().Result;
+                    HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/MERCHANT_TYPE/GetMerchantTypeName?MerchantType={0}", list.MerchantType)).Result;
+                    HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/GetRegionName?RegionCode={0}", list.RegionCode)).Result;
+                    if (responseMerchantType.IsSuccessStatusCode && responseRegion.IsSuccessStatusCode)
+                    {
+                        MERCHANT_TYPE MerchantType = responseMerchantType.Content.ReadAsAsync<MERCHANT_TYPE>().Result;
+                        REGION Region = responseRegion.Content.ReadAsAsync<REGION>().Result;
+
+                        ViewBag.MerchantTypeName = MerchantType.Description;
+                        ViewBag.RegionName = Region.RegionName;
+                    }
                 }
             }
             if (temp.UserType == "M")
             {
-                response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForMerchantCode?MerchantCode={0}", temp.UserName)).Result;
+                response = client.GetAsync(string.Format("api/MERCHANT_SUMMARY_DAILY/GetMerchantSummaryForMaster?MerchantCode={0}&ReportDate={1}", MerchantCode, ReportDate)).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    list = response.Content.ReadAsAsync<List<Models.MerchantSummaryDailyTiny>>().Result;
+                    list = response.Content.ReadAsAsync<MERCHANT_SUMMARY_DAILY>().Result;
+                    HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/MERCHANT_TYPE/GetMerchantTypeName?MerchantType={0}", list.MerchantType)).Result;
+                    HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/GetRegionName?RegionCode={0}", list.RegionCode)).Result;
+                    if (responseMerchantType.IsSuccessStatusCode && responseRegion.IsSuccessStatusCode)
+                    {
+                        MERCHANT_TYPE MerchantType = responseMerchantType.Content.ReadAsAsync<MERCHANT_TYPE>().Result;
+                        REGION Region = responseRegion.Content.ReadAsAsync<REGION>().Result;
+
+                        ViewBag.MerchantTypeName = MerchantType.Description;
+                        ViewBag.RegionName = Region.RegionName;
+                    }
                 }
             }
 
@@ -432,6 +510,16 @@ namespace WebMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 list = response.Content.ReadAsAsync<MERCHANT_SUMMARY_MONTHLY>().Result;
+                HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/MERCHANT_TYPE/GetMerchantTypeName?MerchantType={0}", list.MerchantType)).Result;
+                HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/GetRegionName?RegionCode={0}", list.RegionCode)).Result;
+                if (responseMerchantType.IsSuccessStatusCode && responseRegion.IsSuccessStatusCode)
+                {
+                    MERCHANT_TYPE MerchantType = responseMerchantType.Content.ReadAsAsync<MERCHANT_TYPE>().Result;
+                    REGION Region = responseRegion.Content.ReadAsAsync<REGION>().Result;
+
+                    ViewBag.MerchantTypeName = MerchantType.Description;
+                    ViewBag.RegionName = Region.RegionName;
+                }
             }
             @ViewBag.ReportMonth = ReportMonth;
             @ViewBag.ReportYear = ReportYear;
@@ -669,6 +757,16 @@ namespace WebMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 list = response.Content.ReadAsAsync<MERCHANT_SUMMARY_QUARTERLY>().Result;
+                HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/MERCHANT_TYPE/GetMerchantTypeName?MerchantType={0}", list.MerchantType)).Result;
+                HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/GetRegionName?RegionCode={0}", list.RegionCode)).Result;
+                if (responseMerchantType.IsSuccessStatusCode && responseRegion.IsSuccessStatusCode)
+                {
+                    MERCHANT_TYPE MerchantType = responseMerchantType.Content.ReadAsAsync<MERCHANT_TYPE>().Result;
+                    REGION Region = responseRegion.Content.ReadAsAsync<REGION>().Result;
+
+                    ViewBag.MerchantTypeName = MerchantType.Description;
+                    ViewBag.RegionName = Region.RegionName;
+                }
             }
             @ViewBag.ReportQuarter = ReportQuarter;
             @ViewBag.ReportYear = ReportYear;
@@ -906,6 +1004,16 @@ namespace WebMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 list = response.Content.ReadAsAsync<MERCHANT_SUMMARY_YEARLY>().Result;
+                HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/MERCHANT_TYPE/GetMerchantTypeName?MerchantType={0}", list.MerchantType)).Result;
+                HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/GetRegionName?RegionCode={0}", list.RegionCode)).Result;
+                if (responseMerchantType.IsSuccessStatusCode && responseRegion.IsSuccessStatusCode)
+                {
+                    MERCHANT_TYPE MerchantType = responseMerchantType.Content.ReadAsAsync<MERCHANT_TYPE>().Result;
+                    REGION Region = responseRegion.Content.ReadAsAsync<REGION>().Result;
+
+                    ViewBag.MerchantTypeName = MerchantType.Description;
+                    ViewBag.RegionName = Region.RegionName;
+                }
             }
             @ViewBag.ReportYear = ReportYear;
             @ViewBag.MerchantCode = MerchantCode;
