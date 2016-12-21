@@ -1,3 +1,4 @@
+-- Update 20/12/2016 - Fix not suplied code parameter.
 -- Update 18/12/2016 - adding filter by username
 drop Procedure SP_GetReportData_Monthly 
 go
@@ -32,7 +33,7 @@ Begin
 		 CAST(SUM( AmericanExpressTransactionCount) AS BIGINT) AS  AmericanExpressTransactionCount, SUM( OtherCardAmount) AS  OtherCardAmount, CAST(SUM( OtherCardCount) AS BIGINT) AS  OtherCardCount, 
 		 SUM( OtherCardReturnAmount) AS  OtherCardReturnAmount, CAST(SUM( OtherCardReturnCount) AS BIGINT) AS  OtherCardReturnCount, SUM( OtherCardNetAmount) AS  OtherCardNetAmount,
 		 CAST(SUM( OtherCardTransactionCount) AS BIGINT) AS  OtherCardTransactionCount, RegionCode, MerchantType, 'A' as AgentCode
-		FROM (Select * From MERCHANT_SUMMARY_MONTHLY Where MerchantCode = @code or AgentCode = @code) MERCHANT_SUMMARY_MONTHLY
+		FROM (Select * From MERCHANT_SUMMARY_MONTHLY Where (MerchantCode = @code or AgentCode = @code) or @code = '' or @code is null) MERCHANT_SUMMARY_MONTHLY
 		where (ReportMonth + (ReportYear * 12)) <= @currentDate
 			and (ReportMonth + (ReportYear * 12)) >= @firstDate
 		group by  RegionCode,MerchantType
@@ -74,7 +75,7 @@ Begin
 		 CAST(SUM( AmericanExpressTransactionCount) AS BIGINT) AS  AmericanExpressTransactionCount, SUM( OtherCardAmount) AS  OtherCardAmount, CAST(SUM( OtherCardCount) AS BIGINT) AS  OtherCardCount, 
 		 SUM( OtherCardReturnAmount) AS  OtherCardReturnAmount, CAST(SUM( OtherCardReturnCount) AS BIGINT) AS  OtherCardReturnCount, SUM( OtherCardNetAmount) AS  OtherCardNetAmount,
 		 CAST(SUM( OtherCardTransactionCount) AS BIGINT) AS  OtherCardTransactionCount, RegionCode, MerchantType, 'A' as AgentCode
-		FROM (Select * From MERCHANT_SUMMARY_QUARTERLY Where MerchantCode = @code or AgentCode = @code) MERCHANT_SUMMARY_QUARTERLY
+		FROM (Select * From MERCHANT_SUMMARY_QUARTERLY Where (MerchantCode = @code or AgentCode = @code) or @code = '' or @code is null) MERCHANT_SUMMARY_QUARTERLY
 		where (ReportQuarter + (ReportYear * 4)) <= @currentDate
 		and (ReportQuarter + (ReportYear * 4)) >= @firstDate
 		group by  RegionCode,MerchantType
@@ -109,7 +110,7 @@ Begin
 		 CAST(SUM( AmericanExpressTransactionCount) AS BIGINT) AS  AmericanExpressTransactionCount, SUM( OtherCardAmount) AS  OtherCardAmount, CAST(SUM( OtherCardCount) AS BIGINT) AS  OtherCardCount, 
 		 SUM( OtherCardReturnAmount) AS  OtherCardReturnAmount, CAST(SUM( OtherCardReturnCount) AS BIGINT) AS  OtherCardReturnCount, SUM( OtherCardNetAmount) AS  OtherCardNetAmount,
 		 CAST(SUM( OtherCardTransactionCount) AS BIGINT) AS  OtherCardTransactionCount, RegionCode, MerchantType, 'A' as AgentCode
-		FROM (Select * From MERCHANT_SUMMARY_YEARLY Where MerchantCode = @code or AgentCode = @code) MERCHANT_SUMMARY_YEARLY
+		FROM (Select * From MERCHANT_SUMMARY_YEARLY Where (MerchantCode = @code or AgentCode = @code) or @code = '' or @code is null) MERCHANT_SUMMARY_YEARLY
 		where ReportYear <= @endYear
 		and ReportYear >= @startYear
 		group by  RegionCode,MerchantType
@@ -130,7 +131,7 @@ Begin
 	
 	SELECT ConCat(ReportMonth, '/', ReportYear) as Name,
 		SUM(SaleAmount) AS Value, SUM(ReturnAmount) as ReturnAmount, CAST(SUM(TransactionCount)as BIGINT) as TransactionCount
-	FROM (Select * From MERCHANT_SUMMARY_MONTHLY Where MerchantCode = @code or AgentCode = @code) MERCHANT_SUMMARY_MONTHLY
+	FROM (Select * From MERCHANT_SUMMARY_MONTHLY Where (MerchantCode = @code or AgentCode = @code) or @code = '' or @code is null) MERCHANT_SUMMARY_MONTHLY
 	where (ReportMonth + (ReportYear * 12)) <= @currentDate
 		and (ReportMonth + (ReportYear * 12)) >= @firstDate
 	group by  ReportMonth, ReportYear
@@ -152,7 +153,7 @@ Begin
 
 	SELECT ConCat(ReportQuarter, '/', ReportYear) as Name,
 		SUM(SaleAmount) AS Value, SUM(ReturnAmount) as ReturnAmount, CAST(SUM(TransactionCount)as BIGINT) as TransactionCount
-	FROM (Select * From MERCHANT_SUMMARY_QUARTERLY Where MerchantCode = @code or AgentCode = @code) MERCHANT_SUMMARY_QUARTERLY 
+	FROM (Select * From MERCHANT_SUMMARY_QUARTERLY Where (MerchantCode = @code or AgentCode = @code) or @code = '' or @code is null) MERCHANT_SUMMARY_QUARTERLY 
 	where (ReportQuarter + (ReportYear * 4)) <= @currentDate
 		and (ReportQuarter + (ReportYear * 4)) >= @firstDate
 	group by  ReportQuarter, ReportYear
@@ -168,7 +169,7 @@ As
 Begin
 	SELECT CONVERT(varchar(4), ReportYear) as Name,
 		SUM(SaleAmount) AS Value, SUM(ReturnAmount) as ReturnAmount, CAST(SUM(TransactionCount)as BIGINT) as TransactionCount
-	FROM (Select * From MERCHANT_SUMMARY_YEARLY Where MerchantCode = @code or AgentCode = @code) MERCHANT_SUMMARY_YEARLY 
+	FROM (Select * From MERCHANT_SUMMARY_YEARLY Where (MerchantCode = @code or AgentCode = @code) or @code = '' or @code is null) MERCHANT_SUMMARY_YEARLY 
 	where ReportYear <= @endYear
 		and ReportYear >= @startYear
 	group by  ReportYear

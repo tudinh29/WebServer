@@ -399,7 +399,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<MERCHANT_SUMMARY> GetReportDataMonthly(int startMonth, int startYear, int endMonth, int endYear, string code)
+        public List<MERCHANT_SUMMARY> GetReportDataMonthly(int startMonth, int startYear, int endMonth, int endYear, string code = "")
         {
             object[] paremeter =
                {
@@ -414,7 +414,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<MERCHANT_SUMMARY> GetReportDataQuarterly(int startQuarter, int startYear, int endQuarter, int endYear, string code)
+        public List<MERCHANT_SUMMARY> GetReportDataQuarterly(int startQuarter, int startYear, int endQuarter, int endYear, string code = "")
         {
             object[] paremeter =
                {
@@ -429,7 +429,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<MERCHANT_SUMMARY> GetReportDataYearly(int startYear, int endYear, string code)
+        public List<MERCHANT_SUMMARY> GetReportDataYearly(int startYear, int endYear, string code = "")
         {
             object[] paremeter =
                {
@@ -442,7 +442,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<Models.Statistic> GetReportDateForLineChartMonthly(int startMonth, int startYear, int endMonth, int endYear, string code)
+        public List<Models.Statistic> GetReportDateForLineChartMonthly(int startMonth, int startYear, int endMonth, int endYear, string code = "")
         {
             object[] paremeter =
                {
@@ -457,7 +457,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<Models.Statistic> GetReportDateForLineChartQuarterly(int startQuarter, int startYear, int endQuarter, int endYear, string code)
+        public List<Models.Statistic> GetReportDateForLineChartQuarterly(int startQuarter, int startYear, int endQuarter, int endYear, string code = "")
         {
             object[] paremeter =
                {
@@ -472,7 +472,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<Models.Statistic> GetReportDateForLineChartYearly(int startYear, int endYear, string code)
+        public List<Models.Statistic> GetReportDateForLineChartYearly(int startYear, int endYear, string code = "")
         {
             object[] paremeter =
                {
