@@ -85,9 +85,11 @@ namespace WebMVC.Controllers
                 temp = (USER_INFORMATION)model;
             }
             else return View();
-
-            reportDataAPI += ("&code=" + temp.UserName);
-            reportDateForLineAPI += ("&code=" + temp.UserName);
+            if (temp.UserType != "T")
+            { 
+                reportDataAPI += ("&code=" + temp.UserName);
+                reportDateForLineAPI += ("&code=" + temp.UserName);
+            };
 
             List<MERCHANT_SUMMARY> list = new List<MERCHANT_SUMMARY>();
 
