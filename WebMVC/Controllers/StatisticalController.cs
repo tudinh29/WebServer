@@ -423,7 +423,7 @@ namespace WebMVC.Controllers
 
             if (temp.UserType == "A")
             {
-                string query = "select count(1) from MERCHANT_SUMMARY_YEARLY M where M.MerchantCode = '" + MerchantCode + "' and M.AgentCode = '" + temp.UserName + "'";
+                string query = "select count(1) from MERCHANT_SUMMARY_MONTHLY M where M.MerchantCode = '" + MerchantCode + "' and M.AgentCode = '" + temp.UserName + "'";
                 HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountFilter?query={0}", query)).Result;
                 if (response2.IsSuccessStatusCode)
                 {
@@ -663,7 +663,7 @@ namespace WebMVC.Controllers
 
             if (temp.UserType == "A")
             {
-                string query = "select count(1) from MERCHANT_SUMMARY_YEARLY M where M.MerchantCode = '" + MerchantCode + "' and M.AgentCode = '" + temp.UserName + "'";
+                string query = "select count(1) from MERCHANT_SUMMARY_QUARTERLY M where M.MerchantCode = '" + MerchantCode + "' and M.AgentCode = '" + temp.UserName + "'";
                 HttpResponseMessage response2 = client.GetAsync(string.Format("api/Statistical/CountFilter?query={0}", query)).Result;
                 if (response2.IsSuccessStatusCode)
                 {
