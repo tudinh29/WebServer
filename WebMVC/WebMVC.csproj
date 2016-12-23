@@ -1041,6 +1041,7 @@
     <Content Include="Views\Statistical\ViewDetailMonth.cshtml" />
     <Content Include="Views\Statistical\ViewDetailQuarter.cshtml" />
     <Content Include="Views\Statistical\Quarter.cshtml" />
+    <Content Include="Views\Statistical\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

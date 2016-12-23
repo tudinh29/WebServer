@@ -9,7 +9,13 @@
     @ViewBag.ReportYear - @ViewBag.MerchantCode
 }
 
-<table class="table table-striped table-bordered table-hover">
+@if (Model == null)
+{
+    <h3>Không tìm thấy dữ liệu nào.</h3>
+}
+else
+{
+    <table class="table table-striped table-bordered table-hover">
     <tbody>
         <tr>
             <th>Report Month</th>
@@ -253,8 +259,9 @@
         </tr>
     </tbody>
 </table>
+}
 
 <div>
-    @Html.ActionLink("Back to List", "Month")
+    @Html.ActionLink("Back to Month", "Month")
 </div>
 
