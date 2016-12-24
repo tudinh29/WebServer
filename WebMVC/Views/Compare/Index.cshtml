@@ -6,7 +6,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var lineChartData = ViewBag.lineChartData as List<Statistic>;
-    var lineChartData1 = ViewBag.lineChartData as List<Statistic>;
+
     string m1 = ViewBag.Month1;
     string m2 = ViewBag.Month2;
     string y1 = ViewBag.Year1;
@@ -14,7 +14,8 @@
     string q1 = ViewBag.Quarter1;
     string q2 = ViewBag.Quarter2;
     string reportType = ViewBag.reportType;
-   
+    var ds = ViewBag.ds as List<Statistic>;
+
 }
 
 <form id="mainform" action="http://localhost:21231/Compare" method="POST">
@@ -26,289 +27,289 @@
     <input name="reportStartQuarter" id="reportStartQuarter" style="display:none" type="text">
     <input name="reportEndQuarter" id="reportEndQuarter" style="display:none" type="text">
 
-    
-@if (reportType.IsEmpty() || reportType == "month")
-{
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#compare-month">Month</a></li>
-        <li><a data-toggle="tab" href="#compare-quarter">Quarter</a></li>
-        <li><a data-toggle="tab" href="#compare-year">Year</a></li>
-    </ul>
-    <div class="tab-content">
-        
-        <div id="compare-month" class="tab-pane fade in active">
-            <br />
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <input class="form-control" value="@ViewBag.startMonth" id="startMonth" type="text" placeholder="Start Month">
+
+    @if (reportType.IsEmpty() || reportType == "month")
+    {
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#compare-month">Month</a></li>
+            <li><a data-toggle="tab" href="#compare-quarter">Quarter</a></li>
+            <li><a data-toggle="tab" href="#compare-year">Year</a></li>
+        </ul>
+        <div class="tab-content">
+
+            <div id="compare-month" class="tab-pane fade in active">
+                <br />
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input class="form-control" value="@ViewBag.startMonth" id="startMonth" type="text" placeholder="Start Month">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control" value="@ViewBag.endMonth" id="endMonth" placeholder="End Month" type="text">
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="btn btn-success" value="View" id="viewMonth" type="button">
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <input class="form-control" value="@ViewBag.endMonth" id="endMonth" placeholder="End Month" type="text">
-                </div>
-                <div class="col-sm-4">
-                    <input class="btn btn-success" value="View" id="viewMonth" type="button">
-                </div>
+                <br />
             </div>
-            <br />
-        </div>
-        <div id="compare-quarter" class="tab-pane fade">
-            <br />
-            <div class="col">
-                <div class="row-sm-4">
-                    <div class="form-group">
-                        <select id="startQuarter" class="form-control">
+            <div id="compare-quarter" class="tab-pane fade">
+                <br />
+                <div class="col">
+                    <div class="row-sm-4">
+                        <div class="form-group">
+                            <select id="startQuarter" class="form-control">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <input class="form-control" value="" id="startQuarterYear" placeholder="Start Quarter" type="text">
+                        </div>
+                    </div>
+                    <div class="row-sm-4">
+                        <select id="endQuarter" class="form-control">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
                         </select>
-                        <input class="form-control" value="" id="startQuarterYear" placeholder="Start Quarter" type="text">
+                        <input class="form-control" value="" id="endQuarterYear" placeholder="End Quarter" type="text">
+                    </div>
+                    <div class="row-sm-4">
+                        <input class="btn btn-success" value="View" id="viewQuarter" type="button">
                     </div>
                 </div>
-                <div class="row-sm-4">
-                    <select id="endQuarter" class="form-control">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                    <input class="form-control" value="" id="endQuarterYear" placeholder="End Quarter" type="text">
-                </div>
-                <div class="row-sm-4">
-                    <input class="btn btn-success" value="View" id="viewQuarter" type="button">
-                </div>
+                <br />
             </div>
-            <br />
-        </div>
-        <div id="compare-year" class="tab-pane fade">
-            <br />
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <input class="form-control" value="" id="startYear" placeholder="Start Year" type="text">
+            <div id="compare-year" class="tab-pane fade">
+                <br />
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input class="form-control" value="" id="startYear" placeholder="Start Year" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control" value="" id="endYear" placeholder="End Year" type="text">
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="btn btn-success" value="View" id="viewYear" type="button">
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <input class="form-control" value="" id="endYear" placeholder="End Year" type="text">
-                </div>
-                <div class="col-sm-4">
-                    <input class="btn btn-success" value="View" id="viewYear" type="button">
-                </div>
+                <br />
             </div>
-            <br />
         </div>
-    </div>
-}
-else
-{
-      if(reportType == "quarter")
-      {
-        <ul class="nav nav-tabs">
-            <li><a data-toggle="tab" href="#compare-month">Month</a></li>
-            <li class="active"><a data-toggle="tab" href="#compare-quarter">Quarter</a></li>
-            <li><a data-toggle="tab" href="#compare-year">Year</a></li>
-        </ul>
-    <div class="tab-content">
-          <div id="compare-month" class="tab-pane fade">
-            <br />
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <input class="form-control" value="" id="startMonth" type="text" placeholder="Start Month">
+    }
+    else
+    {
+        if (reportType == "quarter")
+        {
+            <ul class="nav nav-tabs">
+                <li><a data-toggle="tab" href="#compare-month">Month</a></li>
+                <li class="active"><a data-toggle="tab" href="#compare-quarter">Quarter</a></li>
+                <li><a data-toggle="tab" href="#compare-year">Year</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="compare-month" class="tab-pane fade">
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" value="" id="startMonth" type="text" placeholder="Start Month">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="form-control" value="" id="endMonth" placeholder="End Month" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="btn btn-success" value="View" id="viewMonth" type="button">
+                        </div>
                     </div>
+                    <br />
                 </div>
-                <div class="col-sm-4">
-                    <input class="form-control" value="" id="endMonth" placeholder="End Month" type="text">
+                <div id="compare-quarter" class="tab-pane fade in active">
+                    <br />
+                    <div class="col">
+                        <div class="row-sm-4">
+                            <div class="form-group">
+                                <select id="startQuarter" class="form-control">
+                                    @if (q1 == "1")
+                                    {
+                                        <option value="1" selected="selected">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    }
+                                    @if (q1 == "2")
+                                    {
+                                        <option value="1">1</option>
+                                        <option value="2" selected="selected">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    }
+                                    @if (q1 == "3")
+                                    {
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3" selected="selected">3</option>
+                                        <option value="4">4</option>
+                                    }
+                                    @if (q1 == "4")
+                                    {
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4" selected="selected">4</option>
+                                    }
+
+                                </select>
+                                <input class="form-control" value="@ViewBag.Year1" id="startQuarterYear" placeholder="Start Quarter" type="text">
+                            </div>
+                        </div>
+                        <div class="row-sm-4">
+                            <select id="endQuarter" class="form-control">
+                                @if (q2 == "1")
+                                {
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                }
+                                @if (q2 == "2")
+                                {
+                                    <option value="1">1</option>
+                                    <option value="2" selected="selected">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                }
+                                @if (q2 == "3")
+                                {
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3" selected="selected">3</option>
+                                    <option value="4">4</option>
+                                }
+                                @if (q2 == "4")
+                                {
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4" selected="selected">4</option>
+                                }
+
+                            </select>
+                            <input class="form-control" value="@ViewBag.Year2" id="endQuarterYear" placeholder="End Quarter" type="text">
+                        </div>
+                        <div class="row-sm-4">
+                            <input class="btn btn-success" value="View" id="viewQuarter" type="button">
+                        </div>
+                    </div>
+                    <br />
                 </div>
-                <div class="col-sm-4">
-                    <input class="btn btn-success" value="View" id="viewMonth" type="button">
+                <div id="compare-year" class="tab-pane fade">
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" value="" id="startYear" placeholder="Start Year" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="form-control" value="" id="endYear" placeholder="End Year" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="btn btn-success" value="View" id="viewYear" type="button">
+                        </div>
+                    </div>
+                    <br />
                 </div>
             </div>
-            <br />
-        </div>
-    <div id="compare-quarter" class="tab-pane fade in active">
-        <br />
-        <div class="col">
-            <div class="row-sm-4">
-                <div class="form-group">
-                    <select id="startQuarter" class="form-control">
-                        @if (q1 == "1")
-                            {
-                                <option value="1" selected="selected">1</option>
+
+        }
+        else
+        {
+            <ul class="nav nav-tabs">
+                <li><a data-toggle="tab" href="#compare-month">Month</a></li>
+                <li class="active"><a data-toggle="tab" href="#compare-quarter">Quarter</a></li>
+                <li><a data-toggle="tab" href="#compare-year">Year</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="compare-month" class="tab-pane fade">
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" value="" id="startMonth" type="text" placeholder="Start Month">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="form-control" value="" id="endMonth" placeholder="End Month" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="btn btn-success" value="View" id="viewMonth" type="button">
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div id="compare-quarter" class="tab-pane fade">
+                    <br />
+                    <div class="col">
+                        <div class="row-sm-4">
+                            <div class="form-group">
+                                <select id="startQuarter" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                                <input class="form-control" value="" id="startQuarterYear" placeholder="Start Quarter" type="text">
+                            </div>
+                        </div>
+                        <div class="row-sm-4">
+                            <select id="endQuarter" class="form-control">
+                                <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
-                            }
-                        @if (q1 == "2")
-                            {
-                                <option value="1">1</option>
-                                <option value="2" selected="selected">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            }
-                        @if (q1 == "3")
-                        {
-                            <option value="1" >1</option>
-                            <option value="2">2</option>
-                            <option value="3" selected="selected">3</option>
-                            <option value="4">4</option>
-                        }
-                        @if (q1 == "4")
-                        {
-                            <option value="1">1</option>
-                            <option value="2" >2</option>
-                            <option value="3">3</option>
-                            <option value="4" selected="selected">4</option>
-                        }
-                        
-                    </select>
-                    <input class="form-control" value="@ViewBag.Year1" id="startQuarterYear" placeholder="Start Quarter" type="text">
-                </div>
-            </div>
-            <div class="row-sm-4">
-                <select id="endQuarter" class="form-control">
-                    @if (q2 == "1")
-                    {
-                        <option value="1" selected="selected">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    }
-                    @if (q2 == "2")
-                    {
-                        <option value="1">1</option>
-                        <option value="2" selected="selected">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    }
-                    @if (q2 == "3")
-                    {
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3" selected="selected">3</option>
-                        <option value="4">4</option>
-                    }
-                    @if (q2 == "4")
-                    {
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4" selected="selected">4</option>
-                    }
-
-                </select>
-                <input class="form-control" value="@ViewBag.Year2" id="endQuarterYear" placeholder="End Quarter" type="text">
-            </div>
-            <div class="row-sm-4">
-                <input class="btn btn-success" value="View" id="viewQuarter" type="button">
-            </div>
-        </div>
-        <br />
-    </div>
-        <div id="compare-year" class="tab-pane fade">
-            <br />
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <input class="form-control" value="" id="startYear" placeholder="Start Year" type="text">
+                            </select>
+                            <input class="form-control" value="" id="endQuarterYear" placeholder="End Quarter" type="text">
+                        </div>
+                        <div class="row-sm-4">
+                            <input class="btn btn-success" value="View" id="viewQuarter" type="button">
+                        </div>
                     </div>
+                    <br />
                 </div>
-                <div class="col-sm-4">
-                    <input class="form-control" value="" id="endYear" placeholder="End Year" type="text">
-                </div>
-                <div class="col-sm-4">
-                    <input class="btn btn-success" value="View" id="viewYear" type="button">
-                </div>
-            </div>
-            <br />
-        </div>
-        </div>
-    
-      }
-else
-      {
-          <ul class="nav nav-tabs">
-            <li><a data-toggle="tab" href="#compare-month">Month</a></li>
-            <li class="active"><a data-toggle="tab" href="#compare-quarter">Quarter</a></li>
-            <li><a data-toggle="tab" href="#compare-year">Year</a></li>
-          </ul>
-    <div class="tab-content">
-          <div id="compare-month" class="tab-pane fade">
-            <br />
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <input class="form-control" value="" id="startMonth" type="text" placeholder="Start Month">
+                <div id="compare-year" class="tab-pane fade in active">
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.Year1" id="startYear" placeholder="Start Year" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="form-control" value="@ViewBag.Year2" id="endYear" placeholder="End Year" type="text">
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="btn btn-success" value="View" id="viewYear" type="button">
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-4">
-                    <input class="form-control" value="" id="endMonth" placeholder="End Month" type="text">
-                </div>
-                <div class="col-sm-4">
-                    <input class="btn btn-success" value="View" id="viewMonth" type="button">
+                    <br />
                 </div>
             </div>
-            <br />
-        </div>
-    <div id="compare-quarter" class="tab-pane fade">
-        <br />
-        <div class="col">
-            <div class="row-sm-4">
-                <div class="form-group">
-                    <select id="startQuarter" class="form-control">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                    <input class="form-control" value="" id="startQuarterYear" placeholder="Start Quarter" type="text">
-                </div>
-            </div>
-            <div class="row-sm-4">
-                <select id="endQuarter" class="form-control">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-                <input class="form-control" value="" id="endQuarterYear" placeholder="End Quarter" type="text">
-            </div>
-            <div class="row-sm-4">
-                <input class="btn btn-success" value="View" id="viewQuarter" type="button">
-            </div>
-        </div>
-        <br />
-    </div>
-    <div id="compare-year" class="tab-pane fade in active">
-        <br />
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <input class="form-control" value="@ViewBag.Year1" id="startYear" placeholder="Start Year" type="text">
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <input class="form-control" value="@ViewBag.Year2" id="endYear" placeholder="End Year" type="text">
-            </div>
-            <div class="col-sm-4">
-                <input class="btn btn-success" value="View" id="viewYear" type="button">
-            </div>
-        </div>
-        <br />
-    </div>
-    </div>
-      }
-}
+        }
+    }
 
-    
+
 </form>
 
-    @section header{
-        <i class="fa fa-bar-chart-o"></i> Compare
+@section header{
+    <i class="fa fa-bar-chart-o"></i> Compare
 
-    }
+}
 
 <link href="~/Assets/css/myStyle.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/Assets/css/datepicker.css">
@@ -319,7 +320,12 @@ else
 <script src="~/Assets/js/moment.js"></script>
 <script src="~/Assets/js/MyCustomJS.js"></script>
 
-    <div class="row">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
+@*@if (lineChartData.Count != 0)
+    {*@
+<div class="row">
     <div class="col-lg-4" style="width:60%">
         <div class="panel panel-red">
             <div class="panel-heading">
@@ -334,6 +340,64 @@ else
         </div>
     </div>
 
+
+    <div id="legend">
+        <div class="col-sm-offset-8">
+            @foreach (Statistic item in ds)
+            {
+                <table class="table table-hover">
+
+                    <tr class="bg-info">
+
+
+                        @if (item.Name == ds.Last().Name)
+                        {
+                            if (reportType == "month")
+                            {
+                                <td>Tháng: @item.Name </td>
+                            }
+                            else
+                            {
+                                if (reportType == "quarter")
+                                {
+                                    <td>Quý: @item.Name </td>
+                                }
+                                else
+                                {
+                                    <td>Năm: @item.Name </td>
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            if (reportType == "month")
+                            {
+                                <td>Ngày: @item.Name </td>
+                            }
+                            else
+                            {
+                                <td>Tháng: @item.Name </td>
+                            }
+                        }
+                        @if (item.Value > 0)
+                        {
+                            <td>Tăng: @item.Value %</td>
+                        }
+                        else
+                        {
+                            <td>Giảm: @(-item.Value) %</td>
+                        }
+                    </tr>
+
+
+                </table>
+            }
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row">
     <div class="col-lg-4" style="width:60%">
         <div class="panel panel-red">
             <div class="panel-heading">
@@ -347,9 +411,67 @@ else
             </div>
         </div>
     </div>
-</div>
+    <div class="col-sm-offset-8">
+        @foreach (Statistic item in ds)
+        {
 
-  
+            <table class="table table-hover">
+
+                <tr class="bg-danger">
+                    @if (item.Name == ds.Last().Name)
+                    {
+                        if (reportType == "month")
+                        {
+                            <td>Tháng: @item.Name </td>
+                        }
+                        else
+                        {
+                            if (reportType == "quarter")
+                            {
+                                <td>Quý: @item.Name </td>
+                            }
+                            else
+                            {
+                                <td>Năm: @item.Name </td>
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if (reportType == "month")
+                        {
+                            <td>Ngày: @item.Name </td>
+                        }
+                        else
+                        {
+                            <td>Tháng: @item.Name </td>
+                        }
+                    }
+                    @if (item.Value > 0)
+                    {
+                        <td>Tăng: @item.Value %</td>
+                    }
+                    else
+                    {
+                        <td>Giảm: @(-item.Value) %</td>
+                    }
+                </tr>
+
+
+            </table>
+        }
+    </div>
+</div>
+@*}
+    else
+    {
+        <center><h2>Không tìm thấy dữ liệu</h2></center>
+
+    }*@
+
+
+
 
 
 
@@ -370,27 +492,21 @@ else
             int vt = 0;
             string truchoanh = String.Empty;
             string thang = String.Empty;
-           // if (reportType == "month")
+
             {
                 foreach (Statistic item in lineChartData)
                 {
                     truchoanh = item.Name;
+
                     if (reportType == "month")
                     {
-                        //if(name.IsEmpty())
-                        //{
-                        //    date1 = String.Format("{0}/{1}/{2}", item.Name, m1, y1);
-                        //}
-                        //else
-                        //{
-                        //    date1 = String.Format("{0}/{1}/{2}", name, m1, y1);
-                        //}
+
                         date1 = String.Format("{0}/{1}/{2}", name, m1, y1);
                         date2 = item.Name +"/"+ y2;
                         vt = item.Name.IndexOf('/');
                         truchoanh = truchoanh.Substring(0,vt);
                         t = int.Parse(item.Name.Substring(vt + 1, (item.Name.Length - vt - 1)));
-                        //t = int.Parse(thang.Trim());
+
                         item.Name = truchoanh;
                         if(name.IsEmpty())
                         {
@@ -415,10 +531,10 @@ else
                             vt = item.Name.IndexOf('-');
                             t = int.Parse(item.Name.Substring(2, 1));
                             item.Name = item.Name.Substring(0, vt);
-                            
+
                             if(name.IsEmpty())
                             {
-                                
+
                                 date1 = item.Name + "/"+ y1;
                                 date2 = int.Parse(item.Name.ToString()) + Math.Abs(quy2 - quy1) * 3 + "/" + y2;
                             }
@@ -434,27 +550,11 @@ else
                                     date2 = item.Name.ToString() + "/" + y2;
                                     date1 = int.Parse(name) + Math.Abs(quy2 - quy1) * 3 + "/" + y1;
                                 }
-                                //if (month == quy2 && quy1 > quy2)
-                                //{
-                                //    date1 = int.Parse(item.Name.ToString()) + Math.Abs(quy2 - quy1) * 3 + "/" + y1;
-                                //    date2 = name + "/" + y2;
-                                //}
 
-                                //if (month == quy2 && quy1 < quy2)
-                                //{
-                                //    date1 = item.Name.ToString() + "/" + y1;
-                                //    date2 = int.Parse(name) + Math.Abs(quy2 - quy1) * 3 + "/" + y2;
-                                //}
-                                   
-                                
-                                    
-                               
-                                
-                                
                             }
 
 
-                            
+
                             t = int.Parse(item.Name.ToString());
                             if(t % 3 == 0)
                             {
@@ -473,7 +573,7 @@ else
                             }
                         }
                         else
-                        { 
+                        {
                             if(int.Parse(y1) < int.Parse(y2))
                             {
                                 date1 = name + "/" + y1;
@@ -484,15 +584,15 @@ else
                                 date2 = name + "/" + y2;
                                 date1 = item.Name;
                             }
-                           
+
                             vt = item.Name.IndexOf('/');
                             truchoanh = truchoanh.Substring(0, vt);
                             t = int.Parse(item.Name.Substring(vt + 1, (item.Name.Length - vt - 1)));
                             item.Name = truchoanh;
                         }
-                        
+
                     }
-                
+
                     if (item.Name == null)
                     {
                         item.Name = "Khác";
@@ -509,7 +609,7 @@ else
                         }
                         else
                         {
-                            //LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6},d1: \"{7}\", d2:\"{8}\"},".Replace("{0}", name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString()).Replace("{4}", "0").Replace("{5}", "0").Replace("{6}", "0").Replace("{7}", date1).Replace("{8}", date2);
+
                             if (reportType == "quarter")
                             {
                                 if (month == int.Parse(q1))
@@ -545,8 +645,8 @@ else
                                         LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", item.Name).Replace("{1}", "0").Replace("{2}", "0").Replace("{3}", "0").Replace("{4}", item.Value.ToString()).Replace("{5}", item.ReturnAmount.ToString()).Replace("{6}", item.TransactionCount.ToString()).Replace("{7}", date1).Replace("{8}", date2);
                                     }
                                 }
-                           
-                                
+
+
                             }
                         }
 
@@ -568,7 +668,7 @@ else
                                 }
                             }
                             else
-                            {  
+                            {
                                 if(reportType == "month")
                                 {
                                     if (month == int.Parse(m1) )
@@ -591,9 +691,9 @@ else
                                         LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\"},".Replace("{0}", name).Replace("{1}", "0").Replace("{2}", "0").Replace("{3}", "0").Replace("{4}", value).Replace("{5}", sreturn).Replace("{6}", scount).Replace("{7}", date1).Replace("{8}", date2);
                                     }
                                 }
-                                
+
                             }
-                            
+
                             date2 = date2.Replace(name + "/", item.Name.ToString() + "/");
                             date1 = date1.Replace(name + "/", item.Name.ToString() + "/");
                             name = item.Name;
@@ -601,60 +701,60 @@ else
                             sreturn = item.ReturnAmount.ToString();
                             scount = item.TransactionCount.ToString();
                             month = t;
-                           
+
                         }
                         else
                         {
                             if(reportType == "quarter")
                             {
-                                //date2 = date2.Replace(item.Name.ToString() + "/", name + "/");
-                                if (month == int.Parse(q1))
-                                {
+
+                                //if (month == int.Parse(q1))
+                                //{
                                     LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", truchoanh).Replace("{1}", value).Replace("{2}", sreturn).Replace("{3}", scount).Replace("{4}", item.Value.ToString()).Replace("{5}", item.ReturnAmount.ToString()).Replace("{6}", item.TransactionCount.ToString()).Replace("{7}", date1).Replace("{8}", date2);
-                                }
-                                else
-                                {
-                                    LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", truchoanh).Replace("{1}", item.Value.ToString()).Replace("{2}", item.Name.ToString()).Replace("{3}", item.TransactionCount.ToString()).Replace("{4}", value).Replace("{5}", sreturn).Replace("{6}", scount).Replace("{7}", date1).Replace("{8}", date2);
-                                }
+                                //}
+                                //else
+                                //{
+                                //    LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", truchoanh).Replace("{1}", item.Value.ToString()).Replace("{2}", item.Name.ToString()).Replace("{3}", item.TransactionCount.ToString()).Replace("{4}", value).Replace("{5}", sreturn).Replace("{6}", scount).Replace("{7}", date1).Replace("{8}", date2);
+                                //}
                             }
                             else
                             {
-                               
+
                                 if(reportType== "month")
                                 {
-                                    if ( month == int.Parse(y1))
-                                    {
+                                    //if ( month == int.Parse(y1))
+                                    //{
                                         LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", name).Replace("{1}", value).Replace("{2}", sreturn).Replace("{3}", scount).Replace("{4}", item.Value.ToString()).Replace("{5}", item.ReturnAmount.ToString()).Replace("{6}", item.TransactionCount.ToString()).Replace("{7}", date1).Replace("{8}", date2);
-                                    }
-                                    else
-                                    {
-                                        LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString()).Replace("{4}", value).Replace("{5}", sreturn).Replace("{6}", scount).Replace("{7}", date1).Replace("{8}", date2);
-                                    }
+                                    //}
+                                    //else
+                                    //{
+                                    //    LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString()).Replace("{4}", value).Replace("{5}", sreturn).Replace("{6}", scount).Replace("{7}", date1).Replace("{8}", date2);
+                                    //}
                                 }
                                 else
                                 {
-                                    if (month == int.Parse(y1))
-                                    {
+                                    //if (month == int.Parse(y1))
+                                    //{
                                         LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", name).Replace("{1}", value).Replace("{2}", sreturn).Replace("{3}", scount).Replace("{4}", item.Value.ToString()).Replace("{5}", item.ReturnAmount.ToString()).Replace("{6}", item.TransactionCount.ToString()).Replace("{7}", date1).Replace("{8}", date2);
-                                    }
-                                    else
-                                    {
-                                        LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString()).Replace("{4}", value).Replace("{5}", sreturn).Replace("{6}", scount).Replace("{7}", date1).Replace("{8}", date2);
-                                    }
+                                    //}
+                                    //else
+                                    //{
+                                    //    LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString()).Replace("{4}", value).Replace("{5}", sreturn).Replace("{6}", scount).Replace("{7}", date1).Replace("{8}", date2);
+                                    //}
                                 }
-                                
-                               
-                                
-                                
+
+
+
+
                             }
                             name = String.Empty;
-                            
+
                         }
 
                     }
-                
+
                     i = i + 1;
-                
+
                 }
                 if(!name.IsEmpty())
                 {
@@ -692,339 +792,311 @@ else
                             {
                                 LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\"},".Replace("{0}", name).Replace("{1}", "0").Replace("{2}", "0").Replace("{3}", "0").Replace("{4}", value).Replace("{5}", sreturn).Replace("{6}", scount).Replace("{7}", date1).Replace("{8}", date2);
                             }
-                            
+
                         }
-                        
+
                     }
-                    
+
                 }
-                
-            
+
+
             }
-            /*else
-            {
-                if (reportType == "quarter")
-                {
-                    date1 = q1 + y1;
-                    date2 = q2 + y2;
-                    foreach (Statistic item in lineChartData)
-                    {
-                        
-                        int quy1 = int.Parse(q1);
-                        int quy2 = int.Parse(q2);
-                        if (item.Name == null)
-                        {
-                            item.Name = "Khác";
-                        }
-                        if (item.Name == (quy1 * 3).ToString() || item.Name == (quy1 * 3 - 1).ToString() || item.Name == (quy1 * 3 - 2).ToString())
-                        {
-                            LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6},d1: {7}, d2:{8}},".Replace("{0}", "Quy").Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString()).Replace("{4}", "0").Replace("{5}", "0").Replace("{6}", "0").Replace("{7}", date1).Replace("{8}", date2);
-                        }
-                        if (item.Name == (quy2 * 3).ToString() || item.Name == (quy2 * 3 - 1).ToString() || item.Name == (quy2 * 3 - 2).ToString())
-                        {
-                            LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6},d1: {7}, d2:{8}},".Replace("{0}", "Quy").Replace("{1}", "0").Replace("{2}", "0").Replace("{3}", "0").Replace("{4}", item.Value.ToString()).Replace("{5}", item.ReturnAmount.ToString()).Replace("{6}", item.TransactionCount.ToString()).Replace("{7}", date1).Replace("{8}", date2);
-                        }
-                    }
-                
-                }
-            }*/
-            
+
+
 
         }
 
-        Morris.Line({
+        var chart = Morris.Line({
             // ID of the element in which to draw the chart.
             element: 'morris-line-chart',
             // Chart data records -- each entry in this array corresponds to a point on
             // the chart.
             data: [@Html.Raw(LineData)],
-           // data: [{sales: LineData, sales1: LineData1}],
-                //data: [{sales: '1000', sales1: '3000'}],
-                //data: [(LineData, LineData1)],
-                // The name of the data record attribute that contains x-visitss.
-                xkey: 'd',
-                // A list of names of data record attributes that contain y-visitss.
-                ykeys: ['sales', 'sales1'],
-                // Labels for the ykeys -- will be displayed when you hover over the
-                // chart.
-                labels: ['Sale amount', 'Sale amount'],
 
-                // Disables line smoothing
-                smooth: false,
-                resize: true,
-                parseTime: false,
-                lineColors: ['#F5ABB0', 'blue'],
-                pointFillColors: ['#FF3300', 'blue'],
-                hoverCallback: function (index, options, content) {
-                    var data = options.data[index];
-                    content = "<div class='morris-hover-row-label'>" + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Date: " + data.d1 + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Sale Amount: $" + data.sales + "</div><div class='morris-hover-point' style='color: blue'>Date: " + data.d2 + "</div><div class='morris-hover-point' style='color: blue'>Sale Amount: $" + data.sales1 + "</div>"
-                    return content
-                },
-            });
+            // The name of the data record attribute that contains x-visitss.
+            xkey: 'd',
+            // A list of names of data record attributes that contain y-visitss.
+            ykeys: ['sales', 'sales1'],
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            labels: ['Sale amount', 'Sale amount'],
 
-            Morris.Line({
-                // ID of the element in which to draw the chart.
-                element: 'line-chart',
-                // Chart data records -- each entry in this array corresponds to a point on
-                // the chart.
-                data: [@Html.Raw(LineData)],
-                //data: [(LineData, LineData1)],
-                // The name of the data record attribute that contains x-visitss.
-                xkey: 'd',
-                // A list of names of data record attributes that contain y-visitss.
-                ykeys: ['returns', 'returns1'],
-                // Labels for the ykeys -- will be displayed when you hover over the
-                // chart.
-                labels: ['Return amount', 'Return amount'],
-
-                // Disables line smoothing
-                smooth: false,
-                resize: true,
-                parseTime: false,
-                lineColors: ['#F5ABB0', 'blue'],
-                pointFillColors: ['#FF3300', 'blue'],
-                hoverCallback: function (index, options, content) {
-                    var data = options.data[index];
-                    content = "<div class='morris-hover-row-label'>" + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Date: " + data.d1 + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Return Amount: $" + data.returns + "</div><div class='morris-hover-point' style='color: blue'>Date: " + data.d2 + "</div><div class='morris-hover-point' style='color: blue'>Return Amount: $" + data.returns1 + "</div>"
-                    return content
-                },
-            });
-
-
-
-
+            // Disables line smoothing
+            smooth: false,
+            resize: true,
+            parseTime: false,
+            lineColors: ['#F5ABB0', 'blue'],
+            pointFillColors: ['#FF3300', 'blue'],
+            hoverCallback: function (index, options, content) {
+                var data = options.data[index];
+                content = "<div class='morris-hover-row-label'>" + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Date: " + data.d1 + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Sale Amount: $" + data.sales + "</div><div class='morris-hover-point' style='color: blue'>Date: " + data.d2 + "</div><div class='morris-hover-point' style='color: blue'>Sale Amount: $" + data.sales1 + "</div>"
+                return content
+            },
         });
+
+
+        Morris.Line({
+            // ID of the element in which to draw the chart.
+            element: 'line-chart',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
+            data: [@Html.Raw(LineData)],
+            //data: [(LineData, LineData1)],
+            // The name of the data record attribute that contains x-visitss.
+            xkey: 'd',
+            // A list of names of data record attributes that contain y-visitss.
+            ykeys: ['returns', 'returns1'],
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            labels: ['Return amount', 'Return amount'],
+
+            // Disables line smoothing
+            smooth: false,
+            resize: true,
+            parseTime: false,
+            lineColors: ['#F5ABB0', 'blue'],
+            pointFillColors: ['#FF3300', 'blue'],
+            hoverCallback: function (index, options, content) {
+                var data = options.data[index];
+                content = "<div class='morris-hover-row-label'>" + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Date: " + data.d1 + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Return Amount: $" + data.returns + "</div><div class='morris-hover-point' style='color: blue'>Date: " + data.d2 + "</div><div class='morris-hover-point' style='color: blue'>Return Amount: $" + data.returns1 + "</div>"
+                return content
+            },
+        });
+
+
+
+
+    });
 
 </script>
 
 
 
-    <script type="text/javascript">
-        // When the document is ready
-        $(document).ready(function () {
+<script type="text/javascript">
+    // When the document is ready
+    $(document).ready(function () {
 
-            $('#example1').datepicker({
-                format: "mm/yyyy",
-                viewMode: "months",
-                minViewMode: "months"
-            });
-
-
-
-
-            var nowTemp = new Date();
-            var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-
-            var startDay = $('#startDay').datepicker({
-                format: "dd/mm/yyyy"
-            }).on('changeDate', function (ev) {
-                if (ev.date.valueOf() > endDay.date.valueOf()) {
-                    var newDate = new Date(ev.date)
-                    newDate.setDate(newDate.getDate() + 1);
-                    endDay.setValue(newDate);
-                }
-                startDay.hide();
-                $('#endDay')[0].focus();
-            }).data('datepicker');
-
-            var endDay = $('#endDay').datepicker({
-                format: "dd/mm/yyyy",
-                onRender: function (date) {
-
-                }
-            }).on('changeDate', function (ev) {
-                endDay.hide();
-            }).data('datepicker');
-
-            //Month
-            var startMonth = $('#startMonth').datepicker({
-                format: "mm/yyyy",
-                viewMode: "months",
-                minViewMode: "months",
-                onRender: function (date) {
-                    return date.valueOf() < now.valueOf() ? 'disabled' : '';
-                }
-            }).on('changeDate', function (ev) {
-                if (ev.date.valueOf() > endMonth.date.valueOf()) {
-                    var newDate = new Date(ev.date)
-                    newDate.setDate(newDate.getDate() + 1);
-                    endMonth.setValue(newDate);
-                }
-                startMonth.hide();
-                $('#endMonth')[0].focus();
-            }).data('datepicker');
-
-            var endMonth = $('#endMonth').datepicker({
-                format: "mm/yyyy",
-                viewMode: "months",
-                minViewMode: "months",
-                onRender: function (date) {
-                    return date.valueOf() <= startMonth.date.valueOf() ? 'disabled' : '';
-                }
-            }).on('changeDate', function (ev) {
-                endMonth.hide();
-            }).data('datepicker');
-
-            //Year
-            var startYear = $('#startYear').datepicker({
-                format: " yyyy",
-                viewMode: "years",
-                minViewMode: "years",
-                onRender: function (date) {
-                    return date.valueOf() < now.valueOf() ? 'disabled' : '';
-                }
-            }).on('changeDate', function (ev) {
-                if (ev.date.valueOf() > endYear.date.valueOf()) {
-                    var newDate = new Date(ev.date)
-                    newDate.setDate(newDate.getDate() + 1);
-                    endYear.setValue(newDate);
-                }
-                startYear.hide();
-                $('#endYear')[0].focus();
-            }).data('datepicker');
-
-            var endYear = $('#endYear').datepicker({
-                format: " yyyy",
-                viewMode: "years",
-                minViewMode: "years",
-                onRender: function (date) {
-                    return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
-                }
-            }).on('changeDate', function (ev) {
-                endYear.hide();
-            }).data('datepicker');
-
-            //Quarter
-            var startQuarter = $('#startQuarterYear').datepicker({
-                format: " yyyy",
-                viewMode: "years",
-                minViewMode: "years",
-                onRender: function (date) {
-                    return date.valueOf() < now.valueOf() ? 'disabled' : '';
-                }
-            }).on('changeDate', function (ev) {
-                if (ev.date.valueOf() > endYear.date.valueOf()) {
-                    var newDate = new Date(ev.date)
-                    newDate.setDate(newDate.getDate() + 1);
-                    endYear.setValue(newDate);
-                }
-                startQuarter.hide();
-                $('#endQuarterYear')[0].focus();
-            }).data('datepicker');
-
-            var endQuarter = $('#endQuarterYear').datepicker({
-                format: " yyyy",
-                viewMode: "years",
-                minViewMode: "years",
-                onRender: function (date) {
-                    return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
-                }
-            }).on('changeDate', function (ev) {
-                endQuarter.hide();
-            }).data('datepicker');
-
+        $('#example1').datepicker({
+            format: "mm/yyyy",
+            viewMode: "months",
+            minViewMode: "months"
         });
-    </script>
 
-    <script>
-        $(document).ready(function () {
-            var dateFormat = 'YYYYMMDD';
-            $('#viewThisMonth').click(function () {
-                $("#reportStartDate").attr("value", moment().startOf('month').format(dateFormat));
-                $("#reportEndDate").attr("value", moment().startOf('day').format(dateFormat));
+
+
+
+        var nowTemp = new Date();
+        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+        var startDay = $('#startDay').datepicker({
+            format: "dd/mm/yyyy"
+        }).on('changeDate', function (ev) {
+            if (ev.date.valueOf() > endDay.date.valueOf()) {
+                var newDate = new Date(ev.date)
+                newDate.setDate(newDate.getDate() + 1);
+                endDay.setValue(newDate);
+            }
+            startDay.hide();
+            $('#endDay')[0].focus();
+        }).data('datepicker');
+
+        var endDay = $('#endDay').datepicker({
+            format: "dd/mm/yyyy",
+            onRender: function (date) {
+
+            }
+        }).on('changeDate', function (ev) {
+            endDay.hide();
+        }).data('datepicker');
+
+        //Month
+        var startMonth = $('#startMonth').datepicker({
+            format: "mm/yyyy",
+            viewMode: "months",
+            minViewMode: "months",
+            onRender: function (date) {
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            if (ev.date.valueOf() > endMonth.date.valueOf()) {
+                var newDate = new Date(ev.date)
+                newDate.setDate(newDate.getDate() + 1);
+                endMonth.setValue(newDate);
+            }
+            startMonth.hide();
+            $('#endMonth')[0].focus();
+        }).data('datepicker');
+
+        var endMonth = $('#endMonth').datepicker({
+            format: "mm/yyyy",
+            viewMode: "months",
+            minViewMode: "months",
+            onRender: function (date) {
+                return date.valueOf() <= startMonth.date.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            endMonth.hide();
+        }).data('datepicker');
+
+        //Year
+        var startYear = $('#startYear').datepicker({
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            onRender: function (date) {
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            if (ev.date.valueOf() > endYear.date.valueOf()) {
+                var newDate = new Date(ev.date)
+                newDate.setDate(newDate.getDate() + 1);
+                endYear.setValue(newDate);
+            }
+            startYear.hide();
+            $('#endYear')[0].focus();
+        }).data('datepicker');
+
+        var endYear = $('#endYear').datepicker({
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            onRender: function (date) {
+                return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            endYear.hide();
+        }).data('datepicker');
+
+        //Quarter
+        var startQuarter = $('#startQuarterYear').datepicker({
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            onRender: function (date) {
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            if (ev.date.valueOf() > endYear.date.valueOf()) {
+                var newDate = new Date(ev.date)
+                newDate.setDate(newDate.getDate() + 1);
+                endYear.setValue(newDate);
+            }
+            startQuarter.hide();
+            $('#endQuarterYear')[0].focus();
+        }).data('datepicker');
+
+        var endQuarter = $('#endQuarterYear').datepicker({
+            format: " yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            onRender: function (date) {
+                return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function (ev) {
+            endQuarter.hide();
+        }).data('datepicker');
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        var dateFormat = 'YYYYMMDD';
+        $('#viewThisMonth').click(function () {
+            $("#reportStartDate").attr("value", moment().startOf('month').format(dateFormat));
+            $("#reportEndDate").attr("value", moment().startOf('day').format(dateFormat));
+            $("#reportType").attr("value", "Day");
+            $("#mainform").submit();
+        });
+
+        $('#viewThisYear').click(function () {
+            $("#reportStartMonth").attr("value", '1');
+            $("#reportEndMonth").attr("value", moment().startOf('month').format('MM'));
+            $("#reportStartYear").attr("value", moment().startOf('year').format('YYYY'));
+            $("#reportEndYear").attr("value", moment().startOf('year').format('YYYY'));
+            $("#reportType").attr("value", "Month");
+            $("#mainform").submit();
+        });
+
+        $('#viewThisQuarter').click(function () {
+            $("#reportStartMonth").attr("value", moment().startOf('quarter').format('MM'));
+            $("#reportEndMonth").attr("value", moment().startOf('month').format('MM'));
+            $("#reportStartYear").attr("value", moment().startOf('year').format('YYYY'));
+            $("#reportEndYear").attr("value", moment().startOf('year').format('YYYY'));
+            $("#reportType").attr("value", "Month");
+            $("#mainform").submit();
+        });
+
+        $('#viewDay').click(function () {
+            $("#reportStartDate").attr("value", moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
+            $("#reportEndDate").attr("value", moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
+            $("#reportType").attr("value", "Day");
+            $("#mainform").submit();
+        });
+
+        $('#viewMonth').click(function () {
+            var startDateUserInput = moment("01/" + $('#startMonth').val(), "DD/MM/YYYY");
+            var endDateUserInput = moment("01/" + $('#endMonth').val(), "DD/MM/YYYY");
+
+            if ($('#startMonth').val() === $('#endMonth').val()) {
+                $("#reportStartDate").attr("value", startDateUserInput.format(dateFormat));
+                $("#reportEndDate").attr("value", endDateUserInput.endOf("month").format(dateFormat));
                 $("#reportType").attr("value", "Day");
-                $("#mainform").submit();
-            });
+            } else {
+                $("#reportStartMonth").attr("value", startDateUserInput.format('MM'));
+                $("#reportEndMonth").attr("value", endDateUserInput.format('MM'));
+                $("#reportStartYear").attr("value", startDateUserInput.format('YYYY'));
+                $("#reportEndYear").attr("value", endDateUserInput.format('YYYY'));
+                $("#reportType").attr("value", "Month");
+            }
 
-            $('#viewThisYear').click(function () {
+            $("#mainform").submit();
+        });
+
+        $('#viewQuarter').click(function () {
+            var startQuarterRp = document.getElementById('startQuarter').value;
+            var endQuarterRp = document.getElementById('endQuarter').value;
+            var startYearRp = $('#startQuarterYear').val().trim();
+            var endYearRp = $('#endQuarterYear').val().trim();
+
+            if ((startQuarterRp === endQuarterRp) && (startYearRp === endYearRp)) { //report by month
+                $("#reportStartMonth").attr("value", (startQuarterRp - 1) * 3 + 1);
+                $("#reportEndMonth").attr("value", (endQuarterRp - 1) * 3 + 1);
+                $("#reportStartYear").attr("value", startYearRp);
+                $("#reportEndYear").attr("value", startYearRp);
+                $("#reportType").attr("value", "Month");
+                $("#mainform").submit();
+            } else { //report by quarter
+                $("#reportStartQuarter").attr("value", startQuarterRp);
+                $("#reportEndQuarter").attr("value", endQuarterRp);
+                $("#reportStartYear").attr("value", startYearRp);
+                $("#reportEndYear").attr("value", endYearRp);
+                $("#reportType").attr("value", "Quarter");
+                $("#mainform").submit();
+            }
+
+            $("#startdate").attr("value", moment("01/" + $('#startQuarter').val(), "DD/MM/YYYY").format(dateFormat));
+            $("#enddate").attr("value", moment("01/" + $('#endQuarter').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
+            $("#mainform").submit();
+
+            console.log(moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
+            console.log(moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
+        });
+
+        $('#viewYear').click(function () {
+            if ($('#startYear').val() === $('#endYear').val()) {
                 $("#reportStartMonth").attr("value", '1');
-                $("#reportEndMonth").attr("value", moment().startOf('month').format('MM'));
-                $("#reportStartYear").attr("value", moment().startOf('year').format('YYYY'));
-                $("#reportEndYear").attr("value", moment().startOf('year').format('YYYY'));
+                $("#reportEndMonth").attr("value", '12');
+
                 $("#reportType").attr("value", "Month");
-                $("#mainform").submit();
-            });
+            } else {
+                $("#reportType").attr("value", "Year");
+            }
+            $("#reportStartYear").attr("value", $('#startYear').val().replace(" ", ""));
+            $("#reportEndYear").attr("value", $('#endYear').val().replace(" ", ""));
 
-            $('#viewThisQuarter').click(function () {
-                $("#reportStartMonth").attr("value", moment().startOf('quarter').format('MM'));
-                $("#reportEndMonth").attr("value", moment().startOf('month').format('MM'));
-                $("#reportStartYear").attr("value", moment().startOf('year').format('YYYY'));
-                $("#reportEndYear").attr("value", moment().startOf('year').format('YYYY'));
-                $("#reportType").attr("value", "Month");
-                $("#mainform").submit();
-            });
-
-            $('#viewDay').click(function () {
-                $("#reportStartDate").attr("value", moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
-                $("#reportEndDate").attr("value", moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
-                $("#reportType").attr("value", "Day");
-                $("#mainform").submit();
-            });
-
-            $('#viewMonth').click(function () {
-                var startDateUserInput = moment("01/" + $('#startMonth').val(), "DD/MM/YYYY");
-                var endDateUserInput = moment("01/" + $('#endMonth').val(), "DD/MM/YYYY");
-
-                if ($('#startMonth').val() === $('#endMonth').val()) {
-                    $("#reportStartDate").attr("value", startDateUserInput.format(dateFormat));
-                    $("#reportEndDate").attr("value", endDateUserInput.endOf("month").format(dateFormat));
-                    $("#reportType").attr("value", "Day");
-                } else {
-                    $("#reportStartMonth").attr("value", startDateUserInput.format('MM'));
-                    $("#reportEndMonth").attr("value", endDateUserInput.format('MM'));
-                    $("#reportStartYear").attr("value", startDateUserInput.format('YYYY'));
-                    $("#reportEndYear").attr("value", endDateUserInput.format('YYYY'));
-                    $("#reportType").attr("value", "Month");
-                }
-
-                $("#mainform").submit();
-            });
-
-            $('#viewQuarter').click(function () {
-                var startQuarterRp = document.getElementById('startQuarter').value;
-                var endQuarterRp = document.getElementById('endQuarter').value;
-                var startYearRp = $('#startQuarterYear').val().trim();
-                var endYearRp = $('#endQuarterYear').val().trim();
-
-                if ((startQuarterRp === endQuarterRp) && (startYearRp === endYearRp)) { //report by month
-                    $("#reportStartMonth").attr("value", (startQuarterRp - 1) * 3 + 1);
-                    $("#reportEndMonth").attr("value", (endQuarterRp - 1) * 3 + 1);
-                    $("#reportStartYear").attr("value", startYearRp);
-                    $("#reportEndYear").attr("value", startYearRp);
-                    $("#reportType").attr("value", "Month");
-                    $("#mainform").submit();
-                } else { //report by quarter
-                    $("#reportStartQuarter").attr("value", startQuarterRp);
-                    $("#reportEndQuarter").attr("value", endQuarterRp);
-                    $("#reportStartYear").attr("value", startYearRp);
-                    $("#reportEndYear").attr("value", endYearRp);
-                    $("#reportType").attr("value", "Quarter");
-                    $("#mainform").submit();
-                }
-
-                $("#startdate").attr("value", moment("01/" + $('#startQuarter').val(), "DD/MM/YYYY").format(dateFormat));
-                $("#enddate").attr("value", moment("01/" + $('#endQuarter').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
-                $("#mainform").submit();
-
-                console.log(moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
-                console.log(moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
-            });
-
-            $('#viewYear').click(function () {
-                if ($('#startYear').val() === $('#endYear').val()) {
-                    $("#reportStartMonth").attr("value", '1');
-                    $("#reportEndMonth").attr("value", '12');
-
-                    $("#reportType").attr("value", "Month");
-                } else {
-                    $("#reportType").attr("value", "Year");
-                }
-                $("#reportStartYear").attr("value", $('#startYear').val().replace(" ", ""));
-                $("#reportEndYear").attr("value", $('#endYear').val().replace(" ", ""));
-
-                $("#mainform").submit();
-            });
-
+            $("#mainform").submit();
         });
-    </script>
-    
+
+    });
+</script>
