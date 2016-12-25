@@ -840,7 +840,7 @@
                         <i class="fa fa-money fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="h4">@cardTypeReport.FirstOrDefault().NetAmount</div>
+                        <div class="h4">@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].NetAmount)</div>
                         <div>Total Revenue</div>
                     </div>
                 </div>
@@ -856,7 +856,7 @@
                         <i class="fa fa-shopping-cart fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="h4">@cardTypeReport.FirstOrDefault().SaleAmount</div>
+                        <div class="h4">@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].SaleAmount)</div>
                         <div>Total sales</div>
                     </div>
                 </div>
@@ -872,7 +872,7 @@
                         <i class="fa fa-warning fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="h4">@cardTypeReport.FirstOrDefault().ReturnAmount</div>
+                        <div class="h4">@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ReturnAmount)</div>
                         <div>Total returns</div>
                     </div>
                 </div>
@@ -888,7 +888,7 @@
                         <i class="fa fa-support fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="h4">@cardTypeReport.FirstOrDefault().TransactionCount</div>
+                        <div class="h4">@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].TransactionCount)</div>
                         <div>Total transactions</div>
                     </div>
                 </div>
