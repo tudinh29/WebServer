@@ -15,6 +15,8 @@
     string q2 = ViewBag.Quarter2;
     string reportType = ViewBag.reportType;
     var ds = ViewBag.ds as List<Statistic>;
+    var note1 = "11/2016";
+    var note2 = "12/2016";
 
 }
 
@@ -341,16 +343,23 @@
     </div>
 
 
-    <div id="legend">
+   
         <div class="col-sm-offset-8">
-            @foreach (Statistic item in ds)
-            {
-                <table class="table table-hover">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Thời gian</th>
+                    <th>Tỉ lệ</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (Statistic item in ds)
+                {
+
 
                     <tr class="bg-info">
-
-
-                        @if (item.Name == ds.Last().Name)
+                        @if (item.Name == ds.Last().Name && item.Value == ds.Last().Value)
                         {
                             if (reportType == "month")
                             {
@@ -358,6 +367,7 @@
                             }
                             else
                             {
+
                                 if (reportType == "quarter")
                                 {
                                     <td>Quý: @item.Name </td>
@@ -366,6 +376,8 @@
                                 {
                                     <td>Năm: @item.Name </td>
                                 }
+
+
 
                             }
                         }
@@ -380,6 +392,7 @@
                                 <td>Tháng: @item.Name </td>
                             }
                         }
+
                         @if (item.Value > 0)
                         {
                             <td>Tăng: @item.Value %</td>
@@ -388,96 +401,169 @@
                         {
                             <td>Giảm: @(-item.Value) %</td>
                         }
+
                     </tr>
+                }
+                 </tbody>
+    
+        </table>
 
-
-                </table>
-            }
         </div>
+    
+</div>
+
+
+<style>
+   
+        #note1 span {
+            display: inline-block;
+            padding: 15px 30px;
+            position: relative;
+        }
+
+            #note1 span:after {
+                padding-left: 8px;
+                content: '\00a0\00a0\00a0\00a0\00a0\00a0';
+                text-decoration: line-through;
+                color: red;
+            }
+  
+        #note2 span {
+            display: inline-block;
+            padding: 15px 30px;
+            position: relative;
+        }
+
+            #note2 span:after {
+                padding-left: 8px;
+                content: '\00a0\00a0\00a0\00a0\00a0\00a0';
+                text-decoration: line-through;
+                color: blue;
+            }
+</style>
+<div class="row">
+  <div class="col-lg-4">
+      <div id="note1">
+           <span>@note1: </span>
+      </div>
+   </div>
+    <div class="col-lg-4">
+       
+        <div id="note2">
+            <span>@note2: </span>
+        </div>
+
     </div>
 </div>
-<hr>
-<div class="row">
-    <div class="col-lg-4" style="width:60%">
-        <div class="panel panel-red">
-            <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Return Amount</h3>
-            </div>
-            <div class="panel-body">
-                <div id="line-chart"></div>
-                <div id="detailRevenueBtn" class="text-right" onclick="Display('detailRevenueBtn','RevenueModal',0)">
+        <hr>
+        <div class="row">
+            <div class="col-lg-4" style="width:60%">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Return Amount</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="line-chart"></div>
+                        <div id="detailRevenueBtn" class="text-right" onclick="Display('detailRevenueBtn','RevenueModal',0)">
 
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="col-sm-offset-8">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Tỉ lệ</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach (Statistic item in ds)
+                        {
+
+
+                            <tr class="bg-danger">
+                                @if (item.Name == ds.Last().Name && item.Value == ds.Last().Value)
+                                {
+                                    if (reportType == "month")
+                                    {
+                                        <td>Tháng: @item.Name </td>
+                                    }
+                                    else
+                                    {
+
+                                        if (reportType == "quarter")
+                                        {
+                                            <td>Quý: @item.Name </td>
+                                        }
+                                        else
+                                        {
+                                            <td>Năm: @item.Name </td>
+                                        }
+
+
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (reportType == "month")
+                                    {
+                                        <td>Ngày: @item.Name </td>
+                                    }
+                                    else
+                                    {
+                                        <td>Tháng: @item.Name </td>
+                                    }
+                                }
+
+                                @if (item.Value > 0)
+                                {
+                                    <td>Tăng: @item.ReturnAmount %</td>
+                                }
+                                else
+                                {
+                                    <td>Giảm: @(-item.ReturnAmount) %</td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+<div class="row">
+    <div class="col-lg-4">
+        <div id="note1">
+            <span>@note1: </span>
         </div>
     </div>
-    <div class="col-sm-offset-8">
-        @foreach (Statistic item in ds)
-        {
+    <div class="col-lg-4">
+        <div id="note2">
+            <span>@note2: </span>
+        </div>
+        
 
-            <table class="table table-hover">
-
-                <tr class="bg-danger">
-                    @if (item.Name == ds.Last().Name)
-                    {
-                        if (reportType == "month")
-                        {
-                            <td>Tháng: @item.Name </td>
-                        }
-                        else
-                        {
-                            if (reportType == "quarter")
-                            {
-                                <td>Quý: @item.Name </td>
-                            }
-                            else
-                            {
-                                <td>Năm: @item.Name </td>
-                            }
-
-                        }
-                    }
-                    else
-                    {
-                        if (reportType == "month")
-                        {
-                            <td>Ngày: @item.Name </td>
-                        }
-                        else
-                        {
-                            <td>Tháng: @item.Name </td>
-                        }
-                    }
-                    @if (item.Value > 0)
-                    {
-                        <td>Tăng: @item.Value %</td>
-                    }
-                    else
-                    {
-                        <td>Giảm: @(-item.Value) %</td>
-                    }
-                </tr>
-
-
-            </table>
-        }
     </div>
 </div>
-@*}
-    else
-    {
-        <center><h2>Không tìm thấy dữ liệu</h2></center>
+        @*}
+            else
+            {
+                <center><h2>Không tìm thấy dữ liệu</h2></center>
 
-    }*@
-
-
+            }*@
 
 
 
 
-<script>
-    $(function () {
-        @{
+
+
+        <script>
+            $(function () {
+                @{
             var LineData = String.Empty;
             var LineData1 = String.Empty;
             string name = String.Empty;
@@ -493,6 +579,9 @@
             string truchoanh = String.Empty;
             string thang = String.Empty;
 
+            
+            
+
             {
                 foreach (Statistic item in lineChartData)
                 {
@@ -500,7 +589,7 @@
 
                     if (reportType == "month")
                     {
-
+                        
                         date1 = String.Format("{0}/{1}/{2}", name, m1, y1);
                         date2 = item.Name +"/"+ y2;
                         vt = item.Name.IndexOf('/');
@@ -508,6 +597,7 @@
                         t = int.Parse(item.Name.Substring(vt + 1, (item.Name.Length - vt - 1)));
 
                         item.Name = truchoanh;
+                       
                         if(name.IsEmpty())
                         {
                             if(t == int.Parse(m1))
@@ -531,7 +621,7 @@
                             vt = item.Name.IndexOf('-');
                             t = int.Parse(item.Name.Substring(2, 1));
                             item.Name = item.Name.Substring(0, vt);
-
+                           
                             if(name.IsEmpty())
                             {
 
@@ -540,6 +630,7 @@
                             }
                             else
                             {
+                                
                                 if (quy1 < quy2)
                                 {
                                     date2 = int.Parse(item.Name.ToString()) + Math.Abs(quy2 - quy1) * 3 + "/" + y2;
@@ -806,297 +897,299 @@
 
         }
 
-        var chart = Morris.Line({
-            // ID of the element in which to draw the chart.
-            element: 'morris-line-chart',
-            // Chart data records -- each entry in this array corresponds to a point on
-            // the chart.
-            data: [@Html.Raw(LineData)],
+                Morris.Line({
+                    // ID of the element in which to draw the chart.
+                    element: 'morris-line-chart',
+                    // Chart data records -- each entry in this array corresponds to a point on
+                    // the chart.
+                    data: [@Html.Raw(LineData)],
 
-            // The name of the data record attribute that contains x-visitss.
-            xkey: 'd',
-            // A list of names of data record attributes that contain y-visitss.
-            ykeys: ['sales', 'sales1'],
-            // Labels for the ykeys -- will be displayed when you hover over the
-            // chart.
-            labels: ['Sale amount', 'Sale amount'],
+                    // The name of the data record attribute that contains x-visitss.
+                    xkey: 'd',
+                    // A list of names of data record attributes that contain y-visitss.
+                    ykeys: ['sales', 'sales1'],
+                    // Labels for the ykeys -- will be displayed when you hover over the
+                    // chart.
+                    labels: ['Sale amount', 'Sale amount'],
+                    
 
-            // Disables line smoothing
-            smooth: false,
-            resize: true,
-            parseTime: false,
-            lineColors: ['#F5ABB0', 'blue'],
-            pointFillColors: ['#FF3300', 'blue'],
-            hoverCallback: function (index, options, content) {
-                var data = options.data[index];
-                content = "<div class='morris-hover-row-label'>" + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Date: " + data.d1 + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Sale Amount: $" + data.sales + "</div><div class='morris-hover-point' style='color: blue'>Date: " + data.d2 + "</div><div class='morris-hover-point' style='color: blue'>Sale Amount: $" + data.sales1 + "</div>"
-                return content
-            },
-        });
+                    // Disables line smoothing
+                    smooth: false,
+                    resize: true,
+                    parseTime: false,
+                    lineColors: ['#F5ABB0', 'blue'],
+                    pointFillColors: ['#FF3300', 'blue'],
+                    hoverCallback: function (index, options, content) {
+                        var data = options.data[index];
+                        content = "<div class='morris-hover-row-label'>" + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Date: " + data.d1 + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Sale Amount: $" + data.sales + "</div><div class='morris-hover-point' style='color: blue'>Date: " + data.d2 + "</div><div class='morris-hover-point' style='color: blue'>Sale Amount: $" + data.sales1 + "</div>"
+                        return content
+                    },
+                });
+               
+                
 
+                Morris.Line({
+                    // ID of the element in which to draw the chart.
+                    element: 'line-chart',
+                    // Chart data records -- each entry in this array corresponds to a point on
+                    // the chart.
+                    data: [@Html.Raw(LineData)],
+                    //data: [(LineData, LineData1)],
+                    // The name of the data record attribute that contains x-visitss.
+                    xkey: 'd',
+                    // A list of names of data record attributes that contain y-visitss.
+                    ykeys: ['returns', 'returns1'],
+                    // Labels for the ykeys -- will be displayed when you hover over the
+                    // chart.
+                    labels: ['Return amount', 'Return amount'],
 
-        Morris.Line({
-            // ID of the element in which to draw the chart.
-            element: 'line-chart',
-            // Chart data records -- each entry in this array corresponds to a point on
-            // the chart.
-            data: [@Html.Raw(LineData)],
-            //data: [(LineData, LineData1)],
-            // The name of the data record attribute that contains x-visitss.
-            xkey: 'd',
-            // A list of names of data record attributes that contain y-visitss.
-            ykeys: ['returns', 'returns1'],
-            // Labels for the ykeys -- will be displayed when you hover over the
-            // chart.
-            labels: ['Return amount', 'Return amount'],
-
-            // Disables line smoothing
-            smooth: false,
-            resize: true,
-            parseTime: false,
-            lineColors: ['#F5ABB0', 'blue'],
-            pointFillColors: ['#FF3300', 'blue'],
-            hoverCallback: function (index, options, content) {
-                var data = options.data[index];
-                content = "<div class='morris-hover-row-label'>" + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Date: " + data.d1 + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Return Amount: $" + data.returns + "</div><div class='morris-hover-point' style='color: blue'>Date: " + data.d2 + "</div><div class='morris-hover-point' style='color: blue'>Return Amount: $" + data.returns1 + "</div>"
-                return content
-            },
-        });
-
-
-
-
-    });
-
-</script>
-
-
-
-<script type="text/javascript">
-    // When the document is ready
-    $(document).ready(function () {
-
-        $('#example1').datepicker({
-            format: "mm/yyyy",
-            viewMode: "months",
-            minViewMode: "months"
-        });
+                    // Disables line smoothing
+                    smooth: false,
+                    resize: true,
+                    parseTime: false,
+                    lineColors: ['#F5ABB0', 'blue'],
+                    pointFillColors: ['#FF3300', 'blue'],
+                    hoverCallback: function (index, options, content) {
+                        var data = options.data[index];
+                        content = "<div class='morris-hover-row-label'>" + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Date: " + data.d1 + "</div><div class='morris-hover-point' style='color: #F5ABB0'>Return Amount: $" + data.returns + "</div><div class='morris-hover-point' style='color: blue'>Date: " + data.d2 + "</div><div class='morris-hover-point' style='color: blue'>Return Amount: $" + data.returns1 + "</div>"
+                        return content
+                    },
+                });
 
 
 
 
-        var nowTemp = new Date();
-        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+            });
 
-        var startDay = $('#startDay').datepicker({
-            format: "dd/mm/yyyy"
-        }).on('changeDate', function (ev) {
-            if (ev.date.valueOf() > endDay.date.valueOf()) {
-                var newDate = new Date(ev.date)
-                newDate.setDate(newDate.getDate() + 1);
-                endDay.setValue(newDate);
-            }
-            startDay.hide();
-            $('#endDay')[0].focus();
-        }).data('datepicker');
+        </script>
 
-        var endDay = $('#endDay').datepicker({
-            format: "dd/mm/yyyy",
-            onRender: function (date) {
 
-            }
-        }).on('changeDate', function (ev) {
-            endDay.hide();
-        }).data('datepicker');
 
-        //Month
-        var startMonth = $('#startMonth').datepicker({
-            format: "mm/yyyy",
-            viewMode: "months",
-            minViewMode: "months",
-            onRender: function (date) {
-                return date.valueOf() < now.valueOf() ? 'disabled' : '';
-            }
-        }).on('changeDate', function (ev) {
-            if (ev.date.valueOf() > endMonth.date.valueOf()) {
-                var newDate = new Date(ev.date)
-                newDate.setDate(newDate.getDate() + 1);
-                endMonth.setValue(newDate);
-            }
-            startMonth.hide();
-            $('#endMonth')[0].focus();
-        }).data('datepicker');
+        <script type="text/javascript">
+            // When the document is ready
+            $(document).ready(function () {
 
-        var endMonth = $('#endMonth').datepicker({
-            format: "mm/yyyy",
-            viewMode: "months",
-            minViewMode: "months",
-            onRender: function (date) {
-                return date.valueOf() <= startMonth.date.valueOf() ? 'disabled' : '';
-            }
-        }).on('changeDate', function (ev) {
-            endMonth.hide();
-        }).data('datepicker');
+                $('#example1').datepicker({
+                    format: "mm/yyyy",
+                    viewMode: "months",
+                    minViewMode: "months"
+                });
 
-        //Year
-        var startYear = $('#startYear').datepicker({
-            format: " yyyy",
-            viewMode: "years",
-            minViewMode: "years",
-            onRender: function (date) {
-                return date.valueOf() < now.valueOf() ? 'disabled' : '';
-            }
-        }).on('changeDate', function (ev) {
-            if (ev.date.valueOf() > endYear.date.valueOf()) {
-                var newDate = new Date(ev.date)
-                newDate.setDate(newDate.getDate() + 1);
-                endYear.setValue(newDate);
-            }
-            startYear.hide();
-            $('#endYear')[0].focus();
-        }).data('datepicker');
 
-        var endYear = $('#endYear').datepicker({
-            format: " yyyy",
-            viewMode: "years",
-            minViewMode: "years",
-            onRender: function (date) {
-                return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
-            }
-        }).on('changeDate', function (ev) {
-            endYear.hide();
-        }).data('datepicker');
 
-        //Quarter
-        var startQuarter = $('#startQuarterYear').datepicker({
-            format: " yyyy",
-            viewMode: "years",
-            minViewMode: "years",
-            onRender: function (date) {
-                return date.valueOf() < now.valueOf() ? 'disabled' : '';
-            }
-        }).on('changeDate', function (ev) {
-            if (ev.date.valueOf() > endYear.date.valueOf()) {
-                var newDate = new Date(ev.date)
-                newDate.setDate(newDate.getDate() + 1);
-                endYear.setValue(newDate);
-            }
-            startQuarter.hide();
-            $('#endQuarterYear')[0].focus();
-        }).data('datepicker');
 
-        var endQuarter = $('#endQuarterYear').datepicker({
-            format: " yyyy",
-            viewMode: "years",
-            minViewMode: "years",
-            onRender: function (date) {
-                return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
-            }
-        }).on('changeDate', function (ev) {
-            endQuarter.hide();
-        }).data('datepicker');
+                var nowTemp = new Date();
+                var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
-    });
-</script>
+                var startDay = $('#startDay').datepicker({
+                    format: "dd/mm/yyyy"
+                }).on('changeDate', function (ev) {
+                    if (ev.date.valueOf() > endDay.date.valueOf()) {
+                        var newDate = new Date(ev.date)
+                        newDate.setDate(newDate.getDate() + 1);
+                        endDay.setValue(newDate);
+                    }
+                    startDay.hide();
+                    $('#endDay')[0].focus();
+                }).data('datepicker');
 
-<script>
-    $(document).ready(function () {
-        var dateFormat = 'YYYYMMDD';
-        $('#viewThisMonth').click(function () {
-            $("#reportStartDate").attr("value", moment().startOf('month').format(dateFormat));
-            $("#reportEndDate").attr("value", moment().startOf('day').format(dateFormat));
-            $("#reportType").attr("value", "Day");
-            $("#mainform").submit();
-        });
+                var endDay = $('#endDay').datepicker({
+                    format: "dd/mm/yyyy",
+                    onRender: function (date) {
 
-        $('#viewThisYear').click(function () {
-            $("#reportStartMonth").attr("value", '1');
-            $("#reportEndMonth").attr("value", moment().startOf('month').format('MM'));
-            $("#reportStartYear").attr("value", moment().startOf('year').format('YYYY'));
-            $("#reportEndYear").attr("value", moment().startOf('year').format('YYYY'));
-            $("#reportType").attr("value", "Month");
-            $("#mainform").submit();
-        });
+                    }
+                }).on('changeDate', function (ev) {
+                    endDay.hide();
+                }).data('datepicker');
 
-        $('#viewThisQuarter').click(function () {
-            $("#reportStartMonth").attr("value", moment().startOf('quarter').format('MM'));
-            $("#reportEndMonth").attr("value", moment().startOf('month').format('MM'));
-            $("#reportStartYear").attr("value", moment().startOf('year').format('YYYY'));
-            $("#reportEndYear").attr("value", moment().startOf('year').format('YYYY'));
-            $("#reportType").attr("value", "Month");
-            $("#mainform").submit();
-        });
+                //Month
+                var startMonth = $('#startMonth').datepicker({
+                    format: "mm/yyyy",
+                    viewMode: "months",
+                    minViewMode: "months",
+                    onRender: function (date) {
+                        return date.valueOf() < now.valueOf() ? 'disabled' : '';
+                    }
+                }).on('changeDate', function (ev) {
+                    if (ev.date.valueOf() > endMonth.date.valueOf()) {
+                        var newDate = new Date(ev.date)
+                        newDate.setDate(newDate.getDate() + 1);
+                        endMonth.setValue(newDate);
+                    }
+                    startMonth.hide();
+                    $('#endMonth')[0].focus();
+                }).data('datepicker');
 
-        $('#viewDay').click(function () {
-            $("#reportStartDate").attr("value", moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
-            $("#reportEndDate").attr("value", moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
-            $("#reportType").attr("value", "Day");
-            $("#mainform").submit();
-        });
+                var endMonth = $('#endMonth').datepicker({
+                    format: "mm/yyyy",
+                    viewMode: "months",
+                    minViewMode: "months",
+                    onRender: function (date) {
+                        return date.valueOf() <= startMonth.date.valueOf() ? 'disabled' : '';
+                    }
+                }).on('changeDate', function (ev) {
+                    endMonth.hide();
+                }).data('datepicker');
 
-        $('#viewMonth').click(function () {
-            var startDateUserInput = moment("01/" + $('#startMonth').val(), "DD/MM/YYYY");
-            var endDateUserInput = moment("01/" + $('#endMonth').val(), "DD/MM/YYYY");
+                //Year
+                var startYear = $('#startYear').datepicker({
+                    format: " yyyy",
+                    viewMode: "years",
+                    minViewMode: "years",
+                    onRender: function (date) {
+                        return date.valueOf() < now.valueOf() ? 'disabled' : '';
+                    }
+                }).on('changeDate', function (ev) {
+                    if (ev.date.valueOf() > endYear.date.valueOf()) {
+                        var newDate = new Date(ev.date)
+                        newDate.setDate(newDate.getDate() + 1);
+                        endYear.setValue(newDate);
+                    }
+                    startYear.hide();
+                    $('#endYear')[0].focus();
+                }).data('datepicker');
 
-            if ($('#startMonth').val() === $('#endMonth').val()) {
-                $("#reportStartDate").attr("value", startDateUserInput.format(dateFormat));
-                $("#reportEndDate").attr("value", endDateUserInput.endOf("month").format(dateFormat));
-                $("#reportType").attr("value", "Day");
-            } else {
-                $("#reportStartMonth").attr("value", startDateUserInput.format('MM'));
-                $("#reportEndMonth").attr("value", endDateUserInput.format('MM'));
-                $("#reportStartYear").attr("value", startDateUserInput.format('YYYY'));
-                $("#reportEndYear").attr("value", endDateUserInput.format('YYYY'));
-                $("#reportType").attr("value", "Month");
-            }
+                var endYear = $('#endYear').datepicker({
+                    format: " yyyy",
+                    viewMode: "years",
+                    minViewMode: "years",
+                    onRender: function (date) {
+                        return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
+                    }
+                }).on('changeDate', function (ev) {
+                    endYear.hide();
+                }).data('datepicker');
 
-            $("#mainform").submit();
-        });
+                //Quarter
+                var startQuarter = $('#startQuarterYear').datepicker({
+                    format: " yyyy",
+                    viewMode: "years",
+                    minViewMode: "years",
+                    onRender: function (date) {
+                        return date.valueOf() < now.valueOf() ? 'disabled' : '';
+                    }
+                }).on('changeDate', function (ev) {
+                    if (ev.date.valueOf() > endYear.date.valueOf()) {
+                        var newDate = new Date(ev.date)
+                        newDate.setDate(newDate.getDate() + 1);
+                        endYear.setValue(newDate);
+                    }
+                    startQuarter.hide();
+                    $('#endQuarterYear')[0].focus();
+                }).data('datepicker');
 
-        $('#viewQuarter').click(function () {
-            var startQuarterRp = document.getElementById('startQuarter').value;
-            var endQuarterRp = document.getElementById('endQuarter').value;
-            var startYearRp = $('#startQuarterYear').val().trim();
-            var endYearRp = $('#endQuarterYear').val().trim();
+                var endQuarter = $('#endQuarterYear').datepicker({
+                    format: " yyyy",
+                    viewMode: "years",
+                    minViewMode: "years",
+                    onRender: function (date) {
+                        return date.valueOf() <= startYear.date.valueOf() ? 'disabled' : '';
+                    }
+                }).on('changeDate', function (ev) {
+                    endQuarter.hide();
+                }).data('datepicker');
 
-            if ((startQuarterRp === endQuarterRp) && (startYearRp === endYearRp)) { //report by month
-                $("#reportStartMonth").attr("value", (startQuarterRp - 1) * 3 + 1);
-                $("#reportEndMonth").attr("value", (endQuarterRp - 1) * 3 + 1);
-                $("#reportStartYear").attr("value", startYearRp);
-                $("#reportEndYear").attr("value", startYearRp);
-                $("#reportType").attr("value", "Month");
-                $("#mainform").submit();
-            } else { //report by quarter
-                $("#reportStartQuarter").attr("value", startQuarterRp);
-                $("#reportEndQuarter").attr("value", endQuarterRp);
-                $("#reportStartYear").attr("value", startYearRp);
-                $("#reportEndYear").attr("value", endYearRp);
-                $("#reportType").attr("value", "Quarter");
-                $("#mainform").submit();
-            }
+            });
+        </script>
 
-            $("#startdate").attr("value", moment("01/" + $('#startQuarter').val(), "DD/MM/YYYY").format(dateFormat));
-            $("#enddate").attr("value", moment("01/" + $('#endQuarter').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
-            $("#mainform").submit();
+        <script>
+            $(document).ready(function () {
+                var dateFormat = 'YYYYMMDD';
+                $('#viewThisMonth').click(function () {
+                    $("#reportStartDate").attr("value", moment().startOf('month').format(dateFormat));
+                    $("#reportEndDate").attr("value", moment().startOf('day').format(dateFormat));
+                    $("#reportType").attr("value", "Day");
+                    $("#mainform").submit();
+                });
 
-            console.log(moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
-            console.log(moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
-        });
+                $('#viewThisYear').click(function () {
+                    $("#reportStartMonth").attr("value", '1');
+                    $("#reportEndMonth").attr("value", moment().startOf('month').format('MM'));
+                    $("#reportStartYear").attr("value", moment().startOf('year').format('YYYY'));
+                    $("#reportEndYear").attr("value", moment().startOf('year').format('YYYY'));
+                    $("#reportType").attr("value", "Month");
+                    $("#mainform").submit();
+                });
 
-        $('#viewYear').click(function () {
-            if ($('#startYear').val() === $('#endYear').val()) {
-                $("#reportStartMonth").attr("value", '1');
-                $("#reportEndMonth").attr("value", '12');
+                $('#viewThisQuarter').click(function () {
+                    $("#reportStartMonth").attr("value", moment().startOf('quarter').format('MM'));
+                    $("#reportEndMonth").attr("value", moment().startOf('month').format('MM'));
+                    $("#reportStartYear").attr("value", moment().startOf('year').format('YYYY'));
+                    $("#reportEndYear").attr("value", moment().startOf('year').format('YYYY'));
+                    $("#reportType").attr("value", "Month");
+                    $("#mainform").submit();
+                });
 
-                $("#reportType").attr("value", "Month");
-            } else {
-                $("#reportType").attr("value", "Year");
-            }
-            $("#reportStartYear").attr("value", $('#startYear').val().replace(" ", ""));
-            $("#reportEndYear").attr("value", $('#endYear').val().replace(" ", ""));
+                $('#viewDay').click(function () {
+                    $("#reportStartDate").attr("value", moment($('#startDay').val(), "DD/MM/YYYY").format(dateFormat));
+                    $("#reportEndDate").attr("value", moment($('#endDay').val(), "DD/MM/YYYY").format(dateFormat));
+                    $("#reportType").attr("value", "Day");
+                    $("#mainform").submit();
+                });
 
-            $("#mainform").submit();
-        });
+                $('#viewMonth').click(function () {
+                    var startDateUserInput = moment("01/" + $('#startMonth').val(), "DD/MM/YYYY");
+                    var endDateUserInput = moment("01/" + $('#endMonth').val(), "DD/MM/YYYY");
 
-    });
-</script>
+                    if ($('#startMonth').val() === $('#endMonth').val()) {
+                        $("#reportStartDate").attr("value", startDateUserInput.format(dateFormat));
+                        $("#reportEndDate").attr("value", endDateUserInput.endOf("month").format(dateFormat));
+                        $("#reportType").attr("value", "Day");
+                    } else {
+                        $("#reportStartMonth").attr("value", startDateUserInput.format('MM'));
+                        $("#reportEndMonth").attr("value", endDateUserInput.format('MM'));
+                        $("#reportStartYear").attr("value", startDateUserInput.format('YYYY'));
+                        $("#reportEndYear").attr("value", endDateUserInput.format('YYYY'));
+                        $("#reportType").attr("value", "Month");
+                    }
+
+                    $("#mainform").submit();
+                });
+
+                $('#viewQuarter').click(function () {
+                    var startQuarterRp = document.getElementById('startQuarter').value;
+                    var endQuarterRp = document.getElementById('endQuarter').value;
+                    var startYearRp = $('#startQuarterYear').val().trim();
+                    var endYearRp = $('#endQuarterYear').val().trim();
+
+                    if ((startQuarterRp === endQuarterRp) && (startYearRp === endYearRp)) { //report by month
+                        $("#reportStartMonth").attr("value", (startQuarterRp - 1) * 3 + 1);
+                        $("#reportEndMonth").attr("value", (endQuarterRp - 1) * 3 + 1);
+                        $("#reportStartYear").attr("value", startYearRp);
+                        $("#reportEndYear").attr("value", startYearRp);
+                        $("#reportType").attr("value", "Month");
+                        $("#mainform").submit();
+                    } else { //report by quarter
+                        $("#reportStartQuarter").attr("value", startQuarterRp);
+                        $("#reportEndQuarter").attr("value", endQuarterRp);
+                        $("#reportStartYear").attr("value", startYearRp);
+                        $("#reportEndYear").attr("value", endYearRp);
+                        $("#reportType").attr("value", "Quarter");
+                        $("#mainform").submit();
+                    }
+
+                    $("#startdate").attr("value", moment("01/" + $('#startQuarter').val(), "DD/MM/YYYY").format(dateFormat));
+                    $("#enddate").attr("value", moment("01/" + $('#endQuarter').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
+                    $("#mainform").submit();
+
+                    console.log(moment("01/" + $('#startMonth').val(), "DD/MM/YYYY").format(dateFormat));
+                    console.log(moment("01/" + $('#endMonth').val(), "DD/MM/YYYY").endOf("month").format(dateFormat));
+                });
+
+                $('#viewYear').click(function () {
+                    if ($('#startYear').val() === $('#endYear').val()) {
+                        $("#reportStartMonth").attr("value", '1');
+                        $("#reportEndMonth").attr("value", '12');
+
+                        $("#reportType").attr("value", "Month");
+                    } else {
+                        $("#reportType").attr("value", "Year");
+                    }
+                    $("#reportStartYear").attr("value", $('#startYear').val().replace(" ", ""));
+                    $("#reportEndYear").attr("value", $('#endYear').val().replace(" ", ""));
+
+                    $("#mainform").submit();
+                });
+
+            });
+        </script>

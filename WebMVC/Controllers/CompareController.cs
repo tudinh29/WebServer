@@ -360,7 +360,7 @@ namespace WebMVC.Controllers
                                 thang2.TransactionCount += scount;
                             }
                             ngay = (int.Parse)(item.Name.Substring(0, vt));
-                            thang = (int.Parse)(item.Name.Substring(vt + 1, item.Name.Length));
+                            thang = (int.Parse)(item.Name.Substring(vt + 1, item.Name.Length - vt - 1));
                             sname = item.Name;
                             svalue = (decimal.Parse)(item.Value.ToString());
                             sreturn = (decimal.Parse)(item.ReturnAmount.ToString());
@@ -473,10 +473,9 @@ namespace WebMVC.Controllers
                 Models.Statistic quy2 = new Models.Statistic();
                 quy1.Name = quarter1.ToString() + "/" + year1.ToString();
                 quy2.Name = quarter2.ToString() + "/" + year2.ToString();
-                quy1.Value = quy2.Value = quy1.ReturnAmount = quy2.ReturnAmount = 0;
+                
 
-                if (ds.Count > 0)
-                {
+              
                     int thang = 0;
                     int nam = 0;
                     string sname = String.Empty;
@@ -503,16 +502,12 @@ namespace WebMVC.Controllers
                             if (quy == quarter1 && quarter1 > quarter2)
                             {
                                 thang = thang + (quarter1 - quarter2) * 3;
-                                //quy1.Value += (decimal.Parse)(item.Value.ToString());
-                                //quy1.ReturnAmount += (decimal.Parse)(item.ReturnAmount.ToString());
-                                //quy1.TransactionCount += (long.Parse)(item.TransactionCount.ToString());
+                               
                             }
                             if (quy == quarter2 && quarter2 > quarter1)
                             {
                                 thang = thang + (quarter2 - quarter1) * 3;
-                                //quy2.Value += (decimal.Parse)(item.Value.ToString());
-                                //quy2.ReturnAmount += (decimal.Parse)(item.ReturnAmount.ToString());
-                                //quy2.TransactionCount += (long.Parse)(item.TransactionCount.ToString());
+                               
                             }
                             sname = item.Name;
                             svalue = (decimal.Parse)(item.Value.ToString());
@@ -626,6 +621,8 @@ namespace WebMVC.Controllers
                         }
                     }
                     d = new Models.Statistic();
+                if(sname != "")
+                {
                     if (quy == quarter1)
                     {
                         d.Name = thang.ToString() + '/' + year2.ToString() + " - " + thang.ToString() + "/" + year1.ToString();
@@ -675,6 +672,8 @@ namespace WebMVC.Controllers
                         quy2.ReturnAmount += sreturn;
                     }
                 }
+                   
+                
 
                 d = new Models.Statistic();
                 d.Name = quarter2 + "/" + year2 + " - " + quarter1 + "/" + year1;
@@ -843,6 +842,7 @@ namespace WebMVC.Controllers
                         }
                     }
                     d = new Models.Statistic();
+                    if(sname != ""){
                     if (nam == year1)
                     {
                         d.Name = thang.ToString() + "/" + year2.ToString() + " - " + thang.ToString() + "/" + year1.ToString();
@@ -891,6 +891,7 @@ namespace WebMVC.Controllers
                         nam2.Value = svalue;
                         nam2.ReturnAmount = sreturn;
                     }
+                }
                     d = new Models.Statistic();
                     d.Name = year2 + " - " + year1;
                     if (nam1.Value != 0)
