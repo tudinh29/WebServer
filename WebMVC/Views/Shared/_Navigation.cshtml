@@ -138,6 +138,12 @@
                         <a href="@Url.Action("Index", "RetrivalInvalid")"><i class="fa fa-edit fa-fw"></i>Truy hồi không hợp lệ</a>
                     }
                 </li>
+                <li>
+                    @if (Convert.ToChar(temp.UserType) == 'M')
+                    {
+                        <a href="@Url.Action("Index", "Feedback")"><i class="fa fa-edit fa-fw"></i>Phản hồi</a>
+                    }
+                </li>
 
                 @*<li>
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
