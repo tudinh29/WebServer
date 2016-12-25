@@ -441,6 +441,26 @@
                 color: blue;
             }
 </style>
+@{
+    if(reportType == "month")
+    {
+        note1 = "Tháng "+ m1 + "/" + y1;
+        note2 = "Tháng " + m2 + "/" + y2;
+    }
+    else
+    {
+        if(reportType == "quarter")
+        {
+            note2 = "Quý " +q2 + "/" + y2;
+            note1 = "Quý " + q1 + "/" + y1;
+        }
+        else
+        {
+            note1 = "Năm " + y1;
+            note2 = "Năm " + y2;
+        }
+    }
+}
 <div class="row">
   <div class="col-lg-4">
       <div id="note1">
@@ -519,7 +539,7 @@
                                     }
                                 }
 
-                                @if (item.Value > 0)
+                                @if (item.ReturnAmount > 0)
                                 {
                                     <td>Tăng: @item.ReturnAmount %</td>
                                 }

@@ -313,7 +313,7 @@ namespace WebMVC.Controllers
                                 d.Name = ngay.ToString() + "/" + month2.ToString() + " - " + ngay.ToString() + "/" + month1.ToString();
                                 if (svalue != 0)
                                 {
-                                    d.Value = 100;
+                                    d.Value = -100;
                                 }
                                 else
                                 {
@@ -321,7 +321,7 @@ namespace WebMVC.Controllers
                                 }
                                 if (sreturn != 0)
                                 {
-                                    d.ReturnAmount = 100;
+                                    d.ReturnAmount = -100;
                                 }
                                 else
                                 {
@@ -339,7 +339,7 @@ namespace WebMVC.Controllers
                                 d.Name = ngay.ToString() + "/" + month2.ToString() + " - " + ngay.ToString() + "/" + month1.ToString();
                                 if (svalue != 0)
                                 {
-                                    d.Value = -100;
+                                    d.Value = 100;
                                 }
                                 else
                                 {
@@ -347,13 +347,13 @@ namespace WebMVC.Controllers
                                 }
                                 if (sreturn != 0)
                                 {
-                                    d.ReturnAmount = -100;
+                                    d.ReturnAmount = 100;
                                 }
                                 else
                                 {
                                     d.ReturnAmount = 0;
                                 }
-                                d.TransactionCount = -scount;
+                                
                                 tile.Add(d);
                                 thang2.Value += svalue;
                                 thang2.ReturnAmount += sreturn;
@@ -369,58 +369,62 @@ namespace WebMVC.Controllers
                     }
                 }
                 d = new Models.Statistic();
-                if (thang == month1)
+                if(sname != "")
                 {
-                    d.Name = ngay.ToString() + "/" + month2.ToString() + " - " + ngay.ToString() + "/" + month1.ToString();
-                    if (svalue != 0)
+                    if (thang == month1)
                     {
-                        d.Value = -100;
+                        d.Name = ngay.ToString() + "/" + month2.ToString() + " - " + ngay.ToString() + "/" + month1.ToString();
+                        if (svalue != 0)
+                        {
+                            d.Value = -100;
+                        }
+                        else
+                        {
+                            d.Value = 0;
+                        }
+                        if (sreturn != 0)
+                        {
+                            d.ReturnAmount = -100;
+                        }
+                        else
+                        {
+                            d.ReturnAmount = 0;
+                        }
+
+                        d.TransactionCount = scount;
+                        tile.Add(d);
+                        thang1.Value += svalue;
+                        thang1.ReturnAmount += sreturn;
+                        thang1.TransactionCount += scount;
                     }
                     else
                     {
-                        d.Value = 0;
-                    }
-                    if (sreturn != 0)
-                    {
-                        d.ReturnAmount = -100;
-                    }
-                    else
-                    {
-                        d.ReturnAmount = 0;
+                        d.Name = ngay.ToString() + "/" + month2.ToString() + " - " + ngay.ToString() + "/" + month1.ToString();
+                        if (svalue != 0)
+                        {
+                            d.Value = 100;
+                        }
+                        else
+                        {
+                            d.Value = 0;
+                        }
+                        if (sreturn != 0)
+                        {
+                            d.ReturnAmount = 100;
+                        }
+                        else
+                        {
+                            d.ReturnAmount = 0;
+                        }
+                        d.TransactionCount = -scount;
+                        tile.Add(d);
+                        thang2.Value += svalue;
+                        thang2.ReturnAmount += sreturn;
+                        thang2.TransactionCount += scount;
                     }
 
-                    d.TransactionCount = scount;
-                    tile.Add(d);
-                    thang1.Value += svalue;
-                    thang1.ReturnAmount += sreturn;
-                    thang1.TransactionCount += scount;
                 }
-                else
-                {
-                    d.Name = ngay.ToString() + "/" + month2.ToString() + " - " + ngay.ToString() + "/" + month1.ToString();
-                    if (svalue != 0)
-                    {
-                        d.Value = 100;
-                    }
-                    else
-                    {
-                        d.Value = 0;
-                    }
-                    if (sreturn != 0)
-                    {
-                        d.ReturnAmount = 100;
-                    }
-                    else
-                    {
-                        d.ReturnAmount = 0;
-                    }
-                    d.TransactionCount = -scount;
-                    tile.Add(d);
-                    thang2.Value += svalue;
-                    thang2.ReturnAmount += sreturn;
-                    thang2.TransactionCount += scount;
-                }
-
+                
                 d = new Models.Statistic();
                 d.Name = month2 + "/" + year2 + " - " + month1 + "/" + year1;
                 if (thang1.Value != 0)
@@ -536,7 +540,7 @@ namespace WebMVC.Controllers
                                 }
                                 else
                                 {
-                                    d.ReturnAmount = 0;
+                                    d.ReturnAmount = 100;
                                 }
                                 d.TransactionCount = (long.Parse)(item.TransactionCount.ToString()) - scount;
                                 sname = String.Empty;
