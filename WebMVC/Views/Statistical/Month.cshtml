@@ -38,29 +38,27 @@
     }
 </style>
 <link href="~/Assets/css/myStyle.css" rel="stylesheet" />
-
+@using (Html.BeginForm("Month", "Statistical", FormMethod.Get))
+{
 <div class="col-lg-12">
     <div class="row">
-        @using (Html.BeginForm("Month", "Statistical", FormMethod.Get))
-        {
+        
             <div class="row">
                 <div class="col-lg-12">
                     <div class="col-md-3"></div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" value="@ViewBag.searchString" name="searchString" />
+                        <input type="text" class="form-control" value="@ViewBag.searchString" name="searchString" id="search"/>
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-info" type="submit" style="border:0">Tìm</button>
                     </div>
                 </div>
             </div>
-        }
+        
     </div>
     <br />
 </div>
 
-@using (Html.BeginForm("Month", "Statistical", new { searchString = @ViewBag.searchString }, FormMethod.Get))
-{
     <div id="mySidenav" class="sidenavFilter" style="top:25%">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
