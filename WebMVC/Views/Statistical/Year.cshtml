@@ -38,11 +38,11 @@
         }
     </style>
     <link href="~/Assets/css/myStyle.css" rel="stylesheet" />
-
+@using (Html.BeginForm("Year", "Statistical", FormMethod.Get))
+{
     <div class="col-lg-12">
         <div class="row">
-            @using (Html.BeginForm("Year", "Statistical", FormMethod.Get))
-            {
+            
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="col-md-3"></div>
@@ -54,14 +54,11 @@
                         </div>
                     </div>
                 </div>
-            }
+            
         </div>
         <br />
     </div>
 
-    
-    @using (Html.BeginForm("Year", "Statistical", new { searchString = @ViewBag.searchString }, FormMethod.Get))
-    {
         <div id="mySidenav" class="sidenavFilter" style="top:25%">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
@@ -88,7 +85,7 @@
                 </p>
             </center>
         </div>
-    }
+}
     
     <div id="main">
         <div class="container-fluid">
