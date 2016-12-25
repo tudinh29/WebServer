@@ -23,18 +23,137 @@
     var MerchantSupermarket = listMerchantType.Find(x => x.MerchantType.Contains("SM"));
     var MerchantStore = listMerchantType.Find(x => x.MerchantType.Contains("ST"));
     var OtherMerchant = listMerchantType.Find(x => x.MerchantType.Contains(""));
-    /*if (OtherMerchant == null)
+    if (OtherMerchant == null)
     {
-        OtherMerchant = new MERCHANT_SUMMARY_DAILY();
+        OtherMerchant = new MERCHANT_SUMMARY();
         OtherMerchant.NetAmount = 0;
         OtherMerchant.TransactionCount = 0;
         OtherMerchant.SaleAmount = 0;
         OtherMerchant.SaleCount = 0;
         OtherMerchant.ReturnCount = 0;
         OtherMerchant.ReturnCount = 0;
-    }*/
+    }
 
+    if (MerchantStore == null)
+    {
+        MerchantStore = new MERCHANT_SUMMARY();
+        MerchantStore.NetAmount = 0;
+        MerchantStore.TransactionCount = 0;
+        MerchantStore.SaleAmount = 0;
+        MerchantStore.SaleCount = 0;
+        MerchantStore.ReturnCount = 0;
+        MerchantStore.ReturnCount = 0;
+    }
 
+    if (MerchantSupermarket == null)
+    {
+        MerchantSupermarket = new MERCHANT_SUMMARY();
+        MerchantSupermarket.NetAmount = 0;
+        MerchantSupermarket.TransactionCount = 0;
+        MerchantSupermarket.SaleAmount = 0;
+        MerchantSupermarket.SaleCount = 0;
+        MerchantSupermarket.ReturnCount = 0;
+        MerchantSupermarket.ReturnCount = 0;
+    }
+
+    if (MerchantResort == null)
+    {
+        MerchantResort = new MERCHANT_SUMMARY();
+        MerchantResort.NetAmount = 0;
+        MerchantResort.TransactionCount = 0;
+        MerchantResort.SaleAmount = 0;
+        MerchantResort.SaleCount = 0;
+        MerchantResort.ReturnCount = 0;
+        MerchantResort.ReturnCount = 0;
+    }
+
+    if (MerchantHotel == null)
+    {
+        MerchantHotel = new MERCHANT_SUMMARY();
+        MerchantHotel.NetAmount = 0;
+        MerchantHotel.TransactionCount = 0;
+        MerchantHotel.SaleAmount = 0;
+        MerchantHotel.SaleCount = 0;
+        MerchantHotel.ReturnCount = 0;
+        MerchantHotel.ReturnCount = 0;
+    }
+
+    if (MerchantDiner == null)
+    {
+        MerchantDiner = new MERCHANT_SUMMARY();
+        MerchantDiner.NetAmount = 0;
+        MerchantDiner.TransactionCount = 0;
+        MerchantDiner.SaleAmount = 0;
+        MerchantDiner.SaleCount = 0;
+        MerchantDiner.ReturnCount = 0;
+        MerchantDiner.ReturnCount = 0;
+    }
+
+    if (MerchantClothes == null)
+    {
+        MerchantClothes = new MERCHANT_SUMMARY();
+        MerchantClothes.NetAmount = 0;
+        MerchantClothes.TransactionCount = 0;
+        MerchantClothes.SaleAmount = 0;
+        MerchantClothes.SaleCount = 0;
+        MerchantClothes.ReturnCount = 0;
+        MerchantClothes.ReturnCount = 0;
+    }
+
+    if (OtherRegion == null)
+    {
+        OtherRegion = new MERCHANT_SUMMARY();
+        OtherRegion.NetAmount = 0;
+        OtherRegion.TransactionCount = 0;
+        OtherRegion.SaleAmount = 0;
+        OtherRegion.SaleCount = 0;
+        OtherRegion.ReturnCount = 0;
+        OtherRegion.ReturnCount = 0;
+    }
+
+    if (NorthUSA == null)
+    {
+        NorthUSA = new MERCHANT_SUMMARY();
+        NorthUSA.NetAmount = 0;
+        NorthUSA.TransactionCount = 0;
+        NorthUSA.SaleAmount = 0;
+        NorthUSA.SaleCount = 0;
+        NorthUSA.ReturnCount = 0;
+        NorthUSA.ReturnCount = 0;
+    }
+
+    if (MiddleVN == null)
+    {
+        MiddleVN = new MERCHANT_SUMMARY();
+        MiddleVN.NetAmount = 0;
+        MiddleVN.TransactionCount = 0;
+        MiddleVN.SaleAmount = 0;
+        MiddleVN.SaleCount = 0;
+        MiddleVN.ReturnCount = 0;
+        MiddleVN.ReturnCount = 0;
+    }
+
+    if (SouthVN == null)
+    {
+        SouthVN = new MERCHANT_SUMMARY();
+        SouthVN.NetAmount = 0;
+        SouthVN.TransactionCount = 0;
+        SouthVN.SaleAmount = 0;
+        SouthVN.SaleCount = 0;
+        SouthVN.ReturnCount = 0;
+        SouthVN.ReturnCount = 0;
+    }
+
+    if (NorthVN == null)
+    {
+        NorthVN = new MERCHANT_SUMMARY();
+        NorthVN.NetAmount = 0;
+        NorthVN.TransactionCount = 0;
+        NorthVN.SaleAmount = 0;
+        NorthVN.SaleCount = 0;
+        NorthVN.ReturnCount = 0;
+        NorthVN.ReturnCount = 0;
+    }
 }
 
 <form id="mainform" action="http://localhost:21231/Report" method="POST">
@@ -119,7 +238,7 @@
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
-                        </select> 
+                        </select>
                         <input class="form-control" value="" id="startQuarterYear" placeholder="Start Quarter" type="text">
                     </div>
                 </div>
@@ -129,7 +248,7 @@
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
-                    </select> 
+                    </select>
                     <input class="form-control" value="" id="endQuarterYear" placeholder="End Quarter" type="text">
                 </div>
                 <div class="row-sm-4">
@@ -187,7 +306,7 @@
                 <h3>American Card</h3>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total revenue: @(cardTypeReport.Count() == 0 ? 0: @cardTypeReport.FirstOrDefault().AmericanExpressNetAmount)</p>
+                        <p>Total revenue: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressNetAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
                         <p>Total transaction: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressTransactionCount)</p>
@@ -315,7 +434,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total return: @(cardTypeReport.Count() == 0 ? 0 :@cardTypeReport[0].MasterCardReturnAmount)</p>
+                        <p>Total return: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardReturnAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
                         <p>Return count: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardReturnCount)</p>
@@ -327,7 +446,7 @@
                 <h3>Visa Card</h3>
                 <div class="row">
                     <div class="col-xs-9">
-                        <p>Total revenue: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardNetAmount )</p>
+                        <p>Total revenue: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardNetAmount)</p>
                     </div>
                     <div class="col-xs-9 ">
                         <p>Total transaction: @(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardTransactionCount)</p>
@@ -788,7 +907,7 @@
             <div class="panel-body">
                 <div id="morris-line-chart"></div>
                 <div id="detailRevenueBtn" class="text-right" onclick="Display('detailRevenueBtn','RevenueModal',-1)">
-                  
+
                 </div>
             </div>
         </div>
@@ -945,7 +1064,7 @@
             pointFillColors: ['#FF3300'],
             hoverCallback: function (index, options, content) {
                 var data = options.data[index];
-                content = "<div class='morris-hover-row-label'>" + data.d + "</div><div class='morris-hover-point' style='color: #0b62a4'>Sale Amount: $" + data.sales + "<br>Return Amount: $"+ -data.returns+ "<br>Transactions: "+ data.count+ "</div>"
+                content = "<div class='morris-hover-row-label'>" + data.d + "</div><div class='morris-hover-point' style='color: #0b62a4'>Sale Amount: $" + data.sales + "<br>Return Amount: $" + -data.returns + "<br>Transactions: " + data.count + "</div>"
                 return content
             },
         });
@@ -1053,7 +1172,7 @@
         var endDay = $('#endDay').datepicker({
             format: "dd/mm/yyyy",
             onRender: function (date) {
-                
+
             }
         }).on('changeDate', function (ev) {
             endDay.hide();
@@ -1199,7 +1318,7 @@
                 $("#reportEndYear").attr("value", endDateUserInput.format('YYYY'));
                 $("#reportType").attr("value", "Month");
             }
-           
+
             $("#mainform").submit();
         });
 
@@ -1237,7 +1356,7 @@
             if ($('#startYear').val() === $('#endYear').val()) {
                 $("#reportStartMonth").attr("value", '1');
                 $("#reportEndMonth").attr("value", '12');
-               
+
                 $("#reportType").attr("value", "Month");
             } else {
                 $("#reportType").attr("value", "Year");
