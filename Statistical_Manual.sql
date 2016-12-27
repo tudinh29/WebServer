@@ -1,3 +1,7 @@
+﻿/* 
+Version			Changer				Date			Detail
+1.0				Hà Xuân Duy		17/12/2016			Đếm số dòng dữ liệu cùng 1 Agent khi có tìm kiếm.													
+*/
 go 
 drop Procedure SP_FindCountMerchantSummaryElementByAgent_ForQuery 
 go
@@ -20,6 +24,12 @@ SELECT Count(*)
 		  [KeyedAmount] like '%'+@Element+'%' )
 end
 go 
+
+/* 
+Version			Changer				Date			Detail
+1.0				Hà Xuân Duy		17/12/2016			Lấy 10 dòng dữ liệu cùng 1 Agent khi có thêm tìm kiếm												
+*/
+
 drop Procedure SP_FindMerchantSummaryElementByAgent_ForQuery 
 go
 
@@ -46,7 +56,10 @@ SELECT *
   fetch next @pageSize row only 
 end
 
-
+/* 
+Version			Changer				Date			Detail
+1.0				Hà Xuân Duy		17/12/2016			Đếm số dòng dữ liệu cùng 1 Agent												
+*/
 
 go drop Procedure SP_GetCountMerchantSummaryForAgent_Default_ForQuery 
 go
@@ -61,6 +74,10 @@ SELECT Count(*)
 End
 go
 
+/* 
+Version			Changer				Date			Detail
+1.0				Hà Xuân Duy		17/12/2016			Lấy 10 dòng dữ liệu cùng 1 Agent.													
+*/
 go drop Procedure SP_GetMerchantSummaryForAgent_Default_ForQuery 
 go
 create Procedure SP_GetMerchantSummaryForAgent_Default_ForQuery
@@ -78,7 +95,10 @@ SELECT *
 End
 go
 
-
+/* 
+Version			Changer				Date			Detail
+1.0				Hà Xuân Duy		17/12/2016			Đếm số dòng dữ liệu tìm kiếm được.													
+*/
 go drop Procedure SP_FindCountMerchantSummaryElement_ForQuery 
 go
 
@@ -100,6 +120,11 @@ SELECT Count(*)
 		  [KeyedAmount] like '%'+@Element+'%' 
 end
 go
+
+/* 
+Version			Changer				Date			Detail
+1.0				Hà Xuân Duy		17/12/2016			Lấy 10 dòng dữ liệu trong trong danh sach khi tìm kiếm.													
+*/
 go drop Procedure SP_FindMerchantSummaryElement_ForQuery 
 go
 Create Procedure SP_FindMerchantSummaryElement_ForQuery
@@ -124,6 +149,11 @@ SELECT *
   fetch next @pageSize row only 
 end
 go
+
+/* 
+Version			Changer				Date			Detail
+1.0				Hà Xuân Duy		17/12/2016			Lấy 10 dòng dữ liệu trong dang sách.													
+*/
 go drop Procedure SP_GetMerchantSummary_Default_ForQuery 
 go
 Create Procedure SP_GetMerchantSummary_Default_ForQuery
@@ -137,6 +167,11 @@ SELECT*
   Offset (@pageIndex - 1)*@pageSize row 
   fetch next @pageSize row only 
 end
+
+/* 
+Version			Changer				Date			Detail
+1.0				Hà Xuân Duy		17/12/2016			Đếm số lượng dang sánh trong bảng MERCHANT_SUMMARY_DAILY													
+*/
 go drop Procedure SP_GetCountMerchantSummary_Default_ForQuery 
 go
 create Procedure SP_GetCountMerchantSummary_Default_ForQuery

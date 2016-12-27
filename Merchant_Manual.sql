@@ -1,3 +1,7 @@
+﻿/*
+Version          Changer                Date               Detail         
+1.0              Phạm Ngọc Thiện        17/12/2016         Đếm số lượng tìm kiếm được merchant dưới quyền quản lý của 1 Agent
+*/
 go
 drop proc sp_CountFindMerchantByAgentCodeAndElement_ForQuery
 go
@@ -35,7 +39,10 @@ BEGIN
 		OR a.Description like '%'+@Element+'%')
 END
 GO
-
+/*
+Version          Changer                Date               Detail         
+1.0              Phạm Ngọc Thiện        17/12/2016         Tìm kiếm và lấy 10 dữ liệu của merchant dưới quyền quản lý của 1 Agent
+*/
 go
 drop proc sp_FindMerchantByAgentCodeAndElement_ForQuery
 go
@@ -101,7 +108,10 @@ BEGIN
 	fetch next @pageSize row only 
 END
 GO
-
+/*
+Version          Changer                Date               Detail         
+1.0              Phạm Ngọc Thiện        17/12/2016        Đếm số lượng của merchant dưới quyền quản lý của 1 Agent
+*/
 drop proc sp_CountMerchantByAgentCode_ForQuery
 go
 create  proc sp_CountMerchantByAgentCode_ForQuery
@@ -113,7 +123,10 @@ begin
 	where a.AgentCode = @AgentCode 
 end
 go
-
+/*
+Version          Changer                Date               Detail         
+1.0              Phạm Ngọc Thiện        17/12/2016         Lấy 10 dữ liệu của merchant dưới quyền quản lý của 1 Agent
+*/
 drop proc sp_GetMerchantByAgentCode_ForQuery
 go
 create  proc sp_GetMerchantByAgentCode_ForQuery
@@ -154,7 +167,10 @@ begin
 end
 go
 
-
+/*
+Version          Changer                Date               Detail         
+1.0              Phạm Ngọc Thiện        17/12/2016         Đếm số lượng merchant có trong bảng merchant
+*/
 drop proc sp_CountMerchant
 go
 CREATE PROC sp_CountMerchant
@@ -164,6 +180,10 @@ BEGIN
 	FROM MERCHANT
 END
 GO
+/*
+Version          Changer                Date               Detail         
+1.0              Phạm Ngọc Thiện        17/12/2016        Lấy 10 dòng dữ liệu trên bảng merchant
+*/
 drop proc sp_FindAllMerchant_ForQuery
 go
 CREATE PROC sp_FindAllMerchant_ForQuery
@@ -179,7 +199,10 @@ begin
 end
 GO
 
-
+/*
+Version          Changer                Date               Detail         
+1.0              Phạm Ngọc Thiện        17/12/2016        Lấy 10 dòng dữ liệu khi tìm kiếm trên Merchant
+*/
 drop proc sp_FindMerchantElement_ForQuery
 go
 create proc [dbo].[sp_FindMerchantElement_ForQuery] @Element varchar(50), @pageIndex int, @pageSize int
@@ -241,6 +264,10 @@ BEGIN
 END
 GO
 
+/*
+Version          Changer                Date               Detail         
+1.0              Phạm Ngọc Thiện        17/12/2016         Đếm số lượng kết quả khi tìm kiếm trên Merchant
+*/
 drop proc sp_CountMerchantElement_ForQuery 
 go
 create proc [dbo].[sp_CountMerchantElement_ForQuery] @Element varchar(50)

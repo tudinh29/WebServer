@@ -76,13 +76,12 @@
             document.getElementById("searchString").focus();
         };
     </script>
-}
 
 
 
 
-@using (Html.BeginForm("Merchant", "Management", FormMethod.Get))
-{
+
+
     <div id="mySidenav" class="sidenavFilter" style="top:25%">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
@@ -105,7 +104,7 @@
         <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#status">Status</button>
         <div id="status" class="collapse">
 
-            <li><label><input id=" a" class="CheckValue" type="checkbox" name="ActiveTypeValue" value="A">Active</label></li>
+            <li><label><input id="A" class="CheckValue" type="checkbox" name="ActiveTypeValue" value="A">Active</label></li>
             <li><label><input id="I" class="CheckValue" type="checkbox" name="ActiveTypeValue" value="I">Inactive</label></li>
 
         </div>
