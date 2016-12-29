@@ -1389,65 +1389,17 @@ namespace WebMVC.Controllers
                 // Điều kiện merchant type
             if (MerchantTypeValue != null)
             {
-<<<<<<< HEAD
                 query = query + MerchantTypeCondition(MerchantTypeValue);
                 flat = false;
-=======
-                //Lọc theo merchant type trước
-                ConditionMerchant = ConditionMerchant + "(";
-                for (int i = 0; i < MerchantTypeValue.Count; i++)
-                {
-                    ConditionMerchant = ConditionMerchant + "M.MerchantType = " + "'" + MerchantTypeValue[i] + "'";
-                    if (i < MerchantTypeValue.Count - 1)
-                    {
-                        ConditionMerchant = ConditionMerchant + " or ";
-                    }
-                }
-                ConditionMerchant = ConditionMerchant + ")";
-                query = query + ConditionMerchant;
-
-                if (RegionTypeValue != null)
-                {
-                    //Nếu có thêm region thì lọc cả 2
-                    ConditionRegion = ConditionRegion + "(";
-                    for (int i = 0; i < RegionTypeValue.Count; i++)
-                    {
-                        ConditionRegion = ConditionRegion + "M.RegionCode = " + "'" + RegionTypeValue[i] + "'";
-                        if (i < RegionTypeValue.Count - 1)
-                        {
-                            ConditionRegion = ConditionRegion + " or ";
-                        }
-                    }
-                    ConditionRegion = ConditionRegion + ")";
-                    query = query + " and " + ConditionRegion;
-                }
-
->>>>>>> origin/KetHopSearchFilter_Merchant_StatistialDay
             }
                 // Điều kiện region
             if (RegionTypeValue != null)
             {
-<<<<<<< HEAD
                 if (flat == false)
                     query = query + " AND ";
                 else
                     flat = false;
                 query = query + RegionCondition(RegionTypeValue);
-=======
-                //Lọc theo Region
-                ConditionRegion = ConditionRegion + "(";
-                for (int i = 0; i < RegionTypeValue.Count; i++)
-                {
-                    ConditionRegion = ConditionRegion + "M.RegionCode = " + "'" + RegionTypeValue[i] + "'";
-                    if (i < RegionTypeValue.Count - 1)
-                    {
-                        ConditionRegion = ConditionRegion + " or ";
-                    }
-                }
-                ConditionRegion = ConditionRegion + ")";
-                query = query + ConditionRegion;
-
->>>>>>> origin/KetHopSearchFilter_Merchant_StatistialDay
             }
                 // Điều kiện search
             if (!String.IsNullOrEmpty(searchString))
