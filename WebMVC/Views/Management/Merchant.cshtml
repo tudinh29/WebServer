@@ -2,6 +2,7 @@
 @using PagedList.Mvc;
 @using System.Web.Mvc;
 @using WebMVC.EntityFramework;
+@using WebMVC.Models;
 @{
     ViewBag.Title = "Merchant";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,6 +17,7 @@
     var MerchantTypeValue = (List<string>)ViewBag.MerchantTypeValue;
     var RegionTypeValue = (List<string>)ViewBag.RegionTypeValue;
     var ActiveTypeValue = (List<string>)ViewBag.ActiveTypeValue;
+    var DoanhThu = (List<DoanhThuMerchant>)ViewBag.DoanhThu;
 }
 @section header{
     Danh sách các Merchant
@@ -77,11 +79,6 @@
         };
     </script>
 
-
-
-
-
-
     <div id="mySidenav" class="sidenavFilter" style="top:25%">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
@@ -140,9 +137,13 @@
                                     <th>City</th>
                                     <th>Last Active Date</th>
                                     <th>Closed Date</th>
+                                    <th>Total Revenue this month (USD)</th>
+                                    <th>Average Revenue this month (USD)</th>
+                                    <th>Growing Rate</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @{int STTDoanhThu = 0;}
                                 @foreach (var item in Model)
                                 {
                                     <tr id="row_@item.MerchantCode">
@@ -178,7 +179,11 @@
                                                 <td>@item.CityName</td>
                                                 <td>@(String.IsNullOrEmpty(item.LastActiveDate.ToString()) ? "" : item.LastActiveDate.Value.ToString("yyyy-MM-dd"))</td>
                                                 <td>@(String.IsNullOrEmpty(item.CloseDate.ToString()) ? "" : item.CloseDate.Value.ToString("yyyy-MM-dd"))</td>
+                                                <td>@DoanhThu[STTDoanhThu].DoanhThu</td>
+                                                <td>@DoanhThu[STTDoanhThu].TrungBinh</td>
+                                                <td>@DoanhThu[STTDoanhThu].TangTruong</td>
                                             </tr>
+                                            STTDoanhThu++;
                                         }
                                     </tbody>
                                 </table>

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPI.EntityFramework;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -359,6 +360,29 @@ namespace WebAPI.Controllers
             {
                 return false;
             }
+        }
+
+        [HttpGet]
+        public List<string> GetViewListMerchant(string agentCode, string keyword)
+        {
+            object[] paremeter = 
+            {
+                new SqlParameter("@AgentCode", agentCode),
+                new SqlParameter("@KeyWord", keyword)
+            };
+            var res = db.Database.SqlQuery<string>("sp_GetViewListMerchant @AgentCode, @KeyWord", paremeter).ToList();
+            return res;
+        }
+
+        [HttpGet]
+        public List<DoanhThuMerchant> LayDoanhThuMerchant(string merchantCode)
+        {
+            object[] paremeter = 
+            {
+                new SqlParameter("@MerchantCode", merchantCode)
+            };
+            var res = db.Database.SqlQuery<DoanhThuMerchant>("sp_LayDoanhThuMerchant @MerchantCode", paremeter).ToList();
+            return res;
         }
     }
 }
