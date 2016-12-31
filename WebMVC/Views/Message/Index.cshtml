@@ -22,8 +22,8 @@
                 <th>Nơi gửi</th>
                 @*<th>Kiểu nơi gửi</th>*@
                 <th>Nơi nhận</th>
-                <th>Kiểu nơi nhận</th>
-                <th>Message</th>
+                @*<th>Kiểu nơi nhận</th>*@
+                <th>Nội dung</th>
                 <th>Ngày gửi</th>
                 <th>Trạng Thái</th>
             </tr>
@@ -37,10 +37,10 @@
                         <td>@item.Sender</td>
                         @*<td>@item.SenderType</td>*@
                         <td>@item.Receiver</td>
-                        <td>@item.ReceiverType</td>
+                        @*<td>@item.ReceiverType</td>*@
                         @if (length >= 10)
                         {
-                            <td>@item.Message.Substring(0, 10)</td>
+                            <td>@item.Message.Substring(0, 10) ...</td>
                         }
                         else
                         {
@@ -52,7 +52,7 @@
                             {
                                 if (item.Receiver == "ALL" || item.Receiver == "all")
                                 {
-                                    <a href="/Message/ViewMessage/@item.ID" class="btn btn-success btn-lg">Chưa xem</a>
+                                    <a href="/Message/ViewMessage/@item.ID" class="btn btn-success btn-lg">Xem</a>
                                 }
                                 else
                                 {
