@@ -1,10 +1,9 @@
-﻿@model PagedList.IPagedList<WebMVC.EntityFramework.RETRIVAL_INVALID>
+﻿@model List<WebMVC.EntityFramework.RETRIVAL_INVALID>
 @using PagedList.Mvc;
 @using System.Web.Mvc;
 @{
     ViewBag.Title = "Retrival Invalid";
     Layout = "~/Views/Shared/_Layout.cshtml";
-   
 }
 @section header{
     Danh sách Retrival Invalid
@@ -18,7 +17,7 @@
                 <div class="col-lg-12">
                     <div class="col-md-3"></div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" value="@ViewBag.searchString" name="searchString" placeholder="Search" />
+                        <input type="text" class="form-control" value="@ViewBag.searchString" name="searchString" />
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-info" type="submit" style="border:0">Tìm</button>
@@ -44,26 +43,53 @@
                             <th>Transaction Date</th>
                             <th>Report Date</th>
                             <th>Amount</th>
-                            <th>Error Message</th>
+                            <th>Error Messages</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr id="row_@item.RetrivalCode">
-                                <td>@item.RetrivalCode</td>
+                                <td>
+                                    @Html.ActionLink(@item.RetrivalCode, "ViewDetail_Retrival", "RetrivalInvalid",
+                                         new { RetrivalCode = @item.RetrivalCode, @name = "Retrivalcode" }, null)
+                                </td>
                                 <td>@item.AccountNumber</td>
                                 <td>@item.MerchantCode</td>
                                 <td>@item.TransactionCode</td>
-                                <td>@(String.IsNullOrEmpty(item.TransactionDate.ToString()) ? "" : item.TransactionDate.Value.ToString("yyyy-MM-dd"))</td>
-                                <td>@(String.IsNullOrEmpty(item.ReportDate.ToString()) ? "" : item.ReportDate.Value.ToString("yyyy-MM-dd"))</td>
+                                <td>@item.TransactionDate</td>
+                                <td>@item.ReportDate</td>
                                 <td>@item.Amout</td>
                                 <td>@item.ErrorMessage</td>
                             </tr>
                         }
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model, Page => Url.Action("Index", "RetrivalInvalid", new { Page, searchString = ViewBag.searchString }))
+                @if (ViewBag.TotalPage > 1)
+                {
+                    var pageDisplay = (int)ViewBag.MaxPage;
+                    int totalPage = (int)ViewBag.TotalPage;
+                    int currentPage = (int)ViewBag.Page;
+
+                    var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                    var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                @Html.ActionLink("Trang đầu", "Index", "RetrivalInvalid", new { page = ViewBag.First, searchString = ViewBag.searchString }, null)
+                            </li>
+                            @for (int i = startPageIndex; i <= endPageIndex; i++)
+                            {
+                                <li>
+                                    @Html.ActionLink(i.ToString(), "Index", "RetrivalInvalid", new { page = i, searchString = ViewBag.searchString }, null)
+                                </li>
+                            }
+                            <li>
+                                @Html.ActionLink("Trang cuối", "Index", "RetrivalInvalid", new { page = ViewBag.Last, searchString = ViewBag.searchString }, null)
+                            </li>
+                        </ul>
+                    </nav>
+                }
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -73,10 +99,8 @@
         </div>
     </div>
 </div>
-
-<div class="col-md-10 text-right">
-    <a href="@Url.Action("ExportExcel", "RetrivalInvalid", new { searchString = ViewBag.searchString })" class="btn btn-primary">Excel</a>
-    <a href="@Url.Action("ExportPDF", "RetrivalInvalid", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
-    <a href="@Url.Action("ExportCSV", "RetrivalInvalid", new { searchString = ViewBag.searchString })" class="btn btn-primary">CSV</a>
+<div class="col-md-11 text-right">
+    <a href="@Url.Action("ExportPDF", "Retrival", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
+    <a href="@Url.Action("ExportExcel", "Retrival", new { searchString = ViewBag.searchString })" class="btn btn-primary btn" id=" btnExcel">Excel</a>
+    <a href="@Url.Action("ExportCSV", "Retrival", new { searchString = ViewBag.searchString })" class="btn btn-primary btn" id=" btnExcel">CSV</a>
 </div>
-

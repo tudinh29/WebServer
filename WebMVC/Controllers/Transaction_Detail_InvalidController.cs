@@ -19,10 +19,6 @@ using Newtonsoft.Json;
 using System.Data;
 using Rotativa;
 
-
-
-
-
 namespace WebMVC.Controllers
 {
     public class Transaction_Detail_InvalidController : BaseController
@@ -40,79 +36,153 @@ namespace WebMVC.Controllers
                 temp = (USER_INFORMATION)model;
             }
             HttpClient client = new AccessAPI().Access();
+
+            int totalPage = 0;
+            int maxPage = 4;
+            int totalTransaction = 0;
+
             if(temp.UserType == "T")
             {
-                
-                if(searchString == null)
+                HttpResponseMessage responseCountInTrans = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/CountTransInvalid_Master")).Result;
+                if (responseCountInTrans.IsSuccessStatusCode)
                 {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindAllTransaction_Detail_Invalid")).Result;
+                    totalTransaction = responseCountInTrans.Content.ReadAsAsync<int>().Result;
+                }
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/GetTransaction_Detail_Invalid_Master?pageIndex={0}&pageSize={1}", page - 1, size)).Result;
 
                     if (response.IsSuccessStatusCode)
                     {
                         transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
+                        totalPage = (int)Math.Ceiling((double)totalTransaction / size);
+                        ViewBag.Total = totalTransaction;
+                        ViewBag.Page = page;
+                        ViewBag.TotalPage = totalPage;
+                        ViewBag.MaxPage = maxPage;
+                        ViewBag.First = 1;
+                        ViewBag.Last = totalPage;
                     }
                 }
                 else
                 {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalidElement?searchString={0}", searchString)).Result;
+                    HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalidElement_Master?searchString={0}&pageIndex={1}&pageSize={2}", searchString, page - 1, size)).Result;
 
                     if (response.IsSuccessStatusCode)
                     {
                         transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
+                        HttpResponseMessage response2 = client.GetAsync(string.Format("api/RETRIVAL_INVALID/CountTransInvalidElements_Master?searchString={0}", searchString)).Result;
+                        if (response2.IsSuccessStatusCode)
+                        {
+                            totalTransaction = response2.Content.ReadAsAsync<int>().Result;
+                        }
+                        totalPage = (int)Math.Ceiling((double)totalTransaction / size);
+                        ViewBag.Total = totalTransaction;
+                        ViewBag.Page = page;
+                        ViewBag.TotalPage = totalPage;
+                        ViewBag.MaxPage = maxPage;
+                        ViewBag.First = 1;
+                        ViewBag.Last = totalPage;
                     }
                     @ViewBag.search = searchString;
-                }
-                
-                
+                } 
             }
             else
             {
                 if(temp.UserType == "A")
                 {
-
-                    if(searchString == null)
+                    HttpResponseMessage responseCountInTrans = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/CountTransInvalid_Agent?AgentCode={0}", temp.UserName)).Result;
+                    if (responseCountInTrans.IsSuccessStatusCode)
                     {
-                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalid_Agent?AgentCode={0}", temp.UserName)).Result;
+                        totalTransaction = responseCountInTrans.Content.ReadAsAsync<int>().Result;
+                    }
+                    if (String.IsNullOrEmpty(searchString))
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/GetTransaction_Detail_Invalid_Agent?AgentCode={0}&pageIndex={1}&pageSize={2}", temp.UserName, page - 1, size)).Result;
+
                         if (response.IsSuccessStatusCode)
                         {
                             transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
+                            totalPage = (int)Math.Ceiling((double)totalTransaction / size);
+                            ViewBag.Total = totalTransaction;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
                         }
                     }
                     else
                     {
-                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalidElement_Agent?searchString={0}&agentCode={1}", searchString, temp.UserName)).Result;
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalidElement_Agent?searchString={0}&AgentCode={1}&pageIndex={2}&pageSize={3}", searchString, temp.UserName,page - 1, size)).Result;
+
                         if (response.IsSuccessStatusCode)
                         {
                             transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
+                            HttpResponseMessage response2 = client.GetAsync(string.Format("api/RETRIVAL_INVALID/sp_CountTransInvalidElements_Agent?AgentCode={0}&searchString={1}", temp.UserName, searchString)).Result;
+                            if (response2.IsSuccessStatusCode)
+                            {
+                                totalTransaction = response2.Content.ReadAsAsync<int>().Result;
+                            }
+                            totalPage = (int)Math.Ceiling((double)totalTransaction / size);
+                            ViewBag.Total = totalTransaction;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
                         }
                         @ViewBag.search = searchString;
-                    }
-                    
-                   // @ViewBag.search = search;
+                    } 
                 }
                 else
                 {
-                    if(searchString == null)
+                    HttpResponseMessage responseCountInTrans = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/CountTransInvalid_Merchant?MerchantCode={0}", temp.UserName)).Result;
+                    if (responseCountInTrans.IsSuccessStatusCode)
                     {
-                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalid_Merchant?MerchantCode={0}", temp.UserName)).Result;
+                        totalTransaction = responseCountInTrans.Content.ReadAsAsync<int>().Result;
+                    }
+                    if (String.IsNullOrEmpty(searchString))
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/GetTransaction_Detail_Invalid_Merchant?MerchantCode={0}&pageIndex={1}&pageSize={2}", temp.UserName, page - 1, size)).Result;
+
                         if (response.IsSuccessStatusCode)
                         {
                             transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
+                            totalPage = (int)Math.Ceiling((double)totalTransaction / size);
+                            ViewBag.Total = totalTransaction;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
                         }
                     }
                     else
                     {
-                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalidElement_Merchant?searchString={0}&merchantCode={1}", searchString, temp.UserName)).Result;
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/FindTransInvalidElement_Merchant?searchString={0}&MerchantCode={1}&pageIndex={2}&pageSize={3}", searchString, temp.UserName, page - 1, size)).Result;
+
                         if (response.IsSuccessStatusCode)
                         {
                             transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
+                            HttpResponseMessage response2 = client.GetAsync(string.Format("api/RETRIVAL_INVALID/sp_CountTransInvalidElements_Merchant?MerchantCode={0}&searchString={1}", temp.UserName, searchString)).Result;
+                            if (response2.IsSuccessStatusCode)
+                            {
+                                totalTransaction = response2.Content.ReadAsAsync<int>().Result;
+                            }
+                            totalPage = (int)Math.Ceiling((double)totalTransaction / size);
+                            ViewBag.Total = totalTransaction;
+                            ViewBag.Page = page;
+                            ViewBag.TotalPage = totalPage;
+                            ViewBag.MaxPage = maxPage;
+                            ViewBag.First = 1;
+                            ViewBag.Last = totalPage;
                         }
                         @ViewBag.search = searchString;
                     }
                 }
-                }
-            var listTransInvalid = transInvalid.ToPagedList(page, size);
-            return View(listTransInvalid);
+            }
+            return View(transInvalid.ToList());
         }
 
         [HttpGet]

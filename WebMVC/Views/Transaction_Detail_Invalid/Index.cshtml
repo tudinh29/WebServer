@@ -1,5 +1,5 @@
 ﻿
-@model PagedList.PagedList<WebMVC.Models.TransInvalidTiny>
+@model List<WebMVC.Models.TransInvalidTiny>
 
     @using PagedList.Mvc;
     @using System.Web.Mvc;
@@ -10,13 +10,13 @@
 
     <h2>Transaction Invalid</h2>
 
-    @using (Html.BeginForm("FindTransactionDetailInvalidElement", "TRANSACTION_DETAIL_INVALID", FormMethod.Get))
+    @using (Html.BeginForm("Index", "TRANSACTION_DETAIL_INVALID", FormMethod.Get))
     {
         <div class="row">
             <div class="col-lg-12">
                 <div class="col-md-3"></div>
                 <div class="col-md-4">
-                    <input type="text" id="search" value="@ViewBag.search" name="search" class="form-control" />
+                    <input type="text" id="search" value="@ViewBag.searchString" name="searchString" class="form-control" />
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-info">Tìm</button>
@@ -66,7 +66,31 @@
                             }
                         </tbody>
                     </table>
-                    @Html.PagedListPager(Model, Page => Url.Action("Index", "TRANSACTION_DETAIL_INVALID", new { Page, searchString = @ViewBag.search }))
+                    @if (ViewBag.TotalPage > 1)
+                    {
+                        var pageDisplay = (int)ViewBag.MaxPage;
+                        int totalPage = (int)ViewBag.TotalPage;
+                        int currentPage = (int)ViewBag.Page;
+
+                        var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                        var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+                        <nav>
+                            <ul class="pagination">
+                                <li>
+                                    @Html.ActionLink("Trang đầu", "Index", "TRANSACTION_DETAIL_INVALID", new { page = ViewBag.First, searchString = ViewBag.searchString }, null)
+                                </li>
+                                @for (int i = startPageIndex; i <= endPageIndex; i++)
+                                {
+                                    <li>
+                                        @Html.ActionLink(i.ToString(), "Index", "TRANSACTION_DETAIL_INVALID", new { page = i, searchString = ViewBag.searchString }, null)
+                                    </li>
+                                }
+                                <li>
+                                    @Html.ActionLink("Trang cuối", "Index", "TRANSACTION_DETAIL_INVALID", new { page = ViewBag.Last, searchString = ViewBag.searchString }, null)
+                                </li>
+                            </ul>
+                        </nav>
+                    }
                 </div>
 
             </div>

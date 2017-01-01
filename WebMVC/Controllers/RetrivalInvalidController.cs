@@ -27,28 +27,59 @@ namespace WebMVC.Controllers
         {
             List<RETRIVAL_INVALID> list = new List<RETRIVAL_INVALID>();
             HttpClient client = new AccessAPI().Access();
+            int totalPage = 0;
+            int maxPage = 4;
+            int totalRetrival = 0;
+            //HttpClient client = new HttpClient();
+            //client.BaseAddress = new Uri("http://localhost:21212/");
+
+
+            HttpResponseMessage response1 = client.GetAsync(string.Format("api/RETRIVAL_INVALID/CountRetrivalInvalid")).Result;
+
+            if (response1.IsSuccessStatusCode)
+            {
+                totalRetrival = response1.Content.ReadAsAsync<int>().Result;
+            }
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             if (String.IsNullOrEmpty(searchString))
             {
-                HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/GetAllRetrivalInvalid")).Result;
+                HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/FindAllRetrivalInvalid?pageIndex={0}&pageSize={1}", page - 1, size)).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     list = response.Content.ReadAsAsync<List<RETRIVAL_INVALID>>().Result;
+                    totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                    ViewBag.Total = totalRetrival;
+                    ViewBag.Page = page;
+                    ViewBag.TotalPage = totalPage;
+                    ViewBag.MaxPage = maxPage;
+                    ViewBag.First = 1;
+                    ViewBag.Last = totalPage;
                 }
-                var listRetrival = list.ToPagedList(page, size);
-                return View(listRetrival);
+                return View(list.ToList());
             }
             else
             {
-                HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/FindRetrivalInvalid?searchString={0}", searchString)).Result;
+                HttpResponseMessage response = client.GetAsync(string.Format("api/RETRIVAL_INVALID/FindRetrivalInvalidElement?searchString={0}&pageIndex={1}&pageSize={2}", searchString, page - 1, size)).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
                     list = response.Content.ReadAsAsync<List<RETRIVAL_INVALID>>().Result;
+                    HttpResponseMessage response2 = client.GetAsync(string.Format("api/RETRIVAL_INVALID/CountRetrivalInvalidElement?searchString={0}", searchString)).Result;
+                    if (response2.IsSuccessStatusCode)
+                    {
+                        totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                    }
+                    totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+                    ViewBag.Total = totalRetrival;
+                    ViewBag.Page = page;
+                    ViewBag.TotalPage = totalPage;
+                    ViewBag.MaxPage = maxPage;
+                    ViewBag.First = 1;
+                    ViewBag.Last = totalPage;
                 }
                 @ViewBag.searchString = searchString;
-                var listRetrival = list.ToPagedList(page, size);
-                return View(listRetrival);
+                return View(list.ToList());
             }
         }
 
