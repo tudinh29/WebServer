@@ -1,5 +1,6 @@
 ﻿--Version		Người chỉnh sửa			Ngày		Nội dung chỉnh sửa
 --1.0			Nguyễn Phạm Hoàng Diễm	31/12/2016	Tạo store procedure
+--1.1			Nguyễn Phạm Hoàng Diễm	1/1/2017	Chỉnh sửa giá trị null thành 0
 USE SERVER
 GO
 DROP PROCEDURE [dbo].[sp_LayDoanhThuMerchant] 
@@ -51,12 +52,31 @@ AS
 		set @sum = (SELECT SUM(NetAmount)
 						FROM MERCHANT_SUMMARY_DAILY
 						WHERE MerchantCode = @merchant AND ReportDate between @startday and @endday)
-		set @average = @sum / DATEDIFF(d, @startday, @endday)
+		SET @sum = COALESCE (@sum, 0)
+		IF @startday = @endday
+		BEGIN
+			SET @average = @sum
+		END
+		ELSE
+		BEGIN
+			set @average = @sum / DATEDIFF(d, @startday, @endday)
+		END
+
 		set @sum_lastmonth = (SELECT SUM(NetAmount)
 								FROM MERCHANT_SUMMARY_DAILY
 								WHERE MerchantCode = @merchant AND ReportDate between @lastmonth_firstday and @lastmonth_lastday)
-		set @average_lastmonth = @sum_lastmonth / DATEDIFF(d, @lastmonth_firstday, @lastmonth_lastday)
+		SET @sum_lastmonth = COALESCE (@sum_lastmonth, 0)
+		IF @lastmonth_firstday = @lastmonth_lastday
+		BEGIN
+			SET @average_lastmonth = @sum_lastmonth
+		END
+		ELSE
+		BEGIN
+			set @average_lastmonth = @sum_lastmonth / DATEDIFF(d, @lastmonth_firstday, @lastmonth_lastday)
+		END
+
 		insert into @t values (@merchant, @sum, @average, CASE 
+															WHEN (DAY(@endday)) = 1 THEN N'Chưa có so sánh'
 															WHEN (@average - @average_lastmonth) < 0 THEN N'Giảm'
 															WHEN (@average - @average_lastmonth) = 0 THEN N'Ổn định'
 															WHEN (@average - @average_lastmonth) > 0 THEN N'Tăng'
@@ -68,6 +88,7 @@ GO
 
 --Version		Người chỉnh sửa			Ngày		Nội dung chỉnh sửa
 --1.0			Nguyễn Phạm Hoàng Diễm	31/12/2016	Tạo store procedure
+--1.1			Nguyễn Phạm Hoàng Diễm	1/1/2017	Chỉnh sửa giá trị null thành 0
 DROP PROCEDURE [dbo].[sp_LayDoanhThuAgent] 
 GO
 SET ANSI_NULLS ON
@@ -117,21 +138,40 @@ AS
 		set @sum = (SELECT SUM(NetAmount)
 						FROM MERCHANT_SUMMARY_DAILY
 						WHERE AgentCode = @Agent AND ReportDate between @startday and @endday)
-		set @average = @sum / DATEDIFF(d, @startday, @endday)
+		SET @sum = COALESCE (@sum, 0)
+		IF @startday = @endday
+		BEGIN
+			SET @average = @sum
+		END
+		ELSE
+		BEGIN
+			set @average = @sum / DATEDIFF(d, @startday, @endday)
+		END
+		
 		set @sum_lastmonth = (SELECT SUM(NetAmount)
 								FROM MERCHANT_SUMMARY_DAILY
 								WHERE AgentCode = @Agent AND ReportDate between @lastmonth_firstday and @lastmonth_lastday)
-		set @average_lastmonth = @sum_lastmonth / DATEDIFF(d, @lastmonth_firstday, @lastmonth_lastday)
-		insert into @t values (@Agent, @sum, @average, CASE 
-															WHEN (@average - @average_lastmonth) < 0 THEN N'Giảm'
-															WHEN (@average - @average_lastmonth) = 0 THEN N'Ổn định'
-															WHEN (@average - @average_lastmonth) > 0 THEN N'Tăng'
-															ELSE N'Chưa có so sánh'
-															END)
+		SET @sum_lastmonth = COALESCE (@sum_lastmonth, 0)
+		IF @lastmonth_firstday = @lastmonth_lastday
+		BEGIN
+			SET @average_lastmonth = @sum_lastmonth
+		END
+		ELSE
+		BEGIN
+			set @average_lastmonth = @sum_lastmonth / DATEDIFF(d, @lastmonth_firstday, @lastmonth_lastday)
+		END
+		
+		insert into @t values (@Agent, @sum, @average, CASE
+														WHEN (DAY(@endday)) = 1 THEN N'Chưa có so sánh' 
+														WHEN (@average - @average_lastmonth) < 0 THEN N'Giảm'
+														WHEN (@average - @average_lastmonth) = 0 THEN N'Ổn định'
+														WHEN (@average - @average_lastmonth) > 0 THEN N'Tăng'
+														ELSE N'Chưa có so sánh'
+														END)
 	end
 	select * from @t
 GO
-
+exec sp_LayDoanhThuAgent 'AG00026090,AG00057035,AG00057055,AG00134899,AG00285762,AG00725859,AG00837555,AG01021405,AG01024622,AG01061450'
 --Version		Người chỉnh sửa			Ngày		Nội dung chỉnh sửa
 --1.0			Nguyễn Phạm Hoàng Diễm	31/12/2016	Tạo store procedure
 drop proc sp_FindAllAgent_ForQuery
