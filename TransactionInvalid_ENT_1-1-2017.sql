@@ -2,7 +2,7 @@
 GO
 
 --Lấy danh sách transaction detail invalid của master
-DROP PROCEDURE [dbo].[sp_GetTransaction_Detail_Invalid_Master]
+DROP PROCEDURE [dbo].[sp_GetTransaction_Detail_Invalid_Master] 
 GO
 
 SET ANSI_NULLS ON
@@ -43,7 +43,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 ----Ngay			NguoiChinhSua				Version-----
 ----01/01/2017		Pham Van Ha					1.1
-CREATE PROC [dbo].[sp_CountTransInvalid]
+CREATE PROC [dbo].[sp_CountTransInvalid_Master]
 AS
 BEGIN
 		SELECT Count(*) 
@@ -139,7 +139,7 @@ END
 GO
 
 --Đếm tổng transaction detail invalid của Merchant
-DROP PROCEDURE [dbo].[sp_CountTransInvalid_Agent]
+DROP PROCEDURE [dbo].[sp_CountTransInvalid_Merchant] 
 GO
 SET ANSI_NULLS ON
 GO
@@ -328,7 +328,7 @@ END
 GO
 
 --Đếm tổng tìm kiếm transaction detail invalid của Merchant
-DROP PROCEDURE [dbo].[sp_CountTransInvalidElements_Agent]
+DROP PROCEDURE [dbo].[sp_CountTransInvalidElements_Merchant] 
 GO
 SET ANSI_NULLS ON
 GO
@@ -336,7 +336,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 ----Ngay			NguoiChinhSua				Version-----
 ----01/01/2017		Pham Van Ha					1.1
-CREATE PROC [dbo].[sp_CountTransInvalidElements_Agent] @MerchantCode varchar(10), @Element varchar(50)
+CREATE PROC [dbo].[sp_CountTransInvalidElements_Merchant] @MerchantCode varchar(10), @Element varchar(50)
 AS
 BEGIN
 		SELECT Count(*) 
