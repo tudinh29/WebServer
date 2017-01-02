@@ -2,9 +2,16 @@
 @model PagedList.IPagedList<WebMVC.EntityFramework.MESSAGE>
 @using PagedList.Mvc;
 @using System.Web.Mvc;
+@using WebMVC.EntityFramework;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = Session[WebMVC.Common.CommonConstants.USER_SESSION]; //khai báo 1 session bên common giống như bên Cart
+    var temp = new USER_INFORMATION();
+    if (user != null)
+    {
+        temp = (USER_INFORMATION)user;
+    }
 }
 
 @section header {
@@ -20,10 +27,13 @@
     <thead>
         <tr>
             <th>Nơi gửi</th>
-            <th>Kiểu nơi gửi</th>
+            @*<th>Kiểu nơi gửi</th>*@
             <th>Nơi nhận</th>
-            @*<th>Kiểu nơi nhận</th>*@
-            <th>Message</th>
+            @if (Convert.ToChar(temp.UserType) == 'T')
+            {
+                <th>Kiểu nơi nhận</th>
+            }         
+            <th>Nội dung</th>
             <th>Ngày gửi</th>
             <th>Trạng Thái</th>
         </tr>
@@ -35,12 +45,16 @@
             int length = item.Message.Length;
             <tr id="@item.ID">
                 <td>@item.Sender</td>
-                <td>@item.SenderType</td>
+                @*<td>@item.SenderType</td>*@
                 <td>@item.Receiver</td>
-                @*<td>@item.ReceiverType</td>*@
+                @if (Convert.ToChar(temp.UserType) == 'T')
+                {
+                    <td>@item.ReceiverType</td>
+                }     
+               
                 @if (length >= 10)
                 {
-                    <td>@item.Message.Substring(0, 10)</td>
+                    <td>@item.Message.Substring(0, 10) ...</td>
                 }
                 else
                 {

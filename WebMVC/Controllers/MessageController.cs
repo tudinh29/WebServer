@@ -55,7 +55,7 @@ namespace WebMVC.Controllers
             StringContent content = new StringContent("");
             HttpResponseMessage response = client.GetAsync(string.Format("api/MESSAGE/GetMESSAGE/{0}", id)).Result;
 
-           
+
             if (response.IsSuccessStatusCode)
             {
                 message = response.Content.ReadAsAsync<MESSAGE>().Result;
@@ -78,21 +78,71 @@ namespace WebMVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateMessage()
+        public ActionResult CreateMessage(string receive)
         {
-            return View();
+            MESSAGE message = new MESSAGE();
+            message.Receiver = receive;
+            return View(message);
         }
 
         [HttpPost]
-        public ActionResult CreateMessage(MESSAGE Ms)
+        public ActionResult CreateMessage(MESSAGE Ms, string optradio)
         {
-            if (Ms.Receiver != null && Ms.ReceiverType != null && Ms.Message != null)
+            if (Ms.Receiver != null && Ms.Message != null)
+            {
+                var user = GetUserName();
+                Ms.Sender = user.UserName;
+                if (Ms.Sender == Ms.Receiver)
+                {
+                    TempData["AlertMessage"] = "Tin nhắn gửi không thành công vui lòng kiểm tra lại";
+                    TempData["AlertType"] = "alert-danger";
+                    return View();
+                }
+                Ms.SenderType = user.UserType;
+                Ms.DateSend = DateTime.Now;
+                if (Ms.Receiver.ToUpper() != "MASTER")
+                {
+                    string[] temp = Ms.Receiver.Split(' ');
+                    Ms.ReceiverType = temp[0].Substring(0, 1);
+                }
+                else
+                {
+                    Ms.ReceiverType = "T";
+                }
+                HttpClient client = new AccessAPI().Access();
+                StringContent content = new StringContent("");
+                HttpResponseMessage response = client.PostAsJsonAsync("api/MESSAGE/InsertMassage", Ms).Result;
+                response.EnsureSuccessStatusCode();
+                TempData["AlertMessage"] = "Tin nhắn đã gửi đi thành công";
+                TempData["AlertType"] = "alert-success";
+                return RedirectToAction("MessageSent", "Message");
+            }
+
+
+            if (optradio == "M" && Ms.Message != null)
             {
                 var user = GetUserName();
                 Ms.Sender = user.UserName;
                 Ms.SenderType = user.UserType;
                 Ms.DateSend = DateTime.Now;
-
+                Ms.Receiver = "ALL";
+                Ms.ReceiverType = "M";
+                HttpClient client = new AccessAPI().Access();
+                StringContent content = new StringContent("");
+                HttpResponseMessage response = client.PostAsJsonAsync("api/MESSAGE/InsertMassage", Ms).Result;
+                response.EnsureSuccessStatusCode();
+                TempData["AlertMessage"] = "Tin nhắn đã gửi đi thành công";
+                TempData["AlertType"] = "alert-success";
+                return RedirectToAction("MessageSent", "Message");
+            }
+            if (optradio == "A" && Ms.Message != null)
+            {
+                var user = GetUserName();
+                Ms.Sender = user.UserName;
+                Ms.SenderType = user.UserType;
+                Ms.DateSend = DateTime.Now;
+                Ms.Receiver = "ALL";
+                Ms.ReceiverType = "A";
                 HttpClient client = new AccessAPI().Access();
                 StringContent content = new StringContent("");
                 HttpResponseMessage response = client.PostAsJsonAsync("api/MESSAGE/InsertMassage", Ms).Result;
@@ -104,6 +154,7 @@ namespace WebMVC.Controllers
             TempData["AlertMessage"] = "Tin nhắn gửi không thành công vui lòng kiểm tra lại";
             TempData["AlertType"] = "alert-danger";
             return View();
+
 
         }
 

@@ -133,6 +133,7 @@
                                     <th>Last Active Date</th>
                                     <th>Closed Date</th>
                                     <th>Merchant List</th>
+                                    <th>Message</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -174,6 +175,7 @@
                                             @Html.ActionLink("Chi tiết", "ViewListMerchant", "Management",
                                          new { agentName = @item.AgentName, agentCode = @item.AgentCode, regionCode = @item.RegionCode }, null)
                                         </td>
+                                        <td>@Html.ActionLink("Message", "CreateMessage", "Message", new { receive = @item.AgentCode }, null)</td>
                                     </tr>
                                 }
                             </tbody>

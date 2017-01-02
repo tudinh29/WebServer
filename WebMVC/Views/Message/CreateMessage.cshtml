@@ -1,13 +1,33 @@
 ﻿@model WebMVC.EntityFramework.MESSAGE
-
+@using WebMVC.EntityFramework;
 @{
     ViewBag.Title = "CreateMessage";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = Session[WebMVC.Common.CommonConstants.USER_SESSION]; //khai báo 1 session bên common giống như bên Cart
+    var temp = new USER_INFORMATION();
+    if (user != null)
+    {
+        temp = (USER_INFORMATION)user;
+    }
 }
 
 @section header {
     Gửi tin nhắn
 }
+
+<script type="text/javascript">
+    function check() {
+        var value = $("#cbox").is(":checked");
+        var value1 = $("#cbox1").is(":checked");
+        if (value || value1) {
+            $('#textBox').attr('disabled', 'disabled');
+        }
+        else {
+            $('#textBox').removeAttr("disabled");
+        }
+    }
+</script>
+
 <a href="/Message/Index" class="btn btn-primary">Hộp thư đến</a>
 <a href="/Message/MessageSent" class="btn btn-primary">Tin nhắn đã gửi</a>
 <br>
@@ -23,23 +43,25 @@
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                            
+
 
                             <div class="form-group">
-                                <labe>Nơi nhận</labe>
-                                @Html.TextBoxFor(model => model.Receiver, new { @class = "form-control" })
+                                <b><labe>Nơi nhận</labe></b>
+                                @Html.TextBoxFor(model => model.Receiver, new { @class = "form-control", @id = "textBox" })
                                 @Html.ValidationMessageFor(model => model.Receiver)
                             </div>
 
+                             if (Convert.ToChar(temp.UserType) == 'T')
+                             {
+                                <label class="radio-inline"><input onclick="check()" id="cbox" type="checkbox" name="optradio" value="M"> Gửi tất cả Merchant</label>
+                                <label class="radio-inline"><input onclick="check()" id="cbox1" type="checkbox" name="optradio" value="A"> Gửi tất cả Agent</label>
+                                <br>
+                                <br>
+                             }
+
 
                             <div class="form-group">
-                                <labe>Kiểu nơi nhận</labe>
-                                @Html.TextBoxFor(model => model.ReceiverType, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ReceiverType)
-                            </div>
-
-                            <div class="form-group">
-                                <labe>Nội dung tin nhắn</labe>
+                                <b><labe>Nội dung tin nhắn</labe></b>
                                 @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @rows = "10" })
                                 @Html.ValidationMessageFor(model => model.Message)
                             </div>
