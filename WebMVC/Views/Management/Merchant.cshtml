@@ -132,11 +132,6 @@
                                     <th>Merchant Name</th>
                                     <th>Merchant Type</th>
                                     <th>Status</th>
-                                    <th>Owner</th>
-                                    <th>Address</th>
-                                    <th>City</th>
-                                    <th>Last Active Date</th>
-                                    <th>Closed Date</th>
                                     <th>Message</th>
                                     <th>Total Revenue this month (USD)</th>
                                     <th>Average Revenue this month (USD)</th>
@@ -175,11 +170,6 @@
 
                                                     }
                                                 </td>
-                                                <td>@item.Owner</td>
-                                                <td>@item.Address1</td>
-                                                <td>@item.CityName</td>
-                                                <td>@(String.IsNullOrEmpty(item.LastActiveDate.ToString()) ? "" : item.LastActiveDate.Value.ToString("yyyy-MM-dd"))</td>
-                                                <td>@(String.IsNullOrEmpty(item.CloseDate.ToString()) ? "" : item.CloseDate.Value.ToString("yyyy-MM-dd"))</td>
                                                 <td>@Html.ActionLink("Message", "CreateMessage", "Message", new { receive = @item.MerchantCode }, null)</td>
                                                 <td>@DoanhThu[STTDoanhThu].DoanhThu</td>
                                                 <td>@DoanhThu[STTDoanhThu].TrungBinh</td>

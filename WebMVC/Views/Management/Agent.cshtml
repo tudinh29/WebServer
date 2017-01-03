@@ -126,11 +126,6 @@
                                     <th>Agent Code</th>
                                     <th>Agent Name</th>
                                     <th>Status</th>
-                                    <th>Owner</th>
-                                    <th>Address</th>
-                                    <th>City</th>
-                                    <th>Last Active Date</th>
-                                    <th>Closed Date</th>
                                     <th>Merchant List</th>
                                     <th>Message</th>
                                     <th>Total Revenue this month (USD)</th>
@@ -169,11 +164,7 @@
 
                                             }
                                         </td>
-                                        <td>@item.Owner</td>
-                                        <td>@item.Address1</td>
-                                        <td>@item.CityName</td>
-                                        <td>@(String.IsNullOrEmpty(item.LastActiveDate.ToString()) ? "" : item.LastActiveDate.Value.ToString("yyyy-MM-dd"))</td>
-                                        <td>@(String.IsNullOrEmpty(item.CloseDate.ToString()) ? "" : item.LastActiveDate.Value.ToString("yyyy-MM-dd"))</td>
+                                        
                                         <td>
                                             @Html.ActionLink("Chi tiết", "ViewListMerchant", "Management",
                                          new { agentName = @item.AgentName, agentCode = @item.AgentCode, regionCode = @item.RegionCode }, null)
