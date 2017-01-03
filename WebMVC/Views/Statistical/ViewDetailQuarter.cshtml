@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section header{
-    @ViewBag.ReportYear - @ViewBag.MerchantCode
+    Thống kê doanh thu quý @ViewBag.ReportQuarter / @ViewBag.ReportYear - Merchant: @ViewBag.MerchantCode
 }
 <hr />
 <div class="row">
@@ -37,11 +37,11 @@
     <thead class="thead-inverse">
         <tr>
             <th>Statistical</th>
-            <th>Revenue</th>
-            <th>Transaction</th>
-            <th>Sale Amount</th>
+            <th>Revenue (USD)</th>
+            <th>Transaction (USD)</th>
+            <th>Sale Amount (USD)</th>
             <th>Sale Count</th>
-            <th>Return Amount</th>
+            <th>Return Amount (USD)</th>
             <th>Return Count</th>
         </tr>
     </thead>

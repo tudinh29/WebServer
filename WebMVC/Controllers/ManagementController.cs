@@ -16,6 +16,7 @@ using Rotativa;
 using ClosedXML.Excel;
 using System.Web.UI.WebControls;
 using System.Web.UI;
+using WebMVC.Models;
 
 
 namespace WebMVC.Controllers
@@ -30,14 +31,21 @@ namespace WebMVC.Controllers
         [HttpGet]
         public ActionResult Agent(string RegionType, string Active, List<string> RegionTypeValue, List<string> ActiveTypeValue, string searchString, int page = 1, int size = 10)
         {
-
             CheckBoxValue(ref RegionType, ref RegionTypeValue);
             ViewBag.tempRegionType = RegionType;
 
             CheckBoxValue(ref Active, ref ActiveTypeValue);
             ViewBag.tempActive = Active;
 
-            IList<AGENT> list = new List<AGENT>();
+            int totalPage = 0;
+            int maxPage = 4;
+            int totalRetrival = 0;
+
+            int option = 0;
+            string queryFind = "";
+            string queryCount = "";
+
+            List<AGENT> list = new List<AGENT>();
             var model = Session[CommonConstants.USER_SESSION];
             var temp = new USER_INFORMATION();
             if (model != null)
@@ -45,7 +53,6 @@ namespace WebMVC.Controllers
                 temp = (USER_INFORMATION)model;
             }
             else return View("Index");
-
             HttpClient client = new AccessAPI().Access();
             @ViewBag.action = "Agent";
             HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/FindAllRegion")).Result;
@@ -57,53 +64,83 @@ namespace WebMVC.Controllers
 
             if (temp.UserType == "T")
             {
-
-                @ViewBag.action = "Agent";
                 if (String.IsNullOrEmpty(searchString))
                 {
                     if (RegionTypeValue == null && ActiveTypeValue == null)
                     {
-                        HttpResponseMessage response = client.GetAsync(string.Format("api/AGENT/FindAllAgent")).Result;
-                        if (response.IsSuccessStatusCode)
+                        HttpResponseMessage responseCount = client.GetAsync(string.Format("api/Agent/CountAgent")).Result;
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAllAgent_ForQuery?pageIndex={0}&pageSize={1}", page, size)).Result;
+                        if (response.IsSuccessStatusCode && responseCount.IsSuccessStatusCode)
                         {
+                            totalRetrival = responseCount.Content.ReadAsAsync<int>().Result;
                             list = response.Content.ReadAsAsync<List<AGENT>>().Result;
                         }
-
-                        var listAgent = list.ToPagedList(page, size);
-
-                        return View(listAgent);
                     }
                     else
                     {
-                        string query = queryFilterAgent(RegionTypeValue, ActiveTypeValue);
-                        List<AGENT> listAgent = new List<AGENT>();
-                        HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/AGENT/FindFilter?query={0}", query)).Result;
-
-                        if (responseFilter.IsSuccessStatusCode)
-                        {
-                            listAgent = responseFilter.Content.ReadAsAsync<List<AGENT>>().Result;
-                        }
-                        var listAgent_1 = listAgent.ToPagedList(page, size);
-                        ViewBag.RegionTypeValue = RegionTypeValue;
-                        ViewBag.ActiveTypeValue = ActiveTypeValue;
-                        return View(listAgent_1);
+                        queryFind = queryFilterAgent(RegionTypeValue, ActiveTypeValue, "*");
+                        queryFind = queryFind + " order by A.AgentCode Offset " + (page - 1) * size + " row fetch next " + size + " row only";
+                        queryCount = queryFilterAgent(RegionTypeValue, ActiveTypeValue, "Count(*)");
+                        option = 1;
                     }
+
                 }
                 else
                 {
-                    HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAgentElement?searchString={0}", searchString)).Result;
-
-                    if (response.IsSuccessStatusCode)
+                    if (RegionTypeValue != null || ActiveTypeValue != null)
                     {
-                        list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                        string conditionSearch = ConditionSearch_Agent(searchString);
+                        queryFind = queryFilterAgent(RegionTypeValue, ActiveTypeValue, "*");
+                        queryFind = queryFind + conditionSearch + " order by A.AgentCode Offset " + (page - 1) * size + " row fetch next " + size + " row only";
+                        queryCount = queryFilterAgent(RegionTypeValue, ActiveTypeValue, "Count(*)") + conditionSearch;
+                        option = 1;
+                        ViewBag.searchString = searchString;
                     }
-                    @ViewBag.searchString = searchString;
-                    var listAgent = list.ToPagedList(page, size);
-                    return View(listAgent);
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAgentElement_ForQuery?searchString={0}&pageIndex={1}&pageSize={2}", searchString, page, size)).Result;
+                        HttpResponseMessage response2 = client.GetAsync(string.Format("api/Agent/CountAgentElement_ForQuery?searchString={0}", searchString)).Result;
+                        if (response.IsSuccessStatusCode && response2.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                            totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                        }
+
+                        @ViewBag.searchString = searchString;
+                    }
+
                 }
             }
             else return View("Index");
 
+            if (option != 0)
+            {
+                HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/Agent/FindFilter?query={0}", queryFind)).Result;
+                HttpResponseMessage responseFilterCount = client.GetAsync(string.Format("api/Agent/CountFindFilter?query={0}", queryCount)).Result;
+
+                if (responseFilter.IsSuccessStatusCode && responseFilterCount.IsSuccessStatusCode)
+                {
+                    list = responseFilter.Content.ReadAsAsync<List<AGENT>>().Result;
+                    totalRetrival = responseFilterCount.Content.ReadAsAsync<int>().Result;
+                }
+                ViewBag.RegionTypeValue = RegionTypeValue;
+                ViewBag.ActiveTypeValue = ActiveTypeValue;
+            }
+
+            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+            ViewBag.Total = totalRetrival;
+            ViewBag.Page = page;
+            ViewBag.TotalPage = totalPage;
+            ViewBag.MaxPage = maxPage;
+            ViewBag.First = 1;
+            ViewBag.Last = totalPage;
+
+            string AgentString = ListAgent(list);
+            HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/Agent/LayDoanhThuAgent?agentCode={0}", AgentString)).Result;
+            List<DoanhThuAgent> DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuAgent>>().Result;
+            ViewBag.DoanhThu = DoanhThu;
+
+            return View(list);
         }
         public ActionResult ExportAgentPDF(string searchString)
         {
@@ -300,6 +337,7 @@ namespace WebMVC.Controllers
         [HttpGet]
         public ActionResult Merchant(string MerchantType, string RegionType, string Active, List<string> MerchantTypeValue, List<string> RegionTypeValue, List<string> ActiveTypeValue, string searchString, int page = 1, int size = 10)
         {
+
             CheckBoxValue(ref MerchantType, ref MerchantTypeValue);
             ViewBag.tempMerchantType = MerchantType;
 
@@ -463,7 +501,13 @@ namespace WebMVC.Controllers
             ViewBag.MaxPage = maxPage;
             ViewBag.First = 1;
             ViewBag.Last = totalPage;
-            return View(list);
+
+            string MerchantString = ListMerchant(list);
+            HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/MERCHANT/LayDoanhThuMerchant?merchantCode={0}", MerchantString)).Result;
+            List<DoanhThuMerchant> DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuMerchant>>().Result;
+            ViewBag.DoanhThu = DoanhThu;
+
+            return View(list); 
         }
 
         //[HttpGet]
@@ -1152,9 +1196,9 @@ namespace WebMVC.Controllers
             return query;
         }
 
-        public string queryFilterAgent(List<string> RegionTypeValue, List<string> ActiveTypeValue)
+        public string queryFilterAgent(List<string> RegionTypeValue, List<string> ActiveTypeValue, string Condition)
         {
-            string query = "select * from AGENT A where ";
+            string query = "select " + Condition + " from AGENT A where ";
             string ConditionRegion = "";
             string ConditionActive = "";
 
@@ -1196,6 +1240,65 @@ namespace WebMVC.Controllers
                 }
             }
             return query;
+        }
+
+        private string ConditionSearch_Agent(string searchString)
+        {
+            string conditionSearch = " and(A.AgentCode like '%" + searchString + "%' OR A.Owner like '%" + searchString
+                            + "%' OR A.AgentStatus like '%" + searchString + "%'OR A.Address1 like '%" + searchString
+                            + "%' OR A.Address2 like '%" + searchString + "%'OR A.Address3 like '%" + searchString + "%'OR A.CityCode like '%" + searchString
+                            + "%' OR A.Phone like '%" + searchString + "%'OR A.Fax like '%" + searchString + "%'OR A.Email like '%" + searchString
+                            + "%' OR A.Zip like '%" + searchString + "%'OR A.ApprovalDate like '%" + searchString + "%'OR A.CloseDate like '%" + searchString
+                            + "%' OR A.FirstActiveDate like '%" + searchString + "%'OR A.LastActiveDate like '%" + searchString
+                            + "%' OR A.CityName like '%" + searchString + "%' OR A.RegionCode like '%" + searchString + "%'OR A.RegionName like '%" + searchString + "%')";
+            return conditionSearch;
+        }
+
+        [HttpGet]
+        public JsonResult ListName(string term, string agentCode)
+        {
+            List<string> list = new List<string>();
+            HttpClient client = new AccessAPI().Access();
+            HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/GetViewListMerchant?agentCode={0}&keyword={1}", agentCode, term)).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                list = response.Content.ReadAsAsync<List<string>>().Result;
+            }
+            return Json(new
+            {
+                data = list,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public string ListMerchant(List<MERCHANT> list)
+        {
+            string MerchantCode = "";
+            int count = list.Count;
+            for (int i = 0; i < count; i++)
+            {
+                MerchantCode = MerchantCode + list[i].MerchantCode;
+                if (i < count - 1)
+                {
+                    MerchantCode = MerchantCode + ",";
+                }
+            }
+            return MerchantCode;
+        }
+
+        public string ListAgent(List<AGENT> list)
+        {
+            string AgentCode = "";
+            int count = list.Count;
+            for (int i = 0; i < count; i++)
+            {
+                AgentCode = AgentCode + list[i].AgentCode;
+                if (i < count - 1)
+                {
+                    AgentCode = AgentCode + ",";
+                }
+            }
+            return AgentCode;
         }
     }
 }

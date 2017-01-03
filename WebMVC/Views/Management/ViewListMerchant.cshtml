@@ -23,6 +23,42 @@
 
 </script>
 
+<script type="text/javascript">
+    $(function () {
+        $("#txtKeyword").autocomplete({
+            maxShowItems: 10,
+            minLength: 3,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Management/ListName",
+                    dataType: "json",
+                    data: {
+                        agentCode: '@ViewBag.agentCode',
+                        term : request.term
+                    },
+                    success: function (data) {
+                        response(data.data);
+                    }
+                });
+            },
+            focus: function( event, ui ) {
+                $("#txtKeyword").val(ui.item.label);
+                return false;
+            },
+            select: function( event, ui ) {
+                $("#txtKeyword").val(ui.item.label);
+
+                return false;
+            }
+        })
+    .autocomplete( "instance" )._renderItem = function( ul, item ) {
+        return $( "<li>" )
+          .append( "<div>" + item.label + "</div>" )
+          .appendTo( ul );
+    };
+   });
+</script>
+
     @section header{
         Agent: @ViewBag.agentCode, Name: @ViewBag.agentName
     }
@@ -33,7 +69,7 @@
             <div class="col-lg-12">
                 <div class="col-md-3"><h4>Available Merchant:</h4></div>
                 <div class="col-md-4">
-                    @Html.DropDownList("MerchantCode", null, htmlAttributes: new { @class = "form-control" })
+                    <input type="text" id="txtKeyword" class="form-control" name="merchantCode" autocomplete="on" />
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-primary" type="submit" OnClick="return Confirm()">Add new</button>

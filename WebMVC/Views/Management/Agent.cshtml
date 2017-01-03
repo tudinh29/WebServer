@@ -1,7 +1,8 @@
-﻿@model PagedList.IPagedList<WebMVC.EntityFramework.AGENT>
+﻿@model List<WebMVC.EntityFramework.AGENT>
 @using PagedList.Mvc;
 @using System.Web.Mvc;
 @using WebMVC.EntityFramework;
+@using WebMVC.Models;
 @{
     ViewBag.Title = "Agent";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,6 +15,7 @@
     var RegionType = (SelectList)ViewBag.RegionType;
     var RegionTypeValue = (List<string>)ViewBag.RegionTypeValue;
     var ActiveTypeValue = (List<string>)ViewBag.ActiveTypeValue;
+    var DoanhThu = (List<DoanhThuAgent>)ViewBag.DoanhThu;
 }
 
 @{
@@ -80,10 +82,7 @@
             document.getElementById("searchString").focus();
         };
     </script>
-}
 
-@using (Html.BeginForm("Agent", "Management", FormMethod.Get))
-{
     <div id="mySidenav" class="sidenavFilter" style="top:25%">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
@@ -134,9 +133,13 @@
                                     <th>Closed Date</th>
                                     <th>Merchant List</th>
                                     <th>Message</th>
+                                    <th>Total Revenue this month (USD)</th>
+                                    <th>Average Revenue this month (USD)</th>
+                                    <th>Growing Rate</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @{int STTDoanhThu = 0;}
                                 @foreach (var item in Model)
                                 {
                                     <tr id="row_@item.AgentCode">
@@ -176,11 +179,39 @@
                                          new { agentName = @item.AgentName, agentCode = @item.AgentCode, regionCode = @item.RegionCode }, null)
                                         </td>
                                         <td>@Html.ActionLink("Message", "CreateMessage", "Message", new { receive = @item.AgentCode }, null)</td>
+                                        <td>@DoanhThu[STTDoanhThu].DoanhThu</td>
+                                        <td>@DoanhThu[STTDoanhThu].TrungBinh</td>
+                                        <td>@DoanhThu[STTDoanhThu].TangTruong</td>
                                     </tr>
+                                    STTDoanhThu++;
                                 }
                             </tbody>
                         </table>
-                        @Html.PagedListPager(Model, Page => Url.Action(@ViewBag.action, "Management", new { Page, @searchString = @ViewBag.searchString, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }))
+                        @if (ViewBag.TotalPage > 1)
+                        {
+                            var pageDisplay = (int)ViewBag.MaxPage;
+                            int totalPage = (int)ViewBag.TotalPage;
+                            int currentPage = (int)ViewBag.Page;
+
+                            var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                            var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+                            <nav>
+                                <ul class="pagination">
+                                    <li>
+                                        @Html.ActionLink("Trang đầu", "Agent", "Management", new { page = ViewBag.First, searchString = ViewBag.searchString, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }, null)
+                                    </li>
+                                    @for (int i = startPageIndex; i <= endPageIndex; i++)
+                                    {
+                                        <li>
+                                            @Html.ActionLink(i.ToString(), "Agent", "Management", new { page = i, searchString = ViewBag.searchString, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }, null)
+                                        </li>
+                                    }
+                                    <li>
+                                        @Html.ActionLink("Trang cuối", "Agent", "Management", new { page = ViewBag.Last, searchString = ViewBag.searchString, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }, null)
+                                    </li>
+                                </ul>
+                            </nav>
+                        }
                     </div>
                     <div class="panel-body">
                         <div class="row">

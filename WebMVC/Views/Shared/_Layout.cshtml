@@ -31,6 +31,22 @@
     <script src="/Assets/bower_components/jquery/dist/jquery.min.js"></script>
     @*<link href="/Assets/css/HandleSearch.css" rel="stylesheet" />
     <link href="~/Assets/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+    <style>
+        .ui-autocomplete {
+            max-height: 400px;
+            /* Chỉnh kích thước autocomplete */
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+        }
+        /* IE 6 doesn't support max-height
+        * we use height instead, but this forces the menu to always be this tall
+        */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+    </style>
+
 </head>
 <body>
     <div id="wrapper">
@@ -82,5 +98,11 @@
     <script src="~/Assets/js/jquery.dataTables.min.js"></script>*@
     <script src="~/Assets/js/MyCustomJS.js"></script>
     <script src="~/Assets/js/bootstrap-datepicker.js"></script>
+
+    <!-- JQuery UI CSS -->
+    <link href="/Assets/bower_components/bootstrap/dist/css/jquery-ui.css" rel="stylesheet">
+    @*<script src="/Assets/js/jquery-1.12.4.js"></script>*@
+    <script src="/Assets/bower_components/jquery/dist/jquery-ui.min.js"></script>
+    <script src="/Assets/js/jquery-ui.js"></script>
 </body>
 </html>

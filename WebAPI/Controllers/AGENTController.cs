@@ -12,6 +12,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPI.EntityFramework;
 using PagedList;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -251,6 +252,67 @@ namespace WebAPI.Controllers
             return db.AGENT.Count(e => e.AgentCode == id) > 0;
         }
 
+        [HttpGet]
+        public List<AGENT> FindAllAgent_ForQuery(int pageIndex, int pageSize)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+            var res = db.Database.SqlQuery<AGENT>("sp_FindAllAgent_ForQuery @pageIndex, @pageSize", parameter).ToList();
+            return res;
+        }
 
+        [HttpGet]
+        public int CountAgent()
+        {
+            var res = db.Database.SqlQuery<int>("sp_CountAgent").ToList();
+            return res[0];
+        }
+
+        [HttpGet]
+        public List<AGENT> FindAgentElement_ForQuery(string searchString, int pageIndex, int pageSize)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString),
+                    new SqlParameter("@pageIndex", pageIndex),
+                    new SqlParameter("@pageSize", pageSize)
+                };
+
+            var res = db.Database.SqlQuery<AGENT>("sp_FindAgentElement_ForQuery @Element, @pageIndex, @pageSize", parameter).ToList();
+            return res;
+        }
+
+        [HttpGet]
+        public int CountAgentElement_ForQuery(string searchString)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString)
+                };
+
+            var res = db.Database.SqlQuery<int>("sp_CountAgentElement_ForQuery @Element", parameter).ToList();
+            return res[0];
+        }
+
+        [HttpGet]
+        public List<DoanhThuAgent> LayDoanhThuAgent(string agentCode)
+        {
+            object[] paremeter = 
+            {
+                new SqlParameter("@AgentCode", agentCode)
+            };
+            var res = db.Database.SqlQuery<DoanhThuAgent>("sp_LayDoanhThuAgent @AgentCode", paremeter).ToList();
+            return res;
+        }
+
+        [HttpGet]
+        public int CountFindFilter(string query)
+        {
+            var res = db.Database.SqlQuery<int>(query).ToList();
+            return res[0];
+        }
     }
 }
