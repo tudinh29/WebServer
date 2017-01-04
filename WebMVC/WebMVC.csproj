@@ -638,6 +638,7 @@
     <Compile Include="Controllers\MerchantController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ReportPdfController.cs" />
     <Compile Include="Controllers\RetrivalController.cs" />
     <Compile Include="Controllers\RetrivalInvalidController.cs" />
     <Compile Include="Controllers\StatisticalController.cs" />
@@ -1045,6 +1046,8 @@
     <Content Include="Views\Statistical\Quarter.cshtml" />
     <Content Include="Views\Statistical\Error.cshtml" />
     <Content Include="Views\Feedback\Index.cshtml" />
+    <Content Include="Views\ReportPdf\PrintPreview.cshtml" />
+    <Content Include="Views\ReportPdf\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

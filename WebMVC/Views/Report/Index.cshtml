@@ -157,15 +157,15 @@
 }
 
 <form id="mainform" action="http://localhost:21231/Report" method="POST">
-    <input name="reportType" id="reportType" style="display:none" type="text">
-    <input name="reportStartDate" id="reportStartDate" style="display:none" type="text">
-    <input name="reportEndDate" id="reportEndDate" style="display:none" type="text">
-    <input name="reportStartMonth" id="reportStartMonth" style="display:none" type="text">
-    <input name="reportEndMonth" id="reportEndMonth" style="display:none" type="text">
-    <input name="reportStartYear" id="reportStartYear" style="display:none" type="text">
-    <input name="reportEndYear" id="reportEndYear" style="display:none" type="text">
-    <input name="reportStartQuarter" id="reportStartQuarter" style="display:none" type="text">
-    <input name="reportEndQuarter" id="reportEndQuarter" style="display:none" type="text">
+    <input name="reportType" id="reportType" value="@Request["reportType"]" style="display:none" type="text">
+    <input name="reportStartDate" id="reportStartDate" value="@Request["reportStartDate"]" style="display:none" type="text">
+    <input name="reportEndDate" id="reportEndDate" value="@Request["reportEndDate"]" style="display:none" type="text">
+    <input name="reportStartMonth" id="reportStartMonth" value="@Request["reportStartMonth"]" style="display:none" type="text">
+    <input name="reportEndMonth" id="reportEndMonth" value="@Request["reportEndMonth"]" style="display:none" type="text">
+    <input name="reportStartYear" id="reportStartYear" value="@Request["reportStartYear"]" style="display:none" type="text">
+    <input name="reportEndYear" id="reportEndYear" value="@Request["reportEndYear"]" style="display:none" type="text">
+    <input name="reportStartQuarter" id="reportStartQuarter" value="@Request["reportStartQuarter"]" style="display:none" type="text">
+    <input name="reportEndQuarter" id="reportEndQuarter" value="@Request["reportEndQuarter"]" style="display:none" type="text">
 
 
     <ul class="nav nav-tabs">
@@ -280,6 +280,7 @@
 @section header{
     <i class="fa fa-bar-chart-o"></i> Charts
     <a href="@Url.Action("Index", "Compare")" class="btn btn-primary">So sánh</a>
+    <a class="btn btn-primary" onclick="document.getElementById('mainform').action = 'http://localhost:21231/ReportPdf/Index'; document.getElementById('mainform').submit();">Print</a>
 }
 
 <link href="~/Assets/css/myStyle.css" rel="stylesheet" />

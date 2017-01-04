@@ -1,0 +1,693 @@
+﻿@using WebMVC.EntityFramework;
+@using WebMVC.Models;
+@using System.Web;
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Title = "Detail" + ViewBag.UserCode;
+    var listSummary = ViewBag.listSummary as List<MERCHANT_SUMMARY>;
+    var listRegion = ViewBag.listRegion as List<MERCHANT_SUMMARY>;
+    var listMerchantType = ViewBag.listMerchantType as List<MERCHANT_SUMMARY>;
+    var cardTypeReport = ViewBag.cardTypeReport as List<MERCHANT_SUMMARY>;
+    var lineChartData = ViewBag.lineChartData as List<Statistic>;
+    //region
+    var NorthVN = listRegion.Find(x => x.RegionCode.Contains("NorthVN"));
+    var SouthVN = listRegion.Find(x => x.RegionCode.Contains("SouthVN"));
+    var MiddleVN = listRegion.Find(x => x.RegionCode.Contains("MiddleVN"));
+    var NorthUSA = listRegion.Find(x => x.RegionCode.Contains("NorthUSA"));
+    var OtherRegion = listRegion.Find(x => x.RegionCode.Contains(""));
+    //Merchant Type
+    var MerchantClothes = listMerchantType.Find(x => x.MerchantType.Contains("CL"));
+    var MerchantDiner = listMerchantType.Find(x => x.MerchantType.Contains("DN"));
+    var MerchantHotel = listMerchantType.Find(x => x.MerchantType.Contains("KS"));
+    var MerchantResort = listMerchantType.Find(x => x.MerchantType.Contains("RS"));
+    var MerchantSupermarket = listMerchantType.Find(x => x.MerchantType.Contains("SM"));
+    var MerchantStore = listMerchantType.Find(x => x.MerchantType.Contains("ST"));
+    var OtherMerchant = listMerchantType.Find(x => x.MerchantType.Contains(""));
+    if (OtherMerchant == null)
+    {
+        OtherMerchant = new MERCHANT_SUMMARY();
+        OtherMerchant.NetAmount = 0;
+        OtherMerchant.TransactionCount = 0;
+        OtherMerchant.SaleAmount = 0;
+        OtherMerchant.SaleCount = 0;
+        OtherMerchant.ReturnCount = 0;
+        OtherMerchant.ReturnCount = 0;
+    }
+
+    if (MerchantStore == null)
+    {
+        MerchantStore = new MERCHANT_SUMMARY();
+        MerchantStore.NetAmount = 0;
+        MerchantStore.TransactionCount = 0;
+        MerchantStore.SaleAmount = 0;
+        MerchantStore.SaleCount = 0;
+        MerchantStore.ReturnCount = 0;
+        MerchantStore.ReturnCount = 0;
+    }
+
+    if (MerchantSupermarket == null)
+    {
+        MerchantSupermarket = new MERCHANT_SUMMARY();
+        MerchantSupermarket.NetAmount = 0;
+        MerchantSupermarket.TransactionCount = 0;
+        MerchantSupermarket.SaleAmount = 0;
+        MerchantSupermarket.SaleCount = 0;
+        MerchantSupermarket.ReturnCount = 0;
+        MerchantSupermarket.ReturnCount = 0;
+    }
+
+    if (MerchantResort == null)
+    {
+        MerchantResort = new MERCHANT_SUMMARY();
+        MerchantResort.NetAmount = 0;
+        MerchantResort.TransactionCount = 0;
+        MerchantResort.SaleAmount = 0;
+        MerchantResort.SaleCount = 0;
+        MerchantResort.ReturnCount = 0;
+        MerchantResort.ReturnCount = 0;
+    }
+
+    if (MerchantHotel == null)
+    {
+        MerchantHotel = new MERCHANT_SUMMARY();
+        MerchantHotel.NetAmount = 0;
+        MerchantHotel.TransactionCount = 0;
+        MerchantHotel.SaleAmount = 0;
+        MerchantHotel.SaleCount = 0;
+        MerchantHotel.ReturnCount = 0;
+        MerchantHotel.ReturnCount = 0;
+    }
+
+    if (MerchantDiner == null)
+    {
+        MerchantDiner = new MERCHANT_SUMMARY();
+        MerchantDiner.NetAmount = 0;
+        MerchantDiner.TransactionCount = 0;
+        MerchantDiner.SaleAmount = 0;
+        MerchantDiner.SaleCount = 0;
+        MerchantDiner.ReturnCount = 0;
+        MerchantDiner.ReturnCount = 0;
+    }
+
+    if (MerchantClothes == null)
+    {
+        MerchantClothes = new MERCHANT_SUMMARY();
+        MerchantClothes.NetAmount = 0;
+        MerchantClothes.TransactionCount = 0;
+        MerchantClothes.SaleAmount = 0;
+        MerchantClothes.SaleCount = 0;
+        MerchantClothes.ReturnCount = 0;
+        MerchantClothes.ReturnCount = 0;
+    }
+
+    if (OtherRegion == null)
+    {
+        OtherRegion = new MERCHANT_SUMMARY();
+        OtherRegion.NetAmount = 0;
+        OtherRegion.TransactionCount = 0;
+        OtherRegion.SaleAmount = 0;
+        OtherRegion.SaleCount = 0;
+        OtherRegion.ReturnCount = 0;
+        OtherRegion.ReturnCount = 0;
+    }
+
+    if (NorthUSA == null)
+    {
+        NorthUSA = new MERCHANT_SUMMARY();
+        NorthUSA.NetAmount = 0;
+        NorthUSA.TransactionCount = 0;
+        NorthUSA.SaleAmount = 0;
+        NorthUSA.SaleCount = 0;
+        NorthUSA.ReturnCount = 0;
+        NorthUSA.ReturnCount = 0;
+    }
+
+    if (MiddleVN == null)
+    {
+        MiddleVN = new MERCHANT_SUMMARY();
+        MiddleVN.NetAmount = 0;
+        MiddleVN.TransactionCount = 0;
+        MiddleVN.SaleAmount = 0;
+        MiddleVN.SaleCount = 0;
+        MiddleVN.ReturnCount = 0;
+        MiddleVN.ReturnCount = 0;
+    }
+
+    if (SouthVN == null)
+    {
+        SouthVN = new MERCHANT_SUMMARY();
+        SouthVN.NetAmount = 0;
+        SouthVN.TransactionCount = 0;
+        SouthVN.SaleAmount = 0;
+        SouthVN.SaleCount = 0;
+        SouthVN.ReturnCount = 0;
+        SouthVN.ReturnCount = 0;
+    }
+
+    if (NorthVN == null)
+    {
+        NorthVN = new MERCHANT_SUMMARY();
+        NorthVN.NetAmount = 0;
+        NorthVN.TransactionCount = 0;
+        NorthVN.SaleAmount = 0;
+        NorthVN.SaleCount = 0;
+        NorthVN.ReturnCount = 0;
+        NorthVN.ReturnCount = 0;
+    }
+}
+<h3>Print Preview</h3>
+<a class="btn btn-primary" href="#" onclick="xepOnline.Formatter.Format('reportPrinter', { pageWidth: '279mm', pageHeight: '216mm', render: 'download', filename: 'Report' });">
+    Download
+</a>
+<div class="container" id="reportPrinter" style="width:1000px">
+    <div align="center">
+        <h1>REPORT</h1>
+    </div>
+    <!--Total summary-->
+    <h3>Total Summary</h3>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="bg-primary"><b>Total Revenue</b></th>
+                <th class="bg-primary">@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].NetAmount)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="bg-success"><b>Total sales</b></td>
+                <td class="bg-success">@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].SaleAmount)</td>
+            </tr>
+            <tr>
+                <td class="bg-warning"><b>Total returns</b></td>
+                <td class="bg-warning">@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ReturnAmount)</td>
+            </tr>
+            <tr>
+                <td class="bg-danger"><b>Total transactions</b></td>
+                <td class="bg-danger">@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].TransactionCount)</td>
+            </tr>
+        </tbody>
+    </table>
+    <!--End Total summary-->
+    <!--Revenue info-->
+    <div class="col-lg-4" style="width:100%">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Revenue Graph</h3>
+            </div>
+            <div class="panel-body">
+                <div id="morris-line-chart"></div>
+                <div id="detailRevenueBtn" class="text-right" onclick="Display('detailRevenueBtn','RevenueModal',-1)">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <h3>Revenue Information</h3>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="bg-primary">Content</th>
+                <th class="bg-primary">Sale amount</th>
+                <th class="bg-primary">Return amount</th>
+                <th class="bg-primary">Total transaction</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (Statistic item in lineChartData)
+                {
+                    if (item.Name == null)
+                    {
+                        item.Name = "Khác";
+                    }
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Value</td>
+                        <td>@item.ReturnAmount</td>
+                        <td>@item.TransactionCount</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <!--End Revenue info-->
+    <!--Card type-->
+    <h3>Card type</h3>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="bg-primary"><b>#</b></th>
+                <th class="bg-primary">Card Type Name</th>
+                <th class="bg-primary">Percent</th>
+                <th class="bg-primary">Total revenue</th>
+                <th class="bg-primary">Total transaction</th>
+                <th class="bg-primary">Total sale</th>
+                <th class="bg-primary">Sale count</th>
+                <th class="bg-primary">Total return</th>
+                <th class="bg-primary">Return count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>American Card</td>
+                <td></td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressNetAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressTransactionCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressReturnAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressReturnCount)</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Debit Card</td>
+                <td></td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardNetAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardTransactionCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardReturnAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardReturnCount)</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Discover Card</td>
+                <td></td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardNetAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardTransactionCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardReturnAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardReturnCount)</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Master Card</td>
+                <td></td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardNetAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardTransactionCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardReturnAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardReturnCount)</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Visa Card</td>
+                <td></td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardNetAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardTransactionCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardReturnAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardReturnCount)</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Foreign Card</td>
+                <td></td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardNetAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardTransactionCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardReturnAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardReturnCount)</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Other Card</td>
+                <td></td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardNetAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardTransactionCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardCount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardReturnAmount)</td>
+                <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardReturnCount)</td>
+            </tr>
+        </tbody>
+    </table>
+    <!--End Card type-->
+    <!--Report type-->
+
+    <div class="col-lg-4" style="width:100%;min-width:400px">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Region</h3>
+            </div>
+            <div class="panel-body">
+                <div id="morris-bar-chart"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <h3>Region type</h3>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="bg-primary"><b>#</b></th>
+                <th class="bg-primary">Region Name</th>
+                <th class="bg-primary">Sale amount</th>
+                <th class="bg-primary">Total revenue</th>
+                <th class="bg-primary">Total transaction</th>
+                <th class="bg-primary">Total sale</th>
+                <th class="bg-primary">Sale count</th>
+                <th class="bg-primary">Total return</th>
+                <th class="bg-primary">Return count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>North VN</td>
+                <td>17</td>
+                <td>@NorthVN.NetAmount</td>
+                <td>@NorthVN.TransactionCount</td>
+                <td>@NorthVN.SaleAmount</td>
+                <td>@NorthVN.SaleCount</td>
+                <td>@NorthVN.ReturnAmount</td>
+                <td>@NorthVN.ReturnCount</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>South VN</td>
+                <td>17</td>
+                <td>@SouthVN.NetAmount</td>
+                <td>@SouthVN.TransactionCount</td>
+                <td>@SouthVN.SaleAmount</td>
+                <td>@NorthVN.SaleCount</td>
+                <td>@NorthVN.ReturnAmount</td>
+                <td>@NorthVN.ReturnCount</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Middle VN</td>
+                <td>17</td>
+                <td>@MiddleVN.NetAmount</td>
+                <td>@MiddleVN.TransactionCount</td>
+                <td>@MiddleVN.SaleAmount</td>
+                <td>@MiddleVN.SaleCount</td>
+                <td>@MiddleVN.ReturnAmount</td>
+                <td>@MiddleVN.ReturnCount</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>North USA</td>
+                <td>17</td>
+                <td>@NorthUSA.NetAmount</td>
+                <td>@NorthUSA.TransactionCount</td>
+                <td>@NorthUSA.SaleAmount</td>
+                <td>@NorthUSA.SaleCount</td>
+                <td>@NorthUSA.ReturnAmount</td>
+                <td>@NorthUSA.ReturnCount</td>
+            </tr>
+        </tbody>
+    </table>
+    <!--End Report type-->
+    <!--Merchant type-->
+    <h3>Merchant type</h3>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="bg-primary"><b>#</b></th>
+                <th class="bg-primary">Merchant Name</th>
+                <th class="bg-primary">Sale amount</th>
+                <th class="bg-primary">Total revenue</th>
+                <th class="bg-primary">Total transaction</th>
+                <th class="bg-primary">Total sale</th>
+                <th class="bg-primary">Sale count</th>
+                <th class="bg-primary">Total return</th>
+                <th class="bg-primary">Return count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Merchant Clothes</td>
+                <td>17</td>
+                <td>@MerchantClothes.NetAmount</td>
+                <td>@MerchantClothes.TransactionCount</td>
+                <td>@MerchantClothes.SaleAmount</td>
+                <td>@MerchantClothes.SaleCount</td>
+                <td>@MerchantClothes.ReturnAmount</td>
+                <td>@MerchantClothes.ReturnCount</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Merchant Diner</td>
+                <td>17</td>
+                <td>@MerchantDiner.NetAmount</td>
+                <td>@MerchantDiner.TransactionCount</td>
+                <td>@MerchantDiner.SaleAmount</td>
+                <td>@MerchantDiner.SaleCount</td>
+                <td>@MerchantDiner.ReturnAmount</td>
+                <td>@MerchantDiner.ReturnCount</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Merchant Hotel</td>
+                <td>17</td>
+                <td>@MerchantHotel.NetAmount</td>
+                <td>@MerchantHotel.TransactionCount</td>
+                <td>@MerchantHotel.SaleAmount</td>
+                <td>@MerchantHotel.SaleCount</td>
+                <td>@MerchantHotel.ReturnAmount</td>
+                <td>@MerchantHotel.ReturnCount</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Merchant Resort</td>
+                <td>17</td>
+                <td>@MerchantResort.NetAmount</td>
+                <td>@MerchantResort.TransactionCount</td>
+                <td>@MerchantResort.SaleAmount</td>
+                <td>@MerchantResort.SaleCount</td>
+                <td>@MerchantResort.ReturnAmount</td>
+                <td>@MerchantResort.ReturnCount</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Merchant Supermarket</td>
+                <td>17</td>
+                <td>@MerchantSupermarket.NetAmount</td>
+                <td>@MerchantSupermarket.TransactionCount</td>
+                <td>@MerchantSupermarket.SaleAmount</td>
+                <td>@MerchantSupermarket.SaleCount</td>
+                <td>@MerchantSupermarket.ReturnAmount</td>
+                <td>@MerchantSupermarket.ReturnCount</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Other Merchant</td>
+                <td>17</td>
+                <td>@OtherMerchant.NetAmount</td>
+                <td>@OtherMerchant.TransactionCount</td>
+                <td>@OtherMerchant.SaleAmount</td>
+                <td>@OtherMerchant.SaleCount</td>
+                <td>@OtherMerchant.ReturnAmount</td>
+                <td>@OtherMerchant.ReturnCount</td>
+            </tr>
+        </tbody>
+    </table>
+    <!--End Merchant type-->
+    <!--Chart-->
+    <div class="row">
+        <div class="col-lg-4" style="display:none">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Revenue Graph</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="morris-line-chart"></div>
+                    <div id="detailRevenueBtn" class="text-right" onclick="Display('detailRevenueBtn','RevenueModal',-1)">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-4" style="display:none">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Card Type</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="flot-chart">
+                        <div class="flot-chart-content" id="flot-pie-chart"></div>
+                    </div>
+                    <div id="detailCardTypeBtn" class="text-right" onclick="Display('detailCardTypeBtn','CardTypeModal',0)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4" style="display:none">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Region</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="morris-bar-chart"></div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4" style="display:none">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Merchant Type</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="morris-donut-chart"></div>
+                    <div id="detailMerchantTypeBtn" class="text-right" onclick="Display('detailMerchantTypeBtn','MerchantTypeModal',2)">
+                        <a>View Details <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!--End Chart-->
+</div>
+<script src="/Assets/js/flot/excanvas.min.js"></script>
+<script src="/Assets/js/xepOnline.jqPlugin.js"></script>
+<script>
+    $(function () {
+        @{
+            var DonutData = String.Empty;
+            var BarData = String.Empty;
+            var LineData = String.Empty;
+            var CardTypeData = String.Empty;
+
+            foreach (MERCHANT_SUMMARY item in listMerchantType)
+            {
+                if (item.MerchantType == null)
+                {
+                    item.MerchantType = "Khác";
+                }
+                DonutData += "{label: \"{0}\", value: {1} },".Replace("{0}", item.MerchantTypeName).Replace("{1}", item.SaleAmount.ToString());
+            }
+            if (DonutData.Length > 1)
+            {
+                DonutData = HttpUtility.HtmlDecode(DonutData.Substring(0, DonutData.Length - 1));
+            }
+
+            foreach (Statistic item in lineChartData)
+            {
+                if (item.Name == null)
+                {
+                    item.Name = "Khác";
+                }
+                LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString() == "" ?  "0" : item.TransactionCount.ToString());
+            }
+            if (LineData.Length > 1)
+            {
+                LineData = LineData.Substring(0, LineData.Length - 1);
+            }
+
+            foreach (MERCHANT_SUMMARY item in listRegion)
+            {
+                if (item.RegionCode == null)
+                {
+                    item.RegionCode = "Khác";
+                }
+                BarData += "{region: \"{0}\", sale: {1} },".Replace("{0}", item.RegionName).Replace("{1}", item.SaleAmount.ToString());
+            }
+            if (BarData.Length > 1)
+            {
+                BarData = BarData.Substring(0, BarData.Length - 1);
+            }
+
+
+            foreach (MERCHANT_SUMMARY item in cardTypeReport)
+            {
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Foreign Card").Replace("{1}", item.ForeignCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Debit Card").Replace("{1}", item.DebitCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Visa Card").Replace("{1}", item.VisaCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Discover Card").Replace("{1}", item.DiscoverCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Master Card").Replace("{1}", item.MasterCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "American Express Card").Replace("{1}", item.AmericanExpressAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} }".Replace("{0}", "Other Card").Replace("{1}", item.OtherCardAmount.ToString());
+            }
+
+
+        }
+
+        // Donut Chart
+        Morris.Donut({
+            element: 'morris-donut-chart',
+            data: [@Html.Raw(DonutData)],
+            resize: true
+        });
+
+        Morris.Bar({
+            element: 'morris-bar-chart',
+            data: [@Html.Raw(BarData)],
+            xkey: 'region',
+            ykeys: ['sale'],
+            labels: ['Sale amount'],
+            barRatio: 0.4,
+            xLabelAngle: 35,
+            hideHover: 'auto',
+            resize: true
+        });
+
+        Morris.Line({
+            // ID of the element in which to draw the chart.
+            element: 'morris-line-chart',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
+            data: [@Html.Raw(LineData)],
+            // The name of the data record attribute that contains x-visitss.
+            xkey: 'd',
+            // A list of names of data record attributes that contain y-visitss.
+            ykeys: ['sales'],
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            labels: ['Sale amount'],
+            // Disables line smoothing
+            smooth: false,
+            resize: true,
+            parseTime: false,
+            lineColors: ['#F5ABB0'],
+            pointFillColors: ['#FF3300'],
+            hoverCallback: function (index, options, content) {
+                var data = options.data[index];
+                content = ""
+                return content
+            },
+        });
+
+        var data = [@Html.Raw(CardTypeData)];
+
+        var plotObj = $.plot($("#flot-pie-chart"), data, {
+            series: {
+                pie: {
+                    show: true
+                }
+            },
+            grid: {
+                hoverable: true
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                shifts: {
+                    x: 20,
+                    y: 0
+                },
+                defaultTheme: false
+            }
+        });
+    });
+
+</script>
+

@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Web;
 using System.Web.Mvc;
 using WebMVC.Common;
 using WebMVC.EntityFramework;
-using PagedList;
-using Rotativa;
-using Newtonsoft.Json.Linq;
-using System.Text;
+
+
 
 namespace WebMVC.Controllers
 {
-    public class ReportController : BaseController
+    public class ReportPdfController : Controller
     {
-        // GET: Report
+        // GET: ReportPdf
         public ActionResult Index(string UserCode)
         {
             string reportType = "Day";
@@ -102,7 +99,7 @@ namespace WebMVC.Controllers
                     reportDateForLineAPI += ("&code=" + temp.UserName);
                 }
             }
-            
+
 
             List<MERCHANT_SUMMARY> list = new List<MERCHANT_SUMMARY>();
 
