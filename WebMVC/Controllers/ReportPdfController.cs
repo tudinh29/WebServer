@@ -10,7 +10,7 @@ using WebMVC.EntityFramework;
 
 namespace WebMVC.Controllers
 {
-    public class ReportPdfController : Controller
+    public class ReportPdfController : BaseController
     {
         // GET: ReportPdf
         public ActionResult Index(string UserCode)
