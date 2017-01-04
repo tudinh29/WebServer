@@ -77,7 +77,7 @@
                 <li>
                     @if (Convert.ToChar(temp.UserType) == 'A')
                     {
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Quản lý<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-calculator"></i> Quản lý<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="@Url.Action("Merchant", "Management")">Merchant</a>
@@ -90,7 +90,7 @@
                     }
                     else
                     {
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Quản lý<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-calculator"></i> Quản lý<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="@Url.Action("Agent", "Management")">Agent</a>
@@ -103,10 +103,10 @@
 
                 </li>
                 <li>
-                    <a href="@Url.Action("Index", "Report")"><i class="fa fa-edit fa-fw"></i>Report</a>
+                    <a href="@Url.Action("Index", "Report")"><i class="fa fa-pie-chart fa-fw"></i>Report</a>
                 </li>
                 <li>
-                        <a href="#"><i class="fa fa-edit fa-fw"></i> Thống kê<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-money fa-fw"></i> Thống kê<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="@Url.Action("Index", "Statistical")">Theo ngày</a>
