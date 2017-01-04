@@ -64,8 +64,7 @@ namespace WebMVC.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<CARD>()
-                .Property(e => e.AccountNumber)
-                .IsUnicode(false);
+                .Property(e => e.AccountNumber);
 
             modelBuilder.Entity<CARD>()
                 .Property(e => e.FirstTwelveAccountNumber)
@@ -708,8 +707,7 @@ namespace WebMVC.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<RETRIVAL>()
-                .Property(e => e.AccountNumber)
-                .IsUnicode(false);
+                .Property(e => e.AccountNumber);
 
             modelBuilder.Entity<RETRIVAL>()
                 .Property(e => e.MerchantCode)
@@ -748,8 +746,7 @@ namespace WebMVC.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<TRANSACTION_DETAIL>()
-                .Property(e => e.AccountNumber)
-                .IsUnicode(false);
+                .Property(e => e.AccountNumber);
 
             modelBuilder.Entity<TRANSACTION_DETAIL>()
                 .Property(e => e.FirstTwelveAccountNumber)

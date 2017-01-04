@@ -17,8 +17,7 @@ namespace WebAPI.EntityFramework
         }
 
         [Key]
-        [StringLength(20)]
-        public string AccountNumber { get; set; }
+        public Byte[] AccountNumber { get; set; }
 
         [StringLength(50)]
         public string FullName { get; set; }

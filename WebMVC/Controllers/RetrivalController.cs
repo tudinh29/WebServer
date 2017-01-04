@@ -107,12 +107,12 @@ namespace WebMVC.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindRetrivalElement?searchString={0}", searchString)).Result;
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindRetrivalElement_Print?searchString={0}", searchString)).Result;
                 list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
             }
             else
             {
-                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindAllRetrival")).Result;
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindAllRetrival_Print")).Result;
                 list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
             }
 
@@ -152,12 +152,12 @@ namespace WebMVC.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindRetrivalElement?searchString={0}", searchString)).Result;
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindRetrivalElement_Print?searchString={0}", searchString)).Result;
                 list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
             }
             else
             {
-                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindAllRetrival")).Result;
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindAllRetrival_Print")).Result;
                 list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
             }
 

@@ -47,7 +47,7 @@ namespace WebMVC.EntityFramework
         public string Description { get; set; }
 
 
-        public string AccountNumber { get; set; }
+        public Byte[] AccountNumber { get; set; }
 
 
         public string FirstTwelveAccountNumber { get; set; }

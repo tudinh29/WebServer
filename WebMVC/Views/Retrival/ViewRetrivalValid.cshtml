@@ -19,7 +19,7 @@
                     <thead>
                         <tr>
                             <th>Retrival Code</th>
-                            <th>Account Number</th>
+                     
                             <th>Merchant Code</th>
                             <th>Transaction Code</th>
                             <th>Transaction Date</th>
@@ -35,7 +35,7 @@
                                     @Html.ActionLink(@item.RetrivalCode, "ViewDetail_Retrival", "Retrival",
             new { RetrivalCode = @item.RetrivalCode, @name = "Retrivalcode" }, null)
                                 </td>
-                                <td>@item.AccountNumber</td>
+                   
                                 <td>@item.MerchantCode</td>
                                 <td>@item.TransactionCode</td>
                                 <td>@item.TransactionDate.Value.ToString("yyyy-MM-dd")</td>

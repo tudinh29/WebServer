@@ -126,11 +126,13 @@
                                     <th>Agent Code</th>
                                     <th>Agent Name</th>
                                     <th>Status</th>
-                                    <th>Merchant List</th>
-                                    <th>Message</th>
+                                    
                                     <th>Total Revenue this month (USD)</th>
                                     <th>Average Revenue this month (USD)</th>
                                     <th>Growing Rate</th>
+                                    <th>Report detail</th>
+                                    <th>Merchant List</th>
+                                    <th>Private message</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -164,15 +166,15 @@
 
                                             }
                                         </td>
-                                        
+                                        <td>@DoanhThu[STTDoanhThu].DoanhThu</td>
+                                        <td>@DoanhThu[STTDoanhThu].TrungBinh</td>
+                                        <td>@DoanhThu[STTDoanhThu].TangTruong</td>
+                                        <td>@Html.ActionLink("View", "Index", "Report", new { UserCode = @item.AgentCode }, null)</td>
                                         <td>
                                             @Html.ActionLink("Chi tiết", "ViewListMerchant", "Management",
                                          new { agentName = @item.AgentName, agentCode = @item.AgentCode, regionCode = @item.RegionCode }, null)
                                         </td>
-                                        <td>@Html.ActionLink("Message", "CreateMessage", "Message", new { receive = @item.AgentCode }, null)</td>
-                                        <td>@DoanhThu[STTDoanhThu].DoanhThu</td>
-                                        <td>@DoanhThu[STTDoanhThu].TrungBinh</td>
-                                        <td>@DoanhThu[STTDoanhThu].TangTruong</td>
+                                        <td>@Html.ActionLink("Send", "CreateMessage", "Message", new { receive = @item.AgentCode }, null)</td>
                                     </tr>
                                     STTDoanhThu++;
                                 }

@@ -12,7 +12,6 @@
                 <th>ReportDate</th>
                 <th>Merchant Code</th>
                 <th>Transaction Type</th>
-                <th>Account Number</th>
                 <th>Card Type</th>
                 <th>Amount</th>
                 <th>Error Message</th>
@@ -27,7 +26,6 @@
                     <td>@(String.IsNullOrEmpty(item.ReportDate.ToString()) ? "" : item.ReportDate.ToString("yyyy-MM-dd"))</td>
                     <td>@Html.DisplayFor(model => item.MerchantCode)</td>
                     <td>@Html.DisplayFor(model => item.TransactionTypeCode)</td>
-                    <td>@Html.DisplayFor(model => item.AccountNumber)</td>
                     <td>@Html.DisplayFor(model => item.CardtypeCode)</td>
                     <td>@Html.DisplayFor(model => item.TransactionAmount)</td>
                     <td>@Html.DisplayFor(model => item.ErrorMessage)</td>

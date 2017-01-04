@@ -27,12 +27,12 @@ namespace WebMVC.Models
 
         public DateTime TransactionDate { get; set; }
 
-      
 
 
-        
 
-        public string AccountNumber { get; set; }
+
+
+        public Byte[] AccountNumber { get; set; }
 
 
       

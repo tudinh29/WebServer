@@ -22,7 +22,7 @@ namespace WebAPI.Models
 
         public DateTime TransactionDate { get; set; }
 
-        public string AccountNumber { get; set; }
+        public Byte[] AccountNumber { get; set; }
 
         public string TransactionTypeCode { get; set; }
         public string AgentCode { get; set; }

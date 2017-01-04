@@ -11,8 +11,7 @@
         public string RetrivalCode { get; set; }
 
         [Required]
-        [StringLength(20)]
-        public string AccountNumber { get; set; }
+        public Byte[] AccountNumber { get; set; }
 
         [Required]
         [StringLength(10)]

@@ -89,7 +89,7 @@ namespace WebMVC.Controllers
                 temp = (USER_INFORMATION)model;
             }
             else return View();
-            if (userCode != String.Empty)
+            if (!String.IsNullOrEmpty(userCode))
             {
                 reportDataAPI += ("&code=" + userCode);
                 reportDateForLineAPI += ("&code=" + userCode);

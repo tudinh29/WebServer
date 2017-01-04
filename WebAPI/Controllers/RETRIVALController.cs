@@ -28,6 +28,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        public List<RETRIVAL> FindAllRetrival_Print()
+        {
+            var res = db.Database.SqlQuery<RETRIVAL>("exec sp_FindAllRetrival").ToList();
+            return res;
+        }
+
+        [HttpGet]
         public RETRIVAL FindRetrival(string retrivalCode)
         {
             object[] paremeter = 
@@ -51,6 +58,19 @@ namespace WebAPI.Controllers
             var res = db.Database.SqlQuery<RETRIVAL>("exec sp_FindRetrivalElement_ForQuery @Element, @pageIndex, @pageSize", parameter).ToList();
             return res;
         }
+
+        [HttpGet]
+        public List<RETRIVAL> FindRetrivalElement_Print(string searchString)
+        {
+            object[] parameter =
+                {
+                    new SqlParameter("@Element", searchString),
+                };
+
+            var res = db.Database.SqlQuery<RETRIVAL>("exec sp_FindRetrivalElement @Element", parameter).ToList();
+            return res;
+        }
+
         [HttpGet]
         public int CountRetrivalElement(string searchString)
         {
