@@ -42,6 +42,7 @@ namespace WebMVC.Controllers
             {
                 var userSession = new USER_INFORMATION();
                 userSession = list[0];
+                Session.Add(CommonConstants.HASH_PASSWORD, Encryptor.MD5Hash(model.Password));
                 Session.Add(CommonConstants.USER_SESSION, userSession);
                 return RedirectToAction("Index", "Home");
             }

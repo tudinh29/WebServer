@@ -294,8 +294,13 @@ namespace WebMVC.Controllers
         {
             AGENT agent = new AGENT();
             HttpClient client = new AccessAPI().Access();
+            var user = (USER_INFORMATION)Session[CommonConstants.USER_SESSION];
+            var pass = Session[CommonConstants.HASH_PASSWORD];
+            StringContent content = new StringContent("username=" + user.UserName.ToString() + "&password=" + pass + "&grant_type=password");
+            HttpResponseMessage res = client.PostAsync(string.Format("api/security/token"), content).Result;
+            TokenModel token = res.Content.ReadAsAsync<TokenModel>().Result;
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token.access_token);
             HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAgent?agentCode={0}", agentCode)).Result;
-
             if (response.IsSuccessStatusCode)
             {
                 agent = response.Content.ReadAsAsync<AGENT>().Result;
