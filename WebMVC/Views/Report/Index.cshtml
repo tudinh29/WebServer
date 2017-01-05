@@ -302,7 +302,7 @@
             Card type detail
             <span class="close">×</span>
         </div>
-        <div class=" = modal-content-body">
+        <div class="modal-content-body">
             <div class="modal-content-body-detail">
                 <h3>American Card</h3>
                 <div class="row">
@@ -990,7 +990,7 @@
                 {
                     item.Name = "Khác";
                 }
-                LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString());
+                LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString() == "" ? "0" : item.TransactionCount.ToString());
             }
             if (LineData.Length > 1)
             {

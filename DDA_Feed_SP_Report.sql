@@ -354,10 +354,12 @@ Begin
 	Order by ReportYear
 End
 */
+
+-- Update 05/01/2017 - adding code to SP
 go
 drop Procedure SP_GetReportDataForLineChart_Generality
 go
-create Procedure SP_GetReportDataForLineChart_Generality (@startDate varchar(10), @endDate varchar(10)) As
+create Procedure SP_GetReportDataForLineChart_Generality (@startDate varchar(10), @endDate varchar(10), @code varchar(20)) As
 Begin
 	declare @currentDate date
 	declare @firstDate date
@@ -365,8 +367,8 @@ Begin
 	set @firstDate =  CAST(@startDate AS DATETIME)
 	
 		SELECT CONVERT(varchar(max),ReportDate,103) as Name,
-		 SUM(SaleAmount) AS Value, SUM(ReturnAmount) as ReturnAmount, CAST(SUM(TransactionCount)as BIGINT) as TransactionCount
-		FROM MERCHANT_SUMMARY_DAILY 
+		SUM(SaleAmount) AS Value, SUM(ReturnAmount) as ReturnAmount, CAST(SUM(TransactionCount)as BIGINT) as TransactionCount
+		FROM (Select * From MERCHANT_SUMMARY_DAILY Where (MerchantCode = @code or AgentCode = @code) or @code = '' or @code is null) MERCHANT_SUMMARY_DAILY 
 		where ReportDate < @currentDate and ReportDate >= @firstDate
 		group by ReportDate
 		Order by ReportDate
@@ -374,7 +376,7 @@ End
 go
 drop Procedure SP_GetReportData_Generality
 go
-create Procedure SP_GetReportData_Generality (@startDate varchar(10), @endDate varchar(10)) As
+create Procedure SP_GetReportData_Generality (@startDate varchar(10), @endDate varchar(10), @code varchar(20)) As
 Begin
 	declare @currentDate date
 	declare @firstDate date
@@ -400,7 +402,7 @@ Begin
 		 CAST(SUM( AmericanExpressTransactionCount) AS BIGINT) AS  AmericanExpressTransactionCount, SUM( OtherCardAmount) AS  OtherCardAmount, CAST(SUM( OtherCardCount) AS BIGINT) AS  OtherCardCount, 
 		 SUM( OtherCardReturnAmount) AS  OtherCardReturnAmount, CAST(SUM( OtherCardReturnCount) AS BIGINT) AS  OtherCardReturnCount, SUM( OtherCardNetAmount) AS  OtherCardNetAmount,
 		 CAST(SUM( OtherCardTransactionCount) AS BIGINT) AS  OtherCardTransactionCount, RegionCode, MerchantType, 'A' as AgentCode
-		FROM MERCHANT_SUMMARY_DAILY 
+		FROM (Select * From MERCHANT_SUMMARY_DAILY Where (MerchantCode = @code or AgentCode = @code) or @code = '' or @code is null) MERCHANT_SUMMARY_DAILY 
 		where ReportDate < @currentDate and ReportDate >= @firstDate
 		group by RegionCode,MerchantType
 End

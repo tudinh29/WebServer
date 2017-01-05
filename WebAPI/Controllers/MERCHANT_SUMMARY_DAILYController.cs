@@ -375,26 +375,28 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public List<MERCHANT_SUMMARY> GetReportDataGenerality(string startDate, string endDate)
+        public List<MERCHANT_SUMMARY> GetReportDataGenerality(string startDate, string endDate, string code = "")
         {
             object[] paremeter =
                {
                     new SqlParameter("@startDate", startDate),
-                    new SqlParameter("@endDate", endDate)
+                    new SqlParameter("@endDate", endDate),
+                    new SqlParameter("@code", code)
                 };
-            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY>("SP_GetReportData_Generality @startDate, @endDate", paremeter).ToList();
+            var dbReturn = db.Database.SqlQuery<MERCHANT_SUMMARY>("SP_GetReportData_Generality @startDate, @endDate, @code", paremeter).ToList();
             return dbReturn;
         }
 
         [HttpGet]
-        public List<Models.Statistic> GetReportDateForLineChartGenerality(string startDate, string endDate)
+        public List<Models.Statistic> GetReportDateForLineChartGenerality(string startDate, string endDate, string code = "")
         {
             object[] paremeter =
                {
                     new SqlParameter("@startDate", startDate),
-                    new SqlParameter("@endDate", endDate)
+                    new SqlParameter("@endDate", endDate),
+                    new SqlParameter("@code", code)
                 };
-            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDataForLineChart_Generality @startDate, @endDate", paremeter).ToList();
+            var dbReturn = db.Database.SqlQuery<Models.Statistic>("SP_GetReportDataForLineChart_Generality @startDate, @endDate, @code", paremeter).ToList();
             return dbReturn;
         }
 
