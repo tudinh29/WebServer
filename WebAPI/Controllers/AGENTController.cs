@@ -47,6 +47,7 @@ namespace WebAPI.Controllers
             return res;
         }
 
+        [Authorize]
         [HttpGet]
         public AGENT FindAgent(string agentCode)
         {
