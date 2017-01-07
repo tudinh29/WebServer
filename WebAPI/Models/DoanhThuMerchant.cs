@@ -10,6 +10,6 @@ namespace WebAPI.Models
         public string MerchantCode { get; set; }
         public decimal DoanhThu { get; set; }
         public decimal TrungBinh { get; set; }
-        public string TangTruong { get; set; }
+        public decimal TangTruong { get; set; }
     }
 }

@@ -129,7 +129,7 @@
                                     
                                     <th>Total Revenue this month (USD)</th>
                                     <th>Average Revenue this month (USD)</th>
-                                    <th>Growing Rate</th>
+                                    <th class="col-lg-1">Growing Rate</th>
                                     <th>Report detail</th>
                                     <th>Merchant List</th>
                                     <th>Private message</th>
@@ -166,9 +166,19 @@
 
                                             }
                                         </td>
-                                        <td>@DoanhThu[STTDoanhThu].DoanhThu</td>
+                                        <td>@DoanhThu[STTDoanhThu].DoanhThu </td>
                                         <td>@DoanhThu[STTDoanhThu].TrungBinh</td>
-                                        <td>@DoanhThu[STTDoanhThu].TangTruong</td>
+                                        @if (DoanhThu[STTDoanhThu].TangTruong > 0)
+                                        {
+                                            <td><font color="green"><i class="fa fa-arrow-up"></i>@DoanhThu[STTDoanhThu].TangTruong%</font></td>
+                                        }
+                                        else if (DoanhThu[STTDoanhThu].TangTruong <0)
+                                        {
+                                            <td><font color="red"><i class="fa fa-arrow-down"></i>@(-DoanhThu[STTDoanhThu].TangTruong)%</font></td>
+                                        }
+                                        else{
+                                        <td><font color="black"><i class="fa fa-arrows-v"></i>@DoanhThu[STTDoanhThu].TangTruong%</font></td>
+                                        }
                                         <td>@Html.ActionLink("View", "Index", "Report", new { UserCode = @item.AgentCode }, null)</td>
                                         <td>
                                             @Html.ActionLink("Chi tiết", "ViewListMerchant", "Management",
