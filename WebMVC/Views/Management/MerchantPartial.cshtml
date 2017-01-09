@@ -166,7 +166,7 @@
                                             </li>
                                         }
                                         <li>
-                                            @Ajax.ActionLink("Trang cuối", "MerchantPartial", "Management", new { page = ViewBag.Last - 3, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }, new AjaxOptions() {
+                                            @Ajax.ActionLink("Trang cuối", "MerchantPartial", "Management", new { page = ViewBag.Last , searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }, new AjaxOptions() {
                                            HttpMethod = "GET",
 
                                            InsertionMode = InsertionMode.Replace,
@@ -176,6 +176,7 @@
                                     </ul>
                                 </nav>
                             }
+                            <div style="text-align:right">Page <strong>@ViewBag.Page</strong> of <strong>@ViewBag.TotalPage</strong>, showing <strong>@ViewBag.NumberOfRecord</strong> records out of <strong>@ViewBag.Total</strong> total, starting on record <strong>@((ViewBag.Page - 1) * 10 + 1)</strong>, ending on <strong>@((ViewBag.Page - 1) * 10 + @ViewBag.NumberOfRecord)</strong></div>
                         </div>
                         <div class="panel-body">
                             <div class="row">

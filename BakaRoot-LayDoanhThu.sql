@@ -76,7 +76,10 @@ AS
 			set @average_lastmonth = @sum_lastmonth / DATEDIFF(d, @lastmonth_firstday, @lastmonth_lastday)
 		END
 
-		insert into @t values (@merchant, @sum, @average, (@average - @average_lastmonth)/@average_lastmonth*100)
+		insert into @t values (@merchant, @sum, @average, CASE
+		                                                    WHEN @average_lastmonth = 0 THEN 0
+                                                            ELSE (@average - @average_lastmonth)/@average_lastmonth*100
+														END)	
 	end
 	select * from @t
 	
@@ -156,9 +159,11 @@ AS
 		BEGIN
 			set @average_lastmonth = @sum_lastmonth / DATEDIFF(d, @lastmonth_firstday, @lastmonth_lastday)
 		END
-		
-		insert into @t values (@Agent, @sum, @average, (@average - @average_lastmonth)/@average_lastmonth*100)
-														
+		insert into @t values (@Agent, @sum, @average, CASE
+		                                                    WHEN @average_lastmonth = 0 THEN 0
+                                                            ELSE (@average - @average_lastmonth)/@average_lastmonth*100
+
+														END)											
 	end
 	select * from @t
 GO
