@@ -136,8 +136,12 @@ namespace WebMVC.Controllers
             ViewBag.Last = totalPage;
 
             string AgentString = ListAgent(list);
-            HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/Agent/LayDoanhThuAgent?agentCode={0}", AgentString)).Result;
-            List<DoanhThuAgent> DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuAgent>>().Result;
+            List<DoanhThuAgent> DoanhThu = new List<DoanhThuAgent>();
+            if (!String.IsNullOrEmpty(AgentString))
+            {
+                HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/Agent/LayDoanhThuAgent?agentCode={0}", AgentString)).Result;
+                DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuAgent>>().Result;
+            }
             ViewBag.DoanhThu = DoanhThu;
             
             return View(list);
