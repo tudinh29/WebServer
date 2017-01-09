@@ -254,8 +254,13 @@ namespace WebMVC.Controllers
             ViewBag.Last = totalPage;
 
             string AgentString = ListAgent(list);
-            HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/Agent/LayDoanhThuAgent?agentCode={0}", AgentString)).Result;
-            List<DoanhThuAgent> DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuAgent>>().Result;
+
+            List<DoanhThuAgent> DoanhThu = new List<DoanhThuAgent>();
+            if (!String.IsNullOrEmpty(AgentString))
+            {
+                HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/Agent/LayDoanhThuAgent?agentCode={0}", AgentString)).Result;
+                DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuAgent>>().Result;
+            }
             ViewBag.DoanhThu = DoanhThu;
             
             return PartialView("AgentPartial", list);
@@ -626,8 +631,12 @@ namespace WebMVC.Controllers
             ViewBag.Last = totalPage;
 
             string MerchantString = ListMerchant(list);
-            HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/MERCHANT/LayDoanhThuMerchant?merchantCode={0}", MerchantString)).Result;
-            List<DoanhThuMerchant> DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuMerchant>>().Result;
+            List<DoanhThuMerchant> DoanhThu = new List<DoanhThuMerchant>();
+            if (!String.IsNullOrEmpty(MerchantString))
+            {
+                HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/MERCHANT/LayDoanhThuMerchant?merchantCode={0}", MerchantString)).Result;
+                DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuMerchant>>().Result;
+            }         
             ViewBag.DoanhThu = DoanhThu;
 
             return View(list); 
@@ -802,8 +811,12 @@ namespace WebMVC.Controllers
             ViewBag.Last = totalPage;
 
             string MerchantString = ListMerchant(list);
-            HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/MERCHANT/LayDoanhThuMerchant?merchantCode={0}", MerchantString)).Result;
-            List<DoanhThuMerchant> DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuMerchant>>().Result;
+            List<DoanhThuMerchant> DoanhThu = new List<DoanhThuMerchant>();
+            if (!String.IsNullOrEmpty(MerchantString))
+            {
+                HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/MERCHANT/LayDoanhThuMerchant?merchantCode={0}", MerchantString)).Result;
+                DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuMerchant>>().Result;
+            }
             ViewBag.DoanhThu = DoanhThu;
 
             return PartialView("MerchantPartial", list);
