@@ -139,8 +139,122 @@ namespace WebMVC.Controllers
             HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/Agent/LayDoanhThuAgent?agentCode={0}", AgentString)).Result;
             List<DoanhThuAgent> DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuAgent>>().Result;
             ViewBag.DoanhThu = DoanhThu;
-
+            
             return View(list);
+        }
+         [HttpGet]
+        public ActionResult AgentPartial(string RegionType, string Active, List<string> RegionTypeValue, List<string> ActiveTypeValue, string searchString, int page = 1, int size = 10)
+        {
+            CheckBoxValue(ref RegionType, ref RegionTypeValue);
+            ViewBag.tempRegionType = RegionType;
+
+            CheckBoxValue(ref Active, ref ActiveTypeValue);
+            ViewBag.tempActive = Active;
+
+            int totalPage = 0;
+            int maxPage = 4;
+            int totalRetrival = 0;
+
+            int option = 0;
+            string queryFind = "";
+            string queryCount = "";
+
+            List<AGENT> list = new List<AGENT>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return RedirectToAction("Index");
+            HttpClient client = new AccessAPI().Access();
+            @ViewBag.action = "AgentPartial";
+            HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/FindAllRegion")).Result;
+            if (responseRegion.IsSuccessStatusCode)
+            {
+                List<REGION> listRegion = responseRegion.Content.ReadAsAsync<List<REGION>>().Result;
+                ViewBag.RegionType = new SelectList(listRegion, "RegionCode", "RegionName");
+            }
+
+            if (temp.UserType == "T")
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    if (RegionTypeValue == null && ActiveTypeValue == null)
+                    {
+                        HttpResponseMessage responseCount = client.GetAsync(string.Format("api/Agent/CountAgent")).Result;
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAllAgent_ForQuery?pageIndex={0}&pageSize={1}", page, size)).Result;
+                        if (response.IsSuccessStatusCode && responseCount.IsSuccessStatusCode)
+                        {
+                            totalRetrival = responseCount.Content.ReadAsAsync<int>().Result;
+                            list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                        }
+                    }
+                    else
+                    {
+                        queryFind = queryFilterAgent(RegionTypeValue, ActiveTypeValue, "*");
+                        queryFind = queryFind + " order by A.AgentCode Offset " + (page - 1) * size + " row fetch next " + size + " row only";
+                        queryCount = queryFilterAgent(RegionTypeValue, ActiveTypeValue, "Count(*)");
+                        option = 1;
+                    }
+
+                }
+                else
+                {
+                    if (RegionTypeValue != null || ActiveTypeValue != null)
+                    {
+                        string conditionSearch = ConditionSearch_Agent(searchString);
+                        queryFind = queryFilterAgent(RegionTypeValue, ActiveTypeValue, "*");
+                        queryFind = queryFind + conditionSearch + " order by A.AgentCode Offset " + (page - 1) * size + " row fetch next " + size + " row only";
+                        queryCount = queryFilterAgent(RegionTypeValue, ActiveTypeValue, "Count(*)") + conditionSearch;
+                        option = 1;
+                        ViewBag.searchString = searchString;
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Agent/FindAgentElement_ForQuery?searchString={0}&pageIndex={1}&pageSize={2}", searchString, page, size)).Result;
+                        HttpResponseMessage response2 = client.GetAsync(string.Format("api/Agent/CountAgentElement_ForQuery?searchString={0}", searchString)).Result;
+                        if (response.IsSuccessStatusCode && response2.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<AGENT>>().Result;
+                            totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                        }
+
+                        @ViewBag.searchString = searchString;
+                    }
+
+                }
+            }
+            else return RedirectToAction("Index");
+
+            if (option != 0)
+            {
+                HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/Agent/FindFilter?query={0}", queryFind)).Result;
+                HttpResponseMessage responseFilterCount = client.GetAsync(string.Format("api/Agent/CountFindFilter?query={0}", queryCount)).Result;
+
+                if (responseFilter.IsSuccessStatusCode && responseFilterCount.IsSuccessStatusCode)
+                {
+                    list = responseFilter.Content.ReadAsAsync<List<AGENT>>().Result;
+                    totalRetrival = responseFilterCount.Content.ReadAsAsync<int>().Result;
+                }
+                ViewBag.RegionTypeValue = RegionTypeValue;
+                ViewBag.ActiveTypeValue = ActiveTypeValue;
+            }
+
+            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+            ViewBag.Total = totalRetrival;
+            ViewBag.Page = page;
+            ViewBag.TotalPage = totalPage;
+            ViewBag.MaxPage = maxPage;
+            ViewBag.First = 1;
+            ViewBag.Last = totalPage;
+
+            string AgentString = ListAgent(list);
+            HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/Agent/LayDoanhThuAgent?agentCode={0}", AgentString)).Result;
+            List<DoanhThuAgent> DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuAgent>>().Result;
+            ViewBag.DoanhThu = DoanhThu;
+            
+            return PartialView("AgentPartial", list);
         }
         public ActionResult ExportAgentPDF(string searchString)
         {
