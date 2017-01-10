@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
                     new SqlParameter("@CurrentPassword", password), 
                     retVal
                 };
-            db.Database.ExecuteSqlCommand("exec @Success = sp_ChangePassword @UserName, @CurrentPassword, @NewPassword", paremeter);
+            db.Database.ExecuteSqlCommand("exec @Success = sp_ChangePassword @UserName, @NewPassword, @CurrentPassword ", paremeter);
             if ((int)retVal.Value == 1)
                 return true;
             else
