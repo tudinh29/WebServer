@@ -1052,6 +1052,7 @@
     <Content Include="Views\ReportPdf\PrintPreview.cshtml" />
     <Content Include="Views\ReportPdf\Index.cshtml" />
     <Content Include="Views\Management\AgentPartial.cshtml" />
+    <Content Include="Views\Management\MerchantPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

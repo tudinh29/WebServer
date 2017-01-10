@@ -629,6 +629,182 @@ namespace WebMVC.Controllers
             return View(list); 
         }
 
+        [HttpGet]
+        public ActionResult MerchantPartial(string MerchantType, string RegionType, string Active, List<string> MerchantTypeValue, List<string> RegionTypeValue, List<string> ActiveTypeValue, string searchString, int page = 1, int size = 10)
+        {
+
+            CheckBoxValue(ref MerchantType, ref MerchantTypeValue);
+            ViewBag.tempMerchantType = MerchantType;
+
+            CheckBoxValue(ref RegionType, ref RegionTypeValue);
+            ViewBag.tempRegionType = RegionType;
+
+            CheckBoxValue(ref Active, ref ActiveTypeValue);
+            ViewBag.tempActive = Active;
+
+            int totalPage = 0;
+            int maxPage = 4;
+            int totalRetrival = 0;
+
+            int option = 0;
+            string queryFind = "";
+            string queryCount = "";
+
+            List<MERCHANT> list = new List<MERCHANT>();
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+            else return View("Index");
+            HttpClient client = new AccessAPI().Access();
+            @ViewBag.action = "MerchantPartial";
+            HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
+            HttpResponseMessage responseRegion = client.GetAsync(string.Format("api/REGION/FindAllRegion")).Result;
+            if (responseMerchantType.IsSuccessStatusCode && responseRegion.IsSuccessStatusCode)
+            {
+                List<MERCHANT_TYPE> listMerchantType = responseMerchantType.Content.ReadAsAsync<List<MERCHANT_TYPE>>().Result;
+                List<REGION> listRegion = responseRegion.Content.ReadAsAsync<List<REGION>>().Result;
+                ViewBag.MerchantType = new SelectList(listMerchantType, "MerchantType", "Description");
+                ViewBag.RegionType = new SelectList(listRegion, "RegionCode", "RegionName");
+            }
+
+            if (temp.UserType == "T")
+            {
+                if (String.IsNullOrEmpty(searchString))
+                {
+                    if (MerchantTypeValue == null && RegionTypeValue == null && ActiveTypeValue == null)
+                    {
+                        HttpResponseMessage responseCount = client.GetAsync(string.Format("api/MERCHANT/CountMerchant")).Result;
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindAllMerchant_ForQuery?pageIndex={0}&pageSize={1}", page, size)).Result;
+                        if (response.IsSuccessStatusCode && responseCount.IsSuccessStatusCode)
+                        {
+                            totalRetrival = responseCount.Content.ReadAsAsync<int>().Result;
+                            list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                        }
+                    }
+                    else
+                    {
+                        queryFind = queryFilterMerchant(MerchantTypeValue, RegionTypeValue, ActiveTypeValue, "*");
+                        queryFind = queryFind + " order by M.MerchantCode Offset " + (page - 1) * size + " row fetch next " + size + " row only";
+                        queryCount = queryFilterMerchant(MerchantTypeValue, RegionTypeValue, ActiveTypeValue, "Count(*)");
+                        option = 1;
+                    }
+
+                }
+                else
+                {
+                    if (MerchantTypeValue != null || RegionTypeValue != null || ActiveTypeValue != null)
+                    {
+                        string conditionSearch = ConditionSearch(searchString);
+                        queryFind = queryFilterMerchant(MerchantTypeValue, RegionTypeValue, ActiveTypeValue, "*");
+                        queryFind = queryFind + conditionSearch + " order by M.MerchantCode Offset " + (page - 1) * size + " row fetch next " + size + " row only";
+                        queryCount = queryFilterMerchant(MerchantTypeValue, RegionTypeValue, ActiveTypeValue, "Count(*)") + conditionSearch;
+                        option = 1;
+                        ViewBag.searchString = searchString;
+                    }
+                    else
+                    {
+                        HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantElement_ForQuery?searchString={0}&pageIndex={1}&pageSize={2}", searchString, page, size)).Result;
+                        HttpResponseMessage response2 = client.GetAsync(string.Format("api/Merchant/CountMerchantElement_ForQuery?searchString={0}", searchString)).Result;
+                        if (response.IsSuccessStatusCode && response2.IsSuccessStatusCode)
+                        {
+                            list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                            totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                        }
+
+                        @ViewBag.searchString = searchString;
+                    }
+
+                }
+            }
+            else
+            {
+                if (temp.UserType == "A")
+                {
+                    if (String.IsNullOrEmpty(searchString))
+                    {
+                        if (MerchantTypeValue == null && RegionTypeValue == null && ActiveTypeValue == null)
+                        {
+                            HttpResponseMessage responseCount = client.GetAsync(string.Format("api/MERCHANT/CountMerchantByAgentCode_ForQuery?agentCode={0}", temp.UserName)).Result;
+                            HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/GetMerchantByAgentCode_ForQuery?agentCode={0}&pageIndex={1}&pageSize={2}", temp.UserName, page, size)).Result;
+                            if (response.IsSuccessStatusCode && responseCount.IsSuccessStatusCode)
+                            {
+                                totalRetrival = responseCount.Content.ReadAsAsync<int>().Result;
+                                list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                            }
+                        }
+                        else
+                        {
+                            queryFind = queryFilterMerchant(MerchantTypeValue, RegionTypeValue, ActiveTypeValue, "*");
+                            queryFind = queryFind + "and M.AgentCode = '" + temp.UserName + "' " + " order by M.MerchantCode Offset " + (page - 1) * size + " row fetch next " + size + " row only";
+                            queryCount = queryFilterMerchant(MerchantTypeValue, RegionTypeValue, ActiveTypeValue, "Count(*)");
+                            queryCount = queryCount + "and M.AgentCode = '" + temp.UserName + "'";
+                            option = 1;
+
+                        }
+                    }
+                    else
+                    {
+                        if (MerchantTypeValue != null || RegionTypeValue != null || ActiveTypeValue != null)
+                        {
+                            string conditionSearch = ConditionSearch(searchString);
+                            queryFind = queryFilterMerchant(MerchantTypeValue, RegionTypeValue, ActiveTypeValue, "*");
+                            queryFind = queryFind + "and M.AgentCode = '" + temp.UserName + "' " + conditionSearch + " order by M.MerchantCode Offset " + (page - 1) * size + " row fetch next " + size + " row only";
+                            queryCount = queryFilterMerchant(MerchantTypeValue, RegionTypeValue, ActiveTypeValue, "Count(*)");
+                            queryCount = queryCount + "and M.AgentCode = '" + temp.UserName + "'" + conditionSearch;
+                            option = 1;
+                            ViewBag.searchString = searchString;
+                        }
+                        else
+                        {
+                            HttpResponseMessage response = client.GetAsync(string.Format("api/Merchant/FindMerchantByAgentCodeAndElement_ForQuery?searchString={0}&agentCode={1}&pageIndex={2}&pageSize={3}", searchString, temp.UserName, page, size)).Result;
+                            HttpResponseMessage response2 = client.GetAsync(string.Format("api/Merchant/CountFindMerchantByAgentCodeAndElement_ForQuery?searchString={0}&agentCode={1}", searchString, temp.UserName)).Result;
+                            if (response.IsSuccessStatusCode && response2.IsSuccessStatusCode)
+                            {
+                                list = response.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                                totalRetrival = response2.Content.ReadAsAsync<int>().Result;
+                            }
+                            @ViewBag.searchString = searchString;
+                        }
+
+                    }
+                }
+                else return View("Index");
+            }
+
+            if (option != 0)
+            {
+                HttpResponseMessage responseFilter = client.GetAsync(string.Format("api/MERCHANT/FindFilter?query={0}", queryFind)).Result;
+                HttpResponseMessage responseFilterCount = client.GetAsync(string.Format("api/MERCHANT/CountFindFilter?query={0}", queryCount)).Result;
+
+                if (responseFilter.IsSuccessStatusCode && responseFilterCount.IsSuccessStatusCode)
+                {
+                    list = responseFilter.Content.ReadAsAsync<List<MERCHANT>>().Result;
+                    totalRetrival = responseFilterCount.Content.ReadAsAsync<int>().Result;
+                }
+                ViewBag.MerchantTypeValue = MerchantTypeValue;
+                ViewBag.RegionTypeValue = RegionTypeValue;
+                ViewBag.ActiveTypeValue = ActiveTypeValue;
+            }
+
+            totalPage = (int)Math.Ceiling((double)totalRetrival / size);
+            ViewBag.Total = totalRetrival;
+            ViewBag.Page = page;
+            ViewBag.TotalPage = totalPage;
+            ViewBag.MaxPage = maxPage;
+            ViewBag.First = 1;
+            ViewBag.Last = totalPage;
+
+            string MerchantString = ListMerchant(list);
+            HttpResponseMessage responseDoanhThu = client.GetAsync(string.Format("api/MERCHANT/LayDoanhThuMerchant?merchantCode={0}", MerchantString)).Result;
+            List<DoanhThuMerchant> DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuMerchant>>().Result;
+            ViewBag.DoanhThu = DoanhThu;
+
+            return PartialView("MerchantPartial", list);
+        }
+
         //[HttpGet]
         //public ActionResult FindMerchantElement(string searchString, int page = 1, int size = 10)
         //{

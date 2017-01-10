@@ -117,121 +117,30 @@
 }
 
 <div id="main">
-    <div class="container-fluid">
-        <div class="row">
-            <span style="font-size:20px;cursor:pointer;margin-left:10px" onclick="openNav()"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span>
-        </div>
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Merchant Code</th>
-                                    <th>Merchant Name</th>
-                                    <th>Hình thức kinh doanh</th>
-                                    <th>Status</th>
-                                    
-                                    <th>Total Revenue this month (USD)</th>
-                                    <th>Average Revenue this month (USD)</th>
-                                    <th class="col-lg-1">Growing Rate</th>
-                                    <th>Report detail</th>
-                                    <th>Private Message</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{int STTDoanhThu = 0;}
-                                @foreach (var item in Model)
-                                {
-                                    <tr id="row_@item.MerchantCode">
-                                        <td>
-                                            @Html.ActionLink(@item.MerchantCode, "ViewDetail_Merchant", "Management",
-                                         new { merchantCode = @item.MerchantCode }, null)
-                                        </td>
-                                        <td>@item.MerchantName</td>
-                                        <td>@item.Description</td>
-                                        <td>
-
-                                            @if (Convert.ToChar(@item.Status) == 'A')
-                                            {
-                                                @Ajax.ActionLink("ACTIVE", "ChangeStatus", "Management", new { @id = item.MerchantCode }, new AjaxOptions
-                                               {
-                                                   OnComplete = "OnComplete('" + @item.MerchantCode + "')",
-                                                   HttpMethod = "Post"
-                                               }, new { id = "btnStatus_" + @item.MerchantCode, @class = "btn btn-success" })
-
-                                            }
-                                            else
-                                            {
-                                                @Ajax.ActionLink("INACTIVE", "ChangeStatus", "Management", new { @id = item.MerchantCode }, new AjaxOptions
-                                               {
-                                                   OnComplete = "OnComplete('" + @item.MerchantCode + "')",
-                                                   HttpMethod = "Post"
-                                               }, new { id = "btnStatus_" + @item.MerchantCode, @class = "btn btn-danger" })
-
-                                                    }
-                                                </td>
-                                                
-                                                <td>@DoanhThu[STTDoanhThu].DoanhThu$</td>
-                                                <td>@DoanhThu[STTDoanhThu].TrungBinh$</td>
-                                                @if (DoanhThu[STTDoanhThu].TangTruong > 0)
-                                                {
-                                                    <td><font color="green"><i class="fa fa-arrow-up"></i>@DoanhThu[STTDoanhThu].TangTruong%</font></td>
-                                                }
-                                                else if (DoanhThu[STTDoanhThu].TangTruong < 0)
-                                                {
-                                                    <td><font color="red"><i class="fa fa-arrow-down"></i>@(-DoanhThu[STTDoanhThu].TangTruong)%</font></td>
-                                                }
-                                                else
-                                                {
-                                                    <td><font color="black"><i class="fa fa-arrows-v"></i>@DoanhThu[STTDoanhThu].TangTruong%</font></td>
-                                                }
-                                                <td>@Html.ActionLink("View", "Index", "Report", new { UserCode = @item.MerchantCode }, null)</td>
-                                                <td>@Html.ActionLink("Send", "CreateMessage", "Message", new { receive = @item.MerchantCode }, null)</td>
-                                            </tr>
-                                            STTDoanhThu++;
-                                        }
-                                    </tbody>
-                                </table>
-                                @if (ViewBag.TotalPage > 1)
-                                {
-                                    var pageDisplay = (int)ViewBag.MaxPage;
-                                    int totalPage = (int)ViewBag.TotalPage;
-                                    int currentPage = (int)ViewBag.Page;
-
-                                    var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
-                                    var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li>
-                                                @Html.ActionLink("Trang đầu", "Merchant", "Management", new { page = ViewBag.First, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }, null)
-                                            </li>
-                                            @for (int i = startPageIndex; i <= endPageIndex; i++)
-                                            {
-                                                <li>
-                                                    @Html.ActionLink(i.ToString(), "Merchant", "Management", new { page = i, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }, null)
-                                                </li>
-                                            }
-                                            <li>
-                                                @Html.ActionLink("Trang cuối", "Merchant", "Management", new { page = ViewBag.Last, searchString = ViewBag.searchString, @MerchantType = ViewBag.tempMerchantType, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }, null)
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                }
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   @Html.Partial("MerchantPartial", Model)
 </div>
+               <script type="text/javascript">
+                   function OnCriteria(page, includeNewCriteria) {
+                       var crit;
+                       if (includeNewCriteria) {
+                           crit = ($('#searchString'))[0].value;
+                       } else {
+                           crit = "";
+                       }
+                       $.ajax(
+                       {
+                           type: "GET",
+                           url: "Management/Agent?page=" + page + "&searchString=" + crit,
+                           success: function (result) {
+                               $("#main").html(result.toString());
+                           },
+                           error: function () {
+                               alert("Searching failed!");
+                           }
+                       });
+                   }
+               </script>
+  
 
         <div class="col-md-11 text-right">
             <a href="@Url.Action("ExportMerchantPDF", "Management", new { searchString = ViewBag.searchString })" class="btn btn-primary">PDF</a>
