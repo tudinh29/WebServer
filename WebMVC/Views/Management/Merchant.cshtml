@@ -82,8 +82,8 @@
     <div id="mySidenav" class="sidenavFilter" style="top:25%">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-        <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#MerchantType" >Loại merchant</button>
-        <div id="MerchantType" class="collapse">
+        <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#MerchantType" >Loại Merchant</button>
+        <div id="MerchantType" class="collapse in">
             @foreach (var item in MerchantType)
             {
                 <li><label><input id="@item.Value" class="CheckValue" type="checkbox" name="MerchantTypeValue" value="@item.Value">@item.Text</label></li>
@@ -91,7 +91,7 @@
         </div>
 
         <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#RegionType">Vùng Miền</button>
-        <div id="RegionType" class="collapse">
+        <div id="RegionType" class="collapse in">
             @foreach (var item in RegionType)
             {
                 <li><label><input id="@item.Value" class="CheckValue" type="checkbox" name="RegionTypeValue" value="@item.Value">@item.Text</label></li>
@@ -99,7 +99,7 @@
         </div>
 
         <button type="button" style="width:98%" class="btn btn-default" data-toggle="collapse" data-target="#status">Status</button>
-        <div id="status" class="collapse">
+        <div id="status" class="collapse in">
 
             <li><label><input id="A" class="CheckValue" type="checkbox" name="ActiveTypeValue" value="A">Active</label></li>
             <li><label><input id="I" class="CheckValue" type="checkbox" name="ActiveTypeValue" value="I">Inactive</label></li>

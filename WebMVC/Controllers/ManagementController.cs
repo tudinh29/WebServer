@@ -134,6 +134,7 @@ namespace WebMVC.Controllers
             ViewBag.MaxPage = maxPage;
             ViewBag.First = 1;
             ViewBag.Last = totalPage;
+            ViewBag.NumberOfRecord = list.Count;
 
             string AgentString = ListAgent(list);
             List<DoanhThuAgent> DoanhThu = new List<DoanhThuAgent>();
@@ -143,7 +144,7 @@ namespace WebMVC.Controllers
                 DoanhThu = responseDoanhThu.Content.ReadAsAsync<List<DoanhThuAgent>>().Result;
             }
             ViewBag.DoanhThu = DoanhThu;
-            
+
             return View(list);
         }
          [HttpGet]
@@ -252,6 +253,7 @@ namespace WebMVC.Controllers
             ViewBag.MaxPage = maxPage;
             ViewBag.First = 1;
             ViewBag.Last = totalPage;
+            ViewBag.NumberOfRecord = list.Count;
 
             string AgentString = ListAgent(list);
 
@@ -629,6 +631,7 @@ namespace WebMVC.Controllers
             ViewBag.MaxPage = maxPage;
             ViewBag.First = 1;
             ViewBag.Last = totalPage;
+            ViewBag.NumberOfRecord = list.Count;
 
             string MerchantString = ListMerchant(list);
             List<DoanhThuMerchant> DoanhThu = new List<DoanhThuMerchant>();
@@ -809,6 +812,7 @@ namespace WebMVC.Controllers
             ViewBag.MaxPage = maxPage;
             ViewBag.First = 1;
             ViewBag.Last = totalPage;
+            ViewBag.NumberOfRecord = list.Count;
 
             string MerchantString = ListMerchant(list);
             List<DoanhThuMerchant> DoanhThu = new List<DoanhThuMerchant>();
