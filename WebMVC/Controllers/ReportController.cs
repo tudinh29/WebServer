@@ -153,6 +153,12 @@ namespace WebMVC.Controllers
 
         }
 
+        public ActionResult NewReport(string UserCode)
+        {
+            ViewBag.var = "Thu";
+            return View("NewReport");
+        }
+
         private List<MERCHANT_SUMMARY> getListMerchantType(List<MERCHANT_SUMMARY> list)
         {
             var res = list.GroupBy(a => a.MerchantType).Select(x => new MERCHANT_SUMMARY

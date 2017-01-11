@@ -30,8 +30,6 @@
     <![endif]-->
     <!-- Search and sort -->
     <script src="/Assets/bower_components/jquery/dist/jquery.min.js"></script>
-    @*<link href="/Assets/css/HandleSearch.css" rel="stylesheet" />
-        <link href="~/Assets/css/jquery.dataTables.min.css" rel="stylesheet" />*@
 
 </head>
 
@@ -230,6 +228,8 @@
         NorthVN.ReturnCount = 0;
         NorthVN.ReturnCount = 0;
     }
+
+    var totalRevenue = (cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].NetAmount);
 }
 <h3 style="position: fixed;top:40%;left:10px;">Print Preview</h3>
 <a class="btn btn-primary" style ="position: fixed;top:50%;left:10px;"href="#" onclick="xepOnline.Formatter.Format('reportPrinter', { pageWidth: '279mm', pageHeight: '216mm', render: 'download', filename: 'Report' });">
@@ -238,6 +238,7 @@
 <div class="container" id="reportPrinter" style="width:1000px">
     <div align="center">
         <h1>REPORT</h1>
+        <h3>Report day: @DateTime.Now.ToLongDateString()</h3>
     </div>
     <!--Total summary-->
     <h3>Total Summary</h3>
@@ -245,7 +246,7 @@
         <thead class="thead-inverse">
             <tr>
                 <th class="bg-primary"><b>Total Revenue</b></th>
-                <th class="bg-primary">@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].NetAmount)</th>
+                <th class="bg-primary">@totalRevenue</th>
             </tr>
         </thead>
         <tbody>
@@ -327,7 +328,7 @@
             <tr>
                 <td>1</td>
                 <td>American Card</td>
-                <td></td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((cardTypeReport.FirstOrDefault().AmericanExpressNetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressNetAmount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressTransactionCount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport.FirstOrDefault().AmericanExpressAmount)</td>
@@ -338,7 +339,7 @@
             <tr>
                 <td>2</td>
                 <td>Debit Card</td>
-                <td></td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((cardTypeReport.FirstOrDefault().DebitCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardNetAmount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardTransactionCount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DebitCardAmount)</td>
@@ -349,7 +350,7 @@
             <tr>
                 <td>3</td>
                 <td>Discover Card</td>
-                <td></td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((cardTypeReport.FirstOrDefault().DiscoverCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardNetAmount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardTransactionCount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].DiscoverCardAmount)</td>
@@ -360,7 +361,7 @@
             <tr>
                 <td>4</td>
                 <td>Master Card</td>
-                <td></td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((cardTypeReport.FirstOrDefault().MasterCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardNetAmount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardTransactionCount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].MasterCardAmount)</td>
@@ -371,7 +372,7 @@
             <tr>
                 <td>5</td>
                 <td>Visa Card</td>
-                <td></td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((cardTypeReport.FirstOrDefault().VisaCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardNetAmount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardTransactionCount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].VisaCardAmount)</td>
@@ -382,7 +383,7 @@
             <tr>
                 <td>6</td>
                 <td>Foreign Card</td>
-                <td></td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((cardTypeReport.FirstOrDefault().ForeignCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardNetAmount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardTransactionCount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].ForeignCardAmount)</td>
@@ -393,7 +394,7 @@
             <tr>
                 <td>7</td>
                 <td>Other Card</td>
-                <td></td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((cardTypeReport.FirstOrDefault().OtherCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardNetAmount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardTransactionCount)</td>
                 <td>@(cardTypeReport.Count() == 0 ? 0 : @cardTypeReport[0].OtherCardAmount)</td>
@@ -437,7 +438,7 @@
             <tr>
                 <td>1</td>
                 <td>North VN</td>
-                <td>17</td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((NorthVN.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@NorthVN.NetAmount</td>
                 <td>@NorthVN.TransactionCount</td>
                 <td>@NorthVN.SaleAmount</td>
@@ -448,7 +449,7 @@
             <tr>
                 <td>2</td>
                 <td>South VN</td>
-                <td>17</td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((SouthVN.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@SouthVN.NetAmount</td>
                 <td>@SouthVN.TransactionCount</td>
                 <td>@SouthVN.SaleAmount</td>
@@ -459,7 +460,7 @@
             <tr>
                 <td>3</td>
                 <td>Middle VN</td>
-                <td>17</td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((MiddleVN.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@MiddleVN.NetAmount</td>
                 <td>@MiddleVN.TransactionCount</td>
                 <td>@MiddleVN.SaleAmount</td>
@@ -470,7 +471,7 @@
             <tr>
                 <td>4</td>
                 <td>North USA</td>
-                <td>17</td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((NorthUSA.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@NorthUSA.NetAmount</td>
                 <td>@NorthUSA.TransactionCount</td>
                 <td>@NorthUSA.SaleAmount</td>
@@ -501,7 +502,7 @@
             <tr>
                 <td>1</td>
                 <td>Merchant Clothes</td>
-                <td>17</td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((MerchantClothes.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@MerchantClothes.NetAmount</td>
                 <td>@MerchantClothes.TransactionCount</td>
                 <td>@MerchantClothes.SaleAmount</td>
@@ -512,7 +513,7 @@
             <tr>
                 <td>2</td>
                 <td>Merchant Diner</td>
-                <td>17</td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((MerchantDiner.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@MerchantDiner.NetAmount</td>
                 <td>@MerchantDiner.TransactionCount</td>
                 <td>@MerchantDiner.SaleAmount</td>
@@ -523,7 +524,7 @@
             <tr>
                 <td>3</td>
                 <td>Merchant Hotel</td>
-                <td>17</td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((MerchantHotel.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@MerchantHotel.NetAmount</td>
                 <td>@MerchantHotel.TransactionCount</td>
                 <td>@MerchantHotel.SaleAmount</td>
@@ -534,7 +535,7 @@
             <tr>
                 <td>4</td>
                 <td>Merchant Resort</td>
-                <td>17</td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((MerchantResort.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@MerchantResort.NetAmount</td>
                 <td>@MerchantResort.TransactionCount</td>
                 <td>@MerchantResort.SaleAmount</td>
@@ -545,7 +546,7 @@
             <tr>
                 <td>5</td>
                 <td>Merchant Supermarket</td>
-                <td>17</td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((MerchantSupermarket.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@MerchantSupermarket.NetAmount</td>
                 <td>@MerchantSupermarket.TransactionCount</td>
                 <td>@MerchantSupermarket.SaleAmount</td>
@@ -556,7 +557,7 @@
             <tr>
                 <td>6</td>
                 <td>Other Merchant</td>
-                <td>17</td>
+                <td>@(totalRevenue == 0 ? 0 : Math.Round((OtherMerchant.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
                 <td>@OtherMerchant.NetAmount</td>
                 <td>@OtherMerchant.TransactionCount</td>
                 <td>@OtherMerchant.SaleAmount</td>
