@@ -9,6 +9,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 create proc sp_LayDoanhThuMerchant 
 	@MerchantCode varchar(120)
 AS
@@ -22,7 +23,7 @@ AS
 	DECLARE @lastmonth_lastday date
 	DECLARE @merchant varchar(10)
 	DECLARE @index int
-	DECLARE @t TABLE(MerchantCode varchar(20), DoanhThu money, TrungBinh money, TangTruong nvarchar(20))
+	DECLARE @t TABLE(MerchantCode varchar(20), DoanhThu money, TrungBinh money, TangTruong decimal(18,1))
 
 	set @endday = GETDATE()
 	set @startday = DATEADD(dd, -(DAY(@endday)) + 1, @endday)
@@ -75,15 +76,13 @@ AS
 			set @average_lastmonth = @sum_lastmonth / DATEDIFF(d, @lastmonth_firstday, @lastmonth_lastday)
 		END
 
-		insert into @t values (@merchant, @sum, @average, CASE 
-															WHEN (DAY(@endday)) = 1 THEN N'Chưa có so sánh'
-															WHEN (@average - @average_lastmonth) < 0 THEN N'Giảm'
-															WHEN (@average - @average_lastmonth) = 0 THEN N'Ổn định'
-															WHEN (@average - @average_lastmonth) > 0 THEN N'Tăng'
-															ELSE N'Chưa có so sánh'
-															END)
+		insert into @t values (@merchant, @sum, @average, CASE
+		                                                    WHEN @average_lastmonth = 0 THEN 0
+                                                            ELSE (@average - @average_lastmonth)/@average_lastmonth*100
+														END)	
 	end
 	select * from @t
+	
 GO
 
 --Version		Người chỉnh sửa			Ngày		Nội dung chỉnh sửa
@@ -108,7 +107,7 @@ AS
 	DECLARE @lastmonth_lastday date
 	DECLARE @Agent varchar(10)
 	DECLARE @index int
-	DECLARE @t TABLE(AgentCode varchar(20), DoanhThu money, TrungBinh money, TangTruong nvarchar(20))
+	DECLARE @t TABLE(AgentCode varchar(20), DoanhThu money, TrungBinh money, TangTruong decimal(18,1))
 
 	set @endday = GETDATE()
 	set @startday = DATEADD(dd, -(DAY(@endday)) + 1, @endday)
@@ -160,18 +159,15 @@ AS
 		BEGIN
 			set @average_lastmonth = @sum_lastmonth / DATEDIFF(d, @lastmonth_firstday, @lastmonth_lastday)
 		END
-		
 		insert into @t values (@Agent, @sum, @average, CASE
-														WHEN (DAY(@endday)) = 1 THEN N'Chưa có so sánh' 
-														WHEN (@average - @average_lastmonth) < 0 THEN N'Giảm'
-														WHEN (@average - @average_lastmonth) = 0 THEN N'Ổn định'
-														WHEN (@average - @average_lastmonth) > 0 THEN N'Tăng'
-														ELSE N'Chưa có so sánh'
-														END)
+		                                                    WHEN @average_lastmonth = 0 THEN 0
+                                                            ELSE (@average - @average_lastmonth)/@average_lastmonth*100
+
+														END)											
 	end
 	select * from @t
 GO
-exec sp_LayDoanhThuAgent 'AG00026090,AG00057035,AG00057055,AG00134899,AG00285762,AG00725859,AG00837555,AG01021405,AG01024622,AG01061450'
+
 --Version		Người chỉnh sửa			Ngày		Nội dung chỉnh sửa
 --1.0			Nguyễn Phạm Hoàng Diễm	31/12/2016	Tạo store procedure
 drop proc sp_FindAllAgent_ForQuery

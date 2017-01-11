@@ -71,7 +71,7 @@ namespace WebMVC.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         transInvalid = response.Content.ReadAsAsync<List<Models.TransInvalidTiny>>().Result;
-                        HttpResponseMessage response2 = client.GetAsync(string.Format("api/RETRIVAL_INVALID/CountTransInvalidElements_Master?searchString={0}", searchString)).Result;
+                        HttpResponseMessage response2 = client.GetAsync(string.Format("api/TRANSACTION_DETAIL_INVALID/CountTransInvalidElements_Master?searchString={0}", searchString)).Result;
                         if (response2.IsSuccessStatusCode)
                         {
                             totalTransaction = response2.Content.ReadAsAsync<int>().Result;

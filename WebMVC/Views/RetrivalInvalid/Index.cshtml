@@ -56,8 +56,8 @@
                               
                                 <td>@item.MerchantCode</td>
                                 <td>@item.TransactionCode</td>
-                                <td>@item.TransactionDate</td>
-                                <td>@item.ReportDate</td>
+                                <td>@(String.IsNullOrEmpty(item.TransactionDate.ToString()) ? "" : item.TransactionDate.Value.ToString("yyyy-MM-dd"))</td>
+                                <td>@(String.IsNullOrEmpty(item.ReportDate.ToString()) ? "" : item.ReportDate.Value.ToString("yyyy-MM-dd"))</td>
                                 <td>@item.Amout</td>
                                 <td>@item.ErrorMessage</td>
                             </tr>

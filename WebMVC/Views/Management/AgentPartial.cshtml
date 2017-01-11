@@ -1,0 +1,256 @@
+﻿
+@model List<WebMVC.EntityFramework.AGENT>
+    @using PagedList.Mvc;
+    @using System.Web.Mvc;
+    @using WebMVC.EntityFramework;
+    @using WebMVC.Models;
+    @{
+        ViewBag.Title = "Agent";
+       
+        var model = Session[WebMVC.Common.CommonConstants.USER_SESSION]; //khai báo 1 session bên common giống như bên Cart
+        var temp = new USER_INFORMATION();
+        if (model != null)
+        {
+            temp = (USER_INFORMATION)model;
+        }
+        var RegionType = (SelectList)ViewBag.RegionType;
+        var RegionTypeValue = (List<string>)ViewBag.RegionTypeValue;
+        var ActiveTypeValue = (List<string>)ViewBag.ActiveTypeValue;
+        var DoanhThu = (List<DoanhThuAgent>)ViewBag.DoanhThu;
+    }
+
+    @{
+        ViewBag.Title = "Agent";
+     
+    }
+   
+
+
+    <style>
+        #mySidenav li {
+            list-style-type: none;
+            margin-left: 10%;
+            font-weight: lighter;
+        }
+
+        li > label {
+            font-weight: lighter;
+        }
+
+        .btn-default {
+            font-weight: bold;
+        }
+    </style>
+
+    <link href="~/Assets/css/myStyle.css" rel="stylesheet" />
+    <script type="text/javascript">
+        function OnComplete(code) {
+            var id = "#btnStatus_" + code
+            var currentStatus = $(id).text();
+            if (currentStatus == 'ACTIVE') {
+                $(id).removeClass('btn btn-success').addClass('btn btn-danger')
+                $(id).text('INACTIVE');
+            } else {
+                $(id).removeClass('btn btn-danger').addClass('btn btn-success')
+                $(id).text('ACTIVE');
+            }
+
+        }
+
+    </script>
+   
+    <div id="main">
+        <div class="container-fluid">
+            <div class="row">
+                <span style="font-size:20px;cursor:pointer;margin-left:10px" onclick="openNav()"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Agent Code</th>
+                                        <th>Agent Name</th>
+                                        <th>Status</th>
+
+                                        <th>Total Revenue this month (USD)</th>
+                                        <th>Average Revenue this month (USD)</th>
+                                        <th class="col-lg-1">Growing Rate</th>
+                                        <th>Report detail</th>
+                                        <th>Merchant List</th>
+                                        <th>Private message</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int STTDoanhThu = 0;}
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr id="row_@item.AgentCode">
+                                            <td>
+                                                @Html.ActionLink(@item.AgentCode, "ViewDetail_Agent", "Management",
+                                            new { agentCode = @item.AgentCode }, null)
+                                            </td>
+
+                                            <td>@(String.IsNullOrEmpty(item.AgentName.ToString()) ? "" : item.AgentName)</td>
+                                            <td>
+                                                @if ((@item.AgentStatus != null) && (Convert.ToChar(@item.AgentStatus) == 'A'))
+                                                {
+                                                    @Ajax.ActionLink("ACTIVE", "ChangeStatus", "Management", new { @id = item.AgentCode }, new AjaxOptions
+                                               {
+                                                   OnComplete = "OnComplete('" + @item.AgentCode + "')",
+                                                   HttpMethod = "Post"
+                                               }, new { id = "btnStatus_" + @item.AgentCode, @class = "btn btn-success" })
+
+                                                }
+                                                else
+                                                {
+                                                    @Ajax.ActionLink("INACTIVE", "ChangeStatus", "Management", new { @id = item.AgentCode }, new AjaxOptions
+                                               {
+                                                   OnComplete = "OnComplete('" + @item.AgentCode + "')",
+                                                   HttpMethod = "Post"
+                                               }, new { id = "btnStatus_" + @item.AgentCode, @class = "btn btn-danger" })
+
+                                                }
+                                            </td>
+                                            <td>@DoanhThu[STTDoanhThu].DoanhThu$</td>
+                                            <td>@DoanhThu[STTDoanhThu].TrungBinh$</td>
+                                            @if (DoanhThu[STTDoanhThu].TangTruong > 0)
+                                            {
+                                                <td><font color="green"><i class="fa fa-arrow-up"></i>@DoanhThu[STTDoanhThu].TangTruong%</font></td>
+                                            }
+                                            else if (DoanhThu[STTDoanhThu].TangTruong < 0)
+                                            {
+                                                <td><font color="red"><i class="fa fa-arrow-down"></i>@(-DoanhThu[STTDoanhThu].TangTruong)%</font></td>
+                                            }
+                                            else
+                                            {
+                                                <td><font color="black"><i class="fa fa-arrows-v"></i>@DoanhThu[STTDoanhThu].TangTruong%</font></td>
+                                            }
+                                            <td>@Html.ActionLink("View", "Index", "Report", new { UserCode = @item.AgentCode }, null)</td>
+                                            <td>
+                                                @Html.ActionLink("Chi tiết", "ViewListMerchant", "Management",
+                                         new { agentName = @item.AgentName, agentCode = @item.AgentCode, regionCode = @item.RegionCode }, null)
+                                            </td>
+                                            <td>@Html.ActionLink("Send", "CreateMessage", "Message", new { receive = @item.AgentCode }, null)</td>
+                                        </tr>
+                                            STTDoanhThu++;
+                                    }
+                                </tbody>
+                            </table>
+                            
+                            @if (ViewBag.TotalPage > 1)
+                            {
+                                var pageDisplay = (int)ViewBag.MaxPage;
+                                int totalPage = (int)ViewBag.TotalPage;
+                                int currentPage = (int)ViewBag.Page;
+
+                                var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                                var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+                                <nav>
+                                    <ul class="pagination">
+                                        <li>
+                                            
+                                            @Ajax.ActionLink("Trang đầu", "AgentPartial", "Management", new { page = ViewBag.First, searchString = ViewBag.searchString, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }, new AjaxOptions()
+                                                                    {
+                                                                        HttpMethod = "GET",
+
+                                                                        InsertionMode = InsertionMode.Replace,
+                                                                        UpdateTargetId = "main"
+                                                                        
+                                                                    })
+                                        </li>
+                                        @for (int i = startPageIndex; i <= endPageIndex; i++)
+                                        {
+                                            <li>
+                                                @Ajax.ActionLink(i.ToString(), "AgentPartial", "Management", new { page = i , searchString = ViewBag.searchString, RegionType = ViewBag.tempRegionType, Active = ViewBag.tempActive },  new AjaxOptions()
+                                                                    {
+                                                                        HttpMethod = "GET",
+                                                                        InsertionMode = InsertionMode.Replace,
+                                                                        UpdateTargetId = "main"
+                                                                    })
+                                            </li>
+                                           
+                                        }
+                                        <li>
+                                          @Ajax.ActionLink("Trang cuối", "AgentPartial", "Management", new { page = ViewBag.Last , searchString = ViewBag.searchString, @RegionType = ViewBag.tempRegionType, @Active = ViewBag.tempActive }, new AjaxOptions()
+                                                                    {
+                                                                        HttpMethod = "GET",
+
+                                                                        InsertionMode = InsertionMode.Replace,
+                                                                        UpdateTargetId = "main"
+                                                                    })
+                                        </li>
+                                    </ul>
+                                </nav>
+                            }
+                            
+                            <div style="text-align:right">Page <strong>@ViewBag.Page</strong> of <strong>@ViewBag.TotalPage</strong>, showing <strong>@ViewBag.NumberOfRecord</strong> records out of <strong>@ViewBag.Total</strong> total, starting on record <strong>@((ViewBag.Page - 1) * 10 + 1)</strong>, ending on <strong>@((ViewBag.Page - 1) * 10 + @ViewBag.NumberOfRecord)</strong></div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+      
+    </div>
+               <script src="~/Assets/js/MyCustomJS.js"></script>
+               <script type="text/javascript">
+                   function OnCriteria(page, includeNewCriteria) {
+                       var crit;
+                       if (includeNewCriteria) {
+                           crit = ($('#searchString'))[0].value;
+                       } else {
+                           crit = "";
+                       }
+                       $.ajax(
+                       {
+                           type: "GET",
+                           url: "Management/Agent?page=" + page + "&searchString=" + crit,
+                           success: function (result) {
+                               $("#main").html(result.toString());
+                           },
+                           error: function () {
+                               alert("Searching failed!");
+                           }
+                       });
+                   }
+               </script>
+
+    <script type="text/javascript">
+    @if (RegionTypeValue != null)
+       {
+           foreach (var item in RegionTypeValue)
+           {
+               <text>
+        $("#@item").prop('checked', true);
+        </text>
+           }
+       }
+
+        @if (ActiveTypeValue != null)
+        {
+            foreach (var item in ActiveTypeValue)
+            {
+                <text>
+        $("#@item").prop('checked', true);
+        </text>
+            }
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#cleanCheckbox').off('click').on('click', function (e) {
+                e.preventDefault();
+                $(".CheckValue").prop('checked', false);
+            });
+        });
+    </script>

@@ -120,13 +120,13 @@
                                             <td>
                                                 @Html.ActionLink(@item.MerchantCode, "ViewDetailYear", "Statistical",
                                      new { ReportYear = @item.ReportYear, MerchantCode = @item.MerchantCode }, null)
-                                            <td>@item.SaleAmount</td>
+                                            <td>@item.SaleAmount$</td>
                                             <td>@item.SaleCount</td>
-                                            <td>@item.ReturnAmount</td>
+                                            <td>@item.ReturnAmount$</td>
                                             <td>@item.ReturnCount</td>
-                                            <td>@item.NetAmount</td>
+                                            <td>@item.NetAmount$</td>
                                             <td>@item.TransactionCount</td>
-                                            <td>@item.KeyedAmount</td>
+                                            <td>@item.KeyedAmount$</td>
                                             <td>@item.ReportYear.ToString() </td>
                                     </tr>
                                     }
