@@ -1,7 +1,7 @@
-CREATE PROC [dbo].[sp_ChangePassword]
+alter PROC [dbo].[sp_ChangePassword]
 	@username VARCHAR(10),
-	@currentPassword VARCHAR(32),
-	@newpassword VARCHAR(32)
+		@newpassword VARCHAR(32),
+	@currentPassword VARCHAR(32)
 AS
 BEGIN 
 	BEGIN TRY

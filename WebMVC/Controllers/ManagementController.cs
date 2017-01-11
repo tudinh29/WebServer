@@ -1219,7 +1219,7 @@ namespace WebMVC.Controllers
             //var csv = new CsvWriter(sw);
             foreach (var item in list)
             {
-                sw.WriteLine(String.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", item.MerchantCode, item.MerchantName, item.MerchantType, item.Status, item.Owner, item.Address1, item.CITY, item.LastActiveDate.ToString(), item.CloseDate.ToString()
+                sw.WriteLine(String.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}", item.MerchantCode, item.MerchantName, item.MerchantType, item.Status, item.Owner, item.Address1, item.CITY, item.LastActiveDate.ToString(), item.CloseDate.ToString()
                     ));
             }
             Response.Output.Write(sw.ToString());
