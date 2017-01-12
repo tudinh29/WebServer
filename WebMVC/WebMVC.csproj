@@ -607,6 +607,7 @@
     <Content Include="Assets\js\morris\raphael.min.js" />
     <Content Include="Assets\js\MyCustomJS.js" />
     <Content Include="Assets\js\Paging.js" />
+    <Content Include="Assets\js\ReportConfig.js" />
     <Content Include="Assets\js\validify.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -664,7 +665,6 @@
     <Compile Include="Controllers\MerchantController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="Controllers\ReportPdfController.cs" />
     <Compile Include="Controllers\RetrivalController.cs" />
     <Compile Include="Controllers\RetrivalInvalidController.cs" />
     <Compile Include="Controllers\StatisticalController.cs" />
@@ -1075,12 +1075,11 @@
     <Content Include="Views\Statistical\Quarter.cshtml" />
     <Content Include="Views\Statistical\Error.cshtml" />
     <Content Include="Views\Feedback\Index.cshtml" />
-    <Content Include="Views\ReportPdf\PrintPreview.cshtml" />
-    <Content Include="Views\ReportPdf\Index.cshtml" />
     <Content Include="Views\Management\AgentPartial.cshtml" />
     <Content Include="Views\Management\MerchantPartial.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Report\PrintPreview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1112,7 +1111,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>21231</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
