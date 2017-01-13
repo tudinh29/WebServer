@@ -29,8 +29,8 @@ namespace WebMVC.Controllers
         private ActionResult viewReport(string UserCode, string defaultView = "Index")
         {
             string reportType = "Day";
-            string reportStartDate = "20161101";// DateTime.Now.ToString("yyyyMM") + "01";
-            string reportEndDate = "20161130";//DateTime.Now.ToString("yyyyMMdd");
+            string reportStartDate = DateTime.Now.ToString("yyyyMM") + "01";
+            string reportEndDate = DateTime.Now.ToString("yyyyMMdd");
             string reportStartMonth = String.Empty;
             string reportEndMonth = String.Empty;
             string reportStartYear = String.Empty;
@@ -56,6 +56,7 @@ namespace WebMVC.Controllers
             string userCode = UserCode;
             ViewBag.UserCode = userCode;
 
+            handleNullVal(ViewBag.SummaryReport);
 
             if (HttpContext.Request.HttpMethod == "POST")
             {
@@ -131,7 +132,7 @@ namespace WebMVC.Controllers
             {
                 lineChartData = response.Content.ReadAsAsync<List<Models.Statistic>>().Result;
             }
-            else return View("Index");
+            else return View(defaultView);
 
             HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
             HttpResponseMessage responseCity = client.GetAsync(string.Format("api/Region/FindAllRegion")).Result;

@@ -1,23 +1,23 @@
 ﻿@using WebMVC.EntityFramework;
 @using WebMVC.Models;
 @{
-    ViewBag.Title = "Detail";
-    Layout = null;
+        ViewBag.Title = "Detail";
+        Layout = null;
 
-    var SummaryReport = ViewBag.SummaryReport as MERCHANT_SUMMARY;
-    var Regions = ViewBag.Regions as List<MERCHANT_SUMMARY>;
-    var MerchantTypes = ViewBag.MerchantTypes as List<MERCHANT_SUMMARY>;
+        var SummaryReport = ViewBag.SummaryReport as MERCHANT_SUMMARY ?? new MERCHANT_SUMMARY() { NetAmount = 0 };
+        var Regions = ViewBag.Regions as List<MERCHANT_SUMMARY> ?? new List<MERCHANT_SUMMARY>();
+        var MerchantTypes = ViewBag.MerchantTypes as List<MERCHANT_SUMMARY> ?? new List<MERCHANT_SUMMARY>();
 
-    var cardTypeReport = ViewBag.cardTypeReport as List<MERCHANT_SUMMARY>;
-    var lineChartData = ViewBag.lineChartData as List<Statistic>;
+        var cardTypeReport = ViewBag.cardTypeReport as List<MERCHANT_SUMMARY> ?? new List<MERCHANT_SUMMARY>();
+        var lineChartData = ViewBag.lineChartData as List<Statistic> ?? new List<Statistic>();
 
-    var DonutData = ViewBag.DonutData as String;
-    var BarData = ViewBag.BarData as String;
-    var LineData = ViewBag.LineData as String;
-    var CardTypeData = ViewBag.CardTypeData as String;
+        var DonutData = ViewBag.DonutData as String;
+        var BarData = ViewBag.BarData as String;
+        var LineData = ViewBag.LineData as String;
+        var CardTypeData = ViewBag.CardTypeData as String;
 
-    var totalRevenue = SummaryReport.NetAmount;
-}
+        var totalRevenue = SummaryReport.NetAmount;
+    }
 
 
 <!DOCTYPE html>
