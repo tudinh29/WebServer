@@ -34,7 +34,7 @@
                     int length = item.Message.Length;
                     
                     <tr id="@item.ID">
-                        <td>@item.Sender</td>
+                        <td>@Html.ActionLink(@item.Sender, "CreateMessage", "Message", new { receive = @item.Sender }, null)</td>
                         @*<td>@item.SenderType</td>*@
                         <td>@item.Receiver</td>
                         @*<td>@item.ReceiverType</td>*@
