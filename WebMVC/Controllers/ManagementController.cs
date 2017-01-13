@@ -1061,13 +1061,13 @@ namespace WebMVC.Controllers
                 if (agent != null)
                 {
                     ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName", agent.CityCode);
-                    ViewBag.Status = new SelectList(listStatus, "ID", "Description", agent.AgentStatus);
+                    ViewBag.AgentStatus = new SelectList(listStatus, "ID", "Description", agent.AgentStatus);
 
                 }
                 else
                 {
                     ViewBag.CityCode = new SelectList(listCity, "CityCode", "CityName");
-                    ViewBag.Status = new SelectList(listStatus, "ID", "Description");
+                    ViewBag.AgentStatus = new SelectList(listStatus, "ID", "Description");
                 }
             }
 
