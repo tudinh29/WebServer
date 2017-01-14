@@ -120,7 +120,7 @@
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.ApprovalDate, "Approval Date")</label>
 
-                                    @Html.EditorFor(model => model.ApprovalDate, new { htmlAttributes = new { @class = "form-control", @Value = (String.IsNullOrEmpty(Model.ApprovalDate.ToString()) ? "" : Model.ApprovalDate.Value.ToShortDateString())/*Model.ApprovalDate.Value.ToShortDateString()*/ } })
+                                    @Html.EditorFor(model => model.ApprovalDate, new { htmlAttributes = new { @class = "form-control", @Type = "date", @Value = (String.IsNullOrEmpty(Model.ApprovalDate.ToString()) ? "" : Model.ApprovalDate.Value.ToString("yyyy-MM-dd"))/*Model.ApprovalDate.Value.ToShortDateString()*/ } })
                                     @Html.ValidationMessageFor(model => model.ApprovalDate, "", new { @class = "text-danger" })
 
                                 </div>
@@ -128,7 +128,7 @@
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.CloseDate, "Close Date")</label>
 
-                                    @Html.EditorFor(model => model.CloseDate, new { htmlAttributes = new { @class = "form-control", @Value = (String.IsNullOrEmpty(Model.CloseDate.ToString()) ? "" : Model.CloseDate.Value.ToShortDateString()) /*Model.CloseDate.Value.ToShortDateString()*/ } })
+                                    @Html.EditorFor(model => model.CloseDate, new { htmlAttributes = new { @class = "form-control", @Type = "date", @Value = (String.IsNullOrEmpty(Model.CloseDate.ToString()) ? "" : Model.CloseDate.Value.ToString("yyyy-MM-dd")) /*Model.CloseDate.Value.ToShortDateString()*/ } })
                                     @Html.ValidationMessageFor(model => model.CloseDate, "", new { @class = "text-danger" })
 
                                 </div>
@@ -136,7 +136,7 @@
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.FirstActiveDate, "First Active Date") </label>
 
-                                    @Html.EditorFor(model => model.FirstActiveDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", @Value = (String.IsNullOrEmpty(Model.FirstActiveDate.ToString()) ? "" : Model.FirstActiveDate.Value.ToShortDateString())/*Model.FirstActiveDate.Value.ToShortDateString()*/ } })
+                                    @Html.EditorFor(model => model.FirstActiveDate, "{dd/mm/yyyy}", new { htmlAttributes = new { @class = "form-control", @Type = "date", @Value = (String.IsNullOrEmpty(Model.FirstActiveDate.ToString()) ? "" : Model.FirstActiveDate.Value.ToString("yyyy-MM-dd"))/*Model.FirstActiveDate.Value.ToShortDateString()*/ } })
                                     @Html.ValidationMessageFor(model => model.FirstActiveDate, "", new { @class = "text-danger" })
 
                                 </div>
@@ -144,7 +144,7 @@
                                 <div class="form-group">
                                     <label>@Html.LabelFor(model => model.LastActiveDate, "Last Active Date") </label>
 
-                                    @Html.EditorFor(model => model.LastActiveDate, new { htmlAttributes = new { @class = "form-control", @Value = (String.IsNullOrEmpty(Model.LastActiveDate.ToString()) ? "" : Model.LastActiveDate.Value.ToShortDateString())/*Model.LastActiveDate.Value.ToShortDateString*/ } })
+                                    @Html.EditorFor(model => model.LastActiveDate, new { htmlAttributes = new { @class = "form-control", @Type = "date", @Value = (String.IsNullOrEmpty(Model.LastActiveDate.ToString()) ? "" : Model.LastActiveDate.Value.ToString("yyyy-MM-dd"))/*Model.LastActiveDate.Value.ToShortDateString*/ } })
                                     @Html.ValidationMessageFor(model => model.LastActiveDate, "", new { @class = "text-danger" })
 
                                 </div>
