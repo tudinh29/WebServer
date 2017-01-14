@@ -71,23 +71,23 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Agent Code</th>
-                                        <th>Agent Name</th>
-                                        <th>Status</th>
+                                        <th>Mã agent</th>
+                                        <th>Tên agent</th>
+                                        <th>Trạng thái</th>
 
-                                        <th>Total Revenue this month (USD)</th>
-                                        <th>Average Revenue this month (USD)</th>
-                                        <th class="col-lg-1">Growing Rate</th>
-                                        <th>Report detail</th>
-                                        <th>Merchant List</th>
-                                        <th>Private message</th>
+                                        <th>Tổng doanh thu tháng(USD)</th>
+                                        <th>Lợi nhuận trung bình tháng(USD)</th>
+                                        <th class="col-lg-2" align="center">Tỉ suất tăng trưởng</th>
+                                        <th>Báo cáo chi tiết</th>
+                                        <th>Danh sách merchant</th>
+                                        <th>Tin nhắn riêng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{int STTDoanhThu = 0;}
                                     @foreach (var item in Model)
                                     {
-                                        <tr id="row_@item.AgentCode">
+                                        <tr id="row_@item.AgentCode" align="center">
                                             <td>
                                                 @Html.ActionLink(@item.AgentCode, "ViewDetail_Agent", "Management",
                                             new { agentCode = @item.AgentCode }, null)
