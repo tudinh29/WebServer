@@ -17,7 +17,63 @@
     var ds = ViewBag.ds as List<Statistic>;
     var note1 = "11/2016";
     var note2 = "12/2016";
+    DateTime today = DateTime.Now;
+}
+@{
+     if (reportType == "quarter")
+                        {
+                            int quy1 = int.Parse(q1);
+                            int quy2 = int.Parse(q2);
+                            if((int.Parse)(y1) > (int.Parse)(y2))
+                            {
+                                string y = y1;
+                                y1 = y2;
+                                y2 = y;
+                                string quy = q1;
+                                q1 = q2;
+                                q2 = quy;
+                            }
+                            if ((int.Parse)(y1) == (int.Parse)(y2) && quy1 > quy2)
+                            {
 
+                                string quy = q1;
+                                q1 = q2;
+                                q2 = quy;
+                            }
+                        }
+     else
+     {
+         if(reportType == "year")
+         {
+             if ((int.Parse)(y1) > (int.Parse)(y2))
+             {
+                 string y = y1;
+                 y1 = y2;
+                 y2 = y;
+             }
+         }
+         else
+         {
+             int t1 = int.Parse(m1);
+             int t2 = int.Parse(m2);
+             if ((int.Parse)(y1) > (int.Parse)(y2))
+             {
+                 string y = y1;
+                 y1 = y2;
+                 y2 = y;
+                 string mon = m1;
+                 m1 = m2;
+                 m2 = mon;
+                 
+             }
+             if ((int.Parse)(y1) == (int.Parse)(y2) && t1 > t2)
+             {
+                 string mon = m1;
+                 m1 = m2;
+                 m2 = mon;
+             }
+         }
+     }
 }
 
 <form id="mainform" action="http://localhost:21231/Compare" method="POST">
@@ -357,7 +413,14 @@
                 @foreach (Statistic item in ds)
                 {
 
-
+                    if ((int.Parse)(y1) > today.Year || (int.Parse)(y2) > today.Year)
+                    {
+                        
+                    }
+                    else
+                    {
+                        
+                    
                     <tr class="bg-info">
                         @if (q1 == q2)
                         {
@@ -441,6 +504,7 @@
 
                     </tr>
                 }
+                }
             </tbody>
 
         </table>
@@ -480,6 +544,7 @@
 @{
     if (reportType == "month")
     {
+        
         note1 = "Tháng " + m1 + "/" + y1;
         note2 = "Tháng " + m2 + "/" + y2;
     }
@@ -539,7 +604,14 @@
                 @foreach (Statistic item in ds)
                 {
 
-
+                
+                    if ((int.Parse)(y1) > today.Year || (int.Parse)(y2) > today.Year)
+                    {
+                        
+                    }
+                    else
+                    {
+                        
                     <tr class="bg-danger">
 
                         @if (q1 == q2)
@@ -623,7 +695,7 @@
 
 
                     </tr>
-
+                }
 
                 }
             </tbody>
@@ -681,6 +753,15 @@
             {
                 foreach (Statistic item in lineChartData)
                 {
+                    
+                    int namht = today.Year;
+                    if ((int.Parse)(y1) > namht || (int.Parse)(y2) > namht)
+                    {
+                        LineData = null;
+                    }
+                    else
+                    { 
+                        
                     truchoanh = item.Name;
 
                     if (reportType == "month")
@@ -699,12 +780,12 @@
                             if(t == int.Parse(m1))
                             {
                                 date1 = item.Name + "/" + m1 +"/"+ y1;
-                                date2 = truchoanh + "/"+ m2 +"/"+ y2;
+                                date2 = item.Name + "/" + m2 + "/" + y2;
                             }
                             else
                             {
                                 date2 = item.Name + "/"+ m2 + "/" + y2;
-                                date1 = truchoanh + "/" + m1 + "/" + y1;
+                                date1 = item.Name + "/" + m1 + "/" + y1;
                             }
                         }
                     }
@@ -714,6 +795,7 @@
                         {
                             int quy1 = int.Parse(q1);
                             int quy2 = int.Parse(q2);
+                            
                             vt = item.Name.IndexOf('-');
                             t = int.Parse(item.Name.Substring(2, 1));
                             item.Name = item.Name.Substring(0, vt);
@@ -761,6 +843,7 @@
                         }
                         else
                         {
+                            
                             if(int.Parse(y1) < int.Parse(y2))
                             {
                                 date1 = name + "/" + y1;
@@ -842,7 +925,7 @@
                     {
                         if (item.Name != name)
                         {
-                            date2 = date2.Replace(item.Name.ToString() + "/", name + "/");
+                            
                             if(reportType == "quater")
                             {
                                 if (month == int.Parse(q1))
@@ -858,6 +941,7 @@
                             {
                                 if(reportType == "month")
                                 {
+                                    date2 = date2.Replace(item.Name.ToString() + "/", name + "/");
                                     if (month == int.Parse(m1) )
                                     {
                                         LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\"},".Replace("{0}", name).Replace("{1}", value).Replace("{2}", sreturn).Replace("{3}", scount).Replace("{4}", "0").Replace("{5}", "0").Replace("{6}", "0").Replace("{7}", date1).Replace("{8}", date2);
@@ -895,39 +979,24 @@
                             if(reportType == "quarter")
                             {
 
-                                //if (month == int.Parse(q1))
-                                //{
+                                
                                     LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", truchoanh).Replace("{1}", value).Replace("{2}", sreturn).Replace("{3}", scount).Replace("{4}", item.Value.ToString()).Replace("{5}", item.ReturnAmount.ToString()).Replace("{6}", item.TransactionCount.ToString()).Replace("{7}", date1).Replace("{8}", date2);
-                                //}
-                                //else
-                                //{
-                                //    LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", truchoanh).Replace("{1}", item.Value.ToString()).Replace("{2}", item.Name.ToString()).Replace("{3}", item.TransactionCount.ToString()).Replace("{4}", value).Replace("{5}", sreturn).Replace("{6}", scount).Replace("{7}", date1).Replace("{8}", date2);
-                                //}
+                              
                             }
                             else
                             {
 
                                 if(reportType== "month")
                                 {
-                                    //if ( month == int.Parse(y1))
-                                    //{
+                                    
                                         LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", name).Replace("{1}", value).Replace("{2}", sreturn).Replace("{3}", scount).Replace("{4}", item.Value.ToString()).Replace("{5}", item.ReturnAmount.ToString()).Replace("{6}", item.TransactionCount.ToString()).Replace("{7}", date1).Replace("{8}", date2);
-                                    //}
-                                    //else
-                                    //{
-                                    //    LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString()).Replace("{4}", value).Replace("{5}", sreturn).Replace("{6}", scount).Replace("{7}", date1).Replace("{8}", date2);
-                                    //}
+                                
                                 }
                                 else
                                 {
-                                    //if (month == int.Parse(y1))
-                                    //{
+                                   
                                         LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", name).Replace("{1}", value).Replace("{2}", sreturn).Replace("{3}", scount).Replace("{4}", item.Value.ToString()).Replace("{5}", item.ReturnAmount.ToString()).Replace("{6}", item.TransactionCount.ToString()).Replace("{7}", date1).Replace("{8}", date2);
-                                    //}
-                                    //else
-                                    //{
-                                    //    LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3},sales1: {4},returns1:{5},count1: {6} ,d1: \"{7}\", d2:\"{8}\" },".Replace("{0}", name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString()).Replace("{4}", value).Replace("{5}", sreturn).Replace("{6}", scount).Replace("{7}", date1).Replace("{8}", date2);
-                                    //}
+                                   
                                 }
 
 
@@ -989,7 +1058,7 @@
 
             }
 
-
+            }
 
         }
 

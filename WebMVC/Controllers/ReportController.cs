@@ -18,9 +18,19 @@ namespace WebMVC.Controllers
         // GET: Report
         public ActionResult Index(string UserCode)
         {
+            return viewReport(UserCode);
+        }
+
+        public ActionResult PrintPreview(string UserCode)
+        {
+            return viewReport(UserCode, "PrintPreview");
+        }
+
+        private ActionResult viewReport(string UserCode, string defaultView = "Index")
+        {
             string reportType = "Day";
-            string reportStartDate = "20161101";// DateTime.Now.ToString("yyyyMM") + "01";
-            string reportEndDate = "20161130";//DateTime.Now.ToString("yyyyMMdd");
+            string reportStartDate = DateTime.Now.ToString("yyyyMM") + "01";
+            string reportEndDate = DateTime.Now.ToString("yyyyMMdd");
             string reportStartMonth = String.Empty;
             string reportEndMonth = String.Empty;
             string reportStartYear = String.Empty;
@@ -46,6 +56,7 @@ namespace WebMVC.Controllers
             string userCode = UserCode;
             ViewBag.UserCode = userCode;
 
+            handleNullVal(ViewBag.SummaryReport);
 
             if (HttpContext.Request.HttpMethod == "POST")
             {
@@ -102,7 +113,7 @@ namespace WebMVC.Controllers
                     reportDateForLineAPI += ("&code=" + temp.UserName);
                 }
             }
-            
+
 
             List<MERCHANT_SUMMARY> list = new List<MERCHANT_SUMMARY>();
 
@@ -113,7 +124,7 @@ namespace WebMVC.Controllers
             {
                 list = response.Content.ReadAsAsync<List<MERCHANT_SUMMARY>>().Result;
             }
-            else return View("Index");
+            else return View(defaultView);
 
             response = client.GetAsync(reportDateForLineAPI).Result;
             List<Models.Statistic> lineChartData = new List<Models.Statistic>();
@@ -121,7 +132,7 @@ namespace WebMVC.Controllers
             {
                 lineChartData = response.Content.ReadAsAsync<List<Models.Statistic>>().Result;
             }
-            else return View("Index");
+            else return View(defaultView);
 
             HttpResponseMessage responseMerchantType = client.GetAsync(string.Format("api/Merchant_Type/SelectAllMerchantType")).Result;
             HttpResponseMessage responseCity = client.GetAsync(string.Format("api/Region/FindAllRegion")).Result;
@@ -133,24 +144,146 @@ namespace WebMVC.Controllers
                 var listMerchantType = getListMerchantType(list);
                 var listRegion = getListRegion(list);
                 var cardTypeReport = getCardTypeReport(list);
-                foreach (var item in listMerchantType)
+
+                foreach (var item in lookupRegion)
                 {
-                    item.MerchantTypeName = lookupType.FirstOrDefault(a => a.MerchantType == item.MerchantType).Description.ToString();
+                    var region = listRegion.Find(x => x.RegionCode == item.RegionCode);
+                    if (region == null)
+                    {
+                        listRegion.Add(new MERCHANT_SUMMARY()
+                        {
+                            RegionName = item.RegionName,
+                            NetAmount = 0,
+                            TransactionCount = 0,
+                            SaleAmount = 0,
+                            SaleCount = 0,
+                            ReturnCount = 0
+                        });
+                    }
+                    else
+                    {
+                        region.RegionName = item.RegionName;
+                    }
                 }
-                foreach (var item in listRegion)
+
+                foreach (var item in lookupType)
                 {
-                    item.RegionName = lookupRegion.FirstOrDefault(a => a.RegionCode == item.RegionCode).RegionName.ToString();
+                    var type = listMerchantType.Find(x => x.MerchantType == item.MerchantType);
+                    if (type == null)
+                    {
+                        listMerchantType.Add(new MERCHANT_SUMMARY()
+                        {
+                            MerchantTypeName = item.Description,
+                            NetAmount = 0,
+                            TransactionCount = 0,
+                            SaleAmount = 0,
+                            SaleCount = 0,
+                            ReturnCount = 0
+                        });
+                    }
+                    else
+                    {
+                        type.MerchantTypeName = item.Description;
+                    }
                 }
+
+                ViewBag.SummaryReport = handleNullVal(getCardTypeReport(list).FirstOrDefault());
+                ViewBag.Regions = listRegion;
+                ViewBag.MerchantTypes = listMerchantType;
+
                 ViewBag.listRegion = listRegion;
                 ViewBag.listMerchantType = listMerchantType;
                 ViewBag.listSummary = list;
                 ViewBag.cardTypeReport = cardTypeReport;
                 ViewBag.lineChartData = lineChartData;
+                getDataForCharts();
+
                 return View();
             }
-            else return View("Index");
+            else return View(defaultView);
+        }
+
+        private MERCHANT_SUMMARY handleNullVal(MERCHANT_SUMMARY val)
+        {
+            if (val == null)
+            {
+                return new MERCHANT_SUMMARY()
+                {
+                    NetAmount = 0,
+                    TransactionCount = 0,
+                    SaleAmount = 0,
+                    SaleCount = 0,
+                    ReturnCount = 0
+                };
+            } else
+            {
+                return val;
+            }
+        }
+
+        private void getDataForCharts()
+        {
+            var DonutData = String.Empty;
+            var BarData = String.Empty;
+            var LineData = String.Empty;
+            var CardTypeData = String.Empty;
+
+            foreach (MERCHANT_SUMMARY item in ViewBag.MerchantTypes)
+            {
+                if (item.MerchantType == null)
+                {
+                    item.MerchantType = "Khác";
+                }
+                DonutData += "{label: \"{0}\", value: {1} },".Replace("{0}", item.MerchantTypeName).Replace("{1}", item.SaleAmount.ToString());
+            }
+            if (DonutData.Length > 1)
+            {
+                DonutData = HttpUtility.HtmlDecode(DonutData.Substring(0, DonutData.Length - 1));
+            }
+
+            foreach (var item in ViewBag.lineChartData)
+            {
+                if (item.Name == null)
+                {
+                    item.Name = "Khác";
+                }
+                LineData += "{d: \"{0}\", sales: {1},returns:{2},count: {3} },".Replace("{0}", item.Name).Replace("{1}", item.Value.ToString()).Replace("{2}", item.ReturnAmount.ToString()).Replace("{3}", item.TransactionCount.ToString() == "" ? "0" : item.TransactionCount.ToString());
+            }
+            if (LineData.Length > 1)
+            {
+                LineData = LineData.Substring(0, LineData.Length - 1);
+            }
+
+            foreach (var item in ViewBag.Regions)
+            {
+                if (item.RegionCode == null)
+                {
+                    item.RegionCode = "Khác";
+                }
+                BarData += "{region: \"{0}\", sale: {1} },".Replace("{0}", item.RegionName).Replace("{1}", item.SaleAmount.ToString());
+            }
+            if (BarData.Length > 1)
+            {
+                BarData = BarData.Substring(0, BarData.Length - 1);
+            }
 
 
+            foreach (MERCHANT_SUMMARY item in ViewBag.cardTypeReport)
+            {
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Foreign Card").Replace("{1}", item.ForeignCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Debit Card").Replace("{1}", item.DebitCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Visa Card").Replace("{1}", item.VisaCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Discover Card").Replace("{1}", item.DiscoverCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "Master Card").Replace("{1}", item.MasterCardAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} },".Replace("{0}", "American Express Card").Replace("{1}", item.AmericanExpressAmount.ToString());
+                CardTypeData += "{label: \"{0}\", data: {1} }".Replace("{0}", "Other Card").Replace("{1}", item.OtherCardAmount.ToString());
+            }
+
+
+            ViewBag.DonutData = DonutData;
+            ViewBag.BarData = BarData;
+            ViewBag.LineData = LineData;
+            ViewBag.CardTypeData = CardTypeData;
         }
 
         private List<MERCHANT_SUMMARY> getListMerchantType(List<MERCHANT_SUMMARY> list)

@@ -19,7 +19,7 @@
 <br>
 <br>
 <div class="form-group">
-    <p>@Model.Sender | @Model.DateSend</p>
+    <p>@Html.ActionLink(@Model.Sender, "CreateMessage", "Message", new { receive = @Model.Sender }, null) | @Model.DateSend</p>
     <label>Nội dung</label>
     <textarea class="form-control" rows="10">@Model.Message</textarea>
 </div>

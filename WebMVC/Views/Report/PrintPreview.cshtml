@@ -1,0 +1,371 @@
+﻿@using WebMVC.EntityFramework;
+@using WebMVC.Models;
+@{
+        ViewBag.Title = "Detail";
+        Layout = null;
+
+        var SummaryReport = ViewBag.SummaryReport as MERCHANT_SUMMARY ?? new MERCHANT_SUMMARY() { NetAmount = 0 };
+        var Regions = ViewBag.Regions as List<MERCHANT_SUMMARY> ?? new List<MERCHANT_SUMMARY>();
+        var MerchantTypes = ViewBag.MerchantTypes as List<MERCHANT_SUMMARY> ?? new List<MERCHANT_SUMMARY>();
+
+        var cardTypeReport = ViewBag.cardTypeReport as List<MERCHANT_SUMMARY> ?? new List<MERCHANT_SUMMARY>();
+        var lineChartData = ViewBag.lineChartData as List<Statistic> ?? new List<Statistic>();
+
+        var DonutData = ViewBag.DonutData as String;
+        var BarData = ViewBag.BarData as String;
+        var LineData = ViewBag.LineData as String;
+        var CardTypeData = ViewBag.CardTypeData as String;
+
+        var totalRevenue = SummaryReport.NetAmount;
+    }
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PrintPreview</title>
+    <link href="~/Assets/css/myStyle.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Assets/css/datepicker.css">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/Assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="/Assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/Assets/dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Morris Charts CSS -->
+    <link href="/Assets/dist/css/morris.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="/Assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Search and sort -->
+    <script src="/Assets/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script>
+    var DonutData = [@Html.Raw(DonutData)];
+    var BarData =  [@Html.Raw(BarData)];
+    var LineData = [@Html.Raw(LineData)];
+    var CardTypeData = [@Html.Raw(CardTypeData)];
+    </script>
+
+    <script src="/Assets/js/flot/excanvas.min.js"></script>
+    <script src="/Assets/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="~/Assets/js/bootstrap-datepicker.js"></script>
+    <script src="~/Assets/js/moment.js"></script>
+    <script src="~/Assets/js/MyCustomJS.js"></script>
+    <script src="~/Assets/js/ReportConfig.js"></script>
+    <script src="/Assets/js/flot/excanvas.min.js"></script>
+    <script src="/Assets/js/xepOnline.jqPlugin.js"></script>
+    <script src="/Assets/js/morris/raphael.min.js"></script>
+    <script src="/Assets/js/morris/morris.min.js"></script>
+    <script src="/Assets/js/flot/jquery.flot.js"></script>
+    <script src="/Assets/js/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="/Assets/js/flot/jquery.flot.resize.js"></script>
+    <script src="/Assets/js/flot/jquery.flot.pie.js"></script>
+
+</head>
+<body>
+    <h3 style="position: fixed;top:40%;left:10px;">Print Preview</h3>
+    <a class="btn btn-primary" style="position: fixed;top:50%;left:10px;" href="#" onclick="xepOnline.Formatter.Format('reportPrinter', { pageWidth: '279mm', pageHeight: '216mm', render: 'download', filename: 'Report' });">
+        Download
+    </a>
+    <div class="container" id="reportPrinter" style="width:1000px">
+        <div align="center">
+            <h1>REPORT</h1>
+            <h3>Report day: @DateTime.Now.ToLongDateString()</h3>
+        </div>
+        <!--Total summary-->
+        <h3>Total Summary</h3>
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th class="bg-primary"><b>Total Revenue</b></th>
+                    <th class="bg-primary">@(SummaryReport.NetAmount)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="bg-success"><b>Total sales</b></td>
+                    <td class="bg-success">@(SummaryReport.SaleAmount)</td>
+                </tr>
+                <tr>
+                    <td class="bg-warning"><b>Total returns</b></td>
+                    <td class="bg-warning">@(SummaryReport.ReturnAmount)</td>
+                </tr>
+                <tr>
+                    <td class="bg-danger"><b>Total transactions</b></td>
+                    <td class="bg-danger">@(SummaryReport.TransactionCount)</td>
+                </tr>
+            </tbody>
+        </table>
+        <!--End Total summary-->
+
+        <!--Revenue info-->
+        <div class="col-lg-4" style="width:100%">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Revenue Graph</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="morris-line-chart"></div>
+                    <div id="detailRevenueBtn" class="text-right" onclick="Display('detailRevenueBtn','RevenueModal',-1)">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>Revenue Information</h3>
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th class="bg-primary">Content</th>
+                    <th class="bg-primary">Sale amount</th>
+                    <th class="bg-primary">Return amount</th>
+                    <th class="bg-primary">Total transaction</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (Statistic item in lineChartData)
+                    {
+                        if (item.Name == null)
+                        {
+                            item.Name = "Khác";
+                        }
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Value</td>
+                            <td>@item.ReturnAmount</td>
+                            <td>@item.TransactionCount</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <!--End Revenue info-->
+
+        <!--CardType chart-->
+        <div class="col-lg-4" style="width:100%;min-width:400px">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Card Type</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="flot-chart">
+                        <div class="flot-chart-content" id="flot-pie-chart"></div>
+                    </div>
+                    <div id="detailCardTypeBtn" class="text-right" onclick="Display('detailCardTypeBtn','CardTypeModal',0)">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End CardType chart-->
+        <!--Card type-->
+        <h3>Card type</h3>
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th class="bg-primary"><b>#</b></th>
+                    <th class="bg-primary">Card Type Name</th>
+                    <th class="bg-primary">Percent</th>
+                    <th class="bg-primary">Total revenue</th>
+                    <th class="bg-primary">Total transaction</th>
+                    <th class="bg-primary">Total sale</th>
+                    <th class="bg-primary">Sale count</th>
+                    <th class="bg-primary">Total return</th>
+                    <th class="bg-primary">Return count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>American Card</td>
+                    <td>@(totalRevenue == 0 ? 0 : Math.Round((SummaryReport.AmericanExpressNetAmount * 100 / totalRevenue).Value, 2)) %</td>
+                    <td>@(SummaryReport.AmericanExpressNetAmount)</td>
+                    <td>@(SummaryReport.AmericanExpressTransactionCount)</td>
+                    <td>@(SummaryReport.AmericanExpressAmount)</td>
+                    <td>@(SummaryReport.AmericanExpressCount)</td>
+                    <td>@(SummaryReport.AmericanExpressReturnAmount)</td>
+                    <td>@(SummaryReport.AmericanExpressReturnCount)</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Debit Card</td>
+                    <td>@(totalRevenue == 0 ? 0 : Math.Round((SummaryReport.DebitCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
+                    <td>@(SummaryReport.DebitCardNetAmount)</td>
+                    <td>@(SummaryReport.DebitCardTransactionCount)</td>
+                    <td>@(SummaryReport.DebitCardAmount)</td>
+                    <td>@(SummaryReport.DebitCardCount)</td>
+                    <td>@(SummaryReport.DebitCardReturnAmount)</td>
+                    <td>@(SummaryReport.DebitCardReturnCount)</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Discover Card</td>
+                    <td>@(totalRevenue == 0 ? 0 : Math.Round((SummaryReport.DiscoverCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
+                    <td>@(SummaryReport.DiscoverCardNetAmount)</td>
+                    <td>@(SummaryReport.DiscoverCardTransactionCount)</td>
+                    <td>@(SummaryReport.DiscoverCardAmount)</td>
+                    <td>@(SummaryReport.DiscoverCardCount)</td>
+                    <td>@(SummaryReport.DiscoverCardReturnAmount)</td>
+                    <td>@(SummaryReport.DiscoverCardReturnCount)</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Master Card</td>
+                    <td>@(totalRevenue == 0 ? 0 : Math.Round((SummaryReport.MasterCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
+                    <td>@(SummaryReport.MasterCardNetAmount)</td>
+                    <td>@(SummaryReport.MasterCardTransactionCount)</td>
+                    <td>@(SummaryReport.MasterCardAmount)</td>
+                    <td>@(SummaryReport.MasterCardCount)</td>
+                    <td>@(SummaryReport.MasterCardReturnAmount)</td>
+                    <td>@(SummaryReport.MasterCardReturnCount)</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Visa Card</td>
+                    <td>@(totalRevenue == 0 ? 0 : Math.Round((SummaryReport.VisaCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
+                    <td>@(SummaryReport.VisaCardNetAmount)</td>
+                    <td>@(SummaryReport.VisaCardTransactionCount)</td>
+                    <td>@(SummaryReport.VisaCardAmount)</td>
+                    <td>@(SummaryReport.VisaCardCount)</td>
+                    <td>@(SummaryReport.VisaCardReturnAmount)</td>
+                    <td>@(SummaryReport.VisaCardReturnCount)</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Foreign Card</td>
+                    <td>@(totalRevenue == 0 ? 0 : Math.Round((SummaryReport.ForeignCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
+                    <td>@(SummaryReport.ForeignCardNetAmount)</td>
+                    <td>@(SummaryReport.ForeignCardTransactionCount)</td>
+                    <td>@(SummaryReport.ForeignCardAmount)</td>
+                    <td>@(SummaryReport.ForeignCardCount)</td>
+                    <td>@(SummaryReport.ForeignCardReturnAmount)</td>
+                    <td>@(SummaryReport.ForeignCardReturnCount)</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Other Card</td>
+                    <td>@(totalRevenue == 0 ? 0 : Math.Round((SummaryReport.OtherCardNetAmount * 100 / totalRevenue).Value, 2)) %</td>
+                    <td>@(SummaryReport.OtherCardNetAmount)</td>
+                    <td>@(SummaryReport.OtherCardTransactionCount)</td>
+                    <td>@(SummaryReport.OtherCardAmount)</td>
+                    <td>@(SummaryReport.OtherCardCount)</td>
+                    <td>@(SummaryReport.OtherCardReturnAmount)</td>
+                    <td>@(SummaryReport.OtherCardReturnCount)</td>
+                </tr>
+            </tbody>
+        </table>
+        <!--End Card type-->
+
+        <!--Report type-->
+
+        <div class="col-lg-4" style="width:100%;min-width:400px">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Region</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="morris-bar-chart"></div>
+
+                </div>
+            </div>
+        </div>
+
+        <h3>Region type</h3>
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th class="bg-primary"><b>#</b></th>
+                    <th class="bg-primary">Region Name</th>
+                    <th class="bg-primary">Sale amount</th>
+                    <th class="bg-primary">Total revenue</th>
+                    <th class="bg-primary">Total transaction</th>
+                    <th class="bg-primary">Total sale</th>
+                    <th class="bg-primary">Sale count</th>
+                    <th class="bg-primary">Total return</th>
+                    <th class="bg-primary">Return count</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var region in Regions)
+                    {
+                        <tr>
+                            <td>@(Regions.IndexOf(region) + 1)</td>
+                            <td>@region.RegionName</td>
+                            <td>@(totalRevenue == 0 ? 0 : Math.Round((region.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
+                            <td>@region.NetAmount</td>
+                            <td>@region.TransactionCount</td>
+                            <td>@region.SaleAmount</td>
+                            <td>@region.SaleCount</td>
+                            <td>@region.ReturnAmount</td>
+                            <td>@region.ReturnCount</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <!--End Report type-->
+
+        <!--Merchant chart-->
+        <div class="col-lg-4" style="display:none">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Merchant Type</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="morris-donut-chart"></div>
+                    <div id="detailMerchantTypeBtn" class="text-right" onclick="Display('detailMerchantTypeBtn','MerchantTypeModal',2)">
+                        <a>View Details <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Merchant chart-->
+        <!--Merchant type-->
+        <h3>Merchant type</h3>
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th class="bg-primary"><b>#</b></th>
+                    <th class="bg-primary">Merchant Name</th>
+                    <th class="bg-primary">Sale amount</th>
+                    <th class="bg-primary">Total revenue</th>
+                    <th class="bg-primary">Total transaction</th>
+                    <th class="bg-primary">Total sale</th>
+                    <th class="bg-primary">Sale count</th>
+                    <th class="bg-primary">Total return</th>
+                    <th class="bg-primary">Return count</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var type in MerchantTypes)
+                    {
+                        <tr>
+                            <td>@(MerchantTypes.IndexOf(type) + 1)</td>
+                            <td>@type.MerchantTypeName</td>
+                            <td>@(totalRevenue == 0 ? 0 : Math.Round((type.NetAmount * 100 / totalRevenue).Value, 2)) %</td>
+                            <td>@type.NetAmount</td>
+                            <td>@type.TransactionCount</td>
+                            <td>@type.SaleAmount</td>
+                            <td>@type.SaleCount</td>
+                            <td>@type.ReturnAmount</td>
+                            <td>@type.ReturnCount</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <!--End Merchant type-->
+    </div>
+</body>
+</html>

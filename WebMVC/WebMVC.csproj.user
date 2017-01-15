@@ -11,6 +11,7 @@
     <WebStackScaffolding_ViewDialogWidth>1025</WebStackScaffolding_ViewDialogWidth>
     <WebStackScaffolding_DbContextTypeFullName>WebMVC.EntityFramework.MVCDbContext</WebStackScaffolding_DbContextTypeFullName>
     <UseIISExpress>true</UseIISExpress>
+    <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

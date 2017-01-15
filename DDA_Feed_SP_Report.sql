@@ -51,8 +51,8 @@ Begin
 	declare @reportDate varchar(20)
 	declare @currentDate int
 	declare @firstDate int
-	set @currentDate = @endQuarter + (@startYear * 4)
-	set @firstDate =  @startQuarter + (@endYear * 4)
+	set @currentDate = @endQuarter + (@endYear * 4)
+	set @firstDate =  @startQuarter + (@startYear * 4)
 
 	set @reportDate = CONCAT(@startQuarter, '/', @startYear, ' - ', @endQuarter, '/', @endYear)
 	
@@ -148,8 +148,8 @@ As
 Begin
 	declare @currentDate int
 	declare @firstDate int
-	set @currentDate = @endQuarter + (@startYear * 4)
-	set @firstDate =  @startQuarter + (@endYear * 4)
+	set @currentDate = @endQuarter + (@endYear * 4)
+	set @firstDate =  @startQuarter + (@startYear * 4)
 
 	SELECT ConCat(ReportQuarter, '/', ReportYear) as Name,
 		SUM(SaleAmount) AS Value, SUM(ReturnAmount) as ReturnAmount, CAST(SUM(TransactionCount)as BIGINT) as TransactionCount

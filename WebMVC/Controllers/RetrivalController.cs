@@ -138,6 +138,36 @@ namespace WebMVC.Controllers
             return View("Index");
         }
 
+        public ActionResult ExportPDF(string searchString)
+        {
+            var list = new List<RETRIVAL>();
+            string footer = "--footer-right \"Date: [date] [time]\" " + "--footer-center \"Page: [page] of [toPage]\" --footer-line --footer-font-size \"9\" --footer-spacing 5 --footer-font-name \"calibri light\"";
+            var model = Session[CommonConstants.USER_SESSION];
+            var temp = new USER_INFORMATION();
+            if (model != null)
+            {
+                temp = (USER_INFORMATION)model;
+            }
+
+            HttpClient client = new AccessAPI().Access();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindRetrivalElement_Print?searchString={0}", searchString)).Result;
+                list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
+            }
+            else
+            {
+                HttpResponseMessage response = client.GetAsync(string.Format("api/Retrival/FindAllRetrival_Print")).Result;
+                list = response.Content.ReadAsAsync<List<RETRIVAL>>().Result;
+            }
+
+            return new Rotativa.PartialViewAsPdf("Retrival", list)
+            {   //Retrival
+                FileName = "Retrival.pdf",
+                CustomSwitches = footer
+            };
+        }
         public ActionResult ExportCSV(string searchString)
         {
             List<RETRIVAL> list = new List<RETRIVAL>();

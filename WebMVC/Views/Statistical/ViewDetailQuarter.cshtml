@@ -11,13 +11,13 @@
 }
 <hr />
 <div class="row">
-    <div class="col-xs-2">
-        <p><strong>Quater:</strong></p>
-        <p><strong>Year:</strong></p>
-        <p><strong>Merchant Code:</strong></p>
-        <p><strong>Merchant Type:</strong></p>
-        <p><strong>Region:</strong></p>
-        <p><strong>Agent Code:</strong></p>
+    <div class="col-xs-3">
+        <p><strong>Quý:</strong></p>
+        <p><strong>Năm:</strong></p>
+        <p><strong>Mã merchant:</strong></p>
+        <p><strong>Hình thức kinh doanh:</strong></p>
+        <p><strong>Vùng miền:</strong></p>
+        <p><strong>Mã agent:</strong></p>
     </div>
     <div class="col-xs-3">
         <p>@Model.ReportQuarter</p>
@@ -120,11 +120,11 @@
         </tr>
         <tr>
             <th>Total</th>
-            <th>@Model.NetAmount</th>
+            <th>@Model.NetAmount$</th>
             <th>@Model.TransactionCount</th>
-            <th>@Model.SaleAmount</th>
+            <th>@Model.SaleAmount$</th>
             <th>@Model.SaleCount</th>
-            <th>@Model.ReturnAmount</th>
+            <th>@Model.ReturnAmount$</th>
             <th>@Model.ReturnCount</th>
         </tr>
     </tbody>
